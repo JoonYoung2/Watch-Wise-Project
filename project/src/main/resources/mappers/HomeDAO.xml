@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watch.project.repository.HomeRepository">
+	<select id="getId" resultType="com.watch.project.dto.HomeDTO">
+		select * from test
+	</select>
+</mapper>
+
