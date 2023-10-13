@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watch.api.repository.MovieInfoApiRepository">
+	<resultMap type="com.watch.api.dto.MovieInfoDTO" id="movieInfo">
+		<result column="movie_id" property="movieId"/>
+		<result column="movie_nm" property="movieNm"/>
+		<result column="movie_nm_en" property="movieNmEn"/>
+		<result column="prdt_year" property="prdtYear"/>
+		<result column="open_dt" property="openDt"/>
+		<result column="type_nm" property="typeNm"/>
+		<result column="nations" property="nations"/>
+		<result column="genre_nm" property="genreNm"/>
+		<result column="poster_url" property="posterUrl"/>
+		<result column="show_time" property="showTime"/>
+		<result column="actors" property="actors"/>
+		<result column="cast" property="cast"/>
+		<result column="watch_grade_nm" property="watchGradeNm"/>	
+	</resultMap>
+	
+	<select id="getMovieInfoByMovieId" resultMap="movieInfo">
+		select * from movie_info where movie_id = #{movieId}
+	</select>
+	
+	<insert id="movieInfoSave" parameterType="com.watch.api.dto.MovieInfoDTO">
+		INSERT INTO movie_info 
+		VALUES(
+			#{movieId},#{movieNm},#{movieNmEn},#{prdtYear},
+			#{openDt},#{typeNm},#{nations},#{genreNm},
+			#{posterUrl},#{showTime},#{actors},#{cast},
+			#{watchGradeNm}
+		)
+	</insert>
+	
+	<select id="getMovieIdByUrlNan" resultMap="movieInfo">
+		SELECT movie_id, open_dt, movie_nm FROM movie_info WHERE poster_url = 'nan'
+	</select>
+	
+	<update id="moviePosterUrlUpdate">
+		UPDATE movie_info SET poster_url = #{posterUrl} WHERE movie_id = #{movieId}
+	</update>
+	
+	<select id="getAllMovieNotNan" resultMap="movieInfo">
+		SELECT * FROM movie_info WHERE NOT poster_url = 'nan'
+	</select>
+</mapper>
+

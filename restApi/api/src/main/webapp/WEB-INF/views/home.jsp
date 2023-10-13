@@ -19,6 +19,24 @@
 	<button id="btn3" style="display:none;" type="button" onclick="weeklyList2();">주말간List</button>
 	<button id="btn4" style="display:none;" type="button" onclick="weeklyList3();">주중간List</button>
 	<a href="test">API TEST</a>
-<!-- 	<script src="/resources/js/example.js"></script> -->
+	<form action="dailyMovieUpdate" method="post">
+		<input type="hidden" id="movieNms" name="movieNms">
+		<button>오늘의 영화 업데이트</button>
+	</form>
+	<form action="weeklyMovieUpdate" method="post">
+		<input type="hidden" id="weeklyMovies" name="movieNms">
+		<button>주간 영화 업데이트</button>
+	</form>
+	<form action="weekly2MovieUpdate" method="post">
+		<input type="hidden" id="weekly2Movies" name="movieNms">
+		<button>주말간 영화 업데이트</button>
+	</form>
+	<form action="weekly3MovieUpdate" method="post">
+		<input type="hidden" id="weekly3Movies" name="movieNms">
+		<button>주중간 영화 업데이트</button>
+	</form>
+	<a href="posterUrlUpdate">Poster Nan Research</a>
+	<a href="getAllMovieNotNan">movie all list</a>
+	<script src="/resources/js/example.js"></script>
 </body>
 </html>
