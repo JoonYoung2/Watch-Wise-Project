@@ -107,17 +107,24 @@ public class KakaoMemberService {
 			JsonObject kakaoAccount = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 			String member_id = element.getAsJsonObject().get("id").getAsString();
 			String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-			String email = kakaoAccount.getAsJsonObject().get("email").getAsString();
+			boolean email_needs_agreement = kakaoAccount.getAsJsonObject().get("email_needs_agreement").getAsBoolean();
+			System.out.println("email_needs_agreement============>"+email_needs_agreement);
+			kakaoInput = new MemberDTO();
+			if(!email_needs_agreement) {//이메일 제공 동의 했으면
+				String email = kakaoAccount.getAsJsonObject().get("email").getAsString();				
+				userInfo.put("email", email);
+				System.out.println("email" + email);
+				kakaoInput.setUserEmail(email);
+				session.setAttribute("email_needs", 0);
+			}else {
+				session.setAttribute("email_needs", 1);
+			}
 			
 			System.out.println("kakao id : " + member_id);
 			userInfo.put("nickname", nickname);
-			userInfo.put("email", email);
 			System.out.println("name" + nickname);
-			System.out.println("email" + email);
-			kakaoInput = new MemberDTO();
 			kakaoInput.setSocialLoginId(member_id);
 			kakaoInput.setUserName(nickname);
-			kakaoInput.setUserEmail(email);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -126,26 +133,31 @@ public class KakaoMemberService {
 	}
 
 	
-	public MemberDTO getMember(String userEmail) {
-		MemberDTO member = repo.getUserInfoByEmail(userEmail);
+	public MemberDTO getMember(String socialId) {
+		MemberDTO member = repo.getUserInfoBySocialId(socialId);
 		return member;
 	}
 
 
 
 	public String getJoinMsg(MemberDTO input) {
+		System.out.println("service 단의 getJoinMsg 까지는 옴. input.get userEmail은 다음 줄에");
 		String email = input.getUserEmail();
+		System.out.println("email은 무엇일까요!!!!!!!!!!!!!!!!!!!!!!!!!1"+ email);
+		System.out.println("localMemberService.existingEmailCh(email)!!!!!!!!!!!!!!!!!!!!!!!!!1"+ localMemberService.existingEmailCh(email));
+		
 		if(email==null || email.equals("")) {
 			return "이메일을 입력하세요";
 		}else if(localMemberService.existingEmailCh(email)==1) {//존재하는 이메일이면
 			return "이미 가입된 회원의 이메일입니다. 로그인을 진행해주세요.";
+		}else {
+			session.setAttribute("userEmail", input.getUserEmail());
+			session.setAttribute("userLoginType", 2);
+			
+			repo.saveMemberInfo(input);
+			return "가입완료";
 		}
 
-		session.setAttribute("userEmail", input.getUserEmail());
-		session.setAttribute("userLoginType", 2);
-		
-		repo.saveMemberInfo(input);
-		return "가입완료";
 	
 	}
 

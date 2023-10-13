@@ -8,7 +8,7 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
-	<div>
+	<div>${msg }
 		<form action="/KakaoMemberRegister" method="post">
 			<input type="hidden" name="userLoginType" value="2"> 
 			<input type="hidden" name="socialLoginId" value="${member.socialLoginId }"><br>

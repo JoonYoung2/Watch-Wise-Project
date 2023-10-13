@@ -29,4 +29,7 @@
 		DELETE FROM member_info WHERE user_email=#{userEmail}
 	</delete>
 	
+	<select id="getUserInfoBySocialId" resultMap="member">
+		SELECT * FROM member_info WHERE social_login_id=#{socialId}
+	</select>
 </mapper>

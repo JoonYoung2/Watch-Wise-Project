@@ -13,4 +13,6 @@ public interface MemberRepository {
 
 	int deleteMemberInfo(String userEmail);
 
+	MemberDTO getUserInfoBySocialId(String socialId);
+
 }

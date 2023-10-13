@@ -6,14 +6,15 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.watch.project.dto.MemberDTO;
+import com.watch.project.repository.MemberRepository;
 import com.watch.project.service.KakaoMemberService;
 
 @Controller
@@ -21,8 +22,12 @@ public class KakaoMemberController {
 	@Autowired
 	private KakaoMemberService service;
 	
+	@Autowired
+	private MemberRepository repo;
+	
 	@RequestMapping(value = "/signIn/kakao")
-	public ModelAndView login(@RequestParam("code") String code, HttpSession session) {
+	public ModelAndView login(@RequestParam("code") String code, HttpSession session, RedirectAttributes re) {
+		String msg = "";
 		ModelAndView mav = new ModelAndView();
 		// 1번 인증코드 요청 전달"
 		String accessToken = service.getAccessToken(code);
@@ -33,14 +38,16 @@ public class KakaoMemberController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		MemberDTO userInfo = null;
-		try {
-			userInfo = service.getMember(kakaoInput.getUserEmail());//유저 정보를 가져오기
+		
+//		if(kakaoInput.getUserEmail()==null) {
+//			mav.setViewName("member/social_sign_up/email_form");
+//			return mav;
+//		}
+
+			MemberDTO userInfo = service.getMember(kakaoInput.getSocialLoginId());//유저 정보를 가져오기
 			//stem.out.println("login info : " + userInfo.toString());
 			System.out.println("userInfo ----> " + userInfo);			
-		}catch(NullPointerException e) {
-			e.printStackTrace();
-		}
+
 		
 		if (userInfo != null) {  //이미 회원인 경우
 			session.setAttribute("userEmail", userInfo.getUserEmail());
@@ -50,10 +57,22 @@ public class KakaoMemberController {
 			return mav;
 		} 
 		else {  //새로운 유저일 경우
-			mav.addObject("member", kakaoInput);
-			mav.setViewName("member/social_sign_up/email_form");
-		return mav;
+			if((int)session.getAttribute("email_needs")==0) {//이메일 제공 동의 한 사람의 경우
+				kakaoInput.setUserPw("kakaoMember");
+				kakaoInput.setUserLoginType(2);
+				
+				session.setAttribute("userEmail", kakaoInput.getUserEmail());
+				session.setAttribute("userLoginType", 2);
+				
+				repo.saveMemberInfo(kakaoInput);
+				mav.setViewName("redirect:/");
+			}else { //이메일 제공 동의 안한 사람의 경우
+				mav.addObject("member", kakaoInput); 
+				mav.setViewName("member/social_sign_up/email_form");
+
+			}
 		}
+		return mav;
 	}
 	
 	@PostMapping("/KakaoMemberRegister")
@@ -67,9 +86,9 @@ public class KakaoMemberController {
 //			return "member/social_sign_up/email_form";
 //		}
 		msg = service.getJoinMsg(dto);
-		if(msg=="가입완료")	
+		if(msg=="가입완료") {
 		return "redirect:/";
-		else {
+		} else {
 			model.addAttribute("msg", msg);
 			model.addAttribute("member", dto);
 			return "member/social_sign_up/email_form";
@@ -83,6 +102,5 @@ public class KakaoMemberController {
 		mav.setViewName("redirect:/");
 		return mav;
 	}
-
 
 }

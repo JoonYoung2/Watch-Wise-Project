@@ -40,5 +40,7 @@ function confirmSignOut(){
 	<c:if test="${empty sessionScope.userEmail }">
 		<h3>세션 없음</h3>
 	</c:if>
+	
+	<a href="http://pf.kakao.com/_tDGjG">카톡 채널 추가하기</a>
 </body>
 </html>
