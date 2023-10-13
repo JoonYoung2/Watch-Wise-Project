@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watch.project.repository.MemberRepository">
+
+<resultMap type="com.watch.project.dto.MemberDTO" id="member">
+	<result property="userId" column="user_id" />
+	<result property="userPw" column="user_pw" />
+	<result property="userName" column="user_name"/>
+	<result property="userEmail" column="user_email"/>
+	<result property="userloginType" column="user_login_type"/>
+</resultMap>
+
+	<select id="getUserInfoById" resultMap="member">
+		SELECT * FROM member_info WHERE user_id=#{userId}
+	</select>
+	
+	<insert id="saveMemberInfo" parameterType="com.watch.project.dto.MemberDTO">
+		INSERT INTO member_info VALUES(#{userId}, #{userPw}, #{userName}, #{userEmail}, #{userLoginType})
+	</insert>
+	
+	<delete id="deleteMemberInfo" parameterType="String">
+		DELETE FROM member_info WHERE user_id=#{userId}
+	</delete>
+	
+</mapper>
