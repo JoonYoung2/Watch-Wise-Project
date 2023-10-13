@@ -19,14 +19,14 @@ public class MemberService implements UserDetailsService {
     private MemberRepository repo;
  
     public MemberDTO findId(String username) throws Exception {
-        return repo.getUserInfoById(username);
+        return repo.getUserInfoByEmail(username);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         MemberDTO member = null;
         try {
-            member = repo.getUserInfoById(username);
+            member = repo.getUserInfoByEmail(username);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -35,7 +35,7 @@ public class MemberService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
         return User.builder()
-                .username(member.getUserId())
+                .username(member.getUserEmail())
                 .password(member.getUserPw())
                 .authorities(Collections.emptyList())
                 .build();

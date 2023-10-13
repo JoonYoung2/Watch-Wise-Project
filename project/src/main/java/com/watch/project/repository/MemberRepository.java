@@ -7,10 +7,10 @@ import com.watch.project.dto.MemberDTO;
 @Mapper
 public interface MemberRepository {
 
-	MemberDTO getUserInfoById(String id);
+	MemberDTO getUserInfoByEmail(String userEmail);
 
 	int saveMemberInfo(MemberDTO dto);
 
-	int deleteMemberInfo(String userId);
+	int deleteMemberInfo(String userEmail);
 
 }

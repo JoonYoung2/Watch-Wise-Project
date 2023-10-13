@@ -27,10 +27,9 @@ public class LocalMemberController {
 	
 	@PostMapping("/signUpDo")
 	public String SignUpDo(MemberDTO dto, @RequestParam("pwCh") String pwCh, HttpServletResponse res) throws IOException {
-//		System.out.println("dkdkdkdkd"+dto.getUserId());
-//		System.out.println("dkdkdkdkd"+dto.getUserPw());
-//		System.out.println("dkdkdkdkd"+dto.getUserName());
-//		System.out.println("dkdkdkdkd"+dto.getUserEmail());
+		System.out.println("dkdkdkdkd"+dto.getUserEmail());
+		System.out.println("dkdkdkdkd"+dto.getUserPw());
+		System.out.println("dkdkdkdkd"+dto.getUserName());
 		String msg = service.SignUpDo(dto, pwCh);
 //		System.out.println("controller msg ==> "+msg);
 		res.setContentType("text/html; charset=UTF-8");
@@ -52,7 +51,8 @@ public class LocalMemberController {
 			PrintWriter out = res.getWriter();
 			out.print(msg);			
 		}else {
-			session.setAttribute("userId", dto.getUserId());
+			session.setAttribute("userEmail", dto.getUserEmail());
+			session.setAttribute("userLoginType", dto.getUserLoginType());
 			return "redirect:/";
 		}
 		return null;
@@ -60,7 +60,7 @@ public class LocalMemberController {
 	
 	@GetMapping("/signOut")
 	public String signOut(HttpSession session, HttpServletResponse res) throws IOException {
-		String msg = service.signOut((String)session.getAttribute("userId"));
+		String msg = service.signOut((String)session.getAttribute("userEmail"));
 		res.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = res.getWriter();
 		out.print(msg);

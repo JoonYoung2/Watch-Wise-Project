@@ -17,7 +17,7 @@ function confirmUnregister(){
 </head>
 <body>
 	<form id="unregisterForm" action="passwordCh" method="post">
-		<input type="password" id="pw" name="userPw"><br>
+		<input type="password" id="pw" name="userPw" placeholder="password"><br>
 		<input type="submit" value="Å»ÅðÇÏ±â" onclick="return confirmUnregister();"><br>
 		<a href = "/">È¨À¸·Î °¡±â</a>
 	</form>

@@ -23,6 +23,8 @@ import com.watch.project.repository.MemberRepository;
 public class KakaoMemberService {
 	@Autowired
 	private MemberRepository repo;
+	@Autowired
+	private LocalMemberService localMemberService;
 	
 	@Autowired
 	private HttpSession session;
@@ -113,7 +115,7 @@ public class KakaoMemberService {
 			System.out.println("name" + nickname);
 			System.out.println("email" + email);
 			kakaoInput = new MemberDTO();
-			kakaoInput.setUserId(member_id);
+			kakaoInput.setSocialLoginId(member_id);
 			kakaoInput.setUserName(nickname);
 			kakaoInput.setUserEmail(email);
 			
@@ -124,34 +126,23 @@ public class KakaoMemberService {
 	}
 
 	
-	public MemberDTO getMember(String member_id) {
-		MemberDTO member = repo.getUserInfoById(member_id);
+	public MemberDTO getMember(String userEmail) {
+		MemberDTO member = repo.getUserInfoByEmail(userEmail);
 		return member;
 	}
 
 
 
 	public String getJoinMsg(MemberDTO input) {
-//		if(input.getMember_birth()==0) {
-//			return "birthday 입력하세요";
-//		}
-//		if(input.getMember_phone_num()==null||input.getMember_phone_num().equals("")) {
-//			return "phone_num 확인 좀 ;;";
-//		}
-//		if(input.getMember_zip_code()==null || input.getMember_zip_code().equals("")) {
-//			return "check zip code";
-//		}
-//		if(input.getMember_address()==null || input.getMember_address().equals("")) {
-//			return "check address";
-//		}
-//		if(input.getMember_address_detail()==null || input.getMember_address_detail().equals("")) {
-//			return "check detail address";
-//		}
-//		
-		session.setAttribute("userId", input.getUserId());
-		session.setAttribute("loginType", 2);
-//		MemberDTO kakaoSet = new MemberDTO();
-//		kakaoSet.setuS
+		String email = input.getUserEmail();
+		if(email==null || email.equals("")) {
+			return "이메일을 입력하세요";
+		}else if(localMemberService.existingEmailCh(email)==1) {//존재하는 이메일이면
+			return "이미 가입된 회원의 이메일입니다. 로그인을 진행해주세요.";
+		}
+
+		session.setAttribute("userEmail", input.getUserEmail());
+		session.setAttribute("userLoginType", 2);
 		
 		repo.saveMemberInfo(input);
 		return "가입완료";

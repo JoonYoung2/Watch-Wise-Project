@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,45 +33,50 @@ public class KakaoMemberController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		MemberDTO userInfo = service.getMember(kakaoInput.getUserId());
-		//stem.out.println("login info : " + userInfo.toString());
-		System.out.println("userInfo ----> " + userInfo);
+		MemberDTO userInfo = null;
+		try {
+			userInfo = service.getMember(kakaoInput.getUserEmail());//유저 정보를 가져오기
+			//stem.out.println("login info : " + userInfo.toString());
+			System.out.println("userInfo ----> " + userInfo);			
+		}catch(NullPointerException e) {
+			e.printStackTrace();
+		}
 		
 		if (userInfo != null) {  //이미 회원인 경우
-			session.setAttribute("user_id", userInfo.getUserId());
+			session.setAttribute("userEmail", userInfo.getUserEmail());
 			//session.setAttribute("accessToken", accessToken);
-			session.setAttribute("loginType", userInfo.getUserLoginType());
+			session.setAttribute("userLoginType", userInfo.getUserLoginType());
 			mav.setViewName("redirect:/");
 			return mav;
 		} 
 		else {  //새로운 유저일 경우
 			mav.addObject("member", kakaoInput);
-			mav.setViewName("user/member/kakao_join/step1");
+			mav.setViewName("member/social_sign_up/email_form");
 		return mav;
 		}
 	}
 	
-	@PostMapping("/kakao_join.do")
-	public String Store(@Valid MemberDTO dto, BindingResult br, Model model ) {
+	@PostMapping("/KakaoMemberRegister")
+	public String Store( MemberDTO dto, Model model ) {
 		System.out.println("gdgd");
 		String msg = "";
-		if (br.hasErrors()) {
-			msg="입력이 올바르지 않습니다.";
-			model.addAttribute("msg", msg);
-			model.addAttribute("member", dto);
-			return "user/member/kakao_join/step1";
-		}
+//		if (br.hasErrors()) {
+//			msg="입력이 올바르지 않습니다.";
+//			model.addAttribute("msg", msg);
+//			model.addAttribute("member", dto);
+//			return "member/social_sign_up/email_form";
+//		}
 		msg = service.getJoinMsg(dto);
 		if(msg=="가입완료")	
 		return "redirect:/";
 		else {
 			model.addAttribute("msg", msg);
 			model.addAttribute("member", dto);
-			return "user/member/kakao_join/step1";
+			return "member/social_sign_up/email_form";
 		}
 	}
 
-	@RequestMapping(value="/kakao_logout")
+	@GetMapping("/kakaoSignOut")
 	public ModelAndView logout(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		session.invalidate();

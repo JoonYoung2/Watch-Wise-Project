@@ -4,23 +4,29 @@
 <mapper namespace="com.watch.project.repository.MemberRepository">
 
 <resultMap type="com.watch.project.dto.MemberDTO" id="member">
-	<result property="userId" column="user_id" />
+	<result property="emailToken" column="email_token" />
+	<result property="userEmail" column="user_email"/>
 	<result property="userPw" column="user_pw" />
 	<result property="userName" column="user_name"/>
-	<result property="userEmail" column="user_email"/>
-	<result property="userloginType" column="user_login_type"/>
+	<result property="userLoginType" column="user_login_type"/>
+	<result property="socialLoginId" column="social_login_id"/>
 </resultMap>
 
-	<select id="getUserInfoById" resultMap="member">
-		SELECT * FROM member_info WHERE user_id=#{userId}
+	<select id="getUserInfoByEmail" resultMap="member">
+		SELECT * FROM member_info WHERE user_email=#{userEmail}
 	</select>
 	
 	<insert id="saveMemberInfo" parameterType="com.watch.project.dto.MemberDTO">
-		INSERT INTO member_info VALUES(#{userId}, #{userPw}, #{userName}, #{userEmail}, #{userLoginType})
-	</insert>
+		<selectKey keyProperty="emailToken" resultType="Integer" order="BEFORE">
+			SELECT nvl(max(email_token),10000)+1
+			FROM member_info
+		</selectKey>
+		INSERT INTO member_info 
+		VALUES(#{emailToken}, #{userEmail}, #{userPw}, #{userName}, #{userLoginType}, #{socialLoginId})
+	</insert>	
 	
 	<delete id="deleteMemberInfo" parameterType="String">
-		DELETE FROM member_info WHERE user_id=#{userId}
+		DELETE FROM member_info WHERE user_email=#{userEmail}
 	</delete>
 	
 </mapper>
