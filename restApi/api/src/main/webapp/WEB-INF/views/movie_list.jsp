@@ -11,9 +11,9 @@
 <body>
 	<div>
 		<c:forEach var="movie" items="${list}">
-			<div>
-				<span>${movie.movieNm }</span><br>
-				<img src="${ }"
+			<div style="display:inline-block">
+				<div align="center" style="width:100%">${movie.movieNm }</div><br>
+				<img style="width:213px;" src="${ movie.posterUrl }"/>
 			</div>
 		</c:forEach>
 	</div>

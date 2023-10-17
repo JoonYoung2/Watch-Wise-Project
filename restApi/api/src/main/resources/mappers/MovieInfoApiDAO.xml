@@ -19,6 +19,11 @@
 		<result column="watch_grade_nm" property="watchGradeNm"/>	
 	</resultMap>
 	
+	<resultMap type="com.watch.api.dto.MovieTopInfoDTO" id="movieTopInfo">
+		<result column="id" property="id"/>
+		<result column="movie_ids" property="movieIds"/>
+	</resultMap>
+	
 	<select id="getMovieInfoByMovieId" resultMap="movieInfo">
 		select * from movie_info where movie_id = #{movieId}
 	</select>
@@ -44,5 +49,22 @@
 	<select id="getAllMovieNotNan" resultMap="movieInfo">
 		SELECT * FROM movie_info WHERE NOT poster_url = 'nan'
 	</select>
+	
+	<insert id="saveDailyTopInfo" parameterType="com.watch.api.dto.MovieTopInfoDTO">
+		INSERT INTO daily_top_info VALUES(#{id}, #{movieIds})
+	</insert>
+	
+	<insert id="saveWeeklyTopInfo" parameterType="com.watch.api.dto.MovieTopInfoDTO">
+		INSERT INTO Weekly_top_info VALUES(#{id}, #{movieIds})
+	</insert>
+	
+	<select id="getDailyTopInfoById" resultMap="movieTopInfo">
+		SELECT * FROM daily_top_info WHERE id=#{ id }
+	</select>
+	
+	<select id="getWeeklyTopInfoById" resultMap="movieTopInfo">
+		SELECT * FROM weekly_top_info WHERE id=#{ id }
+	</select>
+	
 </mapper>
 

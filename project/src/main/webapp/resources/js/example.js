@@ -220,6 +220,31 @@
 		let data = [];
 		let rows = [];
 		let imgId = document.getElementById("weeklyId");
+		await fetch("https://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&ServiceKey=0TN0PQIFW51T18N3L053&listCount=500&title=범죄도시3",
+		        {
+		            method: "get"
+		        })
+		        .then(res => res.json())
+		        .then(result => {
+					console.log("result\n-----------------------------\n");
+					console.log(result);
+		        	data = result['Data'];
+					rows = data[0]['Result'];
+					for(var i = 0; i < rows.length; i++){
+						if(rows[i]['repRlsDate'].substring(0,rows[i]['repRlsDate'].length-2) == 202305){
+							let posters = rows[i]['posters'].split('|');
+							msg3 += ++cnt1 + "위2 : <img src=" + posters[0] + ">";
+							imgId.innerHTML = msg3;
+							break;
+						}
+					}
+		        })
+	}
+
+	const weekly7 = async (openDt, movieName) => {
+		let data = [];
+		let rows = [];
+		let imgId = document.getElementById("weeklyId");
 		await fetch("https://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&ServiceKey=0TN0PQIFW51T18N3L053&listCount=500&title="+movieName,
 		        {
 		            method: "get"

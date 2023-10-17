@@ -16,6 +16,6 @@ public class HomeController {
 	@GetMapping("/")
 	public String home(Model model) {
 		model.addAttribute("dto", service.getId());
-		return "home"; 
+		return "basic/home"; 
 	}
 }
