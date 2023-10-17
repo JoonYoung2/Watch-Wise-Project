@@ -15,15 +15,18 @@ function confirmSignOut(){
 }
 </script>
 </head>
-<body>
-	gdgd
-	
-	<a href="/signUp">sign up</a>
+<body>	
+	<a href="selectSignUpType">sign up</a>
 	<a href="/signIn">sign in</a>
 	
 	
 	<c:if test="${sessionScope.userLoginType eq 2 }">
 		<a href="https://kauth.kakao.com/oauth/logout?client_id=36b59ada5e8b70c6afae51b77c038484&logout_redirect_uri=http://localhost:8080/kakaoSignOut">
+		sign out
+		</a>
+	</c:if>
+	<c:if test="${sessionScope.userLoginType eq 3 }">
+		<a href ="remove?token=${sessionScope.accessToken }">
 		sign out
 		</a>
 	</c:if>
@@ -34,10 +37,10 @@ function confirmSignOut(){
 	
 	<a href="/unregister">Unregister</a>
 	
-	<c:if test="${not empty sessionScope.userEmail }">
+	<c:if test="${not empty sessionScope.userLoginType }">
 		<h3>세션 있음</h3>
 	</c:if>
-	<c:if test="${empty sessionScope.userEmail }">
+	<c:if test="${empty sessionScope.userLoginType }">
 		<h3>세션 없음</h3>
 	</c:if>
 	

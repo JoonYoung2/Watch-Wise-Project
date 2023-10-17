@@ -75,19 +75,15 @@ public class KakaoMemberController {
 		return mav;
 	}
 	
-	@PostMapping("/KakaoMemberRegister")
-	public String Store( MemberDTO dto, Model model ) {
+	@PostMapping("/kakaoEmailSend")
+	public String kakaoEmailSend( MemberDTO dto, Model model ) {
 		System.out.println("gdgd");
 		String msg = "";
-//		if (br.hasErrors()) {
-//			msg="입력이 올바르지 않습니다.";
-//			model.addAttribute("msg", msg);
-//			model.addAttribute("member", dto);
-//			return "member/social_sign_up/email_form";
-//		}
-		msg = service.getJoinMsg(dto);
-		if(msg=="가입완료") {
-		return "redirect:/";
+		
+		msg = service.getMsgOrSend(dto);
+		if(msg==null) {
+			model.addAttribute("dto", dto);
+			return "member/social_sign_up/email_auth";
 		} else {
 			model.addAttribute("msg", msg);
 			model.addAttribute("member", dto);
@@ -102,5 +98,7 @@ public class KakaoMemberController {
 		mav.setViewName("redirect:/");
 		return mav;
 	}
+	
+	
 
 }

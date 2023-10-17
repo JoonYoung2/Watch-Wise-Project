@@ -12,4 +12,5 @@ public class MemberDTO {
 	private String userName;
 	private int userLoginType;
 	private String socialLoginId;
+	public String AccessToken;
 }

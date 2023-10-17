@@ -74,21 +74,21 @@ public class LocalMemberService {
 		}
 
 		System.out.println("여기는 msg : "+msg);
-		if(!msg.equals("회원가입이 완료되었습니다.")) {
-			scriptMsg = getAlertHistoryBack(msg);
-		}else {
-			scriptMsg = getAlertLocation(msg, "/signIn");
-		}
-		return scriptMsg;
+//		if(!msg.equals("회원가입이 완료되었습니다.")) {
+//			scriptMsg = getAlertHistoryBack(msg);
+//		}else {
+//			scriptMsg = getAlertLocation(msg, "/signIn");
+//		}
+		return msg;
 	}
 
-	private String getAlertLocation(String msg, String url) {
+	public String getAlertLocation(String msg, String url) {
 		String message = "<script>alert('" + msg + "');";
 		message += "location.href='" +url + "';</script>";
 		return message;
 	}
 
-	private String getAlertHistoryBack(String msg) {
+	public String getAlertHistoryBack(String msg) {
 		String message = "<script>alert('" + msg + "');";
 		message += "window.history.back();</script>";
 		return message;

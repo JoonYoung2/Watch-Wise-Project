@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.watch.project.controller.MailController;
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.repository.MemberRepository;
 
@@ -25,7 +26,8 @@ public class KakaoMemberService {
 	private MemberRepository repo;
 	@Autowired
 	private LocalMemberService localMemberService;
-	
+	@Autowired
+	private MailService mailService;
 	@Autowired
 	private HttpSession session;
 
@@ -140,26 +142,33 @@ public class KakaoMemberService {
 
 
 
-	public String getJoinMsg(MemberDTO input) {
+	public String getMsgOrSend(MemberDTO input) {
 		System.out.println("service 단의 getJoinMsg 까지는 옴. input.get userEmail은 다음 줄에");
 		String email = input.getUserEmail();
-		System.out.println("email은 무엇일까요!!!!!!!!!!!!!!!!!!!!!!!!!1"+ email);
-		System.out.println("localMemberService.existingEmailCh(email)!!!!!!!!!!!!!!!!!!!!!!!!!1"+ localMemberService.existingEmailCh(email));
-		
+		mailService.issueCh(email);
 		if(email==null || email.equals("")) {
 			return "이메일을 입력하세요";
 		}else if(localMemberService.existingEmailCh(email)==1) {//존재하는 이메일이면
 			return "이미 가입된 회원의 이메일입니다. 로그인을 진행해주세요.";
 		}else {
-			session.setAttribute("userEmail", input.getUserEmail());
-			session.setAttribute("userLoginType", 2);
-			
-			repo.saveMemberInfo(input);
-			return "가입완료";
+			mailService.send3(email);
+			return null;
+//			session.setAttribute("userEmail", input.getUserEmail());
+//			session.setAttribute("userLoginType", 2);
+//			
+//			repo.saveMemberInfo(input);
+//			return "가입완료";
 		}
-
-	
 	}
+
+
+
+	public void register(MemberDTO dto) {
+		session.setAttribute("userLoginType", 2);
+		repo.saveMemberInfo(dto);
+	}
+	
+	
 
 
 }
