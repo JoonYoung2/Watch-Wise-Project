@@ -34,7 +34,7 @@ public class NaverMemberController {
 	private final NaverMemberService service;
 
 	
-	@RequestMapping(value = "/logout")
+	@GetMapping("/naverSignOut")
     public String Logout(HttpSession session) {
         if(session != null) {
             session.invalidate();
@@ -56,10 +56,10 @@ public class NaverMemberController {
         String result = service.getUserProfile(oauthToken); //result = {"resultcode":"00","message":"success","response":{"id":"knOmrEv4gmcf1mVR8R0p2rzOX_JjpDhZ3lLtRMNmEdY","email":"kimkitty123@naver.com","name":"\uae40\uc218\uc544"}}
         Object obj = null;
 
-        JsonParser parser = new JsonParser();
+//        JsonParser parser = new JsonParser();
 
         try {
-            obj = parser.parse(result);
+            obj = JsonParser.parseString(result);
         } catch (JsonParseException e) {
             e.printStackTrace();
         }

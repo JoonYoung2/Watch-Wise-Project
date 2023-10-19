@@ -52,7 +52,7 @@ public class KakaoMemberController {
 		if (userInfo != null) {  //이미 회원인 경우
 			session.setAttribute("userEmail", userInfo.getUserEmail());
 			//session.setAttribute("accessToken", accessToken);
-			session.setAttribute("userLoginType", userInfo.getUserLoginType());
+			session.setAttribute("userLoginType", 2);
 			mav.setViewName("redirect:/");
 			return mav;
 		} 

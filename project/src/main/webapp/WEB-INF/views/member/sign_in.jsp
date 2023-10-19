@@ -20,6 +20,9 @@
 		<a href="${naverLoginUrl}">
 			<img src="resources/img/naverLogin.png"/>
 		</a>
+		<a href="${googleLoginUrl}">
+			<img src="resources/img/googleLogin.png"/>
+		</a>
 	</div>
 </body>
 </html>

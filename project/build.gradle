@@ -31,21 +31,28 @@ dependencies {
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 	
 	
+	//password 암호화-------------------------------------------------------------------
 	implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.security:spring-security-test'
+    //password 암호화-------------------------------------------------------------------
     
+    
+    //mail service -----------------------------------------------------------------------
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail'
-	
 	// https://mvnrepository.com/artifact/org.springframework/spring-context-support (Teacher)
 	implementation group: 'org.springframework', name: 'spring-context-support'
 	// https://mvnrepository.com/artifact/javax.mail/javax.mail-api (Teacher)
 	implementation group: 'javax.mail', name: 'javax.mail-api', version: '1.5.4'
 	// https://mvnrepository.com/artifact/com.sun.mail/javax.mail (Teacher)
 	implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.5.3'
+	//mail service -----------------------------------------------------------------------
 	
 	
-    
+	//google login------------------------------------------------------------------
+	
+    //google login-------------------------------------------------------------------
+	
 	
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc8'

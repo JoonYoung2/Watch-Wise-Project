@@ -26,7 +26,7 @@ function confirmSignOut(){
 		</a>
 	</c:if>
 	<c:if test="${sessionScope.userLoginType eq 3 }">
-		<a href ="remove?token=${sessionScope.accessToken }">
+		<a href ="/naverSignOut"><!-- 혹시 탈퇴하거나 할 때 정보 동의 다 철회하고 토큰도 없애고 싶다면 a href ="remove?token=${sessionScope.accessToken }" 으로 하면 된다.-->
 		sign out
 		</a>
 	</c:if>

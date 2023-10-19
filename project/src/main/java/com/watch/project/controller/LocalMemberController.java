@@ -63,7 +63,7 @@ public class LocalMemberController {
 			out.print(msg);			
 		}else {
 			session.setAttribute("userEmail", dto.getUserEmail());
-			session.setAttribute("userLoginType", dto.getUserLoginType());
+			session.setAttribute("userLoginType", dto.getUserLoginType());//// 이 부분 다시 고려해보기.
 			return "redirect:/";
 		}
 		return null;
