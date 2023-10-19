@@ -85,9 +85,9 @@ public class MovieWeeklyUpdateScheduled {
 				dto = repo.getMovieInfoByMovieId(movieId);
 				
 				if(i != weeklyBoxOfficeList.size()-1) 
-					topIds += movieId + ",";					
+					topIds += "'" + movieId + "'" + ",";					
 				else
-					topIds += movieId;
+					topIds += "'" + movieId + "'";
 				
 				if(dto == null) { // movieId 값이 없으면 실행
 					service.saveMovieInfoByMovieId(movieId);
@@ -172,9 +172,9 @@ public class MovieWeeklyUpdateScheduled {
 				dto = repo.getMovieInfoByMovieId(movieId);
 				
 				if(i != weeklyBoxOfficeList.size()-1) 
-					topIds += movieId + ",";					
+					topIds += "'" + movieId + "'" + ",";					
 				else
-					topIds += movieId;
+					topIds += "'" + movieId + "'";
 				
 				if(dto == null) { // movieId 값이 없으면 실행
 					service.saveMovieInfoByMovieId(movieId);
@@ -257,9 +257,9 @@ public class MovieWeeklyUpdateScheduled {
 				dto = repo.getMovieInfoByMovieId(movieId);
 				
 				if(i != weeklyBoxOfficeList.size()-1) 
-					topIds += movieId + ",";					
+					topIds += "'" + movieId + "'" + ",";					
 				else
-					topIds += movieId;
+					topIds += "'" + movieId + "'";
 				
 				if(dto == null) { // movieId 값이 없으면 실행
 					service.saveMovieInfoByMovieId(movieId);
@@ -295,7 +295,7 @@ public class MovieWeeklyUpdateScheduled {
 		cal.setTime(new Date());
 		cal.add(Calendar.DATE, -7);
 		SimpleDateFormat dtFormat = new SimpleDateFormat("yyyyMMdd");
-		String date = dtFormat.format(cal.getTime()); // 어제 날짜
+		String date = dtFormat.format(cal.getTime());
 		return date;
 	}
 }

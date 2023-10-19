@@ -37,6 +37,7 @@
 	</form>
 	<a href="posterUrlUpdate">Poster Nan Research</a>
 	<a href="getAllMovieNotNan">movie all list</a>
-	<script src="/resources/js/example.js"></script>
+	<iframe width="640" height="360" src="https://www.kmdb.or.kr/trailer/trailerPlayPop?pFileNm=MK014164_P03.mp4" frameborder="0" allowfullscreen></iframe>
+<!-- 	<script src="/resources/js/example.js"></script> -->
 </body>
 </html>

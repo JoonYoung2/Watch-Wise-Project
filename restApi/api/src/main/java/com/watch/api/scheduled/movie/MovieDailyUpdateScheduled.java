@@ -82,9 +82,9 @@ public class MovieDailyUpdateScheduled {
 				movieId = dailyBoxOfficeList.get(i).getAsJsonObject().get("movieCd").toString().replaceAll("\"", "");
 				dto = repo.getMovieInfoByMovieId(movieId);
 				if(i != dailyBoxOfficeList.size() - 1) 
-					topIds += movieId + ",";
+					topIds += "'" + movieId + "'" + ",";
 				else
-					topIds += movieId;
+					topIds += "'" + movieId + "'";
 				
 				if(dto == null) { // movieId 값이 없으면 실행
 					service.saveMovieInfoByMovieId(movieId);

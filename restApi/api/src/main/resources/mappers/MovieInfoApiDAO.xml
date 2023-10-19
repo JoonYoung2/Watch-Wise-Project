@@ -34,7 +34,7 @@
 			#{movieId},#{movieNm},#{movieNmEn},#{prdtYear},
 			#{openDt},#{typeNm},#{nations},#{genreNm},
 			#{posterUrl},#{showTime},#{actors},#{cast},
-			#{watchGradeNm}
+			#{watchGradeNm}, #{docid}
 		)
 	</insert>
 	

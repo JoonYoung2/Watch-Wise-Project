@@ -17,4 +17,5 @@ public class MovieInfoDTO {
 	private String actors;
 	private String cast;
 	private String watchGradeNm;
+	private int dDay;
 }

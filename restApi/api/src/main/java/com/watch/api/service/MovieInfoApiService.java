@@ -3,10 +3,13 @@ package com.watch.api.service;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -26,7 +29,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MovieInfoApiService {
 	private final MovieInfoApiRepository repo;
+	
 	// 영화 목록 API호출 -> 상세 영화정보 API호출 -> poster구하기 위한 API호출
+	
 	public void saveMovieInfoByMovieName(String movieNm) throws IOException {
 		log.info("=================== START ===================");
 		log.info("MovieInfoApiService - getMovieInfoByMovieName()");
@@ -133,7 +138,8 @@ public class MovieInfoApiService {
 	log.info("=================== END ===================");
 	}
 	
-	private MovieInfoDTO setMovieInfoDto(JsonObject movieInfo) {
+	private MovieInfoDTO setMovieInfoDto(JsonObject movieInfo) throws IOException {
+		Map<String, String> getKmdbApiMap = new HashMap<>();
 		log.info("=================== START ===================");
 		log.info("MovieInfoApiService - setMovieInfoDto()");
 		String movieId = movieInfo.getAsJsonObject().get("movieCd").toString().replaceAll("\"", "");
@@ -235,7 +241,7 @@ public class MovieInfoApiService {
 		}
 		
 		try {
-			posterUrl = getPosterUrl(movieNm, openDt);
+			getKmdbApiMap = getKmdbApiInfo(movieNm, openDt);
 		} catch (IOException e) {
 			log.error("Error MovieInfoApiService - setMovieInfoDto => {}", e);
 		}
@@ -346,10 +352,16 @@ public class MovieInfoApiService {
 			dto.setWatchGradeNm("nan");
 		}
 		
-		if(posterUrl.equals("") || posterUrl.equals("nan")) {
+		if(getKmdbApiMap.get("posterUrl").equals("") || getKmdbApiMap.get("posterUrl").equals("nan")) {
 			dto.setPosterUrl("nan");
 		}else {
-			dto.setPosterUrl(posterUrl);
+			dto.setPosterUrl(getKmdbApiMap.get("posterUrl"));
+		}
+		
+		if(getKmdbApiMap.get("docid").equals("") || getKmdbApiMap.get("docid").equals("nan")) {
+			dto.setDocid("nan");
+		}else {
+			dto.setDocid(getKmdbApiMap.get("docid"));
 		}
 		
 		log.info("movieId => {} ", dto.getMovieId());
@@ -365,12 +377,98 @@ public class MovieInfoApiService {
 		log.info("cast => {} ", dto.getCast());
 		log.info("watchGradeNm => {} ", dto.getWatchGradeNm());
 		log.info("posterUrl => {} ", dto.getPosterUrl());
+		log.info("docid => {} ", dto.getDocid());
 		
 		log.info("MovieInfoApiService - setMovieInfoDto()");
 		log.info("=================== END ===================");
 		return dto;
 	}
 	
+	private Map<String, String> getKmdbApiInfo(String movieNm, String openDt) throws UnsupportedEncodingException {
+		Map<String, String> map = new HashMap<>();
+		log.info("=================== START ===================");
+		log.info("MovieInfoApiService - getKmdbApiInfo()");
+		
+		String docid = "nan";
+		String posterUrl = "nan";
+		
+		map.put("docid", docid);
+		map.put("posterUrl", posterUrl);
+		
+//		String reqUrl = "https://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&ServiceKey=0TN0PQIFW51T18N3L053&title=마음";
+		StringBuilder urlBuilder = new StringBuilder();
+		urlBuilder.append("https://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2");
+		urlBuilder.append("&ServiceKey=" + URLEncoder.encode("0TN0PQIFW51T18N3L053", "UTF-8"));
+		urlBuilder.append("&listCount=500");
+		urlBuilder.append("&title=" + URLEncoder.encode(movieNm, "UTF-8"));
+		log.info("------------------- REST API 호출 -------------------");
+		log.info(urlBuilder.toString());
+		try {
+			URL url = new URL(urlBuilder.toString());
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("Content-type", "application/json");
+			int responseCode = conn.getResponseCode();
+			log.info("responseCode = {} ", responseCode);
+			
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String line = "";
+			String result = "";
+			StringBuilder sb = new StringBuilder();
+			while((line = br.readLine()) != null) {
+				sb.append(line);
+//				result += line;
+			}
+			br.close();
+			conn.disconnect();
+			if(sb.toString().length() > 700000) {
+				log.info("{}의 길이가 70만이 넘습니다.", movieNm);
+				log.info("MovieInfoApiService - getKmdbApiInfo()");
+				log.info("=================== END ===================");
+				return map;
+			}
+			result = sb.toString();
+			result = result.replaceAll(" !HS ", "");
+			result = result.replaceAll(" !HE ", "");
+			log.info("result = {} ", result);
+			JsonParser parser = new JsonParser();
+			JsonElement element =  parser.parse(result);
+			int totalCount = element.getAsJsonObject().get("TotalCount").getAsInt();
+			if(totalCount == 0) {
+				log.info("API 조회 결과가 없습니다.");
+				log.info("MovieInfoApiService - getKmdbApiInfo()");
+				log.info("=================== END ===================");
+				return map;
+			}
+			JsonArray dataList = element.getAsJsonObject().get("Data").getAsJsonArray();
+			JsonArray resultList = dataList.get(0).getAsJsonObject().get("Result").getAsJsonArray();
+			log.info("resultListSize = {} ", resultList.size());
+			for(int i = 0; i < resultList.size(); ++i) {
+				String repRlsDate = resultList.get(i).getAsJsonObject().get("repRlsDate").toString().replaceAll("\"", "");
+				if(repRlsDate.length() == 8) {
+					if(repRlsDate.substring(0, 6).equals(openDt.substring(0, 6))) {
+						
+						docid = resultList.get(i).getAsJsonObject().get("DOCID").toString().replaceAll("\"", "");
+						posterUrl = resultList.get(i).getAsJsonObject().get("posters").toString().replaceAll("\"", "");
+						
+						map.put("docid", docid);
+						map.put("posterUrl", posterUrl);
+						break;
+					}					
+				}
+			}
+		} catch (Exception e) {
+			log.error("Error MovieInfoApiService - getKmdbApiInfo() => {}", e);
+		}
+		
+		
+		log.info("MovieInfoApiService - getKmdbApiInfo()");
+		log.info("=================== END ===================");
+		return map;
+	}
+	
+	
+	/*
 	private String getPosterUrl(String movieNm, String openDt) throws IOException { 
 		log.info("=================== START ===================");
 		log.info("MovieInfoApiService - getPosterUrl()");
@@ -438,6 +536,8 @@ public class MovieInfoApiService {
 		log.info("=================== END ===================");
 		return posterUrl;
 	}
+	*/
+	
 	
 	// 상세영화정보 API 호출
 	private JsonObject getMovieDetailInfo(String movieCd) {
