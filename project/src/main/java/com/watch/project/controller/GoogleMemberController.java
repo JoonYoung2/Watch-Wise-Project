@@ -15,8 +15,7 @@ public class GoogleMemberController {
 	
 	@GetMapping("/google/login")
 	public String redirected(@RequestParam("code") String authCode) {
-		System.out.println("여기는 오니?################333");
-		System.out.println("email check!!!!!=====>"+service.loginWithGoogle(authCode));
+		service.loginWithGoogle(authCode);
 		return null;
 	}
 }
