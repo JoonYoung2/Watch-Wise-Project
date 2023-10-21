@@ -2,7 +2,9 @@ package com.watch.project.service;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -38,8 +40,8 @@ public class KakaoMemberService {
 		
 		try {
 			URL url = new URL(reqURL);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("POST");
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();//HttpURLConnection 객체 생성
+			conn.setRequestMethod("POST"); //http 요청 설정
 			conn.setDoOutput(true);// OutputStream으로 POST 데이터를 넘겨주겠다는 옵션
 			
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
@@ -52,9 +54,10 @@ public class KakaoMemberService {
 			bw.write(sb.toString());
 			bw.flush();
 			
-			int responseCode = conn.getResponseCode();
+			int responseCode = conn.getResponseCode();// 응답 코드 확인 (200은 성공을 의미)
 			System.out.println("response code = " + responseCode);
 			
+			//응답 데이터 읽기
 			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			
 			String line = "";
@@ -165,10 +168,51 @@ public class KakaoMemberService {
 
 	public void register(MemberDTO dto) {
 		session.setAttribute("userLoginType", 2);
+		
 		repo.saveMemberInfo(dto);
 	}
+
+
+
+	public void revokeAgreement(String accessToken) {
+        try {
+            String endpoint = "https://kapi.kakao.com/v1/user/unlink";
+//            String accessToken = "YOUR_ACCESS_TOKEN"; // 본인의 액세스 토큰으로 교체해야 합니다
+
+            URL url = new URL(endpoint);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            // HTTP POST 메서드 설정
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            connection.setRequestProperty("Authorization", "Bearer " + accessToken);
+
+            // 요청 본문 설정 (없을 경우 생략 가능)
+            // 만약 요청 본문이 필요하다면, 데이터를 설정하고 요청 본문을 전송합니다.
+            String requestBody = ""; // 요청 본문 데이터
+            connection.setDoOutput(true);
+            OutputStream os = connection.getOutputStream();
+            DataOutputStream writer = new DataOutputStream(os);
+            writer.writeBytes(requestBody);
+            writer.flush();
+            writer.close();
+            os.close();
+
+            // 응답 코드 확인 (200은 성공을 나타냅니다)
+            int responseCode = connection.getResponseCode();
+            System.out.println("HTTP 응답 코드: " + responseCode);
+
+            // 응답 읽기 (생략 가능)
+            // 요청에 대한 응답 데이터를 읽어올 수 있습니다.
+
+            // 연결 닫기
+            connection.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+	}
 	
-	
+
 
 
 }

@@ -15,12 +15,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.repository.MemberRepository;
+import com.watch.project.service.CommonMethods;
 import com.watch.project.service.KakaoMemberService;
 
 @Controller
 public class KakaoMemberController {
 	@Autowired
 	private KakaoMemberService service;
+	
+	@Autowired
+	private CommonMethods common;
 	
 	@Autowired
 	private MemberRepository repo;
@@ -51,7 +55,7 @@ public class KakaoMemberController {
 		
 		if (userInfo != null) {  //이미 회원인 경우
 			session.setAttribute("userEmail", userInfo.getUserEmail());
-			//session.setAttribute("accessToken", accessToken);
+			session.setAttribute("accessToken", accessToken);
 			session.setAttribute("userLoginType", 2);
 			mav.setViewName("redirect:/");
 			return mav;
@@ -62,6 +66,7 @@ public class KakaoMemberController {
 				kakaoInput.setUserLoginType(2);
 				
 				session.setAttribute("userEmail", kakaoInput.getUserEmail());
+				session.setAttribute("accessToken", accessToken);
 				session.setAttribute("userLoginType", 2);
 				
 				repo.saveMemberInfo(kakaoInput);
@@ -92,13 +97,20 @@ public class KakaoMemberController {
 	}
 
 	@GetMapping("/kakaoSignOut")
-	public ModelAndView logout(HttpSession session) {
-		ModelAndView mav = new ModelAndView();
+	public String logout(HttpSession session, Model model) {
 		session.invalidate();
-		mav.setViewName("redirect:/");
-		return mav;
+		model.addAttribute("signOutAlert", true);
+		return "home";//redirect 하면 알림 안뜸.
+
 	}
 	
 	
+	@GetMapping("/kakaoUnregister")
+	public String kakaoUnregister(HttpSession session) {
+		service.revokeAgreement((String)session.getAttribute("accessToken"));
+		common.unregister((String)session.getAttribute("userEmail"));
+		session.invalidate();
+		return "home";
+	}
 
 }

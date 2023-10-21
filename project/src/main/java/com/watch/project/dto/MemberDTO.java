@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-@Builder
+
 public class MemberDTO {
 	private int emailToken;
 	private String userEmail;

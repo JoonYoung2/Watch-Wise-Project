@@ -70,12 +70,10 @@ public class LocalMemberController {
 	}
 	
 	@GetMapping("/signOut")
-	public String signOut(HttpSession session, HttpServletResponse res) throws IOException {
-		String msg = service.signOut((String)session.getAttribute("userEmail"));
-		res.setContentType("text/html; charset=UTF-8");
-		PrintWriter out = res.getWriter();
-		out.print(msg);
-		return null;
+	public String signOut(HttpSession session, Model model) throws IOException {
+		session.invalidate();
+		model.addAttribute("signOutAlert", true);
+		return "home";//redirect 하면 알림 안뜸.
 	}
 	
 	

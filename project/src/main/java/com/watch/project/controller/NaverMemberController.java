@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.watch.project.dto.MemberDTO;
+import com.watch.project.service.CommonMethods;
 import com.watch.project.service.NaverMemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -32,7 +34,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class NaverMemberController {
 	private final NaverMemberService service;
-
+	@Autowired 
+	private CommonMethods common;
 	
 	@GetMapping("/naverSignOut")
     public String Logout(HttpSession session) {
@@ -77,7 +80,7 @@ public class NaverMemberController {
     			res.setContentType("text/html; charset=UTF-8");
     			PrintWriter out = res.getWriter();
     			out.print(msg);
-        		return "/selectSignUpType";   
+        		return "redirect:/selectSignUpType";   
         	}
         }
         	//정상적으로 저장되었을 경우 or 이미 회원일 경우
@@ -87,20 +90,21 @@ public class NaverMemberController {
         return "redirect:/";
     }	
 	
-	@GetMapping("/remove") //token = access_token임
-	public String remove(@RequestParam String token,HttpSession session, HttpServletRequest request, Model model ) {
+	@GetMapping("/naverUnregister") //token = access_token임
+	public String remove(@RequestParam String token, HttpSession session, HttpServletRequest request, Model model ) {
 		log.info("토큰 삭제중...");
 		String apiUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id="+service.CLIENT_ID+
 		"&client_secret="+service.CLIENT_SECRET+"&access_token="+token+"&service_provider=NAVER";
 		
 			try {
-				String res = requestToServer(apiUrl);
+				String res = requestToServer(apiUrl);//네이버 정보제공동의 철회
 				model.addAttribute("res", res); //결과값 찍어주는용
-			    session.invalidate();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			common.unregister((String)session.getAttribute("userEmail"));//DB에 저장된 정보 지우기.
+			session.invalidate();
 			
 		    return "redirect:/";
 	}

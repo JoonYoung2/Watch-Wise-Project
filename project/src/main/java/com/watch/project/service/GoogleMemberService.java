@@ -20,6 +20,7 @@ import com.watch.project.repository.MemberRepository;
 public class GoogleMemberService {
 	@Autowired 
 	private MemberRepository repo;
+	@Autowired
 	private CommonMethods common;
 	
 	public final static String CLIENT_ID = "339734555922-1robs84vtcrorvt5o56qf28rihef34kb.apps.googleusercontent.com";
@@ -36,7 +37,9 @@ public class GoogleMemberService {
                 + "&access_type=offline";
 		return googleUrl;
 	}
-	public String loginWithGoogle(String authCode) {
+	
+	
+	public MemberDTO loginWithGoogle(String authCode) {
 		RestTemplate restTemplate = new RestTemplate();
 		//RestTemplate
 		//=> RESTful 웹 서비스 또는 외부 API와 통신할 때 사용됨. 
@@ -66,23 +69,41 @@ public class GoogleMemberService {
 		String name = resultEntity2.getBody().getName();
 		System.out.println("여기는 service 이고, name 확인 : "+ name);
 		
-//		MemberDTO dto = MemberDTO
-//				.builder()
-//				.userEmail(email)
-//				.userName(name)
-//				.userPw("GoogleMember")
-//				.userLoginType(4).build();
-//		
-//		MemberDTO existanceCheck = common.checkExistingMemberByEmail(email);
-//		if(existanceCheck == null) { //회원이 아닐 경우
-//			String msg = null;
-//			int storageResult = common.saveMemberInfo(dto);
-//			if(storageResult != 1){
-//				msg = common.getAlertOnly("오류가 발생했습니다. 다시 시도해주세요.");
-//				
-//			}
-//		}
-		return null;
+		MemberDTO dto = new MemberDTO();
+		dto.setUserEmail(email);
+		dto.setUserName(name);
+		dto.setUserPw("GoogleMember");
+		dto.setUserLoginType(4);
+		dto.setAccessToken(jwtToken);
+		dto.setSocialLoginId("google");
+		return dto;
 	}
+
+
+	public String storageIfNewOne(MemberDTO userInfo) {
+		String email = userInfo.getUserEmail();
+		String msg = "0";		
+		System.out.println("common.existingEmailCh 전 줄");//여기까지 출력 됨.
+		System.out.println("email ===>"+email);
+		int existanceCheck = common.existingEmailCh(email);
+		System.out.println("if 절 전 줄");
+		if(existanceCheck == 0) { //회원이 아닐 경우
+			System.out.println("if절 안에 들어옴");
+			int storageResult = common.saveMemberInfo(userInfo);//멤버 정보 저장, 회원 등록
+			if(storageResult != 1){
+				msg = common.getAlertOnly("오류가 발생했습니다. 다시 시도해주세요.");
+			}
+		}
+		return msg;
+	}
+
+//	public String unregister(String email) {
+//		int result = repo.deleteMemberInfo(email);
+//		String msg = "회원탈퇴가 완료되었습니다.";
+//		if(result!=1) {//삭제가 잘 안되었다면
+//			msg = "오류가 발생했습니다. 다시 시도해주세요.";
+//		}
+//		return msg;
+//	}
 
 }
