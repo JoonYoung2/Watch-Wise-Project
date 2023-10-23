@@ -15,10 +15,13 @@ let weeklyTop0Class = document.querySelectorAll(".weeklyTop0");
 let weeklyTop1Class = document.querySelectorAll(".weeklyTop1");
 let weeklyTop2Class = document.querySelectorAll(".weeklyTop2");
 let upcomingClass = document.querySelectorAll(".upcoming");
+let upcomingPageNum = 1;
+
+let upcomingCnt = 0;
 
 const dailyLeftBtn = () => {
     dailyLeftBtnId.style.display = "none";
-    dailyRightBtnId.style.display = "";
+    dailyRightBtnId.style.display = "block";
     for(var i = 0; i < dailyTopClass.length; i++){
         if(dailyTopClass[i].style.display == ""){
             dailyTopClass[i].style.display = "none";
@@ -29,7 +32,7 @@ const dailyLeftBtn = () => {
 }
 
 const dailyRightBtn = () => {
-    dailyLeftBtnId.style.display = "";
+    dailyLeftBtnId.style.display = "block";
     dailyRightBtnId.style.display = "none";
     for(var i = 0; i < dailyTopClass.length; i++){
         if(dailyTopClass[i].style.display == ""){
@@ -42,7 +45,7 @@ const dailyRightBtn = () => {
 
 const weeklyLeftBtn0 = () => {
     weeklyLeftBtn0Id.style.display = "none";
-    weeklyRightBtn0Id.style.display = "";
+    weeklyRightBtn0Id.style.display = "block";
     for(var i = 0; i < weeklyTop0Class.length; i++){
         if(weeklyTop0Class[i].style.display == ""){
             weeklyTop0Class[i].style.display = "none";
@@ -53,7 +56,7 @@ const weeklyLeftBtn0 = () => {
 }
 
 const weeklyRightBtn0 = () => {
-    weeklyLeftBtn0Id.style.display = "";
+    weeklyLeftBtn0Id.style.display = "block";
     weeklyRightBtn0Id.style.display = "none";
     for(var i = 0; i < weeklyTop0Class.length; i++){
         if(weeklyTop0Class[i].style.display == ""){
@@ -66,7 +69,7 @@ const weeklyRightBtn0 = () => {
 
 const weeklyLeftBtn1 = () => {
     weeklyLeftBtn1Id.style.display = "none";
-    weeklyRightBtn1Id.style.display = "";
+    weeklyRightBtn1Id.style.display = "block";
     for(var i = 0; i < weeklyTop1Class.length; i++){
         if(weeklyTop1Class[i].style.display == ""){
             weeklyTop1Class[i].style.display = "none";
@@ -77,7 +80,7 @@ const weeklyLeftBtn1 = () => {
 }
 
 const weeklyRightBtn1 = () => {
-    weeklyLeftBtn1Id.style.display = "";
+    weeklyLeftBtn1Id.style.display = "block";
     weeklyRightBtn1Id.style.display = "none";
     for(var i = 0; i < weeklyTop1Class.length; i++){
         if(weeklyTop1Class[i].style.display == ""){
@@ -90,7 +93,7 @@ const weeklyRightBtn1 = () => {
 
 const weeklyLeftBtn2 = () => {
     weeklyLeftBtn2Id.style.display = "none";
-    weeklyRightBtn2Id.style.display = "";
+    weeklyRightBtn2Id.style.display = "block";
     for(var i = 0; i < weeklyTop2Class.length; i++){
         if(weeklyTop2Class[i].style.display == ""){
             weeklyTop2Class[i].style.display = "none";
@@ -101,7 +104,7 @@ const weeklyLeftBtn2 = () => {
 }
 
 const weeklyRightBtn2 = () => {
-    weeklyLeftBtn2Id.style.display = "";
+    weeklyLeftBtn2Id.style.display = "block";
     weeklyRightBtn2Id.style.display = "none";
     for(var i = 0; i < weeklyTop2Class.length; i++){
         if(weeklyTop2Class[i].style.display == ""){
@@ -113,25 +116,53 @@ const weeklyRightBtn2 = () => {
 }
 
 const upcomingLeftBtn = () => {
-    upcomingLeftBtnId.style.display = "none";
-    upcomingRightBtnId.style.display = "";
-    for(var i = 0; i < upcomingClass.length; i++){
-        if(upcomingClass[i].style.display == ""){
-            upcomingClass[i].style.display = "none";
-        }else{
-            upcomingClass[i].style.display = "";
+    upcomingPageNum--;
+    if(upcomingPageNum == 1){
+        upcomingLeftBtnId.style.display = "none";
+        upcomingRightBtnId.style.display = "block";
+        for(var i = 0; i < upcomingClass.length; i++){
+            if(i >= upcomingPageNum*5-5 && i < upcomingPageNum*5){
+                upcomingClass[i].style.display = "";
+            }else{
+                upcomingClass[i].style.display = "none";
+            }
+        }
+    }else{
+        upcomingLeftBtnId.style.display = "block";
+        upcomingRightBtnId.style.display = "block";
+        for(var i = 0; i < upcomingClass.length; i++){
+            if(i >= upcomingPageNum*5-5 && i < upcomingPageNum*5){
+                upcomingClass[i].style.display = "";
+            }else{
+                upcomingClass[i].style.display = "none";
+            }
         }
     }
 }
 
-const upcomingRightBtn = () => {
-    upcomingLeftBtnId.style.display = "";
-    upcomingRightBtnId.style.display = "none";
-    for(var i = 0; i < upcomingClass.length; i++){
-        if(upcomingClass[i].style.display == ""){
-            upcomingClass[i].style.display = "none";
-        }else{
-            upcomingClass[i].style.display = "";
+const upcomingRightBtn = (cnt) => {
+    upcomingCnt = Number(cnt);
+    let pageNum = Math.ceil(upcomingCnt / 5);
+    upcomingPageNum++;
+    if(upcomingPageNum == pageNum){
+        upcomingLeftBtnId.style.display = "block";
+        upcomingRightBtnId.style.display = "none";
+        for(var i = 0; i < upcomingClass.length; i++){
+            if(i >= upcomingPageNum*5-5 && i < upcomingPageNum*5){
+                upcomingClass[i].style.display = "";
+            }else{
+                upcomingClass[i].style.display = "none";
+            }
+        }
+    }else{
+        upcomingLeftBtnId.style.display = "block";
+        upcomingRightBtnId.style.display = "block";
+        for(var i = 0; i < upcomingClass.length; i++){
+            if(i >= upcomingPageNum*5-5 && i < upcomingPageNum*5){
+                upcomingClass[i].style.display = "";
+            }else{
+                upcomingClass[i].style.display = "none";
+            }
         }
     }
 }

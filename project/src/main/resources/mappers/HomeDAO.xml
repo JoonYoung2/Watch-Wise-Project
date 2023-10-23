@@ -39,7 +39,7 @@
 	</select>
 	
 	<select id="upcomingMovies" resultMap="movieInfo">
-		SELECT * FROM movie_info WHERE open_dt > #{openDt} AND NOT open_dt = 'nan' AND NOT poster_url = 'nan'
+		SELECT * FROM movie_info WHERE open_dt > #{openDt} AND NOT open_dt = 'nan' AND NOT poster_url = 'nan' ORDER BY open_dt ASC
 	</select>
 </mapper>
 

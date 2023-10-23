@@ -143,17 +143,11 @@ public class MovieInfoApiService {
 		log.info("=================== START ===================");
 		log.info("MovieInfoApiService - setMovieInfoDto()");
 		String movieId = movieInfo.getAsJsonObject().get("movieCd").toString().replaceAll("\"", "");
-		log.info("service - setMovieInfoDto - movieId ==> {} ", movieId);
 		String movieNm = movieInfo.getAsJsonObject().get("movieNm").toString().replaceAll("\"", "");
-		log.info("service - setMovieInfoDto - movieNm ==> {} ", movieNm);
 		String movieNmEn = movieInfo.getAsJsonObject().get("movieNmEn").toString().replaceAll("\"", "");
-		log.info("service - setMovieInfoDto - movieNmEn ==> {} ", movieNmEn);
 		String prdtYear = movieInfo.getAsJsonObject().get("prdtYear").toString().replaceAll("\"", "");
-		log.info("service - setMovieInfoDto - prdtYear ==> {} ", prdtYear);
 		String openDt = movieInfo.getAsJsonObject().get("openDt").toString().replaceAll("\"", "");
-		log.info("service - setMovieInfoDto - openDt ==> {} ", openDt);
 		String typeNm = movieInfo.getAsJsonObject().get("typeNm").toString().replaceAll("\"", "");
-		log.info("service - setMovieInfoDto - typeNm ==> {} ", typeNm);
 		int showTime = 0;
 		try {
 			showTime = Integer.parseInt(movieInfo.getAsJsonObject().get("showTm").toString().replaceAll("\"", ""));

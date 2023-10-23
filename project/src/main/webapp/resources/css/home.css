@@ -1,0 +1,56 @@
+.leftBtn{
+	all: unset;
+	cursor: pointer;
+	font-size: 25px;
+	width: 50px;
+	height: 50px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 50px;
+	position: absolute;
+	top: 190px;
+	left: -35px;
+	background-color:white;
+	color: rgba(0, 0, 0, 0.2);
+	z-index:1;
+	display: none;
+}
+
+.leftBtn:hover{
+	color: rgba(0, 0, 0, 0.5);
+}
+
+.rightBtn{
+	all: unset;
+	cursor: pointer;
+	font-size: 25px;
+	width: 50px;
+	height: 50px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 50px;
+	position: absolute;
+	top: 190px;
+	right: -65px;
+	background-color:white;
+	color: rgba(0, 0, 0, 0.2);
+	display: ;
+}
+
+.rightBtn:hover{
+	color: rgba(0, 0, 0, 0.5);
+}
+
+.rankDiv{
+	position:absolute;
+	color: white;
+	font-size: 25px;
+	font-weight: bold;
+	top: 10px;
+	left: 10px;
+	width:50px;
+	height:50px;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	border-radius:5px;
+	background-color:rgba(0, 0, 0, 0.8);
+}

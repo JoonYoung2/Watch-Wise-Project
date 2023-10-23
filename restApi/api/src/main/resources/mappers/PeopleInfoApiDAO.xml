@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watch.api.repository.PeopleInfoApiRepository">
+	<resultMap type="com.watch.api.dto.PeopleInfoDTO" id="peopleInfo">
+		<result column="people_id" property="peopleId"/>
+		<result column="people_nm" property="peopleNm"/>
+		<result column="people_nm_en" property="peopleNmEn"/>
+		<result column="filmo_names" property="filmoNames"/>
+	</resultMap>
+	
+	<select id="getPeopleInfoById" resultMap="peopleInfo">
+		select * from people_info where people_id = #{peopleId}
+	</select>
+	
+	<insert id="savePeopleInfo" parameterType="com.watch.api.dto.PeopleInfoDTO">
+		INSERT INTO people_info VALUES(#{peopleId}, #{peopleNm}, #{peopleNmEn}, #{filmoNames})
+	</insert>
+	
+	<select id="getPeopleInfoAll" resultMap="peopleInfo">
+		select * from people_info
+	</select>
+	
+	<insert id="savePeopleInfoDetail" parameterType="com.watch.api.dto.PeopleInfoDetailDTO">
+		INSERT INTO people_info_detail VALUES(#{peopleId}, #{peopleNm}, #{peopleNmEn}, #{sex}, #{movieId}, #{movieNm})
+	</insert>
+	
+</mapper>
+

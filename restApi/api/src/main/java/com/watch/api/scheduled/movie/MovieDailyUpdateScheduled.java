@@ -116,73 +116,72 @@ public class MovieDailyUpdateScheduled {
     }
 	
 //	@Scheduled(fixedDelay = 1000)
-//	@Scheduled(cron = "30 3 0 * * *")
+	@Scheduled(cron = "20 0 6 * * *")
 	public void allFindAndInsert() {
-		if(cnt == 2000) 
-			return;
-		MovieInfoDTO dto = new MovieInfoDTO();
+		while(cnt <= 127) {
+			MovieInfoDTO dto = new MovieInfoDTO();
 
-    	String movieId = "";
-    	log.info("Auto Scheduled allFindAndInsert() 호출");
-    	
-    	StringBuilder urlBuilder = new StringBuilder();
-		urlBuilder.append("http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key=f5eef3421c602c6cb7ea224104795888");
-		urlBuilder.append("&curPage=" + cnt);
-		urlBuilder.append("&openStartDt=1800");
-		urlBuilder.append("&openEndDt=2100");
-        
-        try {
-			URL url = new URL(urlBuilder.toString());
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("GET");
-			conn.setRequestProperty("Content-type", "application/json");
-			log.info("------------------- REST API 호출 -------------------");
-			log.info("{}", urlBuilder.toString());
-			int responseCode = conn.getResponseCode();
-			log.info("responseCode = {}", responseCode);
-			
-			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			
-			String line = "";
-			StringBuilder sb = new StringBuilder();
-			
-			while((line = br.readLine()) != null) {
-				sb.append(line);
-			}
-			
-			log.info("response body = {}", sb.toString());
-			conn.disconnect();
-			br.close();
-			
-			JsonParser parser = new JsonParser();
-			JsonElement element =  parser.parse(sb.toString());
-			JsonObject movieListResult = element.getAsJsonObject().get("movieListResult").getAsJsonObject();
-			JsonArray movieList = movieListResult.getAsJsonObject().get("movieList").getAsJsonArray();
-			log.info("movieList Size => {}", movieList.size());
-			int cnt = 0;
-			for(int i = 0; i < movieList.size(); ++i) {
-				movieId = movieList.get(i).getAsJsonObject().get("movieCd").toString().replaceAll("\"", "");
-				dto = repo.getMovieInfoByMovieId(movieId);
+	    	String movieId = "";
+	    	log.info("Auto Scheduled allFindAndInsert() 호출");
+	    	
+	    	StringBuilder urlBuilder = new StringBuilder();
+			urlBuilder.append("http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key=f5eef3421c602c6cb7ea224104795888");
+			urlBuilder.append("&curPage=" + cnt);
+			urlBuilder.append("&openStartDt=2023");
+//			urlBuilder.append("&openEndDt=2100");
+	        
+	        try {
+				URL url = new URL(urlBuilder.toString());
+				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+				conn.setRequestMethod("GET");
+				conn.setRequestProperty("Content-type", "application/json");
+				log.info("------------------- REST API 호출 -------------------");
+				log.info("{}", urlBuilder.toString());
+				int responseCode = conn.getResponseCode();
+				log.info("responseCode = {}", responseCode);
 				
-				if(dto == null) { // movieId 값이 없으면 실행
-					service.saveMovieInfoByMovieId(movieId);
-					cnt++;
-					String movieNm = movieList.get(i).getAsJsonObject().get("movieNm").toString().replaceAll("\"", "");
-					log.info("{} 영화 저장을 완료했습니다.", movieNm);
-					log.info("{}개 업데이트 완료", cnt);
-				}else {
-					log.info("이미 {} 영화가 존재합니다.", dto.getMovieNm());
-					log.info("{}개 업데이트 완료", cnt);
+				BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+				
+				String line = "";
+				StringBuilder sb = new StringBuilder();
+				
+				while((line = br.readLine()) != null) {
+					sb.append(line);
 				}
+				
+				log.info("response body = {}", sb.toString());
+				conn.disconnect();
+				br.close();
+				
+				JsonParser parser = new JsonParser();
+				JsonElement element =  parser.parse(sb.toString());
+				JsonObject movieListResult = element.getAsJsonObject().get("movieListResult").getAsJsonObject();
+				JsonArray movieList = movieListResult.getAsJsonObject().get("movieList").getAsJsonArray();
+				log.info("movieList Size => {}", movieList.size());
+				int cnt = 0;
+				for(int i = 0; i < movieList.size(); ++i) {
+					movieId = movieList.get(i).getAsJsonObject().get("movieCd").toString().replaceAll("\"", "");
+					dto = repo.getMovieInfoByMovieId(movieId);
+					
+					if(dto == null) { // movieId 값이 없으면 실행
+						service.saveMovieInfoByMovieId(movieId);
+						cnt++;
+						String movieNm = movieList.get(i).getAsJsonObject().get("movieNm").toString().replaceAll("\"", "");
+						log.info("{} 영화 저장을 완료했습니다.", movieNm);
+						log.info("{}개 업데이트 완료", cnt);
+					}else {
+						log.info("이미 {} 영화가 존재합니다.", dto.getMovieNm());
+						log.info("{}개 업데이트 완료", cnt);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+	        
+	        log.info("{}번째 페이지 업뎃 완료!", cnt++);
+	        log.info("MovieDailyUpdateScheduled - allFindAndInsert()");
+			log.info("=================== END ===================");
 		}
-        
-        log.info("{}번째 페이지 업뎃 완료!", cnt++);
-        log.info("MovieDailyUpdateScheduled - allFindAndInsert()");
-		log.info("=================== END ===================");
-		allFindAndInsert();
 	}
 
 	private String getYesterdayDate() {
