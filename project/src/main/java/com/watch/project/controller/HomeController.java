@@ -51,6 +51,9 @@ public class HomeController {
 		List<MovieInfoDTO> upcomingMovies = service.upcomingMovies();
 		movieInfoMap.put("upcoming", upcomingMovies);
 		
+		List<MovieInfoDTO> recentlyReleasedKoreanMovies = service.recentlyReleasedKoreanMovies();
+		movieInfoMap.put("recentlyKorea", recentlyReleasedKoreanMovies);
+		
 		model.addAttribute("movieInfoMap", movieInfoMap);
 		return "basic/home"; 
 	}

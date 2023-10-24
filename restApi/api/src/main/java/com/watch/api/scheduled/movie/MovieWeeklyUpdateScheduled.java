@@ -33,7 +33,7 @@ public class MovieWeeklyUpdateScheduled {
 	private final MovieInfoApiService service;
 	
 //	@Scheduled(fixedDelay = 1000)
-	@Scheduled(cron = "5 0 6 * * *")
+	@Scheduled(cron = "5 57 9 * * *")
 	public void WeeklyMovieInsert0() throws UnsupportedEncodingException {
 		MovieInfoDTO dto = new MovieInfoDTO();
 		MovieTopInfoDTO topDto = new MovieTopInfoDTO();

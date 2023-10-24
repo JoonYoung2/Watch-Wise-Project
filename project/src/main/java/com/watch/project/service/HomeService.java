@@ -59,6 +59,23 @@ public class HomeService {
 		}
 		return upcoming;
 	}
+	
+	public List<MovieInfoDTO> recentlyReleasedKoreanMovies(){
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		SimpleDateFormat dtFormat = new SimpleDateFormat("yyyyMMdd");
+		String date = dtFormat.format(cal.getTime());
+		
+		List<MovieInfoDTO> movieInfoDto = repo.recentlyReleasedKoreanMovies(date);
+		
+		for(int i = 0; i < movieInfoDto.size(); ++i) {
+			String posterUrl = movieInfoDto.get(i).getPosterUrl().split("\\|")[0];
+			movieInfoDto.get(i).setPosterUrl(posterUrl);
+		}
+		
+		return movieInfoDto;
+	}
 
 	private int getDDay(String openDt) {
 		int cnt = 1;

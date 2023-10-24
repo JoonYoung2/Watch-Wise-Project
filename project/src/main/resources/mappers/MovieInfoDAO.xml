@@ -2,7 +2,7 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.watch.project.repository.HomeRepository">
+<mapper namespace="com.watch.project.repository.MovieInfoRepository">
 	<resultMap type="com.watch.project.dto.MovieInfoDTO" id="movieInfo">
 		<result column="movie_id" property="movieId"/>
 		<result column="movie_nm" property="movieNm"/>
@@ -24,26 +24,12 @@
 		<result column="movie_ids" property="movieIds"/>
 	</resultMap>
 	
-	<select id="getId" resultType="com.watch.project.dto.HomeDTO">
-		select * from test
+	<select id="getMovieInfoById" resultMap="movieInfo">
+		SELECT * FROM movie_info WHERE movie_id=#{movieId}
 	</select>
 	
-	<select id="getMovieTopInfo" resultMap="movieTopInfo">
-		SELECT * FROM daily_top_info WHERE id = (SELECT max(id) FROM daily_top_info) UNION ALL
-		SELECT * FROM weekly_top_info WHERE id >= #{id}
-	</select>
-	
-	<select id="getMovieInfoListByIds" resultMap="movieInfo">
-		SELECT * FROM movie_info WHERE movie_id in (${ids})
-		ORDER BY instr(${ids2}, movie_id)
-	</select>
-	
-	<select id="upcomingMovies" resultMap="movieInfo">
-		SELECT * FROM movie_info WHERE open_dt > #{openDt} AND NOT open_dt = 'nan' AND NOT poster_url = 'nan' ORDER BY open_dt ASC
-	</select>
-	
-	<select id="recentlyReleasedKoreanMovies" resultMap="movieInfo">
-		<![CDATA[SELECT * FROM (SELECT * FROM movie_info WHERE open_dt <= '${date}' AND NOT poster_url = 'nan' AND nations LIKE '한국' ORDER BY open_dt DESC) WHERE ROWNUM <= 100]]>
+	<select id="getPeopleIdByPeopleNmAndMovieNm" resultType="Integer">
+		SELECT people_id FROM people_info WHERE people_nm=#{peopleNm} AND filmo_names LIKE '%${movieNm}%'
 	</select>
 	
 </mapper>

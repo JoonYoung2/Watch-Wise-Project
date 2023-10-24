@@ -20,4 +20,6 @@ public interface HomeRepository {
 	
 	public List<MovieInfoDTO> upcomingMovies(String openDt);
 	
+	public List<MovieInfoDTO> recentlyReleasedKoreanMovies(String date);
+	
 }

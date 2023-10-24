@@ -17,6 +17,7 @@
 <c:set var="weekly1" value="${ movieInfoMap['weekly1'] }"/>
 <c:set var="weekly2" value="${ movieInfoMap['weekly2'] }"/>
 <c:set var="upcoming" value="${ movieInfoMap['upcoming'] }"/>
+<c:set var="recentlyKo" value="${ movieInfoMap['recentlyKorea'] }"/>
 <c:set var="imgWidth" value="300"/>
 <c:set var="imgHeight" value="428.16"/>
 <% 
@@ -36,7 +37,7 @@
 			
 			<c:forEach var="list" items="${ daily }">
 			<% if(cnt < 5){ %>
-			<a class="dailyTop" href="#" style="all:unset; cursor:pointer; display:;">
+			<a class="dailyTop" href="/movieInfo?movieId=${ list.movieId }" style="all:unset; cursor:pointer; display:;">
 				<div style="padding-right:10px; position:relative;">
 					<div class="rankDiv"><%= rankCnt++ %></div>
 					<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }">
@@ -55,7 +56,7 @@
 			<%
 			}else{
 			%>
-			<a class="dailyTop" href="#" style="all:unset; cursor:pointer; display:none;">
+			<a class="dailyTop" href="/movieInfo?movieId=${ list.movieId }" style="all:unset; cursor:pointer; display:none;">
 				<div style="padding-right:10px; position:relative;">
 					<div class="rankDiv"><%= rankCnt++ %></div>
 					<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }"><br>
@@ -96,7 +97,7 @@
 			
 			<c:forEach var="list" items="${ weekly0 }">
 			<% if(cnt < 5){ %>
-			<a href="#" class="weeklyTop0" style="all:unset; cursor:pointer; display:;">
+			<a href="/movieInfo?movieId=${ list.movieId }" class="weeklyTop0" style="all:unset; cursor:pointer; display:;">
 				<div style="padding-right:10px; position:relative;">
 					<div class="rankDiv"><%= rankCnt++ %></div>
 					<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }">
@@ -115,7 +116,7 @@
 			<%
 			}else{
 			%>
-			<a href="#" class="weeklyTop0" style="all:unset; cursor:pointer; display:none;">
+			<a href="/movieInfo?movieId=${ list.movieId }" class="weeklyTop0" style="all:unset; cursor:pointer; display:none;">
 				<div style="padding-right:10px; position:relative;">
 					<div class="rankDiv"><%= rankCnt++ %></div>
 					<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }"><br>
@@ -156,7 +157,7 @@
 			
 			<c:forEach var="list" items="${ weekly1 }">
 			<% if(cnt < 5){ %>
-			<a href="#" class="weeklyTop1" style="all:unset; cursor:pointer; display:;">
+			<a href="/movieInfo?movieId=${ list.movieId }" class="weeklyTop1" style="all:unset; cursor:pointer; display:;">
 				<div style="padding-right:10px; position:relative;">
 					<div class="rankDiv"><%= rankCnt++ %></div>
 					<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }">
@@ -175,7 +176,7 @@
 			<%
 			}else{
 			%>
-			<a href="#" class="weeklyTop1" style="all:unset; cursor:pointer; display:none;">
+			<a href="/movieInfo?movieId=${ list.movieId }" class="weeklyTop1" style="all:unset; cursor:pointer; display:none;">
 				<div style="padding-right:10px; position:relative;">
 					<div class="rankDiv"><%= rankCnt++ %></div>
 					<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }"><br>
@@ -215,7 +216,7 @@
 			
 			<c:forEach var="list" items="${ weekly2 }">
 			<% if(cnt < 5){ %>
-			<a href="#" class="weeklyTop2" style="all:unset; cursor:pointer; display:;">
+			<a href="/movieInfo?movieId=${ list.movieId }" class="weeklyTop2" style="all:unset; cursor:pointer; display:;">
 				<div style="padding-right:10px; position:relative;">
 					<div class="rankDiv"><%= rankCnt++ %></div>
 					<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }">
@@ -234,7 +235,7 @@
 			<%
 			}else{
 			%>
-			<a href="#" class="weeklyTop2" style="all:unset; cursor:pointer; display:none;">
+			<a href="/movieInfo?movieId=${ list.movieId }" class="weeklyTop2" style="all:unset; cursor:pointer; display:none;">
 				<div style="padding-right:10px; position:relative;">
 					<div class="rankDiv"><%= rankCnt++ %></div>
 					<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }"><br>
@@ -267,6 +268,67 @@
 %>
 <div align="center" style="width:100%;">
 	<div align="center" style="width:80%;">
+		<div align="left" style="width:100%; padding-bottom:10px;"><span style="font-size:30px; font-weight:bold;">최근 개봉된 한국 영화</span></div>
+		<div style="display:flex; position:relative">
+		
+			<button id="recentlyKoLeftBtn" class="leftBtn" onclick="recentlyKoLeftBtn();">◀</button>
+			
+			<c:forEach var="list" items="${ recentlyKo }">
+			<% 
+				if(cnt < 5){ 
+			%>
+			<a href="/movieInfo?movieId=${ list.movieId }" class="recentlyKo" style="all:unset; cursor:pointer; display:;">
+				<div style="padding-right:10px;">
+					<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }">
+					<div align="left">
+						<c:if test="${ list.movieNm.length() > 15 }">
+							<span style="font-size:18px; font-weight:bold">${ list.movieNm.substring(0, 15) }...</span><br>	
+						</c:if>
+						<c:if test="${ list.movieNm.length() <= 15 }">
+							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
+						</c:if>
+						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+						평균 ★ 0.0
+					</div>
+				</div>
+			</a>
+			<%
+			}else{
+			%>
+			<a href="/movieInfo?movieId=${ list.movieId }" class="recentlyKo" style="all:unset; cursor:pointer; display:none;">
+				<div style="padding-right:10px;">
+					<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }"><br>
+					<div align="left">
+						<c:if test="${ list.movieNm.length() > 18 }">
+							<span style="font-size:18px; font-weight:bold">${ list.movieNm.substring(0, 18) }...</span><br>	
+						</c:if>
+						<c:if test="${ list.movieNm.length() <= 18 }">
+							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
+						</c:if>
+						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+						평균 ★ 0.0
+					</div>
+				</div>
+			</a>
+			<%
+				}
+			cnt++;
+			%>
+				
+			</c:forEach>
+			<% if(cnt > 5){ %>
+			<button id="recentlyKoRightBtn" class="rightBtn" type="button" onclick="recentlyKoRightBtn('<%=cnt%>');">▶</button>
+			<% } %>
+		</div>
+	</div>
+</div>
+
+<br><br><br>
+<% 
+	cnt = 0; 
+%>
+<div align="center" style="width:100%;">
+	<div align="center" style="width:80%;">
 		<div align="left" style="width:100%; padding-bottom:10px;"><span style="font-size:30px; font-weight:bold;">Upcoming Movies</span></div>
 		<div style="display:flex; position:relative">
 		
@@ -276,7 +338,7 @@
 			<% 
 				if(cnt < 5){ 
 			%>
-			<a href="#" class="upcoming" style="all:unset; cursor:pointer; display:;">
+			<a href="/movieInfo?movieId=${ list.movieId }" class="upcoming" style="all:unset; cursor:pointer; display:;">
 				<div style="padding-right:10px;">
 					<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }">
 					<div align="left">
@@ -292,27 +354,9 @@
 				</div>
 			</a>
 			<%
-			}else if(cnt < 10){
+			}else{
 			%>
-			<a href="#" class="upcoming" style="all:unset; cursor:pointer; display:none;">
-				<div style="padding-right:10px;">
-					<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }"><br>
-					<div align="left">
-						<c:if test="${ list.movieNm.length() > 18 }">
-							<span style="font-size:18px; font-weight:bold">${ list.movieNm.substring(0, 18) }...</span><br>	
-						</c:if>
-						<c:if test="${ list.movieNm.length() <= 18 }">
-							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
-						</c:if>
-						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-						D-${ list.getDDay() }
-					</div>
-				</div>
-			</a>
-			<%
-				}else if(cnt < 15){
-			%>
-			<a href="#" class="upcoming" style="all:unset; cursor:pointer; display:none;">
+			<a href="/movieInfo?movieId=${ list.movieId }" class="upcoming" style="all:unset; cursor:pointer; display:none;">
 				<div style="padding-right:10px;">
 					<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }"><br>
 					<div align="left">

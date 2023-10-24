@@ -3,21 +3,27 @@ let weeklyLeftBtn0Id = document.getElementById("weeklyLeftBtn0");
 let weeklyLeftBtn1Id = document.getElementById("weeklyLeftBtn1");
 let weeklyLeftBtn2Id = document.getElementById("weeklyLeftBtn2");
 let upcomingLeftBtnId = document.getElementById("upcomingLeftBtn");
+let recentlyKoLeftBtnId = document.getElementById("recentlyKoLeftBtn");
 
 let dailyRightBtnId = document.getElementById("dailyRightBtn");
 let weeklyRightBtn0Id = document.getElementById("weeklyRightBtn0");
 let weeklyRightBtn1Id = document.getElementById("weeklyRightBtn1");
 let weeklyRightBtn2Id = document.getElementById("weeklyRightBtn2");
 let upcomingRightBtnId = document.getElementById("upcomingRightBtn");
+let recentlyKoRightBtnId = document.getElementById("recentlyKoRightBtn");
 
 let dailyTopClass = document.querySelectorAll(".dailyTop");
 let weeklyTop0Class = document.querySelectorAll(".weeklyTop0");
 let weeklyTop1Class = document.querySelectorAll(".weeklyTop1");
 let weeklyTop2Class = document.querySelectorAll(".weeklyTop2");
 let upcomingClass = document.querySelectorAll(".upcoming");
+let recentlyKoClass = document.querySelectorAll(".recentlyKo");
+
 let upcomingPageNum = 1;
+let recentlyKoPageNum = 1;
 
 let upcomingCnt = 0;
+let recentlyKoCnt = 0;
 
 const dailyLeftBtn = () => {
     dailyLeftBtnId.style.display = "none";
@@ -162,6 +168,58 @@ const upcomingRightBtn = (cnt) => {
                 upcomingClass[i].style.display = "";
             }else{
                 upcomingClass[i].style.display = "none";
+            }
+        }
+    }
+}
+
+const recentlyKoLeftBtn = () => {
+    recentlyKoPageNum--;
+    if(recentlyKoPageNum == 1){
+        recentlyKoLeftBtnId.style.display = "none";
+        recentlyKoRightBtnId.style.display = "block";
+        for(var i = 0; i < recentlyKoClass.length; i++){
+            if(i >= recentlyKoPageNum*5-5 && i < recentlyKoPageNum*5){
+                recentlyKoClass[i].style.display = "";
+            }else{
+                recentlyKoClass[i].style.display = "none";
+            }
+        }
+    }else{
+        recentlyKoLeftBtnId.style.display = "block";
+        recentlyKoRightBtnId.style.display = "block";
+        for(var i = 0; i < recentlyKoClass.length; i++){
+            if(i >= recentlyKoPageNum*5-5 && i < recentlyKoPageNum*5){
+                recentlyKoClass[i].style.display = "";
+            }else{
+                recentlyKoClass[i].style.display = "none";
+            }
+        }
+    }
+}
+
+const recentlyKoRightBtn = (cnt) => {
+    recentlyKoCnt = Number(cnt);
+    let pageNum = Math.ceil(recentlyKoCnt / 5);
+    recentlyKoPageNum++;
+    if(recentlyKoPageNum == pageNum){
+        recentlyKoLeftBtnId.style.display = "block";
+        recentlyKoRightBtnId.style.display = "none";
+        for(var i = 0; i < recentlyKoClass.length; i++){
+            if(i >= recentlyKoPageNum*5-5 && i < recentlyKoPageNum*5){
+                recentlyKoClass[i].style.display = "";
+            }else{
+                recentlyKoClass[i].style.display = "none";
+            }
+        }
+    }else{
+        recentlyKoLeftBtnId.style.display = "block";
+        recentlyKoRightBtnId.style.display = "block";
+        for(var i = 0; i < recentlyKoClass.length; i++){
+            if(i >= recentlyKoPageNum*5-5 && i < recentlyKoPageNum*5){
+                recentlyKoClass[i].style.display = "";
+            }else{
+                recentlyKoClass[i].style.display = "none";
             }
         }
     }
