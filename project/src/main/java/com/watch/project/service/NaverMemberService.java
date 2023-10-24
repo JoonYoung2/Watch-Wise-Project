@@ -142,9 +142,9 @@ public class NaverMemberService {
     	user.setSocialLoginId(res_obj.get("id").toString().replaceAll("\"", ""));        	
 
     	user.setAccessToken(str_result);
-    	int storageResult = saveMemberInfo(user);
+    	int storageResult = saveMemberInfo(user); //회원 정보 저장
     	if(storageResult != 1) {
-    		msg = commonMethods.getAlertOnly("오류가 발생했습니다. 다시 시도해주세요.");
+    		msg = "오류가 발생했습니다. 다시 시도해주세요.";
     	}		
     	return msg;
 	}

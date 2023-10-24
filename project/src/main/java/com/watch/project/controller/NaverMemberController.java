@@ -77,17 +77,16 @@ public class NaverMemberController {
         if(existanceCheck == null) { //회원이 아닐 경우
         	String msg = service.createNewMember(res_obj, str_result);//회원정보 저장
         	if(msg!= null) {//정상적으로 DB에 회원정보가 저장되지 않았을 경우 alert 출력
-    			res.setContentType("text/html; charset=UTF-8");
-    			PrintWriter out = res.getWriter();
-    			out.print(msg);
-        		return "redirect:/selectSignUpType";   
+        		model.addAttribute("msg", msg);
+        		return "member/select_sign_up_type";   
         	}
         }
         	//정상적으로 저장되었을 경우 or 이미 회원일 경우
         session.setAttribute("userEmail", mail);
         session.setAttribute("userLoginType", 3); 
         session.setAttribute("accessToken", str_result);
-        return "redirect:/";
+        model.addAttribute("msg", "환영합니다.");
+        return "home";
     }	
 	
 	@GetMapping("/naverUnregister") //token = access_token임
@@ -103,10 +102,12 @@ public class NaverMemberController {
 				e.printStackTrace();
 			}
 			
-			common.unregister((String)session.getAttribute("userEmail"));//DB에 저장된 정보 지우기.
-			session.invalidate();
-			
-		    return "redirect:/";
+			String msg = common.unregister((String)session.getAttribute("userEmail"));//DB에 저장된 정보 지우기.
+			if(msg=="회원탈퇴가 완료되었습니다.") {
+				session.invalidate();
+				}
+				model.addAttribute("msg", msg);
+				return "home";
 	}
 	
 	private String requestToServer(String apiURL) throws IOException {

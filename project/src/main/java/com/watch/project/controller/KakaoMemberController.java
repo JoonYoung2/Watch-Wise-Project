@@ -44,7 +44,7 @@ public class KakaoMemberController {
 		}
 		
 //		if(kakaoInput.getUserEmail()==null) {
-//			mav.setViewName("member/social_sign_up/email_form");
+//			mav.setViewName("member/social_member/email_form");
 //			return mav;
 //		}
 
@@ -57,7 +57,8 @@ public class KakaoMemberController {
 			session.setAttribute("userEmail", userInfo.getUserEmail());
 			session.setAttribute("accessToken", accessToken);
 			session.setAttribute("userLoginType", 2);
-			mav.setViewName("redirect:/");
+			mav.addObject("msg", "환영합니다.");
+			mav.setViewName("home");
 			return mav;
 		} 
 		else {  //새로운 유저일 경우
@@ -70,10 +71,14 @@ public class KakaoMemberController {
 				session.setAttribute("userLoginType", 2);
 				
 				repo.saveMemberInfo(kakaoInput);
-				mav.setViewName("redirect:/");
+				mav.addObject("msg", "환영합니다.");
+				mav.setViewName("home");
 			}else { //이메일 제공 동의 안한 사람의 경우
 				mav.addObject("member", kakaoInput); 
-				mav.setViewName("member/social_sign_up/email_form");
+				mav.addObject("msg", "이메일 인증 과정이 필요합니다. 본인의 이메일 주소를 입력해주세요.");
+				mav.setViewName("member/social_member/email_form");
+				session.setAttribute("accessToken", accessToken);
+
 
 			}
 		}
@@ -88,11 +93,11 @@ public class KakaoMemberController {
 		msg = service.getMsgOrSend(dto);
 		if(msg==null) {
 			model.addAttribute("dto", dto);
-			return "member/social_sign_up/email_auth";
+			return "member/social_member/email_auth";
 		} else {
 			model.addAttribute("msg", msg);
 			model.addAttribute("member", dto);
-			return "member/social_sign_up/email_form";
+			return "member/social_member/email_form";
 		}
 	}
 
@@ -106,11 +111,15 @@ public class KakaoMemberController {
 	
 	
 	@GetMapping("/kakaoUnregister")
-	public String kakaoUnregister(HttpSession session) {
+	public String kakaoUnregister(HttpSession session, Model model) {
 		service.revokeAgreement((String)session.getAttribute("accessToken"));
-		common.unregister((String)session.getAttribute("userEmail"));
+		String msg = common.unregister((String)session.getAttribute("userEmail"));
+		if(msg=="회원탈퇴가 완료되었습니다.") {
 		session.invalidate();
+		}
+		model.addAttribute("msg", msg);
 		return "home";
 	}
+
 
 }

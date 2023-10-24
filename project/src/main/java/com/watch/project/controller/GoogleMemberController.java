@@ -25,20 +25,19 @@ public class GoogleMemberController {
 	private CommonMethods common;
 	
 	@GetMapping("/google/login")
-	public String redirected(@RequestParam("code") String authCode, HttpServletResponse res, HttpSession session) throws IOException {
+	public String redirected(@RequestParam("code") String authCode, HttpServletResponse res, HttpSession session, Model model) throws IOException {
 		MemberDTO userInfo = service.loginWithGoogle(authCode);
 		String msg = service.storageIfNewOne(userInfo);//기존 회원인지, 새로운 유저면 회원 정보 저장
 		
-		if(msg != "0") {//정상적으로 저장되지 않았을 경우
-			res.setContentType("text/html; charset=UTF-8");
-			PrintWriter out = res.getWriter();
-			out.print(msg);
-			return "redirect:/selectSignUpType";
+		if(msg != "환영합니다.") {//정상적으로 저장되지 않았을 경우
+			model.addAttribute("msg", msg);
+			return "member/select_sign_up_type";
 		}//정상적 처리일 경우
 		session.setAttribute("userEmail", userInfo.getUserEmail());
 		session.setAttribute("userLoginType", 4);
 		session.setAttribute("accessToken", userInfo.getAccessToken());//id_token
-		return "redirect:/";
+		model.addAttribute("msg", msg);
+		return "home";
 	}
 	
 	@GetMapping("/googleSignOut")

@@ -32,4 +32,12 @@
 	<select id="getUserInfoBySocialId" resultMap="member">
 		SELECT * FROM member_info WHERE social_login_id=#{socialId}
 	</select>
+	
+	<update id="updateMemberName" parameterType="com.watch.project.dto.MemberDTO">
+		UPDATE member_info SET user_name =#{userName} WHERE user_email=#{userEmail}
+	</update>
+	
+	<update id="updateMemberInfo" parameterType="com.watch.project.dto.MemberDTO">
+		UPDATE member_info SET user_name=#{userName}, user_pw=#{userPw} WHERE user_email=#{userEmail}
+	</update>
 </mapper>

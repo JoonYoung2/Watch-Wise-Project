@@ -82,16 +82,12 @@ public class GoogleMemberService {
 
 	public String storageIfNewOne(MemberDTO userInfo) {
 		String email = userInfo.getUserEmail();
-		String msg = "0";		
-		System.out.println("common.existingEmailCh 전 줄");//여기까지 출력 됨.
-		System.out.println("email ===>"+email);
+		String msg = "환영합니다.";		
 		int existanceCheck = common.existingEmailCh(email);
-		System.out.println("if 절 전 줄");
 		if(existanceCheck == 0) { //회원이 아닐 경우
-			System.out.println("if절 안에 들어옴");
 			int storageResult = common.saveMemberInfo(userInfo);//멤버 정보 저장, 회원 등록
 			if(storageResult != 1){
-				msg = common.getAlertOnly("오류가 발생했습니다. 다시 시도해주세요.");
+				msg ="오류가 발생했습니다. 다시 시도해주세요.";
 			}
 		}
 		return msg;

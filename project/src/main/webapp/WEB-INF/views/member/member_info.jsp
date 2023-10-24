@@ -9,16 +9,22 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/header.jsp" %>
-
 <c:if test="${not empty msg }">
-	<script type="text/javascript">
+	<script>
 		alert('${msg}');
 	</script>
 </c:if>
-	<h3>이메일</h3>
-	<form action="sendEmailforAuth" method="post">
-		<input type="email" name="userEmail" placeholder="example@example.com">
-		<input type="submit" value="인증코드 발송">
-	</form>
+<h3> My Informations </h3>
+	<table border="1">
+		<tr>
+			<th>이메일</th>
+			<td>${dto.userEmail}</td>
+		</tr>
+		<tr>
+			<th>이름</th>
+			<td>${dto.userName }</td>
+		</tr>
+	</table>
+<a href="/pwCheck">정보 수정하기</a>
 </body>
 </html>

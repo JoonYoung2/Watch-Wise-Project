@@ -61,4 +61,22 @@ public class CommonMethods {
 		}
 		return msg;
 	}
+
+	public MemberDTO getMemberInfoByEmail(String email) {
+		MemberDTO info = repo.getUserInfoByEmail(email);
+		return info;
+	}
+
+	public String updateMemberName(MemberDTO dto) {
+		String msg = "";
+		int result = repo.updateMemberName(dto);
+		if(result!=1) {
+			msg = "오류가 발생했습니다. 다시 시도해주세요.";
+		} else {
+			msg = "정보 수정이 완료되었습니다.";
+		}
+		return msg;
+	}
+
+
 }

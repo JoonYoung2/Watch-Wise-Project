@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,7 +22,13 @@ function validateForm() {
 </script>
 </head>
 <body>
-	<div>${msg }
+<%@ include file="/WEB-INF/views/header.jsp" %>
+	<c:if test="${not empty msg }">
+		<script type="text/javascript">
+			alert('${msg}');
+		</script>
+	</c:if>
+	<div>
 		<form action="/kakaoEmailSend" method="post" onsubmit="return validateForm()">
 			<input type="hidden" name="userLoginType" value="2"> 
 			<input type="hidden" name="socialLoginId" value="${member.socialLoginId }"><br>

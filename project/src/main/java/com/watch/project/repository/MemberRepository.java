@@ -15,4 +15,8 @@ public interface MemberRepository {
 
 	MemberDTO getUserInfoBySocialId(String socialId);
 
+	int updateMemberName(MemberDTO dto);
+
+	int updateMemberInfo(MemberDTO dto);
+
 }

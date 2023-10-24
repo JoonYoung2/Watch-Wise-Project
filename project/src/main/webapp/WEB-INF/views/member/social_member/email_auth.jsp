@@ -9,6 +9,7 @@
 
 </head>
 <body>
+<%@ include file="/WEB-INF/views/header.jsp" %>
 	<h3>인증번호를 발송했습니다. 인증번호를 입력해주세요.</h3>
 	<form action="kakaoEmailVerification" method="post">
 		<input type="hidden" name="userLoginType" value="2"> 

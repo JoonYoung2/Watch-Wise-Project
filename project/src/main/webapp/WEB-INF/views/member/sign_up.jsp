@@ -8,6 +8,7 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
+<%@ include file="/WEB-INF/views/header.jsp" %>
 	<div class="sign-up-box">
 		<h3>회원가입</h3>
 		${msg }

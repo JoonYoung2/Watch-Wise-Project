@@ -12,7 +12,6 @@ import com.watch.project.dto.MemberDTO;
 import com.watch.project.repository.MemberRepository;
 
 @Service
-//@RequiredArgsConstructor
 public class LocalMemberService {
 	@Autowired
 	private MemberRepository repo;
@@ -26,8 +25,7 @@ public class LocalMemberService {
 
 	public String SignUpDo(MemberDTO dto, String pwCh) {
 		String msg = "";
-	String scriptMsg="";
-	String pw = dto.getUserPw();
+		String pw = dto.getUserPw();
 		System.out.println(dto.getUserEmail());
 		//입력란 공백 체크
 		if (dto.getUserEmail()==null || dto.getUserEmail().equals("")) {
@@ -43,10 +41,6 @@ public class LocalMemberService {
 				msg = "이미 존재하는 회원의 이메일 주소입니다. 로그인을 진행해주세요.";
 			}else {
 				//입력 양식 체크
-//				if(id.length()<8 || id.length()>12) {
-//					msg = "아이디는 8~12자로 입력해주세요.";
-//				}else if(!Pattern.matches("^[a-zA-Z0-9]+$", id)){
-//					msg = "아이디는 영문과 숫자로만 이루어질 수 있습니다.";
 				if(pw.length()<10 || pw.length()>15) {
 					msg = "비밀번호는 10~15자로 입력해주세요.";
 				}else if(!Pattern.matches("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).+$", pw)) {
@@ -72,13 +66,6 @@ public class LocalMemberService {
 				}
 			}
 		}
-
-		System.out.println("여기는 msg : "+msg);
-//		if(!msg.equals("회원가입이 완료되었습니다.")) {
-//			scriptMsg = getAlertHistoryBack(msg);
-//		}else {
-//			scriptMsg = getAlertLocation(msg, "/signIn");
-//		}
 		return msg;
 	}
 
@@ -113,13 +100,12 @@ public class LocalMemberService {
 			//비밀번호 일치 여부
 		if(existingEmailCh(dto.getUserEmail())==1) {//존재하는 이메일이면
 			if(encoder.matches(dto.getUserPw(), db.getUserPw())) {//비밀번호가 일치하면
-				System.out.println("match된다는데????");
-				return null;
+				msg = "환영합니다.";
 			}else {
-				msg = getAlertHistoryBack("비밀번호가 일치하지 않습니다.");
+				msg = "비밀번호가 일치하지 않습니다.";
 			}
 		}else {
-			msg = getAlertHistoryBack("존재하지 않는 아이디입니다. 회원가입 후 로그인 해주세요.");
+			msg = "존재하지 않는 아이디입니다. 회원가입 후 로그인 해주세요.";
 		}
 		return msg;
 	}
@@ -136,17 +122,59 @@ public class LocalMemberService {
 		MemberDTO db = repo.getUserInfoByEmail(userEmail);
 		if(encoder.matches(dto.getUserPw(), db.getUserPw())) { //비번 인증 과정이 통과되면
 			int deleteResult = repo.deleteMemberInfo(userEmail); //멤버 정보 삭제
-			session.invalidate();
 			if(deleteResult == 1) {
-				msg = getAlertLocation("회원탈퇴가 완료되었습니다.", "/");				
+				msg = "회원탈퇴가 완료되었습니다.";				
 			}else {
-				msg = getAlertHistoryBack("오류가 발생했습니다. 다시 시도해주세요.");
+				msg = "오류가 발생했습니다. 다시 시도해주세요.";
 			}
 		}else {
-			msg = getAlertHistoryBack("비밀번호가 일치하지 않습니다.");
+			msg = "비밀번호가 일치하지 않습니다.";
 		}
 		return msg;
 	}
 
+	public void updateLocalMemberInfo(MemberDTO dto) {
+		dto.setUserPw(encoder.encode(dto.getUserPw()));
+		repo.updateMemberInfo(dto);
+	}
 
+	public String getMsgAndUpdate(MemberDTO dto, String pwCh) {
+		String msg = "";
+		String pw = dto.getUserPw();
+		//입력 양식 체크
+		if(pw.length()<10 || pw.length()>15) {
+			msg = "비밀번호는 10~15자로 입력해주세요.";
+		}else if(!Pattern.matches("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).+$", pw)) {
+			msg = "비밀번호는 영문, 숫자, 특수문자가 포함되어야 합니다.";
+		}else if(!(dto.getUserPw().equals(pwCh))) {
+			msg = "입력한 비밀번호 2개가 서로 일치하지 않습니다.";
+		}else {
+			//DB저장
+			int result=0;
+			if(msg==null || msg.equals("")) {//위에서 걸리지 않은 경우
+				//비밀번호 암호화
+				dto.setUserPw(encoder.encode(dto.getUserPw()));
+				result = repo.updateMemberInfo(dto);			
+				if(result == 1) {//저장이 잘 된 경우
+					msg="정보 수정이 완료되었습니다.";
+				}else {
+					msg="오류가 발생했습니다. 다시 시도해주세요.";
+				}
+								
+			}
+		}
+		return msg;
+	}
+
+	public String getMsgAndCompare(MemberDTO dto) {
+		String msg = "";
+		MemberDTO db = new MemberDTO();
+		db = repo.getUserInfoByEmail((String)session.getAttribute("userEmail"));
+		if(encoder.matches(dto.getUserPw(), db.getUserPw())) {
+			msg = "인증되었습니다.";
+		}else {
+			msg = "비밀번호가 일치하지 않습니다.";
+		}
+		return msg;
+	}
 }

@@ -22,11 +22,11 @@ public class MailController {
 	@Autowired MailService mailservice;
 	@Autowired KakaoMemberService kakaoMemberService;
 
-	@GetMapping("/logout")
-	public String logout(HttpSession session) {
-		session.invalidate();
-		return "redirect:auth";
-	}
+//	@GetMapping("/logout")
+//	public String logout(HttpSession session) {
+//		session.invalidate();
+//		return "redirect:auth";
+//	}
 	
 	@PostMapping("/sendEmailforAuth")
 	public String authCheck(@RequestParam("userEmail") String email,  HttpServletResponse res) throws IOException {
@@ -47,7 +47,7 @@ public class MailController {
 		return null;
 	}
 	
-	@PostMapping("/emailVerification")
+	@PostMapping("/emailVerification") //email인증 먼저 하고 다른 정보 받는 것.
 	public String check(@RequestParam String authKey, HttpSession session, Model model) {
 		//setAttribute("authKey", authKey)
 		String sessionKey = (String)session.getAttribute("authKey");
@@ -62,7 +62,7 @@ public class MailController {
 		}
 	}
 	
-	@PostMapping("/kakaoEmailVerification")
+	@PostMapping("/kakaoEmailVerification") //다른 정보를 먼저 소셜로 받고, email 인증하는 것.
 	public String Kakaocheck(@RequestParam String authKey,MemberDTO dto, HttpSession session, Model model) {
 		//setAttribute("authKey", authKey)
 		String sessionKey = (String)session.getAttribute("authKey");
@@ -70,11 +70,12 @@ public class MailController {
 			System.out.println("일치하는 authkey임"+session.getAttribute("userEmail"));
 			dto.setUserEmail((String)session.getAttribute("userEmail"));
 			kakaoMemberService.register(dto);
-			return "redirect:/";
+			model.addAttribute("msg", "인증과 회원가입이 완료되었습니다.");
+			return "home";
 		}else {
 			model.addAttribute("msg", "인증코드가 불일치합니다. 다시시도해주세요.");
 			System.out.println("일치하지 않는 authkey임");
-			return "member/email_auth";			
+			return "member/social_member/email_auth";			
 		}
 	}
 }

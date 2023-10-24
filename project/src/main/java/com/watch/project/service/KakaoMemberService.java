@@ -177,7 +177,6 @@ public class KakaoMemberService {
 	public void revokeAgreement(String accessToken) {
         try {
             String endpoint = "https://kapi.kakao.com/v1/user/unlink";
-//            String accessToken = "YOUR_ACCESS_TOKEN"; // 본인의 액세스 토큰으로 교체해야 합니다
 
             URL url = new URL(endpoint);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
