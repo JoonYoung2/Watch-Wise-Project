@@ -22,4 +22,6 @@ public interface HomeRepository {
 	
 	public List<MovieInfoDTO> recentlyReleasedKoreanMovies(String date);
 	
+	public List<MovieInfoDTO> recentlyReleasedForeignMovies(String date);
+	
 }

@@ -3,9 +3,9 @@ package com.watch.project.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.ibatis.binding.BindingException;
 import org.springframework.stereotype.Service;
 
-import com.watch.project.controller.MovieInfoController;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.movieInfoView.MovieInfoViewDTO;
 import com.watch.project.repository.MovieInfoRepository;
@@ -63,10 +63,20 @@ public class MovieInfoService {
 	}
 	
 	public int getPeopleIdByPeopleNmAndMovieNm(String peopleNm, String movieNm) {
+		int peopleId = 0;
 		Map<String, String> map = new HashMap<>();
 		map.put("peopleNm", peopleNm);
 		map.put("movieNm", movieNm);
-		int peopleId = repo.getPeopleIdByPeopleNmAndMovieNm(map);
+		log.info("peopleNm => {}", peopleNm);
+		log.info("movieNm => {}", movieNm);
+		try {
+			peopleId = repo.getPeopleIdByPeopleNmAndMovieNm(map);
+		}catch(BindingException e) {
+			log.error("Error getPeopleIdByPeopleNmAndMovieNm => {}", e);
+			peopleId = 0;
+		}
+		log.info("peopleId => {}", peopleId);
+		
 		return peopleId;
 	}
 }

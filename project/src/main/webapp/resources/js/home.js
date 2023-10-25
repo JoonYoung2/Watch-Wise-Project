@@ -4,6 +4,7 @@ let weeklyLeftBtn1Id = document.getElementById("weeklyLeftBtn1");
 let weeklyLeftBtn2Id = document.getElementById("weeklyLeftBtn2");
 let upcomingLeftBtnId = document.getElementById("upcomingLeftBtn");
 let recentlyKoLeftBtnId = document.getElementById("recentlyKoLeftBtn");
+let recentlyFoLeftBtnId = document.getElementById("recentlyFoLeftBtn");
 
 let dailyRightBtnId = document.getElementById("dailyRightBtn");
 let weeklyRightBtn0Id = document.getElementById("weeklyRightBtn0");
@@ -11,6 +12,7 @@ let weeklyRightBtn1Id = document.getElementById("weeklyRightBtn1");
 let weeklyRightBtn2Id = document.getElementById("weeklyRightBtn2");
 let upcomingRightBtnId = document.getElementById("upcomingRightBtn");
 let recentlyKoRightBtnId = document.getElementById("recentlyKoRightBtn");
+let recentlyFoRightBtnId = document.getElementById("recentlyFoRightBtn");
 
 let dailyTopClass = document.querySelectorAll(".dailyTop");
 let weeklyTop0Class = document.querySelectorAll(".weeklyTop0");
@@ -18,12 +20,15 @@ let weeklyTop1Class = document.querySelectorAll(".weeklyTop1");
 let weeklyTop2Class = document.querySelectorAll(".weeklyTop2");
 let upcomingClass = document.querySelectorAll(".upcoming");
 let recentlyKoClass = document.querySelectorAll(".recentlyKo");
+let recentlyFoClass = document.querySelectorAll(".recentlyFo");
 
 let upcomingPageNum = 1;
 let recentlyKoPageNum = 1;
+let recentlyFoPageNum = 1;
 
 let upcomingCnt = 0;
 let recentlyKoCnt = 0;
+let recentlyFoCnt = 0;
 
 const dailyLeftBtn = () => {
     dailyLeftBtnId.style.display = "none";
@@ -220,6 +225,58 @@ const recentlyKoRightBtn = (cnt) => {
                 recentlyKoClass[i].style.display = "";
             }else{
                 recentlyKoClass[i].style.display = "none";
+            }
+        }
+    }
+}
+
+const recentlyFoLeftBtn = () => {
+    recentlyFoPageNum--;
+    if(recentlyFoPageNum == 1){
+        recentlyFoLeftBtnId.style.display = "none";
+        recentlyFoRightBtnId.style.display = "block";
+        for(var i = 0; i < recentlyFoClass.length; i++){
+            if(i >= recentlyFoPageNum*5-5 && i < recentlyFoPageNum*5){
+                recentlyFoClass[i].style.display = "";
+            }else{
+                recentlyFoClass[i].style.display = "none";
+            }
+        }
+    }else{
+        recentlyFoLeftBtnId.style.display = "block";
+        recentlyFoRightBtnId.style.display = "block";
+        for(var i = 0; i < recentlyFoClass.length; i++){
+            if(i >= recentlyFoPageNum*5-5 && i < recentlyFoPageNum*5){
+                recentlyFoClass[i].style.display = "";
+            }else{
+                recentlyFoClass[i].style.display = "none";
+            }
+        }
+    }
+}
+
+const recentlyFoRightBtn = (cnt) => {
+    recentlyFoCnt = Number(cnt);
+    let pageNum = Math.ceil(recentlyFoCnt / 5);
+    recentlyFoPageNum++;
+    if(recentlyFoPageNum == pageNum){
+        recentlyFoLeftBtnId.style.display = "block";
+        recentlyFoRightBtnId.style.display = "none";
+        for(var i = 0; i < recentlyFoClass.length; i++){
+            if(i >= recentlyFoPageNum*5-5 && i < recentlyFoPageNum*5){
+                recentlyFoClass[i].style.display = "";
+            }else{
+                recentlyFoClass[i].style.display = "none";
+            }
+        }
+    }else{
+        recentlyFoLeftBtnId.style.display = "block";
+        recentlyFoRightBtnId.style.display = "block";
+        for(var i = 0; i < recentlyFoClass.length; i++){
+            if(i >= recentlyFoPageNum*5-5 && i < recentlyFoPageNum*5){
+                recentlyFoClass[i].style.display = "";
+            }else{
+                recentlyFoClass[i].style.display = "none";
             }
         }
     }

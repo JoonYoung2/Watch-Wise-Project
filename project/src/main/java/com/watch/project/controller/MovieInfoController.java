@@ -24,44 +24,54 @@ public class MovieInfoController {
 		MovieInfoDTO movieInfoDto = service.getMovieInfoById(movieId);
 		MovieInfoViewDTO movieInfoViewDto = service.setMMovieInfoViewDto(movieInfoDto);
 		
-		//여기서부터 int가 안구해짐
+		PeopleInfoDTO peopleInfoDto = new PeopleInfoDTO();
 		
-//		PeopleInfoDTO peopleInfoDto = new PeopleInfoDTO();
-//		if(!movieInfoViewDto.getActors()[0].equals("nan")) {
-//			if(movieInfoViewDto.getActors().length >= 12) {
-//				peopleInfoDto.setPeopleId(new int[12]);
-//				peopleInfoDto.setPeopleNm(new String[12]);
-//				peopleInfoDto.setPeopleCast(new String[12]);
-//				for(int i = 0; i < 12; ++i) {
-//					String peopleNm = movieInfoViewDto.getActors()[i];
-//					String movieNm = movieInfoViewDto.getMovieNm();
-//					String peopleCast = "nan";
-//					if(!movieInfoViewDto.getCast()[0].equals("nan")) {
-//						peopleCast = movieInfoViewDto.getCast()[i];
-//					}
-//					peopleInfoDto.getPeopleId()[i] = service.getPeopleIdByPeopleNmAndMovieNm(peopleNm, movieNm);
-//					peopleInfoDto.getPeopleNm()[i] = peopleNm;
-//					peopleInfoDto.getPeopleCast()[i] = peopleCast;
-//				}
-//			}else {
-//				int peopleSize = movieInfoViewDto.getActors().length;
-//				peopleInfoDto.setPeopleId(new int[peopleSize]);
-//				peopleInfoDto.setPeopleNm(new String[peopleSize]);
-//				peopleInfoDto.setPeopleCast(new String[peopleSize]);
-//				for(int i = 0; i < peopleSize; ++i) {
-//					String peopleNm = movieInfoViewDto.getActors()[i];
-//					String movieNm = movieInfoViewDto.getMovieNm();
-//					String peopleCast = "nan";
-//					if(!movieInfoViewDto.getCast()[0].equals("nan")) {
-//						peopleCast = movieInfoViewDto.getCast()[i];
-//					}
-//					peopleInfoDto.getPeopleId()[i] = service.getPeopleIdByPeopleNmAndMovieNm(peopleNm, movieNm);
-//					peopleInfoDto.getPeopleNm()[i] = peopleNm;
-//					peopleInfoDto.getPeopleCast()[i] = peopleCast;
-//				}
-//			}
-//			model.addAttribute("peopleInfo", peopleInfoDto);
-//		}
+		if(!movieInfoViewDto.getActors()[0].equals("nan")) {	// 출연진이 있는 경우
+			if(movieInfoViewDto.getActors().length >= 12) {		// 출연진이 12명이상인 경우
+				int castSize = movieInfoViewDto.getCast().length;
+				peopleInfoDto.setPeopleId(new int[12]);
+				peopleInfoDto.setPeopleNm(new String[12]);
+				peopleInfoDto.setPeopleCast(new String[castSize]);
+				for(int i = 0; i < 12; ++i) {
+					String peopleNm = movieInfoViewDto.getActors()[i];
+					String movieNm = movieInfoViewDto.getMovieNm();
+					String peopleCast = "nan";
+					if(!movieInfoViewDto.getCast()[0].equals("nan")) {
+						if(i <= castSize-1) {
+							peopleCast = movieInfoViewDto.getCast()[i];						
+						}
+					}
+					peopleInfoDto.getPeopleId()[i] = service.getPeopleIdByPeopleNmAndMovieNm(peopleNm, movieNm);
+					peopleInfoDto.getPeopleNm()[i] = peopleNm;
+					if(i <= castSize-1) {
+						peopleInfoDto.getPeopleCast()[i] = peopleCast;						
+					}
+				}
+			}else {
+				int peopleSize = movieInfoViewDto.getActors().length;
+				int castSize = movieInfoViewDto.getCast().length;
+				peopleInfoDto.setPeopleId(new int[peopleSize]);
+				peopleInfoDto.setPeopleNm(new String[peopleSize]);
+				peopleInfoDto.setPeopleCast(new String[castSize]);
+				for(int i = 0; i < peopleSize; ++i) {
+					String peopleNm = movieInfoViewDto.getActors()[i];
+					String movieNm = movieInfoViewDto.getMovieNm();
+					String peopleCast = "nan";
+					if(!movieInfoViewDto.getCast()[0].equals("nan")) {
+						if(i <= castSize-1) {
+							peopleCast = movieInfoViewDto.getCast()[i];						
+						}
+					}
+					peopleInfoDto.getPeopleId()[i] = service.getPeopleIdByPeopleNmAndMovieNm(peopleNm, movieNm);
+					peopleInfoDto.getPeopleNm()[i] = peopleNm;
+					if(i <= castSize-1) {
+						peopleInfoDto.getPeopleCast()[i] = peopleCast;						
+					}
+				}
+			}
+			peopleInfoDto.setEnd(peopleInfoDto.getPeopleId().length-1);
+			model.addAttribute("peopleInfo", peopleInfoDto);
+		}
 		model.addAttribute("movieInfo", movieInfoViewDto);
 		return "basic/movie_info";
 	}

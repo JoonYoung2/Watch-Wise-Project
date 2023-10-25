@@ -7,4 +7,5 @@ public class PeopleInfoDTO {
 	private int[] peopleId;
 	private String[] peopleNm;
 	private String[] peopleCast;
+	private int end;
 }
