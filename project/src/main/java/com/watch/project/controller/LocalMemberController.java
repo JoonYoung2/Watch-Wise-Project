@@ -59,7 +59,7 @@ public class LocalMemberController {
 	
 	
 	@PostMapping("/signInCheck")
-	public String signInCheck(MemberDTO dto, HttpServletResponse res, HttpSession session, Model model) throws IOException {
+	public String signInCheck(MemberDTO dto, HttpServletResponse res, HttpSession session, RedirectAttributes attr, Model model) throws IOException {
 		String msg = service.signInCheck(dto);
 		if(msg !="환영합니다.") { //로그인시 입력한 정보가 올바르지 않을 경우
 			model.addAttribute("msg", msg);
@@ -68,8 +68,8 @@ public class LocalMemberController {
 		}else { //로그인 입력 정보가 올바른 경우
 			session.setAttribute("userEmail", dto.getUserEmail());
 			session.setAttribute("userLoginType", dto.getUserLoginType());//// 이 부분 다시 고려해보기.
-			model.addAttribute("msg", msg);
-			return "home";
+			attr.addFlashAttribute("msg", msg);
+			return "redirect:/";
 		}
 	}
 	

@@ -10,8 +10,26 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/resources/css/home.css">
 <title>Insert title here</title>
+<c:if test="${signOutAlert == true }"><!--redirect 하면 알림 안뜸.-->
+		<script type="text/javascript">
+			alert('로그아웃 되었습니다.');
+		</script>	
+	</c:if>
+	
+	<c:if test="${unregisterAlert == true }">
+		<script type="text/javascript">
+			alert('회원 탈퇴가 완료되었습니다.');
+		</script>	
+	</c:if>
+	
+	<c:if test="${not empty msg }">
+		<script type="text/javascript">
+			alert('${msg}');
+		</script>
+	</c:if>
 </head>
 <body>
+<%@ include file="/WEB-INF/views/header.jsp" %>
 <c:set var="daily" value="${ movieInfoMap['daily'] }"/>
 <c:set var="weekly0" value="${ movieInfoMap['weekly0'] }"/>
 <c:set var="weekly1" value="${ movieInfoMap['weekly1'] }"/>
@@ -456,6 +474,7 @@
 	</div>
 </div>
 
+<script src="/resources/js/common.js"></script>
 <script src="/resources/js/home.js"></script>
 </body>
 </html>
