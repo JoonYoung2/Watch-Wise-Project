@@ -33,12 +33,6 @@
 	<delete id="deleteMemberInfo" parameterType="String">
 		DELETE FROM member_info WHERE user_email=#{userEmail}
 	</delete>
-	
-	<!-- 
-	<select id="getUserInfoBySocialId" resultMap="member">
-		SELECT * FROM member_info WHERE social_login_id=#{socialId}
-	</select>
-	 -->
 	 
 	<update id="updateMemberName" parameterType="com.watch.project.dto.MemberDTO">
 		UPDATE member_info SET user_name =#{userName} WHERE user_email=#{userEmail}
@@ -63,7 +57,6 @@
 	<update id="updateKakaoRefreshToken" parameterType="com.watch.project.dto.MemberDTO">
 		UPDATE member_info SET kakao_refresh_token=#{kakaoRefreshToken} WHERE user_email=#{userEmail}
 	</update>
-	
 
 	<update id="updateNaverRefreshToken" parameterType="com.watch.project.dto.MemberDTO">
 		UPDATE member_info SET naver_refresh_token=#{naverRefreshToken} WHERE user_email=#{userEmail}

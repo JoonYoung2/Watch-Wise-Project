@@ -82,7 +82,8 @@ public class CommonMemberController {
 		if(dto.getNaverAgreement() == 1) {
 			naverService.unregisterProcess(dto);
 		}
-		String msg = common.unregister((String)session.getAttribute("userEmail"));
+
+		String msg = common.unregister(email);
 		if(msg=="회원탈퇴가 완료되었습니다.") {
 		session.invalidate();
 		}

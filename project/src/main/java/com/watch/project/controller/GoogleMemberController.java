@@ -47,13 +47,13 @@ public class GoogleMemberController {
 		return "home";//redirect 하면 알림 안뜸.
 	}
 	
-	@GetMapping("/googleUnregister")
-	public String unregister(HttpSession session, Model model) {
-		String msg = common.unregister((String)session.getAttribute("userEmail"));
-		if(msg=="회원탈퇴가 완료되었습니다.") {
-		session.invalidate();
-		}
-		model.addAttribute("msg", msg);
-		return "home";
-	}
+//	@GetMapping("/googleUnregister")
+//	public String unregister(HttpSession session, Model model) {
+//		String msg = common.unregister((String)session.getAttribute("userEmail"));
+//		if(msg=="회원탈퇴가 완료되었습니다.") {
+//		session.invalidate();
+//		}
+//		model.addAttribute("msg", msg);
+//		return "home";
+//	}
 }

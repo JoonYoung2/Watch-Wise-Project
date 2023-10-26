@@ -86,18 +86,21 @@ public class NaverMemberController {
         
         if(existanceCheck == null) { //회원이 아닐 경우
         	String msg = service.createNewMember(res_obj, str_result);//회원정보 저장
-        	MemberDTO dtoForRefreshToken = repo.getUserInfoByEmail(mail);
-        	dtoForRefreshToken.setNaverRefreshToken(refresh_token);
-        	repo.updateNaverRefreshToken(dtoForRefreshToken);
+
         	if(msg!= null) {//정상적으로 DB에 회원정보가 저장되지 않았을 경우 alert 출력
         		model.addAttribute("msg", msg);
         		return "member/select_sign_up_type";   
         	}
         }
-        	//정상적으로 저장되었을 경우 or 이미 회원일 경우
+        //정상적으로 저장되었을 경우 or 이미 회원일 경우
+        //네이버 1로 
         repo.updateNaverAgreement(mail);
-        existanceCheck.setNaverRefreshToken(refresh_token);
-        repo.updateNaverRefreshToken(existanceCheck);
+        
+        //refresh_token 저장
+    	MemberDTO dtoForRefreshToken = repo.getUserInfoByEmail(mail);
+    	dtoForRefreshToken.setNaverRefreshToken(refresh_token);
+    	repo.updateNaverRefreshToken(dtoForRefreshToken);
+    	
         session.setAttribute("userEmail", mail);
         session.setAttribute("userLoginType", 3); 
         session.setAttribute("accessToken", str_result);
@@ -105,59 +108,59 @@ public class NaverMemberController {
         return "home";
     }	
 	
-	@GetMapping("/naverUnregister") //token = access_token임
-	public String remove(@RequestParam String token, HttpSession session, HttpServletRequest request, Model model ) {
-		log.info("토큰 삭제중...");
-		String apiUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id="+service.CLIENT_ID+
-		"&client_secret="+service.CLIENT_SECRET+"&access_token="+token+"&service_provider=NAVER";
-		
-			try {
-				String res = requestToServer(apiUrl);//네이버 정보제공동의 철회
-				model.addAttribute("res", res); //결과값 찍어주는용
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			String msg = common.unregister((String)session.getAttribute("userEmail"));//DB에 저장된 정보 지우기.
-			if(msg=="회원탈퇴가 완료되었습니다.") {
-				session.invalidate();
-				}
-				model.addAttribute("msg", msg);
-				return "home";
-	}
-	
-	private String requestToServer(String apiURL) throws IOException {
-	    return requestToServer(apiURL, null);
-	  }
-	
-	 private String requestToServer(String apiURL, String headerStr) throws IOException {
-		    URL url = new URL(apiURL);
-		    HttpURLConnection con = (HttpURLConnection)url.openConnection();
-		    con.setRequestMethod("GET");
-		    System.out.println("header Str: " + headerStr);
-		    if(headerStr != null && !headerStr.equals("") ) {
-		      con.setRequestProperty("Authorization", headerStr);
-		    }
-		    int responseCode = con.getResponseCode();
-		    BufferedReader br;
-		    System.out.println("responseCode="+responseCode);
-		    if(responseCode == 200) { // 정상 호출
-		      br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-		    } else {  // 에러 발생
-		      br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-		    }
-		    String inputLine;
-		    StringBuffer res = new StringBuffer();
-		    while ((inputLine = br.readLine()) != null) {
-		      res.append(inputLine);
-		    }
-		    br.close();
-		    if(responseCode==200) {
-		    	String new_res=res.toString().replaceAll("&#39;", "");
-				 return new_res; 
-		    } else {
-		      return null;
-		    }
-		  }
+//	@GetMapping("/naverUnregister") //token = access_token임
+//	public String remove(@RequestParam String token, HttpSession session, HttpServletRequest request, Model model ) {
+//		log.info("토큰 삭제중...");
+//		String apiUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id="+service.CLIENT_ID+
+//		"&client_secret="+service.CLIENT_SECRET+"&access_token="+token+"&service_provider=NAVER";
+//		
+//			try {
+//				String res = requestToServer(apiUrl);//네이버 정보제공동의 철회
+//				model.addAttribute("res", res); //결과값 찍어주는용
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//			
+//			String msg = common.unregister((String)session.getAttribute("userEmail"));//DB에 저장된 정보 지우기.
+//			if(msg=="회원탈퇴가 완료되었습니다.") {
+//				session.invalidate();
+//				}
+//				model.addAttribute("msg", msg);
+//				return "home";
+//	}
+//	
+//	private String requestToServer(String apiURL) throws IOException {
+//	    return requestToServer(apiURL, null);
+//	  }
+//	
+//	 private String requestToServer(String apiURL, String headerStr) throws IOException {
+//		    URL url = new URL(apiURL);
+//		    HttpURLConnection con = (HttpURLConnection)url.openConnection();
+//		    con.setRequestMethod("GET");
+//		    System.out.println("header Str: " + headerStr);
+//		    if(headerStr != null && !headerStr.equals("") ) {
+//		      con.setRequestProperty("Authorization", headerStr);
+//		    }
+//		    int responseCode = con.getResponseCode();
+//		    BufferedReader br;
+//		    System.out.println("responseCode="+responseCode);
+//		    if(responseCode == 200) { // 정상 호출
+//		      br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+//		    } else {  // 에러 발생
+//		      br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+//		    }
+//		    String inputLine;
+//		    StringBuffer res = new StringBuffer();
+//		    while ((inputLine = br.readLine()) != null) {
+//		      res.append(inputLine);
+//		    }
+//		    br.close();
+//		    if(responseCode==200) {
+//		    	String new_res=res.toString().replaceAll("&#39;", "");
+//				 return new_res; 
+//		    } else {
+//		      return null;
+//		    }
+//		  }
 	
 }
