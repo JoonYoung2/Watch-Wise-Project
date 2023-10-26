@@ -46,12 +46,10 @@ dependencies {
 	implementation group: 'javax.mail', name: 'javax.mail-api', version: '1.5.4'
 	// https://mvnrepository.com/artifact/com.sun.mail/javax.mail (Teacher)
 	implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.5.3'
-	//mail service -----------------------------------------------------------------------
-	
-	
-	//google login------------------------------------------------------------------
-	
-    //google login-------------------------------------------------------------------
+
+	//json 타입 파싱-------------------------------------------------------------------------
+    //implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+
 	
 	
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'

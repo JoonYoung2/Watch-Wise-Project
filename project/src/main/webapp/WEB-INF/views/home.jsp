@@ -6,62 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript">
-//---------------------Sign out-----------------------------------------
-function localConfirmSignOut(){
-	var confirmation = confirm("로그아웃 하시겠습니까?");
-	if(confirmation){
-		window.location.href="/signOut";
-	}
-}
-
-function kakaoConfirmSignOut(){
-	var confirmation = confirm("로그아웃 하시겠습니까?");
-	if(confirmation){
-		window.location.href="";
-	}
-}
-
-function naverConfirmSignOut(){
-	var confirmation = confirm("로그아웃 하시겠습니까?");
-	if(confirmation){
-		window.location.href="/naverSignOut";
-	}
-}
-
-function googleConfirmSignOut(){
-	var confirmation = confirm("로그아웃 하시겠습니까?");
-	if(confirmation){
-		window.location.href="/googleSignOut";
-	}
-}
-
-
-//---------------------Unregister-----------------------------------------
-
-function kakaoConfirmUnregister(){
-	var confirmation = confirm("정말 탈퇴 하시겠습니까?");
-	if(confirmation){
-		window.location.href="/kakaoUnregister";
-	}
-}
-
-function naverConfirmUnregister(){
-	var confirmation = confirm("정말 탈퇴 하시겠습니까?");
-	if(confirmation){
-		window.location.href="/naverUnregister?token=${sessionScope.accessToken }";
-	}
-}
-
-function googleConfirmUnregister(){
-	var confirmation = confirm("정말 탈퇴 하시겠습니까?");
-	if(confirmation){
-		window.location.href="/googleUnregister";
-	}
-}
-
-
-</script>
+<script src="/resources/js2/common.js"></script>
 </head>
 <body>	
 <%@ include file="/WEB-INF/views/header.jsp" %> 

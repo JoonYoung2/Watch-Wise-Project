@@ -1,5 +1,7 @@
 package com.watch.project.controller;
 
+import java.security.Provider.Service;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +14,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.service.CommonMethods;
 import com.watch.project.service.GoogleMemberService;
+import com.watch.project.service.KakaoMemberService;
 import com.watch.project.service.NaverMemberService;
 
 @Controller
 public class CommonMemberController {
+	@Autowired
+	private KakaoMemberService kakaoService;
 	@Autowired 
 	private NaverMemberService naverService;
 	@Autowired
 	private GoogleMemberService googleService;
-	
 	@Autowired
 	private CommonMethods common;
 	
@@ -66,5 +70,24 @@ public class CommonMemberController {
 			model.addAttribute("msg", msg);
 			return "member/social_member/member_info_modify";
 		}
+	}
+	
+	@GetMapping("/selectAgreedSocial")
+	public String selectAgreedSocial(HttpSession session, Model model) {
+		String email = (String)session.getAttribute("userEmail");
+		MemberDTO dto = common.getMemberInfoByEmail(email);
+		if(dto.getKakaoAgreement() == 1) {
+			kakaoService.unregisterProcess(dto);
+		}
+		if(dto.getNaverAgreement() == 1) {
+			naverService.unregisterProcess(dto);
+		}
+		String msg = common.unregister((String)session.getAttribute("userEmail"));
+		if(msg=="회원탈퇴가 완료되었습니다.") {
+		session.invalidate();
+		}
+		model.addAttribute("msg", msg);
+		return "home";
+		
 	}
 }

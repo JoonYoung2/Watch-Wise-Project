@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
+<script src="/resources/js2/common.js"></script>
 </head>
 <body>
 <%@ include file="/WEB-INF/views/header.jsp" %>

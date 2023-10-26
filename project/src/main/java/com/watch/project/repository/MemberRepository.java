@@ -19,4 +19,17 @@ public interface MemberRepository {
 
 	int updateMemberInfo(MemberDTO dto);
 
+	void updateKakaoAgreement(String userEmail);
+
+	int updateNaverAgreement(String email);
+
+	int updateGoogleAgreement(String email);
+
+	void updateKakaoRefreshToken(MemberDTO userInfo);
+
+//	String getKakaoRefreshToken(String email);
+
+	void updateNaverRefreshToken(MemberDTO dtoForRefreshToken);
+
+
 }

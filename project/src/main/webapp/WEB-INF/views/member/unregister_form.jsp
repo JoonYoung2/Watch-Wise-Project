@@ -6,6 +6,7 @@
 <head>
 <meta charset="EUC-KR">
 <title>Insert title here</title>
+<script src="/resources/js2/common.js"></script>
 <!-- <script type="text/javascript">
  function confirmUnregister(){
  	var confirmation = confirm("정말 탈퇴하시겠습니까?");

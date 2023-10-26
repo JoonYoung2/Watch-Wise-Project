@@ -4,12 +4,17 @@
 <mapper namespace="com.watch.project.repository.MemberRepository">
 
 <resultMap type="com.watch.project.dto.MemberDTO" id="member">
-	<result property="emailToken" column="email_token" />
+    <id property="id" column="id" />
 	<result property="userEmail" column="user_email"/>
 	<result property="userPw" column="user_pw" />
 	<result property="userName" column="user_name"/>
 	<result property="userLoginType" column="user_login_type"/>
 	<result property="socialLoginId" column="social_login_id"/>
+	<result property="kakaoAgreement" column="kakao_agreement"/>
+	<result property="naverAgreement" column="naver_agreement"/>
+	<result property="googleAgreement" column="google_agreement"/>
+	<result property="kakaoRefreshToken" column="kakao_refresh_token"/>
+	<result property="naverRefreshToken" column="naver_refresh_token"/>
 </resultMap>
 
 	<select id="getUserInfoByEmail" resultMap="member">
@@ -17,27 +22,50 @@
 	</select>
 	
 	<insert id="saveMemberInfo" parameterType="com.watch.project.dto.MemberDTO">
-		<selectKey keyProperty="emailToken" resultType="Integer" order="BEFORE">
-			SELECT nvl(max(email_token),10000)+1
+		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+			SELECT nvl(max(id),0)+1
 			FROM member_info
 		</selectKey>
-		INSERT INTO member_info 
-		VALUES(#{emailToken}, #{userEmail}, #{userPw}, #{userName}, #{userLoginType}, #{socialLoginId})
+		INSERT INTO member_info
+		VALUES(#{id}, #{userEmail}, #{userPw}, #{userName}, #{userLoginType}, #{socialLoginId}, 0, 0, 0, '0', '0')
 	</insert>	
 	
 	<delete id="deleteMemberInfo" parameterType="String">
 		DELETE FROM member_info WHERE user_email=#{userEmail}
 	</delete>
 	
+	<!-- 
 	<select id="getUserInfoBySocialId" resultMap="member">
 		SELECT * FROM member_info WHERE social_login_id=#{socialId}
 	</select>
-	
+	 -->
+	 
 	<update id="updateMemberName" parameterType="com.watch.project.dto.MemberDTO">
 		UPDATE member_info SET user_name =#{userName} WHERE user_email=#{userEmail}
 	</update>
 	
 	<update id="updateMemberInfo" parameterType="com.watch.project.dto.MemberDTO">
 		UPDATE member_info SET user_name=#{userName}, user_pw=#{userPw} WHERE user_email=#{userEmail}
+	</update>
+	
+	<update id="updateKakaoAgreement" parameterType="com.watch.project.dto.MemberDTO">
+		UPDATE member_info SET kakao_agreement=1 WHERE user_email=#{userEmail}
+	</update>
+	
+	<update id="updateNaverAgreement" parameterType="com.watch.project.dto.MemberDTO">
+		UPDATE member_info SET naver_agreement=1 WHERE user_email=#{userEmail}
+	</update>
+	
+	<update id="updateGoogleAgreement" parameterType="com.watch.project.dto.MemberDTO">
+		UPDATE member_info SET google_agreement=1 WHERE user_email=#{userEmail}
+	</update>
+	
+	<update id="updateKakaoRefreshToken" parameterType="com.watch.project.dto.MemberDTO">
+		UPDATE member_info SET kakao_refresh_token=#{kakaoRefreshToken} WHERE user_email=#{userEmail}
+	</update>
+	
+
+	<update id="updateNaverRefreshToken" parameterType="com.watch.project.dto.MemberDTO">
+		UPDATE member_info SET naver_refresh_token=#{naverRefreshToken} WHERE user_email=#{userEmail}
 	</update>
 </mapper>

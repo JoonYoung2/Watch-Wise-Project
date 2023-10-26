@@ -1,6 +1,5 @@
 package com.watch.project.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,11 +7,17 @@ import lombok.Setter;
 @Getter
 
 public class MemberDTO {
-	private int emailToken;
+    private int id; // PK 컬럼
 	private String userEmail;
 	private String userPw;
 	private String userName;
 	private int userLoginType;
 	private String socialLoginId;
-	public String AccessToken;
+	private int kakaoAgreement;
+	private int naverAgreement;
+	private int googleAgreement;
+	private String kakaoRefreshToken;
+	private String naverRefreshToken;
+	private String AccessToken;
+	
 }

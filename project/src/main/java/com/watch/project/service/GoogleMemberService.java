@@ -86,8 +86,14 @@ public class GoogleMemberService {
 		int existanceCheck = common.existingEmailCh(email);
 		if(existanceCheck == 0) { //회원이 아닐 경우
 			int storageResult = common.saveMemberInfo(userInfo);//멤버 정보 저장, 회원 등록
-			if(storageResult != 1){
+			int updateResult = repo.updateGoogleAgreement(email);
+			if(storageResult != 1 || updateResult != 1){
 				msg ="오류가 발생했습니다. 다시 시도해주세요.";
+			}
+		}else {//이미 회원일 경우
+			int updateResult = repo.updateGoogleAgreement(email);
+			if(updateResult != 1) {
+				msg = "오류가 발생했습니다. 다시 시도해주세요.";
 			}
 		}
 		return msg;
