@@ -1,14 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
 </head>
 <body>
+<<<<<<< HEAD:project/src/main/webapp/WEB-INF/views/home.jsp
 	<div id = "imgId"></div>
 	<div id = "weeklyId"></div>
 	<div id = "weeklyId2"></div>
@@ -38,6 +37,5 @@
 	<a href="posterUrlUpdate">Poster Nan Research</a>
 	<a href="getAllMovieNotNan">movie all list</a>
 	<iframe width="640" height="360" src="https://www.kmdb.or.kr/trailer/trailerPlayPop?pFileNm=MK014164_P03.mp4" frameborder="0" allowfullscreen></iframe>
-<!-- 	<script src="/resources/js/example.js"></script> -->
 </body>
 </html>
