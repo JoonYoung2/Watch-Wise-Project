@@ -108,10 +108,10 @@ public class KakaoMemberController {
 	}
 
 	@GetMapping("/kakaoSignOut")
-	public String logout(HttpSession session, Model model) {
+	public String logout(HttpSession session, RedirectAttributes redirectAttr) {
 		session.invalidate();
-		model.addAttribute("signOutAlert", true);
-		return "home";//redirect 하면 알림 안뜸.
+		redirectAttr.addFlashAttribute("signOutAlert", true);
+		return "redirect:/";//redirect 하면 알림 안뜸.
 
 	}
 	

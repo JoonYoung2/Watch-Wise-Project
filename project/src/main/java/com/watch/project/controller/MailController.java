@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.service.KakaoMemberService;
@@ -63,15 +64,15 @@ public class MailController {
 	}
 	
 	@PostMapping("/kakaoEmailVerification") //다른 정보를 먼저 소셜로 받고, email 인증하는 것.
-	public String Kakaocheck(@RequestParam String authKey,MemberDTO dto, HttpSession session, Model model) {
+	public String Kakaocheck(@RequestParam String authKey,MemberDTO dto, HttpSession session, Model model, RedirectAttributes redirectAttr) {
 		//setAttribute("authKey", authKey)
 		String sessionKey = (String)session.getAttribute("authKey");
 		if(sessionKey.equals(authKey)) {
 			System.out.println("일치하는 authkey임"+session.getAttribute("userEmail"));
 			dto.setUserEmail((String)session.getAttribute("userEmail"));
 			kakaoMemberService.register(dto);
-			model.addAttribute("msg", "인증과 회원가입이 완료되었습니다.");
-			return "home";
+			redirectAttr.addFlashAttribute("msg", "인증과 회원가입이 완료되었습니다.");
+			return "redirect:/";
 		}else {
 			model.addAttribute("msg", "인증코드가 불일치합니다. 다시시도해주세요.");
 			System.out.println("일치하지 않는 authkey임");
