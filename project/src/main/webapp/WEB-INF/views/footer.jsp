@@ -7,7 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<<<<<<< HEAD:project/src/main/webapp/WEB-INF/views/home.jsp
 	<div id = "imgId"></div>
 	<div id = "weeklyId"></div>
 	<div id = "weeklyId2"></div>
