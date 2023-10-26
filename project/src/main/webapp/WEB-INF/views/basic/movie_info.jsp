@@ -9,6 +9,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%@ include file="/WEB-INF/views/header.jsp" %>
 	<div align="center" style="width:100%;">
 		<div align="center" style="width:80%; display:flex;">
 			<c:if test="${movieInfo.posterUrl[0] ne 'nan' }">
@@ -247,6 +248,8 @@
 			</div>
 		</div>
 	</c:if>
+
+<script src="/resources/js/common.js"></script>
 <script src="/resources/js/movie_info.js"></script>
 </body>
 </html>

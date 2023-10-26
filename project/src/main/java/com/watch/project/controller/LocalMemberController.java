@@ -17,7 +17,6 @@ import com.watch.project.service.CommonMethods;
 import com.watch.project.service.LocalMemberService;
 
 import lombok.RequiredArgsConstructor;
-import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @RequiredArgsConstructor
