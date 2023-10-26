@@ -9,6 +9,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%@ include file="/WEB-INF/views/header.jsp" %>
 <c:set var="imgWidth" value="300"/>
 <c:set var="imgHeight" value="428.16"/>
 
@@ -103,6 +104,7 @@
 	</div>
 </div>
 
+<script src="/resources/js/common.js"></script>
 <script src="/resources/js/people_info.js"></script>
 </body>
 </html>
