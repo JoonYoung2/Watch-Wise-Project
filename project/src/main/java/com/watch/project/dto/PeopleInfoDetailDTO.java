@@ -1,4 +1,4 @@
-package com.watch.api.dto;
+package com.watch.project.dto;
 
 import lombok.Data;
 

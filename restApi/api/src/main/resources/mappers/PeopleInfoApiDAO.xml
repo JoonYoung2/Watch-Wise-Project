@@ -23,7 +23,7 @@
 	</select>
 	
 	<insert id="savePeopleInfoDetail" parameterType="com.watch.api.dto.PeopleInfoDetailDTO">
-		INSERT INTO people_info_detail VALUES(#{peopleId}, #{peopleNm}, #{peopleNmEn}, #{sex}, #{movieId}, #{movieNm})
+		INSERT INTO people_info_detail VALUES(#{peopleId}, #{peopleNm}, #{peopleNmEn}, #{sex}, #{movieId}, #{movieNm}, 0)
 	</insert>
 	
 </mapper>

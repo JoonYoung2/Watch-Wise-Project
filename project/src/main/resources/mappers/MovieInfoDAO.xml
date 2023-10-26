@@ -29,7 +29,7 @@
 	</select>
 	
 	<select id="getPeopleIdByPeopleNmAndMovieNm" resultType="Integer">
-		SELECT people_id FROM people_info WHERE people_nm=#{peopleNm} AND filmo_names LIKE '%${movieNm}%'
+		<![CDATA[SELECT people_id FROM people_info WHERE people_nm=#{peopleNm} AND filmo_names LIKE '%${movieNm}%' AND ROWNUM <= 1]]>
 	</select>
 	
 </mapper>

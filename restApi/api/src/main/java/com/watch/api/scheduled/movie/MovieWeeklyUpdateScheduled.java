@@ -33,7 +33,7 @@ public class MovieWeeklyUpdateScheduled {
 	private final MovieInfoApiService service;
 	
 //	@Scheduled(fixedDelay = 1000)
-	@Scheduled(cron = "5 39 15 * * *")
+	@Scheduled(cron = "5 0 6 * * *")
 	public void WeeklyMovieInsert0() throws UnsupportedEncodingException {
 		MovieInfoDTO dto = new MovieInfoDTO();
 		MovieTopInfoDTO topDto = new MovieTopInfoDTO();
@@ -112,7 +112,7 @@ public class MovieWeeklyUpdateScheduled {
 			}else
 				log.info("WeeklyTopInfo0 의 정보가 이미 있습니다.");
 		} catch (Exception e) {
-			log.error("Error => {}", e);
+			log.error("{} Error => {}", e, e);
 		}
 		// 가져온 api데이터를 통해 movie_id값으로 상세정보 api호출
         log.info("date ==> {}", date);
@@ -121,7 +121,7 @@ public class MovieWeeklyUpdateScheduled {
     }
 	
 //	@Scheduled(fixedDelay = 1000)
-	@Scheduled(cron = "10 39 15 * * *")
+	@Scheduled(cron = "10 0 6 * * *")
 	public void WeeklyMovieInsert1() throws UnsupportedEncodingException {
 		MovieInfoDTO dto = new MovieInfoDTO();
 		MovieTopInfoDTO topDto = new MovieTopInfoDTO();
@@ -206,7 +206,7 @@ public class MovieWeeklyUpdateScheduled {
     }
 	
 //	@Scheduled(fixedDelay = 1000)
-	@Scheduled(cron = "15 39 15 * * *")
+	@Scheduled(cron = "15 0 6 * * *")
 	public void WeeklyMovieInsert2() throws UnsupportedEncodingException {
 		MovieInfoDTO dto = new MovieInfoDTO();
 		MovieTopInfoDTO topDto = new MovieTopInfoDTO();

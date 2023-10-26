@@ -39,6 +39,26 @@
 	color: rgba(0, 0, 0, 0.5);
 }
 
+.rightBtn2{
+	all: unset;
+	cursor: pointer;
+	font-size: 25px;
+	width: 50px;
+	height: 50px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 50px;
+	position: absolute;
+	top: 190px;
+	right: -50px;
+	background-color:white;
+	color: rgba(0, 0, 0, 0.2);
+	display: ;
+}
+
+.rightBtn2:hover{
+	color: rgba(0, 0, 0, 0.5);
+}
+
 .rankDiv{
 	position:absolute;
 	color: white;

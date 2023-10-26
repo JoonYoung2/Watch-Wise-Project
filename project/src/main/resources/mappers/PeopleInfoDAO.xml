@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watch.project.repository.PeopleInfoRepository">
+	<resultMap type="com.watch.project.dto.MovieInfoDTO" id="movieInfo">
+		<result column="movie_id" property="movieId"/>
+		<result column="movie_nm" property="movieNm"/>
+		<result column="movie_nm_en" property="movieNmEn"/>
+		<result column="prdt_year" property="prdtYear"/>
+		<result column="open_dt" property="openDt"/>
+		<result column="type_nm" property="typeNm"/>
+		<result column="nations" property="nations"/>
+		<result column="genre_nm" property="genreNm"/>
+		<result column="poster_url" property="posterUrl"/>
+		<result column="show_time" property="showTime"/>
+		<result column="actors" property="actors"/>
+		<result column="cast" property="cast"/>
+		<result column="watch_grade_nm" property="watchGradeNm"/>	
+	</resultMap>
+	<resultMap type="com.watch.project.dto.PeopleInfoDetailDTO" id="peopleInfoDetail">
+		<result column="people_id" property="peopleId"/>
+		<result column="people_nm" property="peopleNm"/>
+		<result column="people_nm_en" property="peopleNmEn"/>
+		<result column="sex" property="sex"/>
+		<result column="movie_id" property="movieId"/>
+		<result column="movie_nm" property="movieNm"/>
+		<result column="like_num" property="likeNum"/>
+	</resultMap>
+	
+	<select id="getPeopleInfoDetailById" resultMap="peopleInfoDetail">
+		SELECT * FROM people_info_detail WHERE people_id=#{peopleId}
+	</select>
+	
+	<select id="getMovieInfoByMovieIds" resultMap="movieInfo">
+		SELECT * FROM movie_info WHERE movie_id IN (${movieIds}) ORDER BY open_dt DESC
+	</select>
+	
+	<update id="peopleLikeAdd" parameterType="Integer">
+		UPDATE people_info_detail SET like_num = like_num + 1 WHERE people_id=#{peopleId}
+	</update>
+	
+	<update id="peopleLikeCancel" parameterType="Integer">
+		UPDATE people_info_detail SET like_num = like_num + 1 WHERE people_id=#{peopleId}
+	</update>
+	
+</mapper>
+

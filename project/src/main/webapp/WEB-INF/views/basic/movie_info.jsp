@@ -1,6 +1,3 @@
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.util.Date"%>
-<%@page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -14,9 +11,17 @@
 <body>
 	<div align="center" style="width:100%;">
 		<div align="center" style="width:80%; display:flex;">
-			<div align="center" style="width:50%;">
-				<img style="width:40%;" src="${ movieInfo.posterUrl[0] }">
-			</div>
+			<c:if test="${movieInfo.posterUrl[0] ne 'nan' }">
+				<div align="center" style="width:50%;">
+					<img style="width:40%;" src="${ movieInfo.posterUrl[0] }">
+				</div>
+			</c:if>
+			<c:if test="${movieInfo.posterUrl[0] eq 'nan' }">
+				<div align="center" style="width:50%;">
+					<div style="width:300px; height:400px; border:1px solid rgba(0, 0, 0, 0.1); display:flex; justify-content:center; align-items:center;">이미지가 없습니다.</div>
+				</div>
+			</c:if>
+			
 			<div align="left" style="width:50%;">
 			<br><br><br>
 				<span style="font-size:40px; font-weight:bold;">${ movieInfo.movieNm }</span><br><br>
@@ -45,6 +50,8 @@
 		</div>
 	</div>
 	
+	<!-- Actors -->
+	
 	<c:if test="${ not empty peopleInfo }">
 		<br><br><br>
 		<div align="center" style="width:100%;">
@@ -57,19 +64,39 @@
 						<c:set var="pageNum" value="${ ((peopleInfo.end+1) / 4) + 1 }" />
 					</c:if>
 					<c:forEach var="i" begin="1" end="${ pageNum }" step="1">
-						<div align="left" style="display:flex;">
+						<div align="left" style="display:flex; padding-bottom:20px;">
 						
 							<c:if test="${ peopleInfo.peopleCast[0] ne 'nan' }">
 							
 								<c:if test="${ i * 4 - 1 <= peopleInfo.end }">
 									<c:forEach var="j" begin="${ i * 4 - 4 }" end="${ i * 4 - 1 }" step="1">
-										<c:if test="${ not empty peopleInfo.peopleCast[j] }">
+										<c:if test="${ not empty peopleInfo.peopleCast[j] && peopleInfo.peopleId[j] ne '0' }">
+											<a href="peopleInfo?peopleId=${ peopleInfo.peopleId[j] }" style="all:unset; cursor:pointer; display:flex; width:25%;">
+												<div>
+													<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
+												</div>
+												<div style="width: 230px; border-bottom: solid 1px rgba(0, 0, 0, 0.1); margin-left:20px;">
+													<div style="padding-top:10px;">
+														<span style="font-size:22px; font-weight:bold;">${ peopleInfo.peopleNm[j] }</span>
+													</div>
+													<div style="padding-top:5px;">
+														<span style="font-size:17px; color:rgba(0, 0, 0, 0.5);">출연 | ${ peopleInfo.peopleCast[j] }</span>
+													</div>
+												</div>
+											</a>
+										</c:if>
+										<c:if test="${ not empty peopleInfo.peopleCast[j] && peopleInfo.peopleId[j] eq '0' }">
 											<div style="display:flex; width:25%;">
 												<div>
 													<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
 												</div>
-												<div style="width: 230px; border-bottom: solid 1px rgba(0, 0, 0, 0.1);">
-													${ peopleInfo.peopleNm[j] }<br>출연 | ${ peopleInfo.peopleCast[j] }
+												<div style="width: 230px; border-bottom: solid 1px rgba(0, 0, 0, 0.1); margin-left:20px;">
+													<div style="padding-top:10px;">
+														<span style="font-size:22px; font-weight:bold;">${ peopleInfo.peopleNm[j] }</span>
+													</div>
+													<div style="padding-top:5px;">
+														<span style="font-size:17px; color:rgba(0, 0, 0, 0.5);">출연 | ${ peopleInfo.peopleCast[j] }</span>
+													</div>
 												</div>
 											</div>
 										</c:if>
@@ -78,13 +105,33 @@
 								
 								<c:if test="${ i * 4 - 1 > peopleInfo.end }">
 									<c:forEach var="j" begin="${ i * 4 - 4 }" end="${ peopleInfo.end }" step="1">
-										<c:if test="${ not empty peopleInfo.peopleCast[j] }">
+										<c:if test="${ not empty peopleInfo.peopleCast[j] && peopleInfo.peopleId[j] ne '0' }">
+											<a href="peopleInfo?peopleId=${ peopleInfo.peopleId[j] }" style="all:unset; cursor:pointer; display:flex; width:25%;">
+												<div>
+													<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
+												</div>
+												<div style="width: 230px; border-bottom: solid 1px rgba(0, 0, 0, 0.1); margin-left:20px;">
+													<div style="padding-top:10px;">
+														<span style="font-size:22px; font-weight:bold;">${ peopleInfo.peopleNm[j] }</span>
+													</div>
+													<div style="padding-top:5px;">
+														<span style="font-size:17px; color:rgba(0, 0, 0, 0.5);">출연 | ${ peopleInfo.peopleCast[j] }</span>
+													</div>
+												</div>
+											</a>
+										</c:if>
+										<c:if test="${ not empty peopleInfo.peopleCast[j] && peopleInfo.peopleId[j] eq '0' }">
 											<div style="display:flex; width:25%;">
 												<div>
 													<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
 												</div>
-												<div style="width: 230px; border-bottom: solid 1px rgba(0, 0, 0, 0.1);">
-													${ peopleInfo.peopleNm[j] }<br>출연 | ${ peopleInfo.peopleCast[j] }
+												<div style="width: 230px; border-bottom: solid 1px rgba(0, 0, 0, 0.1); margin-left:20px;">
+													<div style="padding-top:10px;">
+														<span style="font-size:22px; font-weight:bold;">${ peopleInfo.peopleNm[j] }</span>
+													</div>
+													<div style="padding-top:5px;">
+														<span style="font-size:17px; color:rgba(0, 0, 0, 0.5);">출연 | ${ peopleInfo.peopleCast[j] }</span>
+													</div>
 												</div>
 											</div>
 										</c:if>
@@ -97,27 +144,71 @@
 							
 								<c:if test="${ i * 4 - 1 <= peopleInfo.end }">
 									<c:forEach var="j" begin="${ i * 4 - 4 }" end="${ i * 4 - 1 }" step="1">
-										<div style="display:flex; width:25%;">
-											<div>
-												<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
+										<c:if test="${ peopleInfo.peopleId[j] ne '0' }">
+											<a href="peopleInfo?peopleId=${ peopleInfo.peopleId[j] }" style="all:unset; cursor:pointer; display:flex; width:25%;">
+												<div>
+													<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
+												</div>
+												<div style="width: 230px; border-bottom: solid 1px rgba(0, 0, 0, 0.1); margin-left:20px;">
+													<div style="padding-top:10px;">
+														<span style="font-size:22px; font-weight:bold;">${ peopleInfo.peopleNm[j] }</span>
+													</div>
+													<div style="padding-top:5px;">
+														<span style="font-size:17px; color:rgba(0, 0, 0, 0.5);">출연</span>
+													</div>
+												</div>
+											</a>
+										</c:if>
+										<c:if test="${ peopleInfo.peopleId[j] eq '0' }">
+											<div style="display:flex; width:25%;">
+												<div>
+													<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
+												</div>
+												<div style="width: 230px; border-bottom: solid 1px rgba(0, 0, 0, 0.1); margin-left:20px;">
+													<div style="padding-top:10px;">
+														<span style="font-size:22px; font-weight:bold;">${ peopleInfo.peopleNm[j] }</span>
+													</div>
+													<div style="padding-top:5px;">
+														<span style="font-size:17px; color:rgba(0, 0, 0, 0.5);">출연</span>
+													</div>
+												</div>
 											</div>
-											<div style="width: 230px; border-bottom: solid 1px rgba(0, 0, 0, 0.1);">
-												${ peopleInfo.peopleNm[j] }
-											</div>
-										</div>
+										</c:if>
 									</c:forEach>
 								</c:if>
 								
 								<c:if test="${ i * 4 - 1 > peopleInfo.end }">
 									<c:forEach var="j" begin="${ i * 4 - 4 }" end="${ peopleInfo.end }" step="1">
-										<div style="display:flex; width:25%;">
-											<div>
-												<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
+										<c:if test="${ peopleInfo.peopleId[j] ne '0' }">
+											<a href="peopleInfo?peopleId=${ peopleInfo.peopleId[j] }" style="all:unset; cursor:pointer; display:flex; width:25%;">
+												<div>
+													<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
+												</div>
+												<div style="width: 230px; border-bottom: solid 1px rgba(0, 0, 0, 0.1); margin-left:20px;">
+													<div style="padding-top:10px;">
+														<span style="font-size:22px; font-weight:bold;">${ peopleInfo.peopleNm[j] }</span>
+													</div>
+													<div style="padding-top:5px;">
+														<span style="font-size:17px; color:rgba(0, 0, 0, 0.5);">출연</span>
+													</div>
+												</div>
+											</a>
+										</c:if>
+										<c:if test="${ peopleInfo.peopleId[j] eq '0' }">
+											<div style="display:flex; width:25%;">
+												<div>
+													<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
+												</div>
+												<div style="width: 230px; border-bottom: solid 1px rgba(0, 0, 0, 0.1); margin-left:20px;">
+													<div style="padding-top:10px;">
+														<span style="font-size:22px; font-weight:bold;">${ peopleInfo.peopleNm[j] }</span>
+													</div>
+													<div style="padding-top:5px;">
+														<span style="font-size:17px; color:rgba(0, 0, 0, 0.5);">출연</span>
+													</div>
+												</div>
 											</div>
-											<div style="width: 230px; border-bottom: solid 1px rgba(0, 0, 0, 0.1);">
-												${ peopleInfo.peopleNm[j] }
-											</div>
-										</div>
+										</c:if>
 									</c:forEach>
 								</c:if>
 								
@@ -156,36 +247,6 @@
 			</div>
 		</div>
 	</c:if>
-	아이디 : ${ movieInfo.movieId }<br>
-	영화명 : ${ movieInfo.movieNm }<br>
-	영어영화명 : ${ movieInfo.movieNmEn }<br>
-	제작년도 : ${ movieInfo.prdtYear }<br>
-	개봉일 : ${ movieInfo.openDt }<br>
-	유형 : ${ movieInfo.typeNm }<br>
-	제작국가 : ${ movieInfo.nations }<br>
-	장르 : ${ movieInfo.genreNm }<br>
-	
-		포스터URL : 
-		<c:forEach var="url" items="${ movieInfo.posterUrl }">
-			<img src="${ url }">
-		</c:forEach>
-		<br>
-	
-	상영시간 : ${ movieInfo.showTime }<br>
-	
-		출연진 : 
-		<c:forEach var="actor" items="${ movieInfo.actors }">
-			${ actor },
-		</c:forEach>
-		<br>	
-	
-	
-		역할 : 
-		<c:forEach var="cast" items="${ movieInfo.cast }">
-			${ cast },
-		</c:forEach>
-		<br>	
-	연령제한 : ${ movieInfo.watchGradeNm }<br>
 <script src="/resources/js/movie_info.js"></script>
 </body>
 </html>

@@ -402,7 +402,12 @@
 			%>
 			<a href="/movieInfo?movieId=${ list.movieId }" class="upcoming" style="all:unset; cursor:pointer; display:;">
 				<div style="padding-right:10px;">
-					<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }">
+					<c:if test="${ list.posterUrl ne 'nan' }">
+						<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }"><br>
+					</c:if>
+					<c:if test="${ list.posterUrl eq 'nan' }">
+						<div style="width:${imgWidth}px; height:${ imgHeight }px; border:1px solid rgba(0, 0, 0, 0.1); display:flex; justify-content:center; align-items:center;">이미지가 없습니다.</div>
+					</c:if>
 					<div align="left">
 						<c:if test="${ list.movieNm.length() > 15 }">
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm.substring(0, 15) }...</span><br>	
@@ -420,7 +425,12 @@
 			%>
 			<a href="/movieInfo?movieId=${ list.movieId }" class="upcoming" style="all:unset; cursor:pointer; display:none;">
 				<div style="padding-right:10px;">
-					<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }"><br>
+					<c:if test="${ list.posterUrl ne 'nan' }">
+						<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }"><br>
+					</c:if>
+					<c:if test="${ list.posterUrl eq 'nan' }">
+						<div style="width:${imgWidth}px; height:${ imgHeight }px; border:1px solid rgba(0, 0, 0, 0.1); display:flex; justify-content:center; align-items:center;">이미지가 없습니다.</div>
+					</c:if>
 					<div align="left">
 						<c:if test="${ list.movieNm.length() > 18 }">
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm.substring(0, 18) }...</span><br>	
