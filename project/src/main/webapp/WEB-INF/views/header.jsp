@@ -10,6 +10,7 @@
 <body>
 	<header>
 	<div id="header" style="text-align:right;">
+	<a href="/">HOME</a>
 	<c:if test="${empty sessionScope.userLoginType }">
 		<a href="selectSignUpType">sign up</a>
 		<a href="/signIn">sign in</a>
