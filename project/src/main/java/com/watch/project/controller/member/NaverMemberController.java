@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.google.gson.JsonObject;
@@ -50,7 +51,7 @@ public class NaverMemberController {
     }
 	
 	@GetMapping("/oauth2/login") //redirect url     /oauth2/login
-    public String Oauth2Login(@RequestParam String code, @RequestParam String state, HttpSession session, HttpServletResponse res, Model model) throws IOException, JsonParseException {
+    public String Oauth2Login(@RequestParam String code, @RequestParam String state, HttpSession session, HttpServletResponse res, Model model, RedirectAttributes redirectAttr) throws IOException, JsonParseException {
 		System.out.println("1111");
         OAuth2AccessToken oauthToken;
         System.out.println("2222");
@@ -104,8 +105,8 @@ public class NaverMemberController {
         session.setAttribute("userEmail", mail);
         session.setAttribute("userLoginType", 3); 
         session.setAttribute("accessToken", str_result);
-        model.addAttribute("msg", "환영합니다.");
-        return "home";
+        redirectAttr.addFlashAttribute("msg", "환영합니다.");
+        return "redirect:/";
     }	
 	
 //	@GetMapping("/naverUnregister") //token = access_token임

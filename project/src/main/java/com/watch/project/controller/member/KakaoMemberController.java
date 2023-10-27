@@ -61,8 +61,8 @@ public class KakaoMemberController {
 			session.setAttribute("userEmail", userInfo.getUserEmail());
 			session.setAttribute("accessToken", accessToken);
 			session.setAttribute("userLoginType", 2);
-			mav.addObject("msg", "환영합니다.");
-			mav.setViewName("home");
+			re.addFlashAttribute("msg", "환영합니다.");
+			mav.setViewName("redirect:/");
 			return mav;
 		} 
 		else {  //새로운 유저일 경우
@@ -79,8 +79,8 @@ public class KakaoMemberController {
 				repo.updateKakaoAgreement(kakaoInput.getUserEmail());
 				kakaoInput.setKakaoRefreshToken((String)session.getAttribute("refreshToken"));
 				repo.updateKakaoRefreshToken(kakaoInput);
-				mav.addObject("msg", "환영합니다.");
-				mav.setViewName("home");
+				re.addFlashAttribute("msg", "환영합니다.");
+				mav.setViewName("redirect:/");
 //			}else { //이메일 제공 동의 안한 사람의 경우
 //				mav.addObject("member", kakaoInput); 
 //				mav.addObject("msg", "이메일 인증 과정이 필요합니다. 본인의 이메일 주소를 입력해주세요.");
@@ -108,10 +108,10 @@ public class KakaoMemberController {
 	}
 
 	@GetMapping("/kakaoSignOut")
-	public String logout(HttpSession session, Model model) {
+	public String logout(HttpSession session, RedirectAttributes redirectAttr) {
 		session.invalidate();
-		model.addAttribute("signOutAlert", true);
-		return "home";//redirect 하면 알림 안뜸.
+		redirectAttr.addFlashAttribute("signOutAlert", true);
+		return "redirect:/";//redirect 하면 알림 안뜸.
 
 	}
 	

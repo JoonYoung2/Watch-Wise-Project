@@ -43,10 +43,10 @@ public class LocalMemberController {
 		String msg = service.SignUpDo(dto, pwCh);
 //		System.out.println("controller msg ==> "+msg);
 		if(msg.equals("회원가입이 완료되었습니다.")) {
-			String script = service.getAlertLocation(msg, "/signIn");
+			String script = service.getAlertLocation(msg, "/signIn");   //여기는 나도 모르겠음 /////////////////
 			res.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = res.getWriter();
-			out.print(script);
+			out.print(script); 
 		}else {
 			model.addAttribute("dto", dto);
 			model.addAttribute("msg", msg);
@@ -73,10 +73,10 @@ public class LocalMemberController {
 	}
 	
 	@GetMapping("/signOut")
-	public String signOut(HttpSession session, Model model) throws IOException {
+	public String signOut(HttpSession session, RedirectAttributes redirectAttr) throws IOException {
 		session.invalidate();
-		model.addAttribute("signOutAlert", true);
-		return "home";//redirect 하면 알림 안뜸.
+		redirectAttr.addFlashAttribute("signOutAlert", true);
+		return "redirect:/";//redirect 하면 알림 안뜸.
 	}
 	
 	
@@ -86,15 +86,15 @@ public class LocalMemberController {
 	}
 	
 	@PostMapping("/passwordCh")
-	public String passwordCh(MemberDTO dto, Model model, HttpSession session) throws IOException {
+	public String passwordCh(MemberDTO dto, Model model, HttpSession session, RedirectAttributes redirectAttr) throws IOException {
 		String msg = service.pwCh(dto);
 		if(msg != "회원탈퇴가 완료되었습니다.") {//탈퇴과정에 문제가 있으면
 			model.addAttribute("msg", msg);
 			return "member/unregister_form";
 		}else { //탈퇴 성공시
 			session.invalidate();
-			model.addAttribute("msg", msg);
-			return "home";
+			redirectAttr.addFlashAttribute("msg", msg);
+			return "redirect:/";
 		}
 	}
 	

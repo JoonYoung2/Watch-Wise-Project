@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.service.CommonMethods;
@@ -25,7 +26,7 @@ public class GoogleMemberController {
 	private CommonMethods common;
 	
 	@GetMapping("/google/login")
-	public String redirected(@RequestParam("code") String authCode, HttpServletResponse res, HttpSession session, Model model) throws IOException {
+	public String redirected(@RequestParam("code") String authCode, HttpServletResponse res, HttpSession session, Model model, RedirectAttributes redirectAttr) throws IOException {
 		MemberDTO userInfo = service.loginWithGoogle(authCode);
 		String msg = service.storageIfNewOne(userInfo);//기존 회원인지, 새로운 유저면 회원 정보 저장
 		
@@ -36,15 +37,15 @@ public class GoogleMemberController {
 		session.setAttribute("userEmail", userInfo.getUserEmail());
 		session.setAttribute("userLoginType", 4);
 		session.setAttribute("accessToken", userInfo.getAccessToken());//id_token
-		model.addAttribute("msg", msg);
-		return "home";
+		redirectAttr.addFlashAttribute("msg", msg);
+		return "redirect:/";
 	}
 	
 	@GetMapping("/googleSignOut")
-	public String signout(HttpSession session, Model model) throws IOException {
+	public String signout(HttpSession session, RedirectAttributes redirectAttr) throws IOException {
 		session.invalidate();
-		model.addAttribute("signOutAlert", true);
-		return "home";//redirect 하면 알림 안뜸.
+		redirectAttr.addFlashAttribute("signOutAlert", true);
+		return "redirect:/";//redirect 하면 알림 안뜸.
 	}
 	
 //	@GetMapping("/googleUnregister")

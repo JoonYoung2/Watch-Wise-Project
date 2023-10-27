@@ -73,7 +73,7 @@ public class CommonMemberController {
 	}
 	
 	@GetMapping("/selectAgreedSocial")
-	public String selectAgreedSocial(HttpSession session, Model model) {
+	public String selectAgreedSocial(HttpSession session, RedirectAttributes redirectAttr) {
 		String email = (String)session.getAttribute("userEmail");
 		MemberDTO dto = common.getMemberInfoByEmail(email);
 		if(dto.getKakaoAgreement() == 1) {
@@ -87,8 +87,8 @@ public class CommonMemberController {
 		if(msg=="회원탈퇴가 완료되었습니다.") {
 		session.invalidate();
 		}
-		model.addAttribute("msg", msg);
-		return "home";
+		redirectAttr.addFlashAttribute("msg", msg);
+		return "redirect:/";
 		
 	}
 }
