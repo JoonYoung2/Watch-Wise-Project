@@ -18,6 +18,7 @@
 		<result column="cast" property="cast"/>
 		<result column="watch_grade_nm" property="watchGradeNm"/>	
 	</resultMap>
+	
 	<resultMap type="com.watch.project.dto.PeopleInfoDetailDTO" id="peopleInfoDetail">
 		<result column="people_id" property="peopleId"/>
 		<result column="people_nm" property="peopleNm"/>
@@ -26,6 +27,12 @@
 		<result column="movie_id" property="movieId"/>
 		<result column="movie_nm" property="movieNm"/>
 		<result column="like_num" property="likeNum"/>
+	</resultMap>
+	
+	<resultMap type="com.watch.project.dto.PeopleLikeDTO" id="peopleLike">
+		<result column="id" property="id"/>
+		<result column="people_id" property="peopleId"/>
+		<result column="user_email" property="userEmail"/>
 	</resultMap>
 	
 	<select id="getPeopleInfoDetailById" resultMap="peopleInfoDetail">
@@ -41,8 +48,24 @@
 	</update>
 	
 	<update id="peopleLikeCancel" parameterType="Integer">
-		UPDATE people_info_detail SET like_num = like_num + 1 WHERE people_id=#{peopleId}
+		UPDATE people_info_detail SET like_num = like_num - 1 WHERE people_id=#{peopleId}
 	</update>
+	
+	<select id="getPeopleLikeById" resultMap="peopleLike">
+		SELECT * FROM people_like WHERE id=#{id}
+	</select>
+	
+	<insert id="peopleLikeInsert" parameterType="com.watch.project.dto.PeopleLikeDTO">
+		INSERT INTO people_like VALUES(#{id}, #{peopleId}, #{userEmail})
+	</insert>
+	
+	<delete id="peopleLikeDelete" parameterType="String">
+		DELETE FROM people_like WHERE id=#{id}
+	</delete>
+	
+	<select id="getLikeNumById" resultType="Integer">
+		SELECT like_num FROM people_info_detail WHERE people_id=#{peopleId}
+	</select>
 	
 </mapper>
 

@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/resources/css/home.css">
+<link rel="stylesheet" href="/resources/css/people_info.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
@@ -32,6 +34,27 @@
 		</div>
 	</div>
 </div>
+
+<c:if test="${ not empty sessionScope.userEmail }">
+	<div align="center" style="width:100%;">
+		<div align="center" style="width:80%;">
+			<hr>
+				<div id="likeDiv">
+					<c:if test="${ likeCheck eq 0 }">
+						<div align="center" class="likeAdd" onclick="likeAdd('${ peopleInfo.peopleId }');">
+							좋아요 ${ peopleInfo.likeNum }명이 이 인물을 좋아합니다.
+						</div>
+					</c:if>
+					<c:if test="${ likeCheck eq 1 }">
+						<div align="center" class="likeCancel" onclick="likeCancel('${ peopleInfo.peopleId }');">
+							좋아요 ${ peopleInfo.likeNum }명이 이 인물을 좋아합니다.
+						</div>
+					</c:if>
+				</div>
+			<hr>
+		</div>
+	</div>
+</c:if>
 
 <br><br><br>
 <% 

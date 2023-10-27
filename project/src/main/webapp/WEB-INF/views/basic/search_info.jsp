@@ -11,7 +11,63 @@
 <body>
 <%@ include file="/WEB-INF/views/header.jsp" %>
 
+<c:if test="${ not empty searchList1 }">
+
+</c:if>
+
+<c:if test="${ not empty searchList2 }">
+
+</c:if>
+
+<c:if test="${ not empty searchList3 }">
+	<c:forEach var="peopleList" items="${ searchList3 }">
+		${ peopleList.peopleId }<br>
+		${ peopleList.peopleNm }<br>
+		${ peopleList.peopleNmEn }<br>
+		${ peopleList.sex }<br>
+		${ peopleList.likeNum }<br>
+		<div style="display:flex;">
+			<c:forEach var="movieInfoList" items="${ peopleList.movieInfoList }">
+				<c:if test="${ movieInfoList.posterUrl ne 'nan' }">
+					<div>
+						<img style="width:300px; height:428.16px;" src="${ movieInfoList.posterUrl }">
+					</div>
+				</c:if>
+				<c:if test="${ movieInfoList.posterUrl eq 'nan' }">
+					<div style="display:flex; justify-content:center; align-items:center; width:300px; height:428.16px; border: 1px solid rgba(0, 0, 0, 0.1);">
+						이미지가 없습니다.
+					</div>
+				</c:if>
+			</c:forEach>
+		</div>
+	</c:forEach>
+</c:if>
+
+<c:if test="${ not empty searchList4 }">
+	<c:forEach var="peopleList" items="${ searchList4 }">
+		${ peopleList.peopleId }<br>
+		${ peopleList.peopleNm }<br>
+		${ peopleList.peopleNmEn }<br>
+		${ peopleList.sex }<br>
+		${ peopleList.likeNum }<br>
+		<div style="display:flex;">
+			<c:forEach var="movieInfoList" items="${ peopleList.movieInfoList }">
+				<c:if test="${ movieInfoList.posterUrl ne 'nan' }">
+					<div>
+						<img style="width:300px; height:428.16px;" src="${ movieInfoList.posterUrl }">
+					</div>
+				</c:if>
+				<c:if test="${ movieInfoList.posterUrl eq 'nan' }">
+					<div style="display:flex; justify-content:center; align-items:center; width:300px; height:428.16px; border: 1px solid rgba(0, 0, 0, 0.1);">
+						이미지가 없습니다.
+					</div>
+				</c:if>
+			</c:forEach>
+		</div>
+	</c:forEach>
+</c:if>
+
 <script src="/resources/js/common.js"></script>
-<script src="/resources/js/movie_info.js"></script>
+<script src="/resources/js/search_info.js"></script>
 </body>
 </html>

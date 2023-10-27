@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.PeopleInfoDetailDTO;
+import com.watch.project.dto.PeopleLikeDTO;
 import com.watch.project.dto.movieInfoView.MovieInfoViewDTO;
 import com.watch.project.repository.MovieInfoRepository;
 import com.watch.project.repository.PeopleInfoRepository;
@@ -35,12 +36,34 @@ public class PeopleInfoService {
 		return list;
 	}
 	
-	public void peopleLikeAdd(int peopleId) {
+	public void peopleLikeAdd(int peopleId, String userEmail) {
+		String id = peopleId + userEmail;
+		PeopleLikeDTO peopleLikeDto = new PeopleLikeDTO();
+		peopleLikeDto.setId(id);
+		peopleLikeDto.setPeopleId(peopleId);
+		peopleLikeDto.setUserEmail(userEmail);
+		
 		repo.peopleLikeAdd(peopleId);
+		repo.peopleLikeInsert(peopleLikeDto);
 	}
 	
-	public void peopleLikeCancel(int peopleId) {
+	public void peopleLikeCancel(int peopleId, String userEmail) {
+		String id = peopleId + userEmail;
 		repo.peopleLikeCancel(peopleId);
+		repo.peopleLikeDelete(id);
+	}
+	
+	public int getLikeNumById(int peopleId) {
+		return repo.getLikeNumById(peopleId);
+	}
+
+	public int getPeopleLikeCheck(int peopleId, String userEmail) {
+		String id = peopleId + userEmail;
+		PeopleLikeDTO peopleLikeDto = repo.getPeopleLikeById(id);
+		if(peopleLikeDto == null) {
+			return 0;			
+		}else
+			return 1;
 	}
 	
 }
