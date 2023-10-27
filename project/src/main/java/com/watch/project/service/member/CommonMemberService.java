@@ -1,13 +1,14 @@
-package com.watch.project.common;
+package com.watch.project.service.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.repository.MemberRepository;
 
-@Component
-public class CommonMethods {
+@Service
+public class CommonMemberService {
 	@Autowired MemberRepository repo;
 	
 	public String getAlertLocation(String msg, String url) {

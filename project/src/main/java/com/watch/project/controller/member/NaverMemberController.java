@@ -23,9 +23,9 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
-import com.watch.project.common.CommonMethods;
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.repository.MemberRepository;
+import com.watch.project.service.member.CommonMemberService;
 import com.watch.project.service.member.NaverMemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -38,7 +38,7 @@ public class NaverMemberController {
 	private final NaverMemberService service;
 	private final MemberRepository repo;
 	@Autowired 
-	private CommonMethods common;
+	private CommonMemberService common;
 
 	
 	@GetMapping("/naverSignOut")

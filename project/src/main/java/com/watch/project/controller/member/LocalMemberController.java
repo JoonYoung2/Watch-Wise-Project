@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.watch.project.common.CommonMethods;
 import com.watch.project.dto.MemberDTO;
+import com.watch.project.service.member.CommonMemberService;
 import com.watch.project.service.member.LocalMemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LocalMemberController {
 	private final LocalMemberService service;
-	private final CommonMethods common;
+	private final CommonMemberService common;
 	
 
 	@GetMapping("/checkEmail")

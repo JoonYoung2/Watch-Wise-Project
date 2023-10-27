@@ -27,7 +27,6 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.google.gson.JsonObject;
-import com.watch.project.common.CommonMethods;
 import com.watch.project.controller.member.NaverMemberController;
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.repository.MemberRepository;
@@ -40,7 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class NaverMemberService {
-	@Autowired CommonMethods commonMethods;
+	@Autowired CommonMemberService commonMethods;
 	
 	private final MemberRepository repo;
 	public final static String CLIENT_ID = "wXYtfbDmAwaaISKhx2LT";

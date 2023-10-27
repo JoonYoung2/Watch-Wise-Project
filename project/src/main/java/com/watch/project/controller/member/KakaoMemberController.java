@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.watch.project.common.CommonMethods;
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.repository.MemberRepository;
+import com.watch.project.service.member.CommonMemberService;
 import com.watch.project.service.member.KakaoMemberService;
 
 @Controller
@@ -24,7 +24,7 @@ public class KakaoMemberController {
 	private KakaoMemberService service;
 	
 	@Autowired
-	private CommonMethods common;
+	private CommonMemberService common;
 	
 	@Autowired
 	private MemberRepository repo;

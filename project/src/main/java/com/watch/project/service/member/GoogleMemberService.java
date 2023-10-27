@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.watch.project.common.CommonMethods;
 import com.watch.project.dto.GoogleInfoResponseDTO;
 import com.watch.project.dto.GoogleRequestDTO;
 import com.watch.project.dto.GoogleResponseDTO;
@@ -22,7 +21,7 @@ public class GoogleMemberService {
 	@Autowired 
 	private MemberRepository repo;
 	@Autowired
-	private CommonMethods common;
+	private CommonMemberService common;
 	
 	public final static String CLIENT_ID = "339734555922-1robs84vtcrorvt5o56qf28rihef34kb.apps.googleusercontent.com";
 	public final static String CLIENT_PW = "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";

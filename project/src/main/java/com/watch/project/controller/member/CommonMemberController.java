@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.watch.project.common.CommonMethods;
 import com.watch.project.dto.MemberDTO;
+import com.watch.project.service.member.CommonMemberService;
 import com.watch.project.service.member.GoogleMemberService;
 import com.watch.project.service.member.KakaoMemberService;
 import com.watch.project.service.member.NaverMemberService;
@@ -26,7 +26,7 @@ public class CommonMemberController {
 	@Autowired
 	private GoogleMemberService googleService;
 	@Autowired
-	private CommonMethods common;
+	private CommonMemberService common;
 	
 	@GetMapping("/selectSignUpType")
 	public String selectSignUpType(Model model, HttpSession session) {
