@@ -7,6 +7,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.watch.project.repository.MemberRepository;
+import com.watch.project.service.member.LocalMemberService;
 
 import java.util.Random;
 

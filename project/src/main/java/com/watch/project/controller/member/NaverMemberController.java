@@ -23,10 +23,10 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
+import com.watch.project.common.CommonMethods;
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.repository.MemberRepository;
-import com.watch.project.service.CommonMethods;
-import com.watch.project.service.NaverMemberService;
+import com.watch.project.service.member.NaverMemberService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

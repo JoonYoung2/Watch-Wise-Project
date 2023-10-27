@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.watch.project.common.CommonMethods;
 import com.watch.project.dto.MemberDTO;
-import com.watch.project.service.CommonMethods;
-import com.watch.project.service.LocalMemberService;
+import com.watch.project.service.member.LocalMemberService;
 
 import lombok.RequiredArgsConstructor;
 

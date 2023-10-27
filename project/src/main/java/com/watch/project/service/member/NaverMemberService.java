@@ -1,4 +1,4 @@
-package com.watch.project.service;
+package com.watch.project.service.member;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -27,9 +27,11 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.google.gson.JsonObject;
+import com.watch.project.common.CommonMethods;
 import com.watch.project.controller.member.NaverMemberController;
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.repository.MemberRepository;
+import com.watch.project.service.NaverLoginApi;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

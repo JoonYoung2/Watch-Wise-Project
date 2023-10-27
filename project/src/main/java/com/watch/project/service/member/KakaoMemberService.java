@@ -1,4 +1,4 @@
-package com.watch.project.service;
+package com.watch.project.service.member;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,6 +24,7 @@ import com.google.gson.JsonParser;
 import com.watch.project.controller.MailController;
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.repository.MemberRepository;
+import com.watch.project.service.MailService;
 
 @Service
 public class KakaoMemberService {

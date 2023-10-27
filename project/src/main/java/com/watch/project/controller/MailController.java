@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.watch.project.dto.MemberDTO;
-import com.watch.project.service.KakaoMemberService;
 import com.watch.project.service.MailService;
+import com.watch.project.service.member.KakaoMemberService;
 
 @Controller
 public class MailController {

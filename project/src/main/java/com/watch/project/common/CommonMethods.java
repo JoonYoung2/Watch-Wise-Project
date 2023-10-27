@@ -1,12 +1,12 @@
-package com.watch.project.service;
+package com.watch.project.common;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.repository.MemberRepository;
 
-@Service
+@Component
 public class CommonMethods {
 	@Autowired MemberRepository repo;
 	

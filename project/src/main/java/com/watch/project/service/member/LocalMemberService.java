@@ -1,4 +1,4 @@
-package com.watch.project.service;
+package com.watch.project.service.member;
 
 import java.util.regex.Pattern;
 
