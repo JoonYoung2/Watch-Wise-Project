@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="/resources/js2/common.js"></script>
+<script src="/resources/js/common.js"></script>
 </head>
 <body>	
 <%@ include file="/WEB-INF/views/header.jsp" %> 
