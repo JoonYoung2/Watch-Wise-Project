@@ -1,4 +1,4 @@
-package com.watch.project.controller;
+package com.watch.project.controller.member;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;

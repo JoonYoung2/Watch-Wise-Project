@@ -1,4 +1,4 @@
-package com.watch.project.controller;
+package com.watch.project.controller.member;
 
 import java.io.BufferedReader;
 import java.io.IOException;

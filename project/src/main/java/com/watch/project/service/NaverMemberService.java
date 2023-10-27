@@ -27,7 +27,7 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.google.gson.JsonObject;
-import com.watch.project.controller.NaverMemberController;
+import com.watch.project.controller.member.NaverMemberController;
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.repository.MemberRepository;
 
