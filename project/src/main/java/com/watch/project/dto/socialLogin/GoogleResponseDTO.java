@@ -1,4 +1,4 @@
-package com.watch.project.dto;
+package com.watch.project.dto.socialLogin;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/resources/css/home.css">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 <%@ include file="/WEB-INF/views/header.jsp" %>
@@ -51,6 +52,28 @@
 		</div>
 	</div>
 	
+	<!--  -->
+	<hr>
+<div align="center" id="review">
+<!-- 	<form action="/getReview" method="POST"> -->
+		<label for="select-box">평점</label> <br>
+		<select id="select-box" name="rating" onchange="rating(this.value,'${movieInfo.movieId }');">
+	      	<option value="0.0">0.0</option>
+	      	<option value="0.5">0.5</option>
+	      	<option value="1.0">1.0</option>
+	     	<option value="1.5">1.5</option>
+	      	<option value="2.0">2.0</option>
+	      	<option value="2.5">2.5</option>
+	      	<option value="3.0">3.0</option>
+	      	<option value="3.5">3.5</option>
+	      	<option value="4.0">4.0</option>
+	      	<option value="4.5">4.5</option>
+	      	<option value="5.0">5.0</option>
+		</select>
+		<div id="msg"></div>
+</div>
+	
+	<!--  -->
 	<!-- Actors -->
 	
 	<c:if test="${ not empty peopleInfo }">
@@ -220,6 +243,75 @@
 			</div>
 		</div>
 	</c:if>
+	
+	<!--  -->
+	<div class="comment-writing-card">
+	<h4 style="text-align: center">나의 코멘트 작성하기</h4>
+		<div align="center" class="comment-writing-content">
+		<form action="/saveComment" method="post">
+			<textarea rows="10" cols="100" name="reviewComment"></textarea><br>
+			<input type="hidden" value="${movieInfo.movieId }" name="movieId">
+			<input type="submit" value="저장">
+		</form>
+		</div>
+	</div>
+
+	 <div class="comment-card">
+        <div class="comment-content">
+            <h3>User Name</h3>
+            <p>Here is the comment text. It can be as long as needed.</p>
+            <span class="date">October 27, 2023</span>
+        </div>
+    </div>
+    <!-- Add more comment cards here -->
+
+ <style> 
+	.comment-card {
+    display: flex;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+    width: 50%; /* 너비를 50%로 설정 */
+    
+}
+
+     .comment-writing-card { 
+     background-color: #f0f0f0; 
+     border: 1px solid #ccc; 
+     border-radius: 5px; 
+     margin: 10px; 
+     padding: 10px; 
+     width: 50%; /* 너비를 50%로 설정 */
+     
+ } 
+
+
+/* Comment content styles */
+.comment-content {
+    flex: 1;
+}
+.comment-writing-content {
+    flex: 1;
+}
+
+.comment-content h3 {
+    margin: 0;
+}
+
+.comment-content p {
+    margin: 5px 0;
+}
+
+.comment-content .date {
+    font-size: 0.8em;
+    color: #888;
+}
+</style>
+	
+	
+	<!--  -->
 	
 	<c:if test="${ movieInfo.posterUrl[0] ne 'nan' }">
 		<br><br><br>
