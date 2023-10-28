@@ -39,13 +39,15 @@ public class SearchService {
 			String openDt = movieInfoList.get(i).getOpenDt();
 			String nations = movieInfoList.get(i).getNations();
 			String genreNm = movieInfoList.get(i).getGenreNm();
+			String watchGradeNm = movieInfoList.get(i).getWatchGradeNm();
+			log.info("watchGradeNm => {}", watchGradeNm);
 			String posterUrl = "nan";
 			if(!movieInfoList.get(i).getPosterUrl().split("\\|")[0].equals("nan")) {
 				posterUrl = movieInfoList.get(i).getPosterUrl().split("\\|")[0];				
 			}
-			int showTime = movieInfoList.get(i).getShowTime();
+			String showTime = getShowTime(movieInfoList.get(i).getShowTime());
 
-			MovieInfoSearchViewDTO movieInfoSearchDto = new MovieInfoSearchViewDTO(movieId, movieNm, movieNmEn, openDt, nations, genreNm, posterUrl, showTime);
+			MovieInfoSearchViewDTO movieInfoSearchDto = new MovieInfoSearchViewDTO(movieId, movieNm, movieNmEn, openDt, nations, genreNm, watchGradeNm, posterUrl, showTime);
 			
 			String[] actors = movieInfoList.get(i).getActors().split(",");
 			String[] casts = movieInfoList.get(i).getCast().split(",");
@@ -65,6 +67,7 @@ public class SearchService {
 					peopleId = repo.getPeopleIdByPeopleNmAndMovieNm(map);					
 				}catch(BindingException e) {
 					log.error("Error searchingStep1 BindingException => {}", e);
+					peopleId = 0;
 				}
 				MovieActorsDTO movieActorsDto = new MovieActorsDTO(peopleId, peopleNm, cast);
 				movieInfoSearchDto.getMovieActorList().add(movieActorsDto);
@@ -92,13 +95,14 @@ public class SearchService {
 			String openDt = movieInfoList.get(i).getOpenDt();
 			String nations = movieInfoList.get(i).getNations();
 			String genreNm = movieInfoList.get(i).getGenreNm();
+			String watchGradeNm = movieInfoList.get(i).getWatchGradeNm();
 			String posterUrl = "nan";
 			if(!movieInfoList.get(i).getPosterUrl().split("\\|")[0].equals("nan")) {
 				posterUrl = movieInfoList.get(i).getPosterUrl().split("\\|")[0];				
 			}
-			int showTime = movieInfoList.get(i).getShowTime();
+			String showTime = getShowTime(movieInfoList.get(i).getShowTime());
 
-			MovieInfoSearchViewDTO movieInfoSearchDto = new MovieInfoSearchViewDTO(movieId, movieNm, movieNmEn, openDt, nations, genreNm, posterUrl, showTime);
+			MovieInfoSearchViewDTO movieInfoSearchDto = new MovieInfoSearchViewDTO(movieId, movieNm, movieNmEn, openDt, nations, genreNm, watchGradeNm, posterUrl, showTime);
 			
 			String[] actors = movieInfoList.get(i).getActors().split(",");
 			String[] casts = movieInfoList.get(i).getCast().split(",");
@@ -130,6 +134,16 @@ public class SearchService {
 		return movieInfoSearchList;
 	}
 	
+	private String getShowTime(int time) {
+		String showTime = "";
+		if(time % 60 == 0) {
+			showTime = time / 60 + "시간";
+		}else {
+			showTime = time / 60 + "시간 " + time % 60 + "분";
+		}
+		return showTime;
+	}
+
 	public List<PeopleInfoSearchViewDTO> searchingStep3(String query) {
 		List<PeopleInfoDetailDTO> peopleInfoDetailList = repo.searchingStep3(query);
 		List<PeopleInfoSearchViewDTO> peopleInfoSearchViewList = new ArrayList<>();
