@@ -150,5 +150,16 @@ public class ReviewService {
 		return comments;
 	}
 
+	public String getComment(String movieId) {
+		String pkId = movieId + (String)session.getAttribute("userEmail");
+		String reviewComment = repo.getComment(pkId);
+//		if(reviewComment != "nan") {//이미 코멘트를 작성했던 사람
+//			
+//		}else {//코멘트를 작성하지 않은 사람
+//			
+//		}
+		return reviewComment;
+	}
+
 
 }

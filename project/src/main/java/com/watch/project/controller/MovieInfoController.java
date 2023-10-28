@@ -1,14 +1,19 @@
 package com.watch.project.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.watch.project.dto.MovieInfoDTO;
+import com.watch.project.dto.MovieReviewDTO;
 import com.watch.project.dto.movieInfoView.MovieInfoViewDTO;
 import com.watch.project.dto.movieInfoView.PeopleInfoDTO;
 import com.watch.project.service.MovieInfoService;
+import com.watch.project.service.ReviewService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,12 +23,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MovieInfoController {
 	private final MovieInfoService service;
+	private final ReviewService reviewService;
 	
 	@GetMapping("movieInfo")
 	public String movieInfo(@RequestParam String movieId, Model model) {
+		
 		MovieInfoDTO movieInfoDto = service.getMovieInfoById(movieId);
 		MovieInfoViewDTO movieInfoViewDto = service.setMMovieInfoViewDto(movieInfoDto);
-		
 		PeopleInfoDTO peopleInfoDto = new PeopleInfoDTO();
 		
 		if(!movieInfoViewDto.getActors()[0].equals("nan")) {	// 출연진이 있는 경우
@@ -70,6 +76,12 @@ public class MovieInfoController {
 				}
 			}
 			peopleInfoDto.setEnd(peopleInfoDto.getPeopleId().length-1);
+			
+			List<MovieReviewDTO> comments = reviewService.getEveryCommentForThisMovie(movieId);
+			String ifWroteComment = reviewService.getComment(movieId); //movieId 밖에 없다고 생각하기. movieController로 옮길 것임.
+
+			model.addAttribute("comments", comments);
+			model.addAttribute("ifWroteComment", ifWroteComment);
 			model.addAttribute("peopleInfo", peopleInfoDto);
 		}
 		model.addAttribute("movieInfo", movieInfoViewDto);

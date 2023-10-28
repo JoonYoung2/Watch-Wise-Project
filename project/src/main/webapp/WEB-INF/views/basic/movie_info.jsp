@@ -245,7 +245,7 @@
 	</c:if>
 	
 	<!--  -->
-
+	<c:if test="${ifWroteComment eq 'nan' || ifWroteComment eq null}">
 	<div class="comment-writing-card">
 	<h4 style="text-align: center">나의 코멘트 작성하기</h4>
 		<div align="center" class="comment-writing-content">
@@ -255,7 +255,9 @@
 			<input type="submit" value="저장">
 		</form>
 		</div>
-	</div>
+	</div>	
+	</c:if>
+	
 	<c:forEach var="dto" items="${comments}">
 	 <div class="comment-card">
         <div class="comment-content">

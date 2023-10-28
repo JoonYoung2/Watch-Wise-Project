@@ -39,4 +39,8 @@
 	<select id="selectComments" resultMap="review">
 		SELECT * FROM movie_review WHERE movie_id=#{movieId}
 	</select>
+	
+	<select id="getComment" resultType="String">
+		SELECT review_comment FROM movie_review WHERE id=#{pkId}
+	</select>
 </mapper>

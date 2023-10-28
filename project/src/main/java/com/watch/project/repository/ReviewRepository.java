@@ -24,4 +24,6 @@ public interface ReviewRepository {
 
 	int updateForComment(MovieReviewDTO dto);
 
+	String getComment(String pkId);
+
 }
