@@ -11,10 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.watch.project.dto.GoogleInfoResponseDTO;
-import com.watch.project.dto.GoogleRequestDTO;
-import com.watch.project.dto.GoogleResponseDTO;
 import com.watch.project.dto.MemberDTO;
+import com.watch.project.dto.socialLogin.GoogleInfoResponseDTO;
+import com.watch.project.dto.socialLogin.GoogleRequestDTO;
+import com.watch.project.dto.socialLogin.GoogleResponseDTO;
 import com.watch.project.repository.MemberRepository;
 @Service
 public class GoogleMemberService {
