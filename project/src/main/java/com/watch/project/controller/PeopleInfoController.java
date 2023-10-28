@@ -2,6 +2,8 @@ package com.watch.project.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +26,11 @@ public class PeopleInfoController {
 	private final PeopleInfoService service;
 	
 	@GetMapping("peopleInfo")
-	public String peopleInfoView(@RequestParam int peopleId, Model model) {
+	public String peopleInfoView(@RequestParam int peopleId, Model model, HttpSession session) {
 		PeopleInfoDetailDTO peopleInfoDetailDto = service.getPeopleInfoDetailById(peopleId);
 		String[] movieId = peopleInfoDetailDto.getMovieId().split(",");
 		String movieIds = "";
+		int likeCheck = 0;
 		for(int i = 0; i < movieId.length; ++i) {
 			if(i != movieId.length-1) {
 				movieIds += "'" + movieId[i] + "',";
@@ -39,6 +42,10 @@ public class PeopleInfoController {
 		List<MovieInfoDTO> movieInfoList = service.getMovieInfoByMovieIds(movieIds);
 		log.info("movieInfoListSize => {}", movieInfoList.size());
 		
+		String userEmail = (String)session.getAttribute("userEmail");
+		likeCheck = service.getPeopleLikeCheck(peopleId, userEmail);
+		
+		model.addAttribute("likeCheck", likeCheck);
 		model.addAttribute("peopleInfo", peopleInfoDetailDto);
 		model.addAttribute("movieInfo", movieInfoList);
 		return "basic/people_info";

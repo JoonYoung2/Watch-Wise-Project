@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.PeopleInfoDetailDTO;
+import com.watch.project.dto.PeopleLikeDTO;
 
 @Mapper
 public interface PeopleInfoRepository {
@@ -18,5 +19,13 @@ public interface PeopleInfoRepository {
 	public void peopleLikeAdd(int peopleId);
 	
 	public void peopleLikeCancel(int peopleId);
+	
+	public PeopleLikeDTO getPeopleLikeById(String id);
+	
+	public void peopleLikeInsert(PeopleLikeDTO dto);
+	
+	public void peopleLikeDelete(String id);
+	
+	public int getLikeNumById(int peopleId);
 	
 }

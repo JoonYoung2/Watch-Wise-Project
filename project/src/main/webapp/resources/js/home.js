@@ -1,3 +1,5 @@
+// MovieInfo START
+
 let dailyLeftBtnId = document.getElementById("dailyLeftBtn");
 let weeklyLeftBtn0Id = document.getElementById("weeklyLeftBtn0");
 let weeklyLeftBtn1Id = document.getElementById("weeklyLeftBtn1");
@@ -281,3 +283,14 @@ const recentlyFoRightBtn = (cnt) => {
         }
     }
 }
+
+// MovieInfo END
+
+// Search START
+
+const query = () => {
+    let query = document.getElementById("query").value;
+    location.href="search?query=" + query;
+}
+
+// Search END

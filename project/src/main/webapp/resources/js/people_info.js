@@ -1,3 +1,5 @@
+// Paging Method START
+
 let movieInfoLeftBtnId = document.getElementById("movieInfoLeftBtn");
 
 let movieInfoRightBtnId = document.getElementById("movieInfoRightBtn");
@@ -59,3 +61,55 @@ const movieInfoRightBtn = (cnt) => {
         }
     }
 }
+
+// Paging Method END
+
+// LIKE Method START
+
+const likeAdd = async (peopleId) => {
+    const likeDiv = document.getElementById("likeDiv");
+    let msg = "";
+    $.ajax({
+        url: "http://localhost:8080/peopleLikeAdd",
+        method: "GET",
+        data: {
+            peopleId
+        },
+        success: function (response) {
+            var likeNum = response.likeNum;
+
+                msg += "<div align='center' class='likeCancel' onclick='likeCancel("+peopleId+");'>";
+                msg += "좋아요 "+likeNum+"명이 이 인물을 좋아합니다.";
+                msg += "</div>";
+                likeDiv.innerHTML=msg;
+        },
+        error: function (xhr, status, error) {
+            console.error("오류 발생: " + error);
+        }
+    });
+}
+
+const likeCancel = async (peopleId) => {
+    const likeDiv = document.getElementById("likeDiv");
+    let msg = "";
+    $.ajax({
+        url: "http://localhost:8080/peopleLikeCancel",
+        method: "GET",
+        data: {
+            peopleId
+        },
+        success: function (response) {
+            var likeNum = response.likeNum;
+
+            console.log("서버 응답 - likeNum: " + likeNum);
+                msg += "<div align='center' class='likeAdd' onclick='likeAdd("+peopleId+");'>";
+                msg += "좋아요 "+likeNum+"명이 이 인물을 좋아합니다.";
+                msg += "</div>";
+                likeDiv.innerHTML=msg;
+        },
+        error: function (xhr, status, error) {
+            console.error("오류 발생: " + error);
+        }
+    });
+}
+// LIKE Method END

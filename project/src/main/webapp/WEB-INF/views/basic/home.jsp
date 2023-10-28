@@ -30,6 +30,9 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/header.jsp" %>
+
+<input id="query" type="text" onchange="query();">
+
 <c:set var="daily" value="${ movieInfoMap['daily'] }"/>
 <c:set var="weekly0" value="${ movieInfoMap['weekly0'] }"/>
 <c:set var="weekly1" value="${ movieInfoMap['weekly1'] }"/>

@@ -34,7 +34,7 @@ public class MovieDailyUpdateScheduled {
 	private static int cnt = 1;
 	
 //	@Scheduled(fixedDelay = 1000)
-	@Scheduled(cron = "0 38 20 * * *")
+	@Scheduled(cron = "0 37 14 * * *")
 	public void DailyMovieInsert() throws UnsupportedEncodingException {
 		MovieInfoDTO dto = new MovieInfoDTO();
 		MovieTopInfoDTO topDto = new MovieTopInfoDTO();
@@ -116,7 +116,7 @@ public class MovieDailyUpdateScheduled {
     }
 	
 //	@Scheduled(fixedDelay = 1000)
-	@Scheduled(cron = "25 38 20 * * *")
+	@Scheduled(cron = "25 37 14 * * *")
 	public void allFindAndInsert() {
 		while(cnt <= 127) {
 			MovieInfoDTO dto = new MovieInfoDTO();
