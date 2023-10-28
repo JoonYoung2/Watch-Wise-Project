@@ -56,5 +56,10 @@
 	<select id="getMovieInfoByMovieIds" resultMap="movieInfo">
 		SELECT * FROM movie_info WHERE movie_id IN (${movieIds}) ORDER BY open_dt DESC
 	</select>
+	
+	<select id="getPeopleIdByPeopleNmAndMovieNm" resultType="Integer">
+		SELECT people_id FROM people_info_detail WHERE people_nm=#{peopleNm} AND movie_nm LIKE '%${movieNm}%'
+	</select>
+	
 </mapper>
 

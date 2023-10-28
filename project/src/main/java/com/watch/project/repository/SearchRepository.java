@@ -1,6 +1,7 @@
 package com.watch.project.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,5 +20,7 @@ public interface SearchRepository {
 	public List<PeopleInfoDetailDTO> searchingStep4(String query);
 	
 	public List<MovieInfoDTO> getMovieInfoByMovieIds(String movieIds);
+	
+	public int getPeopleIdByPeopleNmAndMovieNm(Map<String, String> map);
 	
 }

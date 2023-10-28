@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.PeopleInfoDetailDTO;
+import com.watch.project.dto.searchView.MovieInfoSearchViewDTO;
 import com.watch.project.dto.searchView.PeopleInfoSearchViewDTO;
 import com.watch.project.service.SearchService;
 
@@ -24,12 +25,13 @@ public class SearchController {
 	
 	@GetMapping("search")
 	public String searching(@RequestParam("query") String query, Model model) {
-		List<MovieInfoDTO> searchList = service.searchingStep1(query);
-		List<MovieInfoDTO> searchList2 = new ArrayList<>();
+		List<MovieInfoSearchViewDTO> searchList1 = service.searchingStep1(query);
+		List<MovieInfoSearchViewDTO> searchList2 = new ArrayList<>();
 		List<PeopleInfoSearchViewDTO> searchList3 = new ArrayList<>();
 		List<PeopleInfoSearchViewDTO> searchList4 = new ArrayList<>();
-		log.info("searchingStep1 Size => {}", searchList.size());
-		if(searchList.size() != 0) {
+		log.info("searchingStep1 Size => {}", searchList1.size());
+		if(searchList1.size() != 0) {
+			model.addAttribute("searchList1", searchList1);
 			return "basic/search_info";
 		}else {
 			searchList2 = service.searchingStep2(query);
@@ -37,6 +39,7 @@ public class SearchController {
 		}
 		
 		if(searchList2.size() != 0) {
+			model.addAttribute("searchList2", searchList2);
 			return "basic/search_info";
 		}else {
 			searchList3 = service.searchingStep3(query);

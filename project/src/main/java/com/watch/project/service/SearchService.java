@@ -1,12 +1,17 @@
 package com.watch.project.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.binding.BindingException;
 import org.springframework.stereotype.Service;
 
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.PeopleInfoDetailDTO;
+import com.watch.project.dto.searchView.MovieActorsDTO;
+import com.watch.project.dto.searchView.MovieInfoSearchViewDTO;
 import com.watch.project.dto.searchView.PeopleInfoSearchViewDTO;
 import com.watch.project.repository.SearchRepository;
 
@@ -19,12 +24,110 @@ import lombok.extern.slf4j.Slf4j;
 public class SearchService {
 	private final SearchRepository repo;
 	
-	public List<MovieInfoDTO> searchingStep1(String query){
-		return repo.searchingStep1(query);
+	public List<MovieInfoSearchViewDTO> searchingStep1(String query){
+		List<MovieInfoDTO> movieInfoList = repo.searchingStep1(query);
+		List<MovieInfoSearchViewDTO> movieInfoSearchList = new ArrayList<>();
+		
+		if(movieInfoList.size() == 0) {
+			return movieInfoSearchList;
+		}
+		
+		for(int i = 0; i < movieInfoList.size(); ++i) {
+			String movieId = movieInfoList.get(i).getMovieId();
+			String movieNm = movieInfoList.get(i).getMovieNm();
+			String movieNmEn = movieInfoList.get(i).getMovieNmEn();
+			String openDt = movieInfoList.get(i).getOpenDt();
+			String nations = movieInfoList.get(i).getNations();
+			String genreNm = movieInfoList.get(i).getGenreNm();
+			String posterUrl = "nan";
+			if(!movieInfoList.get(i).getPosterUrl().split("\\|")[0].equals("nan")) {
+				posterUrl = movieInfoList.get(i).getPosterUrl().split("\\|")[0];				
+			}
+			int showTime = movieInfoList.get(i).getShowTime();
+
+			MovieInfoSearchViewDTO movieInfoSearchDto = new MovieInfoSearchViewDTO(movieId, movieNm, movieNmEn, openDt, nations, genreNm, posterUrl, showTime);
+			
+			String[] actors = movieInfoList.get(i).getActors().split(",");
+			String[] casts = movieInfoList.get(i).getCast().split(",");
+			for(int j = 0; j < actors.length; ++j) {
+				String peopleNm = actors[j];
+				String cast = "nan";
+				if( j <= casts.length-1 ) {
+					cast = casts[j];
+				}
+				Map<String, String> map = new HashMap<>();
+				map.put("peopleNm", peopleNm);
+				map.put("movieNm", movieNm);
+				log.info("peopleNm => {}", peopleNm);
+				log.info("movieNm => {}", movieNm);
+				int peopleId = 0;
+				try {
+					peopleId = repo.getPeopleIdByPeopleNmAndMovieNm(map);					
+				}catch(BindingException e) {
+					log.error("Error searchingStep1 BindingException => {}", e);
+				}
+				MovieActorsDTO movieActorsDto = new MovieActorsDTO(peopleId, peopleNm, cast);
+				movieInfoSearchDto.getMovieActorList().add(movieActorsDto);
+				if(j == 3) 
+					break;
+			}
+			movieInfoSearchList.add(movieInfoSearchDto);
+		}
+		
+		return movieInfoSearchList;
 	}
 
-	public List<MovieInfoDTO> searchingStep2(String query) {
-		return repo.searchingStep2(query);
+	public List<MovieInfoSearchViewDTO> searchingStep2(String query) {
+		List<MovieInfoDTO> movieInfoList = repo.searchingStep2(query);
+		List<MovieInfoSearchViewDTO> movieInfoSearchList = new ArrayList<>();
+		
+		if(movieInfoList.size() == 0) {
+			return movieInfoSearchList;
+		}
+		
+		for(int i = 0; i < movieInfoList.size(); ++i) {
+			String movieId = movieInfoList.get(i).getMovieId();
+			String movieNm = movieInfoList.get(i).getMovieNm();
+			String movieNmEn = movieInfoList.get(i).getMovieNmEn();
+			String openDt = movieInfoList.get(i).getOpenDt();
+			String nations = movieInfoList.get(i).getNations();
+			String genreNm = movieInfoList.get(i).getGenreNm();
+			String posterUrl = "nan";
+			if(!movieInfoList.get(i).getPosterUrl().split("\\|")[0].equals("nan")) {
+				posterUrl = movieInfoList.get(i).getPosterUrl().split("\\|")[0];				
+			}
+			int showTime = movieInfoList.get(i).getShowTime();
+
+			MovieInfoSearchViewDTO movieInfoSearchDto = new MovieInfoSearchViewDTO(movieId, movieNm, movieNmEn, openDt, nations, genreNm, posterUrl, showTime);
+			
+			String[] actors = movieInfoList.get(i).getActors().split(",");
+			String[] casts = movieInfoList.get(i).getCast().split(",");
+			for(int j = 0; j < actors.length; ++j) {
+				String peopleNm = actors[j];
+				String cast = "nan";
+				if( j <= casts.length-1 ) {
+					cast = casts[j];
+				}
+				Map<String, String> map = new HashMap<>();
+				map.put("peopleNm", peopleNm);
+				map.put("movieNm", movieNm);
+				log.info("peopleNm => {}", peopleNm);
+				log.info("movieNm => {}", movieNm);
+				int peopleId = 0;
+				try {
+					peopleId = repo.getPeopleIdByPeopleNmAndMovieNm(map);					
+				}catch(BindingException e) {
+					log.error("Error searchingStep1 BindingException => {}", e);
+				}
+				MovieActorsDTO movieActorsDto = new MovieActorsDTO(peopleId, peopleNm, cast);
+				movieInfoSearchDto.getMovieActorList().add(movieActorsDto);
+				if(j == 3) 
+					break;
+			}
+			movieInfoSearchList.add(movieInfoSearchDto);
+		}
+		
+		return movieInfoSearchList;
 	}
 	
 	public List<PeopleInfoSearchViewDTO> searchingStep3(String query) {
