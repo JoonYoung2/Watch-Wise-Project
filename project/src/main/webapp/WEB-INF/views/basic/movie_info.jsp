@@ -245,6 +245,7 @@
 	</c:if>
 	
 	<!--  -->
+
 	<div class="comment-writing-card">
 	<h4 style="text-align: center">나의 코멘트 작성하기</h4>
 		<div align="center" class="comment-writing-content">
@@ -255,14 +256,20 @@
 		</form>
 		</div>
 	</div>
-
+	<c:forEach var="dto" items="${comments}">
 	 <div class="comment-card">
         <div class="comment-content">
-            <h3>User Name</h3>
-            <p>Here is the comment text. It can be as long as needed.</p>
-            <span class="date">October 27, 2023</span>
+        <c:if test="${dto.reviewScore != 0}">
+            <b> ★ ${dto.reviewScore}</b> / 5.0 <br>
+        </c:if>
+        <c:if test="${dto.reviewScore eq 0 }">
+        	평점 기록 없음<br>
+        </c:if>
+            <b>${dto.reviewComment}</b> <br>
+            <span class="date">${dto.reviewCommentDate}</span>
         </div>
-    </div>
+    </div>	
+	</c:forEach>
     <!-- Add more comment cards here -->
 
  <style> 

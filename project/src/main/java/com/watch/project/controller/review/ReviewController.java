@@ -18,7 +18,7 @@ import com.watch.project.service.ReviewService;
 import lombok.Data;
 import oracle.jdbc.proxy.annotation.Post;
 
-@RestController
+@Controller
 public class ReviewController {
 	@Autowired
 	private ReviewService service;
@@ -28,28 +28,13 @@ public class ReviewController {
 		return "test";
 	}
 	
-	@PostMapping("getReivewScore")
-	public MsgResponse reviewWithScore(@RequestBody MovieReviewDTO dto) {
-	    float score = dto.getReviewScore();
-	    String movieId = dto.getMovieId();
-	    
-	    String msg = service.insertOrUpdateScore(movieId, score);
-	    MsgResponse response = new MsgResponse(msg);
-	    return response;
-	}
-	
-	@Data
-	public class MsgResponse{
-		private String msg;
-		public MsgResponse(String msg){
-			this.msg = msg;
-		}
-	}
+
 	
 	@PostMapping("/saveComment")
 	public String saveComment(MovieReviewDTO dto, RedirectAttributes redirectAttr) {//movieId, reviewComment
 		String msg = service.insertComment(dto);//코멘트 저장
 		List<MovieReviewDTO> comments = service.getEveryCommentForThisMovie(dto.getMovieId()); //해당 영화에 대한 다른 사용자들의 코멘트들 수집
+//		String ifWroteComment = service.getComment(dto); //준영 오빠가 movie_info controller에서 할거임.
 		String movieId=dto.getMovieId();
 		redirectAttr.addFlashAttribute("msg", msg);
 		redirectAttr.addFlashAttribute("comments", comments);		

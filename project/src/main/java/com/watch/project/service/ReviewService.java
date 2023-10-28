@@ -102,7 +102,7 @@ public class ReviewService {
 		System.out.println("*******************************111***********************************");
 		
 		Date currentDate = new Date(); //Fri Oct 27 21:35:40 KST 2023
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");// Date를 ISO 8601 형식의 문자열로 변환
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// Date를 ISO 8601 형식의 문자열로 변환
 		String dateStr = dateFormat.format(currentDate);//2023-10-27T21:35:40Z
 		
 		System.out.println(dateStr);
@@ -113,12 +113,14 @@ public class ReviewService {
 		dto.setReviewScore(existance);
 		dto.setReviewCommentDate(dateStr);
 		
-		if(existance != 0) {//평점을 먼저한 사람 => 이미 데이터 행이 있음. update
+		if(existance > 0) {//평점을 먼저한 사람 => 이미 데이터 행이 있음. update
+			System.out.println("=================update 문으로 들어옴=====================");
 			int updateResult = repo.updateForComment(dto);
 			if(updateResult != 1) {
 				msg = "오류가 발생했습니다. 다시 시도해주세요.";
 			}
 		} else {//코멘트를 먼저하는 사람 => 데이터 행 없음. insert
+			System.out.println("=================insert 문으로 들어옴=====================");
 			int storageResult = repo.insertForComment(dto);
 			if(storageResult != 1) {
 				msg = "오류가 발생했습니다. 다시 시도해주세요.";
@@ -128,15 +130,17 @@ public class ReviewService {
 	}
 
 	private float checkScore(String id) {
-//		float reviewScore = 100;
-//		try {
-		float reviewScore = repo.getStoredScore(id);			
-//		}catch(Exception e){
-//			System.out.println("에러 발생");
-//		}
-//		if(reviewScore == 0) {
+		float reviewScore = 0;
+		try {
+			reviewScore = repo.getStoredScore(id);	
+			System.out.println("try문 내부의 reviewScore : "+reviewScore);
+		}catch(Exception e){
+			System.out.println("에러 발생");
+		}
+//		if(reviewScore == 0.0) {
 //			return 0;
 //		}else {
+//		System.out.println("0.0이 아닌, review Score는 그래서 뭐라고 : "+ reviewScore);
 			return reviewScore;
 //		}
 	}
@@ -145,4 +149,6 @@ public class ReviewService {
 		List<MovieReviewDTO> comments = repo.selectComments(movieId);
 		return comments;
 	}
+
+
 }
