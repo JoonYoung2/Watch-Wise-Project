@@ -33,7 +33,7 @@ public class MovieWeeklyUpdateScheduled {
 	private final MovieInfoApiService service;
 	
 //	@Scheduled(fixedDelay = 1000)
-	@Scheduled(cron = "5 37 14 * * *")
+	@Scheduled(cron = "5 18 20 * * *")
 	public void WeeklyMovieInsert0() throws UnsupportedEncodingException {
 		MovieInfoDTO dto = new MovieInfoDTO();
 		MovieTopInfoDTO topDto = new MovieTopInfoDTO();
@@ -121,7 +121,7 @@ public class MovieWeeklyUpdateScheduled {
     }
 	
 //	@Scheduled(fixedDelay = 1000)
-	@Scheduled(cron = "10 37 14 * * *")
+	@Scheduled(cron = "10 18 20 * * *")
 	public void WeeklyMovieInsert1() throws UnsupportedEncodingException {
 		MovieInfoDTO dto = new MovieInfoDTO();
 		MovieTopInfoDTO topDto = new MovieTopInfoDTO();
@@ -206,7 +206,7 @@ public class MovieWeeklyUpdateScheduled {
     }
 	
 //	@Scheduled(fixedDelay = 1000)
-	@Scheduled(cron = "15 37 14 * * *")
+	@Scheduled(cron = "15 18 20 * * *")
 	public void WeeklyMovieInsert2() throws UnsupportedEncodingException {
 		MovieInfoDTO dto = new MovieInfoDTO();
 		MovieTopInfoDTO topDto = new MovieTopInfoDTO();

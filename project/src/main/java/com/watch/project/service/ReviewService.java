@@ -54,9 +54,6 @@ public class ReviewService {
 				msg = "오류가 발생했습니다. 다시 시도해주세요.";
 			}
 		}else { //처음으로 평가하는 사람
-//			Map<String, Object> map = new HashMap<>();
-//			map.put("movieId", movieId);
-//			map.put("rating", rating);
 			MovieReviewDTO rookie = new MovieReviewDTO();
 			rookie.setId(pk);
 			rookie.setMovieId(movieId);
@@ -64,27 +61,7 @@ public class ReviewService {
 			rookie.setReviewScore(rating);
 			rookie.setReviewComment("nan");
 //			rookie.setReviewCommentDate("nan");
-//			if(rating == 0.5){
-//				msg = "최악이에요";
-//			}else if(rating == 1.0){
-//				msg = "싫어요";
-//			}else if(rating == 1.5){
-//				msg = "재미없어요";
-//			}else if(rating == 2.0){
-//				msg = "별로예요";
-//			}else if(rating == 2.5){
-//				msg = "부족해요";
-//			}else if(rating == 3.0){
-//				msg = "보통이에요";
-//			}else if(rating == 3.5){
-//				msg = "볼만해요";
-//			}else if(rating == 4.0){
-//				msg = "재미있어요";
-//			}else if(rating == 4.5){
-//				msg = "훌륭해요";
-//			}else if(rating == 5.0){
-//				msg = "최고예요";
-//			}
+
 			int insertResult = repo.insertScore(rookie);
 			if(insertResult != 1) {
 				msg = "오류가 발생했습니다. 다시 시도해주세요.";
@@ -101,9 +78,7 @@ public class ReviewService {
 		System.out.println(existance);
 		System.out.println("*******************************111***********************************");
 		
-		Date currentDate = new Date(); //Fri Oct 27 21:35:40 KST 2023
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// Date를 ISO 8601 형식의 문자열로 변환
-		String dateStr = dateFormat.format(currentDate);//2023-10-27T21:35:40Z
+		String dateStr = getDate();
 		
 		System.out.println(dateStr);
 		System.out.println("*******************************222***********************************");
@@ -129,6 +104,13 @@ public class ReviewService {
 		return msg;
 	}
 
+	private String getDate() {
+		Date currentDate = new Date(); //Fri Oct 27 21:35:40 KST 2023
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// Date를 ISO 8601 형식의 문자열로 변환
+		String dateStr = dateFormat.format(currentDate);//2023-10-27T21:35:40Z
+		return dateStr;
+	}
+
 	private float checkScore(String id) {
 		float reviewScore = 0;
 		try {
@@ -150,15 +132,35 @@ public class ReviewService {
 		return comments;
 	}
 
-	public String getComment(String movieId) {
+	public MovieReviewDTO getComment(String movieId) {
 		String pkId = movieId + (String)session.getAttribute("userEmail");
-		String reviewComment = repo.getComment(pkId);
-//		if(reviewComment != "nan") {//이미 코멘트를 작성했던 사람
-//			
-//		}else {//코멘트를 작성하지 않은 사람
-//			
-//		}
+		MovieReviewDTO reviewComment = repo.getComment(pkId);
 		return reviewComment;
+	}
+
+	public String deleteComment(String id) {
+		String msg = "해당 코멘트가 삭제되었습니다.";
+		int deleteResult = repo.deleteComment(id);
+		if(deleteResult != 1) {
+			msg = "오류가 발생했습니다. 다시 시도해주세요.";
+		}
+		return msg;
+	}
+
+	public String modifyComment(MovieReviewDTO dto) {
+		String msg = "코멘트 수정이 완료되었습니다.";
+		String id = dto.getMovieId()+(String)session.getAttribute("userEmail");
+		String dateStr = getDate();
+		
+		dto.setId(id);
+		dto.setUserEmail((String)session.getAttribute("userEmail"));
+		dto.setReviewCommentDate(dateStr);
+
+		int updateResult = repo.updateForComment(dto);
+		if(updateResult != 1) {
+			msg = "오류가 발생했습니다. 다시 시도해주세요.";
+		}
+		return msg;
 	}
 
 

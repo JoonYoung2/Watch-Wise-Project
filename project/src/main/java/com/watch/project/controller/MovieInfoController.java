@@ -78,7 +78,7 @@ public class MovieInfoController {
 			peopleInfoDto.setEnd(peopleInfoDto.getPeopleId().length-1);
 			
 			List<MovieReviewDTO> comments = reviewService.getEveryCommentForThisMovie(movieId);
-			String ifWroteComment = reviewService.getComment(movieId);
+			MovieReviewDTO ifWroteComment = reviewService.getComment(movieId);
 			System.out.println("ifWroteCommnt : "+ifWroteComment);
 
 			model.addAttribute("comments", comments);
