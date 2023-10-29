@@ -66,6 +66,11 @@ const movieInfoRightBtn = (cnt) => {
 
 // LIKE Method START
 
+const unregisterLickClick = () => {
+	alert("로그인 후 좋아요를 할 수 있습니다.");
+	return;
+}
+
 const likeAdd = async (peopleId) => {
     const likeDiv = document.getElementById("likeDiv");
     let msg = "";
@@ -78,8 +83,8 @@ const likeAdd = async (peopleId) => {
         success: function (response) {
             var likeNum = response.likeNum;
 
-                msg += "<div align='center' class='likeCancel' onclick='likeCancel("+peopleId+");'>";
-                msg += "좋아요 "+likeNum+"명이 이 인물을 좋아합니다.";
+                msg += "<div style='display:flex; justify-content:center; align-items:center;' class='likeCancel' onclick='likeCancel("+peopleId+");'>";
+                msg += "<img style='width:16px;' src='/resources/img/likeColor.png'> <span style='padding-left:7px;'>좋아요 "+likeNum+"명이 이 인물을 좋아합니다.</span>";
                 msg += "</div>";
                 likeDiv.innerHTML=msg;
         },
@@ -102,8 +107,8 @@ const likeCancel = async (peopleId) => {
             var likeNum = response.likeNum;
 
             console.log("서버 응답 - likeNum: " + likeNum);
-                msg += "<div align='center' class='likeAdd' onclick='likeAdd("+peopleId+");'>";
-                msg += "좋아요 "+likeNum+"명이 이 인물을 좋아합니다.";
+                msg += "<div style='display:flex; justify-content:center; align-items:center;' class='likeAdd' onclick='likeAdd("+peopleId+");'>";
+                msg += "<img style='width:16px;' src='/resources/img/like.png'> <span style='padding-left:7px;'>좋아요 "+likeNum+"명이 이 인물을 좋아합니다.</span>";
                 msg += "</div>";
                 likeDiv.innerHTML=msg;
         },

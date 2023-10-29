@@ -30,6 +30,7 @@ public class SearchController {
 		List<PeopleInfoSearchViewDTO> searchList3 = new ArrayList<>();
 		List<PeopleInfoSearchViewDTO> searchList4 = new ArrayList<>();
 		log.info("searchingStep1 Size => {}", searchList1.size());
+		model.addAttribute("query", query);
 		if(searchList1.size() != 0) {
 			model.addAttribute("searchList1", searchList1);
 			return "basic/search_info";

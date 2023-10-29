@@ -41,15 +41,29 @@
 			<hr>
 				<div id="likeDiv">
 					<c:if test="${ likeCheck eq 0 }">
-						<div align="center" class="likeAdd" onclick="likeAdd('${ peopleInfo.peopleId }');">
-							좋아요 ${ peopleInfo.likeNum }명이 이 인물을 좋아합니다.
+						<div style="display:flex; justify-content:center; align-items:center;" class="likeAdd" onclick="likeAdd('${ peopleInfo.peopleId }');">
+							<img style="width:16px;" src="/resources/img/like.png"> <span style="padding-left:7px;">좋아요 ${ peopleInfo.likeNum }명이 이 인물을 좋아합니다.</span>
 						</div>
 					</c:if>
 					<c:if test="${ likeCheck eq 1 }">
-						<div align="center" class="likeCancel" onclick="likeCancel('${ peopleInfo.peopleId }');">
-							좋아요 ${ peopleInfo.likeNum }명이 이 인물을 좋아합니다.
+						<div style="display:flex; justify-content:center; align-items:center;" class="likeCancel" onclick="likeCancel('${ peopleInfo.peopleId }');">
+							<img style="width:16px;" src="/resources/img/likeColor.png"> <span style="padding-left:7px;">좋아요 ${ peopleInfo.likeNum }명이 이 인물을 좋아합니다.</span>
 						</div>
 					</c:if>
+				</div>
+			<hr>
+		</div>
+	</div>
+</c:if>
+
+<c:if test="${ empty sessionScope.userEmail }">
+	<div align="center" style="width:100%;">
+		<div align="center" style="width:80%;">
+			<hr>
+				<div id="likeDiv">
+					<div style="display:flex; justify-content:center; align-items:center;" class="likeAdd" onclick="unregisterLickClick();">
+						<img style="width:16px;" src="/resources/img/like.png"> <span style="padding-left:7px;">좋아요 ${ peopleInfo.likeNum }명이 이 인물을 좋아합니다.</span>
+					</div>
 				</div>
 			<hr>
 		</div>

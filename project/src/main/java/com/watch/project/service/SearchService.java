@@ -51,28 +51,30 @@ public class SearchService {
 			
 			String[] actors = movieInfoList.get(i).getActors().split(",");
 			String[] casts = movieInfoList.get(i).getCast().split(",");
-			for(int j = 0; j < actors.length; ++j) {
-				String peopleNm = actors[j];
-				String cast = "nan";
-				if( j <= casts.length-1 ) {
-					cast = casts[j];
-				}
-				Map<String, String> map = new HashMap<>();
-				map.put("peopleNm", peopleNm);
-				map.put("movieNm", movieNm);
-				log.info("peopleNm => {}", peopleNm);
-				log.info("movieNm => {}", movieNm);
-				int peopleId = 0;
-				try {
-					peopleId = repo.getPeopleIdByPeopleNmAndMovieNm(map);					
-				}catch(BindingException e) {
-					log.error("Error searchingStep1 BindingException => {}", e);
-					peopleId = 0;
-				}
-				MovieActorsDTO movieActorsDto = new MovieActorsDTO(peopleId, peopleNm, cast);
-				movieInfoSearchDto.getMovieActorList().add(movieActorsDto);
-				if(j == 3) 
-					break;
+			if(!actors[0].equals("nan")) {
+				for(int j = 0; j < actors.length; ++j) {
+					String peopleNm = actors[j];
+					String cast = "nan";
+					if( j <= casts.length-1 ) {
+						cast = casts[j];
+					}
+					Map<String, String> map = new HashMap<>();
+					map.put("peopleNm", peopleNm);
+					map.put("movieNm", movieNm);
+					log.info("peopleNm => {}", peopleNm);
+					log.info("movieNm => {}", movieNm);
+					int peopleId = 0;
+					try {
+						peopleId = repo.getPeopleIdByPeopleNmAndMovieNm(map);					
+					}catch(BindingException e) {
+						log.error("Error searchingStep1 BindingException => {}", e);
+						peopleId = 0;
+					}
+					MovieActorsDTO movieActorsDto = new MovieActorsDTO(peopleId, peopleNm, cast);
+					movieInfoSearchDto.getMovieActorList().add(movieActorsDto);
+					if(j == 3) 
+						break;
+				}				
 			}
 			movieInfoSearchList.add(movieInfoSearchDto);
 		}
@@ -106,27 +108,30 @@ public class SearchService {
 			
 			String[] actors = movieInfoList.get(i).getActors().split(",");
 			String[] casts = movieInfoList.get(i).getCast().split(",");
-			for(int j = 0; j < actors.length; ++j) {
-				String peopleNm = actors[j];
-				String cast = "nan";
-				if( j <= casts.length-1 ) {
-					cast = casts[j];
-				}
-				Map<String, String> map = new HashMap<>();
-				map.put("peopleNm", peopleNm);
-				map.put("movieNm", movieNm);
-				log.info("peopleNm => {}", peopleNm);
-				log.info("movieNm => {}", movieNm);
-				int peopleId = 0;
-				try {
-					peopleId = repo.getPeopleIdByPeopleNmAndMovieNm(map);					
-				}catch(BindingException e) {
-					log.error("Error searchingStep1 BindingException => {}", e);
-				}
-				MovieActorsDTO movieActorsDto = new MovieActorsDTO(peopleId, peopleNm, cast);
-				movieInfoSearchDto.getMovieActorList().add(movieActorsDto);
-				if(j == 3) 
-					break;
+			if(!actors[0].equals("nan")) {
+				for(int j = 0; j < actors.length; ++j) {
+					String peopleNm = actors[j];
+					String cast = "nan";
+					if( j <= casts.length-1 ) {
+						cast = casts[j];
+					}
+					Map<String, String> map = new HashMap<>();
+					map.put("peopleNm", peopleNm);
+					map.put("movieNm", movieNm);
+					log.info("peopleNm => {}", peopleNm);
+					log.info("movieNm => {}", movieNm);
+					int peopleId = 0;
+					try {
+						peopleId = repo.getPeopleIdByPeopleNmAndMovieNm(map);					
+					}catch(BindingException e) {
+						log.error("Error searchingStep1 BindingException => {}", e);
+						peopleId = 0;
+					}
+					MovieActorsDTO movieActorsDto = new MovieActorsDTO(peopleId, peopleNm, cast);
+					movieInfoSearchDto.getMovieActorList().add(movieActorsDto);
+					if(j == 3) 
+						break;
+				}				
 			}
 			movieInfoSearchList.add(movieInfoSearchDto);
 		}

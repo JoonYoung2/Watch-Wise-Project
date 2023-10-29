@@ -30,8 +30,10 @@ public class PeopleInfoAjaxController {
 	public LikeUpdateResponse peopleLikeAdd(@RequestParam("peopleId") int peopleId, HttpSession session) {
 		String userEmail = (String)session.getAttribute("userEmail");
 		int likeNum = 0;
-
-		service.peopleLikeAdd(peopleId, userEmail);
+		if(userEmail != null) {
+			service.peopleLikeAdd(peopleId, userEmail);			
+		}
+		
 		likeNum = service.getLikeNumById(peopleId);
 
 		LikeUpdateResponse response = new LikeUpdateResponse(likeNum);
