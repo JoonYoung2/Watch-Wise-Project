@@ -1,6 +1,5 @@
 package com.watch.project.controller.review;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,10 +22,10 @@ public class ReviewController {
 	@PostMapping("/saveComment")
 	public String saveComment(MovieReviewDTO dto, RedirectAttributes redirectAttr) {//movieId, reviewComment
 		String msg = service.insertComment(dto);//코멘트 저장
-		String ifWroteComment = service.getComment(dto.getMovieId()); //여기 movie_info 컨트롤러로 옮겼으니까 테스트 후에 지워주기
+//		String ifWroteComment = service.getComment(dto.getMovieId()); //여기 movie_info 컨트롤러로 옮겼으니까 테스트 후에 지워주기
 		String movieId=dto.getMovieId();
 		redirectAttr.addFlashAttribute("msg", msg);
-		redirectAttr.addFlashAttribute("ifWroteComment", ifWroteComment); ///여기 movie_info 컨트롤러로 옮겼으니까 테스트 후에 지워주기.
+//		redirectAttr.addFlashAttribute("ifWroteComment", ifWroteComment); ///여기 movie_info 컨트롤러로 옮겼으니까 테스트 후에 지워주기.
 		return "redirect:/movieInfo?movieId="+movieId;
 	}
 }

@@ -245,6 +245,7 @@
 	</c:if>
 	
 	<!--  -->
+	<c:if test="${not empty sessionScope.userEmail }">
 	<c:if test="${ifWroteComment eq 'nan' || ifWroteComment eq null}">
 	<div class="comment-writing-card">
 	<h4 style="text-align: center">나의 코멘트 작성하기</h4>
@@ -257,20 +258,27 @@
 		</div>
 	</div>	
 	</c:if>
+	</c:if>
 	
 	<c:forEach var="dto" items="${comments}">
+	<c:if test="${dto.reviewComment != 'nan' }">
 	 <div class="comment-card">
-        <div class="comment-content">
+        <span class="comment-content">
         <c:if test="${dto.reviewScore != 0}">
             <b> ★ ${dto.reviewScore}</b> / 5.0 <br>
         </c:if>
         <c:if test="${dto.reviewScore eq 0 }">
         	평점 기록 없음<br>
         </c:if>
+        	<span class="date">${dto.userEmail } </span><br>
             <b>${dto.reviewComment}</b> <br>
-            <span class="date">${dto.reviewCommentDate}</span>
-        </div>
+            <span class="date">${dto.reviewCommentDate} </span>
+        </span>
+        <span>
+        	<button type="button" onclick="location.href='/modify_comment' ">수정</button>
+        </span>
     </div>	
+    </c:if>
 	</c:forEach>
     <!-- Add more comment cards here -->
 
