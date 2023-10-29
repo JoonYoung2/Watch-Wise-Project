@@ -52,10 +52,9 @@
 		</div>
 	</div>
 	
-	<!--  -->
+	<!-------------------------------- 평점 START ----------------------------------------------------------->
 	<hr>
 <div align="center" id="review">
-<!-- 	<form action="/getReview" method="POST"> -->
 		<label for="select-box">평점</label> <br>
 		<select id="select-box" name="rating" onchange="rating(this.value,'${movieInfo.movieId }');">
 	      	<option value="0.0">0.0</option>
@@ -73,7 +72,7 @@
 		<div id="msg"></div>
 </div>
 	
-	<!--  -->
+	<!-------------------------------- 평점 END ----------------------------------------------------------->
 	<!-- Actors -->
 	
 	<c:if test="${ not empty peopleInfo }">
@@ -244,8 +243,19 @@
 		</div>
 	</c:if>
 	
-	<!--  -->
-	<c:if test="${ifWroteComment eq 'nan' || ifWroteComment eq null}">
+	<!------------------------------------- 코멘트 START  -------------------------------------------------->
+	
+	<c:if test="${not empty msg }">
+		<script>
+			alert('${msg}');
+		</script>
+	</c:if>
+	
+	    <hr>
+	
+	<c:if test="${not empty sessionScope.userEmail }">
+	<c:choose>
+    <c:when test="${ifWroteComment.reviewComment eq 'nan' || ifWroteComment.reviewComment eq null}">
 	<div class="comment-writing-card">
 	<h4 style="text-align: center">나의 코멘트 작성하기</h4>
 		<div align="center" class="comment-writing-content">
@@ -256,21 +266,55 @@
 		</form>
 		</div>
 	</div>	
+    </c:when>
+    <c:otherwise>
+    
+		<h4>내가 작성한 코멘트</h4>
+		
+		<div class="comment-card">
+        <span class="comment-content">
+        	<span class="date">${ifWroteComment.userEmail } </span><br>
+            <b>${ifWroteComment.reviewComment}</b> <br>
+            <span class="date">${ifWroteComment.reviewCommentDate} </span>
+        </span>
+        <span>
+        	<button type="button" onclick="showModifyForm();">수정</button>
+        	<button type="button" onclick="location.href='/delete_comment?id=${ifWroteComment.id }&movieId=${movieInfo.movieId }' ">삭제</button>
+        </span>
+    	</div>	
+    	
+    	<div id="modify-form" style="display:none;" class="comment-writing-card">
+    		<h4 style="text-align: center">나의 코멘트 수정하기</h4>
+			<div align="center" class="comment-writing-content">
+				<form action="/modifyComment" method="post">
+					<textarea rows="10" cols="100" name="reviewComment"></textarea><br>
+					<input type="hidden" value="${movieInfo.movieId }" name="movieId">
+					<input type="submit" value="수정">
+				</form>
+			</div>
+    	</div>
+    </c:otherwise>
+	</c:choose>
 	</c:if>
 	
+	<hr>
+	<h4>이 영화에 대한 모든 코멘트</h4>
 	<c:forEach var="dto" items="${comments}">
+	<c:if test="${dto.reviewComment != 'nan' }">
 	 <div class="comment-card">
-        <div class="comment-content">
+        <span class="comment-content">
         <c:if test="${dto.reviewScore != 0}">
             <b> ★ ${dto.reviewScore}</b> / 5.0 <br>
         </c:if>
         <c:if test="${dto.reviewScore eq 0 }">
         	평점 기록 없음<br>
         </c:if>
+        	<span class="date">${dto.userEmail } </span><br>
             <b>${dto.reviewComment}</b> <br>
-            <span class="date">${dto.reviewCommentDate}</span>
-        </div>
+            <span class="date">${dto.reviewCommentDate} </span>
+        </span>
     </div>	
+    </c:if>
 	</c:forEach>
     <!-- Add more comment cards here -->
 
@@ -320,7 +364,7 @@
 </style>
 	
 	
-	<!--  -->
+	<!------------------------------------- 코멘트 END  -------------------------------------------------->
 	
 	<c:if test="${ movieInfo.posterUrl[0] ne 'nan' }">
 		<br><br><br>

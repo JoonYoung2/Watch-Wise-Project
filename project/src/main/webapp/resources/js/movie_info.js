@@ -60,9 +60,9 @@ const postersRightBtn = (cnt) => {
 	}
 }
 
-// 평점 START
+//------------------------------------ 평점 / 코멘트 START --------------------------------------------------
 
-function rating(score, movieId) {
+function rating(score, movieId) {  //평점
 	let selectedScore = Number(score);
 	let msgId = document.getElementById("msg");
 	let data = {reviewScore : selectedScore, movieId};
@@ -81,4 +81,8 @@ function rating(score, movieId) {
 	});
 }
 
-// 평점 END
+function showModifyForm(){  //코멘트
+	console.log("gdgd");
+	let modifyFormId = document.getElementById("modify-form");
+	modifyFormId.style.display='block';		
+}

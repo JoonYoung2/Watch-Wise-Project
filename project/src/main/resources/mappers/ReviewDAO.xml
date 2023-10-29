@@ -40,7 +40,11 @@
 		SELECT * FROM movie_review WHERE movie_id=#{movieId}
 	</select>
 	
-	<select id="getComment" resultType="String">
-		SELECT review_comment FROM movie_review WHERE id=#{pkId}
+	<select id="getComment" resultMap="review">
+		SELECT * FROM movie_review WHERE id=#{pkId}
 	</select>
+	
+	<update id="deleteComment" parameterType="String">
+		UPDATE movie_review SET review_comment='nan', review_comment_date = NULL WHERE id=#{id}
+	</update>
 </mapper>

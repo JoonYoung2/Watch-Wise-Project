@@ -24,6 +24,8 @@ public interface ReviewRepository {
 
 	int updateForComment(MovieReviewDTO dto);
 
-	String getComment(String pkId);
+	MovieReviewDTO getComment(String pkId);
+
+	int deleteComment(String id);
 
 }
