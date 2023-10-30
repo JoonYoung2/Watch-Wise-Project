@@ -41,4 +41,6 @@ public class ReviewController {
 		redirectAttr.addFlashAttribute("msg", msg);
 		return "redirect:/movieInfo?movieId="+dto.getMovieId();
 	}
+	
+
 }

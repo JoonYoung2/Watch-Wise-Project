@@ -10,7 +10,15 @@
 	<result property="reviewScore" column="review_score" />
 	<result property="reviewComment" column="review_comment"/>
 	<result property="reviewCommentDate" column="review_comment_date"/>
+	<result property="reviewCommentLikes" column="review_comment_likes"/>
 </resultMap>
+
+<resultMap type="com.watch.project.dto.CommentLikedUsersDTO" id="comment_liked_user">
+    <id property="id" column="id" />
+	<result property="commentId" column="comment_id"/>
+	<result property="likedUserEmail" column="liked_user_email"/>
+</resultMap>
+
 
 	<select id="getInfoByPk" resultMap="review">
 		SELECT * FROM movie_review WHERE id=#{pk}
@@ -33,7 +41,7 @@
 	</update>
 	
 	<insert id="insertForComment" parameterType="com.watch.project.dto.MovieReviewDTO">
-		INSERT INTO movie_review VALUES(#{id}, #{movieId}, #{userEmail}, #{reviewScore}, #{reviewComment}, #{reviewCommentDate})
+		INSERT INTO movie_review (id, movie_id, user_email, review_score, review_comment, review_comment_date) VALUES(#{id}, #{movieId}, #{userEmail}, #{reviewScore}, #{reviewComment}, #{reviewCommentDate})
 	</insert>
 	
 	<select id="selectComments" resultMap="review">
@@ -51,4 +59,20 @@
 <!-- 	<delete id="deleteFromMovieReview" parameterType="String">//////////////////////////////////////////////////////////////////// -->
 <!-- 		DELTE FROM movie_review WHERE user_email=#{userEmail} -->
 <!-- 	</delete> -->
+
+	<update id="increaseLikeCountForComment" parameterType="com.watch.project.dto.MovieReviewDTO">
+		UPDATE movie_review SET review_comment_likes = review_comment_likes + 1 WHERE id=#{id}
+	</update>
+	
+	<update id="decreaseLikeCountForComment" parameterType="com.watch.project.dto.MovieReviewDTO">
+		UPDATE movie_review SET review_comment_likes = review_comment_likes - 1 WHERE id=#{id}
+	</update>
+	
+	<insert id="insertLikedUserInfo" parameterType="com.watch.project.dto.CommentLikedUsersDTO">
+		INSERT INTO comment_liked_users (id, comment_id, liked_user_email) VALUES(#{id}, #{commentId}, #{likedUserEmail})
+	</insert>
+	
+	<delete id="deleteLikedUserInfo" parameterType="com.watch.project.dto.CommentLikedUsersDTO">
+		DELETE FROM comment_liked_users WHERE id=#{id}
+	</delete>
 </mapper>

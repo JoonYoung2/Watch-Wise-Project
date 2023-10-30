@@ -12,6 +12,7 @@ import org.apache.ibatis.binding.BindingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.watch.project.dto.CommentLikedUsersDTO;
 import com.watch.project.dto.MovieReviewDTO;
 import com.watch.project.repository.ReviewRepository;
 
@@ -158,6 +159,26 @@ public class ReviewService {
 
 		int updateResult = repo.updateForComment(dto);
 		if(updateResult != 1) {
+			msg = "오류가 발생했습니다. 다시 시도해주세요.";
+		}
+		return msg;
+	}
+
+	public String increaseLikeCountForComment(MovieReviewDTO dto, CommentLikedUsersDTO commentDto) {//id, movieId, userEmail
+		String msg="";
+		int updateResult = repo.increaseLikeCountForComment(dto);
+		int insertResult = repo.insertLikedUserInfo(commentDto);
+		if(updateResult != 1||insertResult !=1) {
+			msg = "오류가 발생했습니다. 다시 시도해주세요.";
+		}
+		return msg;
+	}
+
+	public String decreaseLikeCountForComment(MovieReviewDTO dto, CommentLikedUsersDTO commentDto) {//id, movieId, userEmail
+		String msg="";
+		int updateResult = repo.decreaseLikeCountForComment(dto);
+		int deleteResult = repo.deleteLikedUserInfo(commentDto);
+		if(updateResult != 1 || deleteResult != 1) {
 			msg = "오류가 발생했습니다. 다시 시도해주세요.";
 		}
 		return msg;

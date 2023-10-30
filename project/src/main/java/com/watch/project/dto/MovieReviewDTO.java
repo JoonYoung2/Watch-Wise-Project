@@ -12,4 +12,5 @@ public class MovieReviewDTO {
 	private float reviewScore;
 	private String reviewComment;
 	private String reviewCommentDate;
+	private int reviewCommentLikes;
 }

@@ -53,7 +53,8 @@
 	</div>
 	
 	<!-------------------------------- 평점 START ----------------------------------------------------------->
-	<hr>
+<c:if test="${not empty sessionScope.userEmail }">
+<hr>
 <div align="center" id="review">
 		<label for="select-box">평점</label> <br>
 		<select id="select-box" name="rating" onchange="rating(this.value,'${movieInfo.movieId }');">
@@ -71,6 +72,7 @@
 		</select>
 		<div id="msg"></div>
 </div>
+</c:if>
 	
 	<!-------------------------------- 평점 END ----------------------------------------------------------->
 	<!-- Actors -->
@@ -296,7 +298,7 @@
     </c:otherwise>
 	</c:choose>
 	</c:if>
-	
+	<c:set var="cnt" value="0"/>
 	<hr>
 	<h4>이 영화에 대한 모든 코멘트</h4>
 	<c:forEach var="dto" items="${comments}">
@@ -313,6 +315,11 @@
             <b>${dto.reviewComment}</b> <br>
             <span class="date">${dto.reviewCommentDate} </span>
         </span>
+        <span class="comment">
+        	<button class="likeButton" onclick="increaseLikeCount('${dto.userEmail}', '${movieInfo.movieId}', '${ cnt }');">좋아요</button>
+        	<button class="likeButton" onclick="decreaseLikeCount('${dto.userEmail}', '${movieInfo.movieId}', '${ cnt }');">좋아요 취소</button>
+        </span>
+        <c:set var="cnt" value="${ cnt+1 }"/>
     </div>	
     </c:if>
 	</c:forEach>

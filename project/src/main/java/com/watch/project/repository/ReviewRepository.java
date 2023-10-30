@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.watch.project.dto.CommentLikedUsersDTO;
 import com.watch.project.dto.MovieReviewDTO;
 
 @Mapper
@@ -27,6 +28,14 @@ public interface ReviewRepository {
 	MovieReviewDTO getComment(String pkId);
 
 	int deleteComment(String id);
+
+	int increaseLikeCountForComment(MovieReviewDTO dto);
+
+	int decreaseLikeCountForComment(MovieReviewDTO dto);
+
+	int insertLikedUserInfo(CommentLikedUsersDTO commentDto);
+
+	int deleteLikedUserInfo(CommentLikedUsersDTO commentDto);
 
 //	int deleteFromMovieReview(String userEmail);////////////////////////////////////////////////////////////////
 

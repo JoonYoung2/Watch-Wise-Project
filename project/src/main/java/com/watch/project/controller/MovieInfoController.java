@@ -76,15 +76,14 @@ public class MovieInfoController {
 				}
 			}
 			peopleInfoDto.setEnd(peopleInfoDto.getPeopleId().length-1);
-			
-			List<MovieReviewDTO> comments = reviewService.getEveryCommentForThisMovie(movieId);
-			MovieReviewDTO ifWroteComment = reviewService.getComment(movieId);
-			System.out.println("ifWroteCommnt : "+ifWroteComment);
-
-			model.addAttribute("comments", comments);
-			model.addAttribute("ifWroteComment", ifWroteComment);
 			model.addAttribute("peopleInfo", peopleInfoDto);
 		}
+		List<MovieReviewDTO> comments = reviewService.getEveryCommentForThisMovie(movieId);//이 영화에 대한 모든 사용자의 코멘트들 가져오는 메서드
+		MovieReviewDTO ifWroteComment = reviewService.getComment(movieId);//로그인한 사용자가 작성한 코멘트가 있다면 가져옴
+//		System.out.println("ifWroteComment.getReviewComment()============> : "+ifWroteComment.getReviewComment());
+
+		model.addAttribute("comments", comments);
+		model.addAttribute("ifWroteComment", ifWroteComment);
 		model.addAttribute("movieInfo", movieInfoViewDto);
 		return "basic/movie_info";
 	}
