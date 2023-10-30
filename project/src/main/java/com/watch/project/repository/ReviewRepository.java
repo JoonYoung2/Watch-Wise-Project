@@ -28,4 +28,6 @@ public interface ReviewRepository {
 
 	int deleteComment(String id);
 
+//	int deleteFromMovieReview(String userEmail);////////////////////////////////////////////////////////////////
+
 }

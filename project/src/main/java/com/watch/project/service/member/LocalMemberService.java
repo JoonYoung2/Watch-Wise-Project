@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.repository.MemberRepository;
+import com.watch.project.service.ReviewService;
 
 @Service
 public class LocalMemberService {
@@ -17,6 +18,8 @@ public class LocalMemberService {
 	private MemberRepository repo;
 	@Autowired
 	private HttpSession session;
+	@Autowired
+	private ReviewService reviewService;
 	
 	BCryptPasswordEncoder encoder;
 	public LocalMemberService() {

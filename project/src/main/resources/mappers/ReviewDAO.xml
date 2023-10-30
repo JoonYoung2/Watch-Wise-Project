@@ -47,4 +47,8 @@
 	<update id="deleteComment" parameterType="String">
 		UPDATE movie_review SET review_comment='nan', review_comment_date = NULL WHERE id=#{id}
 	</update>
+	
+<!-- 	<delete id="deleteFromMovieReview" parameterType="String">//////////////////////////////////////////////////////////////////// -->
+<!-- 		DELTE FROM movie_review WHERE user_email=#{userEmail} -->
+<!-- 	</delete> -->
 </mapper>

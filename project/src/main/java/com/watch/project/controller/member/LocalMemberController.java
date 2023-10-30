@@ -41,9 +41,8 @@ public class LocalMemberController {
 		System.out.println("dkdkdkdkd"+dto.getUserPw());
 		System.out.println("dkdkdkdkd"+dto.getUserName());
 		String msg = service.SignUpDo(dto, pwCh);
-//		System.out.println("controller msg ==> "+msg);
 		if(msg.equals("회원가입이 완료되었습니다.")) {
-			String script = service.getAlertLocation(msg, "/signIn");   //여기는 나도 모르겠음 /////////////////
+			String script = service.getAlertLocation(msg, "/signIn");  
 			res.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = res.getWriter();
 			out.print(script); 

@@ -163,5 +163,10 @@ public class ReviewService {
 		return msg;
 	}
 
+//	public int deleteFromMovieReview(String userEmail) {///////////////////////////////////////////////////////////////////////
+//		int result = repo.deleteFromMovieReview(userEmail);
+//		return result;
+//	}
+
 
 }
