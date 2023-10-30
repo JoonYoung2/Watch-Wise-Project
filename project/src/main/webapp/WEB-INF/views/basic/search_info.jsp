@@ -11,11 +11,12 @@
 <body>
 	<%@ include file="/WEB-INF/views/header.jsp"%>
 	
-	<input id="query" type="text" onchange="query();" value="${ query }"><br><br>
-	
 	<div align="center" style="width: 100%;">
 		<div align="center" style="width: 80%;">
+		
 			<c:if test="${ not empty searchList1 }">
+			
+				&quot${ query }&quot 검색결과  ${ searchList1.size() }개
 				<c:forEach var="movieInfo" items="${ searchList1 }">
 					<a style="all:unset; cursor:pointer;" href="movieInfo?movieId=${ movieInfo.movieId }">
 						<div style="display: flex;">
@@ -26,9 +27,9 @@
 							</c:if>
 							<c:if test="${movieInfo.posterUrl eq 'nan' }">
 								<div align="center" style="width: 50%;">
-									<div
-										style="width: 300px; height: 400px; border: 1px solid rgba(0, 0, 0, 0.1); display: flex; justify-content: center; align-items: center;">이미지가
-										없습니다.</div>
+									<div style="width: 300px; height: 400px; border: 1px solid rgba(0, 0, 0, 0.1); display: flex; justify-content: center; align-items: center;">이미지가
+										없습니다.
+									</div>
 								</div>
 							</c:if>
 	
@@ -69,8 +70,7 @@
 								<c:if test="${ not empty peopleInfo.cast && peopleInfo.peopleId ne '0' }">
 									<a href="peopleInfo?peopleId=${ peopleInfo.peopleId }" style="all: unset; cursor: pointer; display: flex; width: 25%;">
 										<div>
-											<img style="width: 80px; height: 80px;"
-												src="/resources/img/bean_profile.png">
+											<img style="width: 80px; height: 80px;" src="/resources/img/bean_profile.png">
 										</div>
 										<div align="left" style="width: 230px; border-bottom: solid 1px rgba(0, 0, 0, 0.1); margin-left: 20px;">
 											<div style="padding-top: 10px;">
@@ -114,6 +114,7 @@
 			</c:if>
 
 			<c:if test="${ not empty searchList2 }">
+				&quot${ query }&quot 검색결과  ${ searchList2.size() }개
 				<c:forEach var="movieInfo" items="${ searchList2 }">
 					<a style="all:unset; cursor:pointer;" href="movieInfo?movieId=${ movieInfo.movieId }">
 						<div style="display: flex;">
@@ -124,9 +125,9 @@
 							</c:if>
 							<c:if test="${movieInfo.posterUrl eq 'nan' }">
 								<div align="center" style="width: 50%;">
-									<div
-										style="width: 300px; height: 400px; border: 1px solid rgba(0, 0, 0, 0.1); display: flex; justify-content: center; align-items: center;">이미지가
-										없습니다.</div>
+									<div style="width: 300px; height: 400px; border: 1px solid rgba(0, 0, 0, 0.1); display: flex; justify-content: center; align-items: center;">이미지가
+										없습니다.
+									</div>
 								</div>
 							</c:if>
 	
@@ -168,8 +169,7 @@
 								<c:if test="${ not empty peopleInfo.cast && peopleInfo.peopleId ne '0' }">
 									<a href="peopleInfo?peopleId=${ peopleInfo.peopleId }" style="all: unset; cursor: pointer; display: flex; width: 25%;">
 										<div>
-											<img style="width: 80px; height: 80px;"
-												src="/resources/img/bean_profile.png">
+											<img style="width: 80px; height: 80px;" src="/resources/img/bean_profile.png">
 										</div>
 										<div align="left" style="width: 230px; border-bottom: solid 1px rgba(0, 0, 0, 0.1); margin-left: 20px;">
 											<div style="padding-top: 10px;">
@@ -214,6 +214,7 @@
 			</c:if>
 
 			<c:if test="${ not empty searchList3 }">
+				&quot${ query }&quot 검색결과  ${ searchList3.size() }개<br>
 				<c:forEach var="peopleList" items="${ searchList3 }">
 				${ peopleList.peopleId }<br>
 				${ peopleList.peopleNm }<br>
@@ -230,9 +231,9 @@
 								</div>
 							</c:if>
 							<c:if test="${ movieInfoList.posterUrl eq 'nan' }">
-								<div
-									style="display: flex; justify-content: center; align-items: center; width: 300px; height: 428.16px; border: 1px solid rgba(0, 0, 0, 0.1);">
-									이미지가 없습니다.</div>
+								<div style="display: flex; justify-content: center; align-items: center; width: 300px; height: 428.16px; border: 1px solid rgba(0, 0, 0, 0.1);">
+									이미지가 없습니다.
+								</div>
 							</c:if>
 						</c:forEach>
 					</div>
@@ -240,25 +241,25 @@
 			</c:if>
 
 			<c:if test="${ not empty searchList4 }">
+				&quot${ query }&quot 검색결과  ${ searchList4.size() }개<br>
 				<c:forEach var="peopleList" items="${ searchList4 }">
-				${ peopleList.peopleId }<br>
-				${ peopleList.peopleNm }<br>
-				${ peopleList.peopleNmEn }<br>
-				${ peopleList.sex }<br>
-				${ peopleList.likeNum }<br>
+					${ peopleList.peopleId }<br>
+					${ peopleList.peopleNm }<br>
+					${ peopleList.peopleNmEn }<br>
+					${ peopleList.sex }<br>
+					${ peopleList.likeNum }<br>
 					<div style="display: flex;">
 						<c:forEach var="movieInfoList"
 							items="${ peopleList.movieInfoList }">
 							<c:if test="${ movieInfoList.posterUrl ne 'nan' }">
 								<div>
-									<img style="width: 300px; height: 428.16px;"
-										src="${ movieInfoList.posterUrl }">
+									<img style="width: 300px; height: 428.16px;" src="${ movieInfoList.posterUrl }">
 								</div>
 							</c:if>
 							<c:if test="${ movieInfoList.posterUrl eq 'nan' }">
-								<div
-									style="display: flex; justify-content: center; align-items: center; width: 300px; height: 428.16px; border: 1px solid rgba(0, 0, 0, 0.1);">
-									이미지가 없습니다.</div>
+								<div style="display: flex; justify-content: center; align-items: center; width: 300px; height: 428.16px; border: 1px solid rgba(0, 0, 0, 0.1);">
+									이미지가 없습니다.
+								</div>
 							</c:if>
 						</c:forEach>
 					</div>
@@ -268,6 +269,6 @@
 	</div>
 
 	<script src="/resources/js/common.js"></script>
-	<script src="/resources/js/search_info.js"></script>
+	<script src="/resources/js/search_common.js"></script>
 </body>
 </html>

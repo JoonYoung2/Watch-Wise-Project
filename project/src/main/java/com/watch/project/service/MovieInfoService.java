@@ -7,6 +7,8 @@ import org.apache.ibatis.binding.BindingException;
 import org.springframework.stereotype.Service;
 
 import com.watch.project.dto.MovieInfoDTO;
+import com.watch.project.dto.MovieLikeDTO;
+import com.watch.project.dto.PeopleLikeDTO;
 import com.watch.project.dto.movieInfoView.MovieInfoViewDTO;
 import com.watch.project.repository.MovieInfoRepository;
 
@@ -78,5 +80,28 @@ public class MovieInfoService {
 		log.info("peopleId => {}", peopleId);
 		
 		return peopleId;
+	}
+	/*
+	  영화 좋아요
+	*/
+	public void movieLikeAdd(String movieId, String userEmail) {
+		String id = movieId + userEmail;
+		MovieLikeDTO movieLikeDto = new MovieLikeDTO(id, movieId, userEmail);
+		repo.movieLikeAdd(movieId);
+		repo.movieLikeInsert(movieLikeDto);
+	}
+	/*
+	 영화 좋아요 토탈 수 
+	*/
+	public int getLikeNumById(String movieId) {
+		return repo.getLikeNumById(movieId);
+	}
+	/*
+	  영화 좋아요 취소
+	*/
+	public void movieLikeCancel(String movieId, String userEmail) {
+		String id = movieId + userEmail;
+		repo.movieLikeCancel(movieId);
+		repo.movieLikeDelete(id);
 	}
 }
