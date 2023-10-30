@@ -17,5 +17,6 @@ public class MovieInfoViewDTO {
 	private String[] actors;
 	private String[] cast;
 	private String watchGradeNm;
+	private String likeNum;
 	private int dDay;
 }

@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/resources/css/home.css">
 <title>Insert title here</title>
-<c:if test="${signOutAlert == true }"><!--redirect 하면 알림 안뜸.-->
+	<c:if test="${signOutAlert == true }"><!--redirect 하면 알림 안뜸.-->
 		<script type="text/javascript">
 			alert('로그아웃 되었습니다.');
 		</script>	
@@ -30,8 +30,6 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/header.jsp" %>
-
-<input id="query" type="text" onchange="query();">
 
 <c:set var="daily" value="${ movieInfoMap['daily'] }"/>
 <c:set var="weekly0" value="${ movieInfoMap['weekly0'] }"/>
@@ -479,5 +477,6 @@
 
 <script src="/resources/js/common.js"></script>
 <script src="/resources/js/home.js"></script>
+<script src="/resources/js/search_common.js"></script>
 </body>
 </html>

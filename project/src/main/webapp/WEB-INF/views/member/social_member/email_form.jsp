@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="/resources/js/common.js"></script>
+<script src="/resources/js/search_common.js"></script>
 <script>
 function validateForm() {
     var userEmailInput = document.getElementById("userEmail");
