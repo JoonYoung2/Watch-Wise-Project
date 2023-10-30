@@ -143,5 +143,6 @@
 
 <script src="/resources/js/common.js"></script>
 <script src="/resources/js/people_info.js"></script>
+<script src="/resources/js/search_common.js"></script>
 </body>
 </html>

@@ -16,6 +16,7 @@ public class MovieInfoSearchViewDTO {
 	private String watchGradeNm;
 	private String posterUrl;
 	private String showTime;
+	private int likeNum;
 	private List<MovieActorsDTO> movieActorList;
 	
 	public MovieInfoSearchViewDTO(String movieId, String movieNm, String movieNmEn, String openDt, String nations, String genreNm, String watchGradeNm, String posterUrl, String showTime) {

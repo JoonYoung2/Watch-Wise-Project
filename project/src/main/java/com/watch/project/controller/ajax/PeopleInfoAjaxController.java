@@ -53,17 +53,8 @@ public class PeopleInfoAjaxController {
 		return response;
 	}
 	
-	
 	@Data
-	public class LikeUpdateRequest{
-		private int peopleId;
-		public LikeUpdateRequest(int peopleId) {
-			this.peopleId = peopleId;
-		}
-	}
-	
-	@Data
-	public class LikeUpdateResponse{
+	private class LikeUpdateResponse{
 		private int likeNum;
 		public LikeUpdateResponse(int likeNum) {
 			this.likeNum = likeNum;

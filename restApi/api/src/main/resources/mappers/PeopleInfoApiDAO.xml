@@ -11,7 +11,7 @@
 	</resultMap>
 	
 	<select id="getPeopleInfoById" resultMap="peopleInfo">
-		select * from people_info where people_id = #{peopleId}
+		SELECT * FROM people_info WHERE people_id = #{peopleId}
 	</select>
 	
 	<insert id="savePeopleInfo" parameterType="com.watch.api.dto.PeopleInfoDTO">
@@ -19,7 +19,7 @@
 	</insert>
 	
 	<select id="getPeopleInfoAll" resultMap="peopleInfo">
-		select * from people_info
+		SELECT * FROM people_info
 	</select>
 	
 	<insert id="savePeopleInfoDetail" parameterType="com.watch.api.dto.PeopleInfoDetailDTO">

@@ -16,12 +16,19 @@
 		<result column="show_time" property="showTime"/>
 		<result column="actors" property="actors"/>
 		<result column="cast" property="cast"/>
-		<result column="watch_grade_nm" property="watchGradeNm"/>	
+		<result column="watch_grade_nm" property="watchGradeNm"/>
+		<result column="like_num" property="likeNum"/>
 	</resultMap>
 	
 	<resultMap type="com.watch.project.dto.MovieTopInfoDTO" id="movieTopInfo">
 		<result column="id" property="id"/>
 		<result column="movie_ids" property="movieIds"/>
+	</resultMap>
+	
+	<resultMap type="com.watch.project.dto.MovieLikeDTO" id="movieLike">
+		<result column="id" property="id"/>
+		<result column="movie_id" property="movieId"/>
+		<result column="user_email" property="userEmail"/>
 	</resultMap>
 	
 	<select id="getMovieInfoById" resultMap="movieInfo">
@@ -31,6 +38,26 @@
 	<select id="getPeopleIdByPeopleNmAndMovieNm" resultType="Integer">
 		<![CDATA[SELECT people_id FROM people_info WHERE people_nm=#{peopleNm} AND filmo_names LIKE '%${movieNm}%' AND ROWNUM <= 1]]>
 	</select>
+	
+	<update id="movieLikeAdd" parameterType="String">
+		UPDATE movie_info SET like_num = like_num + 1 WHERE movie_id=#{movieId}
+	</update>
+	
+	<insert id="movieLikeInsert" parameterType="com.watch.project.dto.MovieLikeDTO">
+		INSERT INTO movie_like VALUES(#{id}, #{movieId}, #{userEmail})
+	</insert>
+	
+	<select id="getLikeNumById" resultType="Integer">
+		SELECT like_num FROM movie_info WHERE movie_id=#{movieId}
+	</select>
+	
+	<update id="movieLikeCancel" parameterType="String">
+		UPDATE movie_info SET like_num = like_num - 1 WHERE movie_id=#{movieId}
+	</update>
+	
+	<delete id="movieLikeDelete" parameterType="String">
+		DELETE FROM movie_like WHERE id=#{id}
+	</delete>
 	
 </mapper>
 
