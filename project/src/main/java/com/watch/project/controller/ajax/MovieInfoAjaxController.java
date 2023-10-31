@@ -23,7 +23,6 @@ public class MovieInfoAjaxController {
 	
 	@GetMapping("movieLikeAdd")
 	public LikeUpdateResponse peopleLikeAdd(@RequestParam("movieId") String movieId, HttpSession session) {
-		log.info("movieLikeAdd");
 		String userEmail = (String)session.getAttribute("userEmail");
 		int likeNum = 0;
 		if(userEmail != null) {
@@ -33,7 +32,6 @@ public class MovieInfoAjaxController {
 		likeNum = service.getLikeNumById(movieId);
 
 		LikeUpdateResponse response = new LikeUpdateResponse(likeNum);
-		log.info("response => {}", response);
 		
         return response;
 	}

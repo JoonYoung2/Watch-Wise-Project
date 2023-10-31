@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.binding.BindingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -194,7 +195,14 @@ public class ReviewService {
 	}
 
 	public float getAverageRating(String movieId) {
-		float averageRating = repo.getAverageRating(movieId);
+		float averageRating = 0.0f;
+		try {
+			 averageRating = repo.getAverageRating(movieId);			
+		}catch(NullPointerException e) {
+			
+		}catch(BindingException e) {
+			
+		}
 		return averageRating;
 	}
 

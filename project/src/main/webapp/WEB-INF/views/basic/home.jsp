@@ -70,12 +70,12 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-						
+						<c:set var="gradeNum" value="${ list.gradeAvg } + ''"/>
 						<c:if test="${ list.gradeCheck eq true }">
-							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+							<span style="color:orange;">평가함 ★ ${ gradeNum.substring(0,3) }</span>
 						</c:if>
 						<c:if test="${ list.gradeCheck ne true }">
-							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+							<span style="color:red;">평균 ★ ${ gradeNum.substring(0,3) }</span>
 						</c:if>
 					</div>
 				</div>
@@ -95,11 +95,12 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+						<c:set var="gradeNum" value="${ list.gradeAvg } + ''"/>
 						<c:if test="${ list.gradeCheck eq true }">
-							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+							<span style="color:orange;">평가함 ★ ${ gradeNum.substring(0,3) }</span>
 						</c:if>
 						<c:if test="${ list.gradeCheck ne true }">
-							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+							<span style="color:red;">평균 ★ ${ gradeNum.substring(0,3) }</span>
 						</c:if>
 					</div>
 				</div>
@@ -143,11 +144,12 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+						<c:set var="gradeNum" value="${ list.gradeAvg } + ''"/>
 						<c:if test="${ list.gradeCheck eq true }">
-							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+							<span style="color:orange;">평가함 ★ ${ gradeNum.substring(0,3) }</span>
 						</c:if>
 						<c:if test="${ list.gradeCheck ne true }">
-							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+							<span style="color:red;">평균 ★ ${ gradeNum.substring(0,3) }</span>
 						</c:if>
 					</div>
 				</div>
@@ -167,11 +169,12 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+						<c:set var="gradeNum" value="${ list.gradeAvg } + ''"/>
 						<c:if test="${ list.gradeCheck eq true }">
-							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+							<span style="color:orange;">평가함 ★ ${ gradeNum.substring(0,3) }</span>
 						</c:if>
 						<c:if test="${ list.gradeCheck ne true }">
-							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+							<span style="color:red;">평균 ★ ${ gradeNum.substring(0,3) }</span>
 						</c:if>
 					</div>
 				</div>
@@ -215,11 +218,12 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+						<c:set var="gradeNum" value="${ list.gradeAvg } + ''"/>
 						<c:if test="${ list.gradeCheck eq true }">
-							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+							<span style="color:orange;">평가함 ★ ${ gradeNum.substring(0,3) }</span>
 						</c:if>
 						<c:if test="${ list.gradeCheck ne true }">
-							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+							<span style="color:red;">평균 ★ ${ gradeNum.substring(0,3) }</span>
 						</c:if>
 					</div>
 				</div>
@@ -239,11 +243,12 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+						<c:set var="gradeNum" value="${ list.gradeAvg } + ''"/>
 						<c:if test="${ list.gradeCheck eq true }">
-							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+							<span style="color:orange;">평가함 ★ ${ gradeNum.substring(0,3) }</span>
 						</c:if>
 						<c:if test="${ list.gradeCheck ne true }">
-							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+							<span style="color:red;">평균 ★ ${ gradeNum.substring(0,3) }</span>
 						</c:if>
 					</div>
 				</div>
@@ -287,11 +292,12 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+						<c:set var="gradeNum" value="${ list.gradeAvg } + ''"/>
 						<c:if test="${ list.gradeCheck eq true }">
-							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+							<span style="color:orange;">평가함 ★ ${ gradeNum.substring(0,3) }</span>
 						</c:if>
 						<c:if test="${ list.gradeCheck ne true }">
-							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+							<span style="color:red;">평균 ★ ${ gradeNum.substring(0,3) }</span>
 						</c:if>
 					</div>
 				</div>
@@ -311,11 +317,12 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+						<c:set var="gradeNum" value="${ list.gradeAvg } + ''"/>
 						<c:if test="${ list.gradeCheck eq true }">
-							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+							<span style="color:orange;">평가함 ★ ${ gradeNum.substring(0,3) }</span>
 						</c:if>
 						<c:if test="${ list.gradeCheck ne true }">
-							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+							<span style="color:red;">평균 ★ ${ gradeNum.substring(0,3) }</span>
 						</c:if>
 					</div>
 				</div>
@@ -359,11 +366,12 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+						<c:set var="gradeNum" value="${ list.gradeAvg } + ''"/>
 						<c:if test="${ list.gradeCheck eq true }">
-							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+							<span style="color:orange;">평가함 ★ ${ gradeNum.substring(0,3) }</span>
 						</c:if>
 						<c:if test="${ list.gradeCheck ne true }">
-							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+							<span style="color:red;">평균 ★ ${ gradeNum.substring(0,3) }</span>
 						</c:if>
 					</div>
 				</div>
@@ -382,11 +390,12 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+						<c:set var="gradeNum" value="${ list.gradeAvg } + ''"/>
 						<c:if test="${ list.gradeCheck eq true }">
-							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+							<span style="color:orange;">평가함 ★ ${ gradeNum.substring(0,3) }</span>
 						</c:if>
 						<c:if test="${ list.gradeCheck ne true }">
-							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+							<span style="color:red;">평균 ★ ${ gradeNum.substring(0,3) }</span>
 						</c:if>
 					</div>
 				</div>
@@ -432,7 +441,13 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-						<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+						<c:set var="gradeNum" value="${ list.gradeAvg } + ''"/>
+						<c:if test="${ list.gradeCheck eq true }">
+							<span style="color:orange;">평가함 ★ ${ gradeNum.substring(0,3) }</span>
+						</c:if>
+						<c:if test="${ list.gradeCheck ne true }">
+							<span style="color:red;">평균 ★ ${ gradeNum.substring(0,3) }</span>
+						</c:if>
 					</div>
 				</div>
 			</a>
@@ -450,7 +465,13 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-						<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+						<c:set var="gradeNum" value="${ list.gradeAvg } + ''"/>
+						<c:if test="${ list.gradeCheck eq true }">
+							<span style="color:orange;">평가함 ★ ${ gradeNum.substring(0,3) }</span>
+						</c:if>
+						<c:if test="${ list.gradeCheck ne true }">
+							<span style="color:red;">평균 ★ ${ gradeNum.substring(0,3) }</span>
+						</c:if>
 					</div>
 				</div>
 			</a>

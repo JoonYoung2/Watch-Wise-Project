@@ -70,21 +70,17 @@ public class MovieInfoService {
 		Map<String, String> map = new HashMap<>();
 		map.put("peopleNm", peopleNm);
 		map.put("movieNm", movieNm);
-		log.info("peopleNm => {}", peopleNm);
-		log.info("movieNm => {}", movieNm);
 		try {
 			peopleId = repo.getPeopleIdByPeopleNmAndMovieNm(map);
 		}catch(BindingException e) {
-			log.error("Error getPeopleIdByPeopleNmAndMovieNm => {}", e);
-			peopleId = 0;
+			
 		}
-		log.info("peopleId => {}", peopleId);
 		
 		return peopleId;
 	}
 	/*
-	  영화 좋아요
-	*/
+	 *영화 좋아요
+	 */
 	public void movieLikeAdd(String movieId, String userEmail) {
 		String id = movieId + userEmail;
 		MovieLikeDTO movieLikeDto = new MovieLikeDTO(id, movieId, userEmail);
@@ -92,14 +88,14 @@ public class MovieInfoService {
 		repo.movieLikeInsert(movieLikeDto);
 	}
 	/*
-	 영화 좋아요 토탈 수 
-	*/
+	 *영화 좋아요 토탈 수 
+	 */
 	public int getLikeNumById(String movieId) {
 		return repo.getLikeNumById(movieId);
 	}
 	/*
-	  영화 좋아요 취소
-	*/
+	 *영화 좋아요 취소
+	 */
 	public void movieLikeCancel(String movieId, String userEmail) {
 		String id = movieId + userEmail;
 		repo.movieLikeCancel(movieId);
@@ -108,7 +104,6 @@ public class MovieInfoService {
 	
 	public int getMovieLikeCheck(String movieId, String userEmail) {
 		String id = movieId + userEmail;
-		log.info("id => {}",id);
 		try {
 			MovieLikeDTO movieLikeDto = repo.getMovieLikeById(id);	
 			if(movieLikeDto == null) {
