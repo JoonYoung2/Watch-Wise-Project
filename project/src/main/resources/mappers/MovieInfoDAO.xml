@@ -59,5 +59,9 @@
 		DELETE FROM movie_like WHERE id=#{id}
 	</delete>
 	
+	<select id="getMovieLikeById" resultMap="movieLike">
+		SELECT * FROM movie_like WHERE id=#{id}
+	</select>
+	
 </mapper>
 

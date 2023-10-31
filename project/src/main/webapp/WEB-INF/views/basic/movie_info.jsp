@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/resources/css/home.css">
+<link rel="stylesheet" href="/resources/css/movie_info.css">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
@@ -13,6 +14,7 @@
 <%@ include file="/WEB-INF/views/header.jsp" %>
 	<div align="center" style="width:100%;">
 		<div align="center" style="width:80%; display:flex;">
+		
 			<c:if test="${movieInfo.posterUrl[0] ne 'nan' }">
 				<div align="center" style="width:50%;">
 					<img style="width:40%;" src="${ movieInfo.posterUrl[0] }">
@@ -25,7 +27,7 @@
 			</c:if>
 			
 			<div align="left" style="width:50%;">
-			<br><br><br>
+				<br><br><br>
 				<span style="font-size:40px; font-weight:bold;">${ movieInfo.movieNm }</span><br><br>
 				<c:if test="${ movieInfo.movieNmEn ne 'nan' }">
 					<span style="font-size:18px;">${ movieInfo.movieNmEn }</span><br>
@@ -49,6 +51,34 @@
 					<span style="font-size:18px;">개봉일 : ${ movieInfo.openDt.substring(0, 4) }년 ${ movieInfo.openDt.substring(4, 6) }월 ${ movieInfo.openDt.substring(6, 8) }일</span>
 				</c:if>
 			</div>
+		</div>
+	</div>
+	
+	<br><br><br>
+	
+	<div align="center" style="width:100%;">
+		<div align="center" style="width:80%;">
+			<hr>
+			<div id="likeDiv">
+				<c:if test="${ not empty sessionScope.userEmail }">
+					<c:if test="${ likeCheck eq 0 }">
+						<div style="display:flex; justify-content:center; align-items:center;" class="likeAdd" onclick="likeAdd('${ movieInfo.movieId }');">
+							<img style="width:16px;" src="/resources/img/like.png"> <span style="padding-left:7px;">좋아요 ${ movieInfo.likeNum }명이 이 영화를 좋아합니다.</span>
+						</div>
+					</c:if>
+					<c:if test="${ likeCheck eq 1 }">
+						<div style="display:flex; justify-content:center; align-items:center;" class="likeCancel" onclick="likeCancel('${ movieInfo.movieId }');">
+							<img style="width:16px;" src="/resources/img/likeColor.png"> <span style="padding-left:7px;">좋아요 ${ movieInfo.likeNum }명이 이 영화를 좋아합니다.</span>
+						</div>
+					</c:if>
+				</c:if>
+				<c:if test="${ empty sessionScope.userEmail }">
+					<div style="display:flex; justify-content:center; align-items:center;" class="likeAdd" onclick="unregisterLickClick();">
+						<img style="width:16px;" src="/resources/img/like.png"> <span style="padding-left:7px;">좋아요 ${ movieInfo.likeNum }명이 이 영화를 좋아합니다.</span>
+					</div>
+				</c:if>
+			</div>
+			<hr>
 		</div>
 	</div>
 	

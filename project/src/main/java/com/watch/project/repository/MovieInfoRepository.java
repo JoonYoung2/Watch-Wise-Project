@@ -22,4 +22,6 @@ public interface MovieInfoRepository {
 	public void movieLikeCancel(String movieId);
 
 	public void movieLikeDelete(String id);
+
+	public MovieLikeDTO getMovieLikeById(String id);
 }

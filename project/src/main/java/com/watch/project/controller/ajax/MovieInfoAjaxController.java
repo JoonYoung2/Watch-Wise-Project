@@ -6,9 +6,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.watch.project.dto.MovieLikeDTO;
 import com.watch.project.service.MovieInfoService;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +23,7 @@ public class MovieInfoAjaxController {
 	
 	@GetMapping("movieLikeAdd")
 	public LikeUpdateResponse peopleLikeAdd(@RequestParam("movieId") String movieId, HttpSession session) {
+		log.info("movieLikeAdd");
 		String userEmail = (String)session.getAttribute("userEmail");
 		int likeNum = 0;
 		if(userEmail != null) {
@@ -29,6 +33,7 @@ public class MovieInfoAjaxController {
 		likeNum = service.getLikeNumById(movieId);
 
 		LikeUpdateResponse response = new LikeUpdateResponse(likeNum);
+		log.info("response => {}", response);
 		
         return response;
 	}
@@ -38,9 +43,11 @@ public class MovieInfoAjaxController {
 		String userEmail = (String)session.getAttribute("userEmail");
 		int likeNum = 0;
 		
-		service.movieLikeCancel(movieId, userEmail);
+		if(userEmail != null) {
+			service.movieLikeCancel(movieId, userEmail);			
+		}
 		likeNum = service.getLikeNumById(movieId);
-		
+
 		LikeUpdateResponse response = new LikeUpdateResponse(likeNum);
 		return response;
 	}
@@ -48,6 +55,7 @@ public class MovieInfoAjaxController {
 	@Data
 	private class LikeUpdateResponse{
 		private int likeNum;
+		
 		public LikeUpdateResponse(int likeNum) {
 			this.likeNum = likeNum;
 		}

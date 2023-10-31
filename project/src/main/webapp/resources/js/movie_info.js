@@ -8,6 +8,61 @@ let postersPageNum = 1;
 
 let postersCnt = 0;
 
+// LIKE Method START
+
+const unregisterLickClick = () => {
+	alert("로그인 후 좋아요를 할 수 있습니다.");
+	return;
+}
+
+const likeAdd = async (movieId) => {
+    const likeDiv = document.getElementById("likeDiv");
+    let msg = "";
+    $.ajax({
+        url: "http://localhost:8080/movieLikeAdd",
+        method: "GET",
+        data: {
+            movieId
+        },
+        success: function (response) {
+            var likeNum = response.likeNum;
+
+                msg += "<div style='display:flex; justify-content:center; align-items:center;' class='likeCancel' onclick='likeCancel("+movieId+");'>";
+                msg += "<img style='width:16px;' src='/resources/img/likeColor.png'> <span style='padding-left:7px;'>좋아요 "+likeNum+"명이 이 인물을 좋아합니다.</span>";
+                msg += "</div>";
+                likeDiv.innerHTML=msg;
+        },
+        error: function (xhr, status, error) {
+            console.error("오류 발생: " + error);
+        }
+    });
+}
+
+const likeCancel = async (movieId) => {
+    const likeDiv = document.getElementById("likeDiv");
+    let msg = "";
+    $.ajax({
+        url: "http://localhost:8080/movieLikeCancel",
+        method: "GET",
+        data: {
+            movieId
+        },
+        success: function (response) {
+            var likeNum = response.likeNum;
+
+            console.log("서버 응답 - likeNum: " + likeNum);
+                msg += "<div style='display:flex; justify-content:center; align-items:center;' class='likeAdd' onclick='likeAdd("+movieId+");'>";
+                msg += "<img style='width:16px;' src='/resources/img/like.png'> <span style='padding-left:7px;'>좋아요 "+likeNum+"명이 이 인물을 좋아합니다.</span>";
+                msg += "</div>";
+                likeDiv.innerHTML=msg;
+        },
+        error: function (xhr, status, error) {
+            console.error("오류 발생: " + error);
+        }
+    });
+}
+// LIKE Method END
+
 const postersLeftBtn = () => {
 	postersPageNum--;
 	if (postersPageNum == 1) {
