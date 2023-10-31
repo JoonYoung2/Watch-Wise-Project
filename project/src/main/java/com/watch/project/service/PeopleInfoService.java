@@ -58,9 +58,9 @@ public class PeopleInfoService {
 		try {
 			gradeAvg = homeRepository.getMovieGradeAvgByMovieId(movieId);
 		}catch(NullPointerException e) {
-			log.info("Error getMovieGradeAvgByMovieId NullPointerException");
+			
 		}catch(BindingException e) {
-			log.info("Error getMovieGradeAvgByMovieId BindingException");
+			
 		}
 		
 		return gradeAvg;

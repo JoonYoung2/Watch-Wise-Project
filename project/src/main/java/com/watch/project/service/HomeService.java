@@ -33,7 +33,6 @@ public class HomeService {
 	
 	public List<MovieTopInfoDTO> getMovieTopInfo(){
 		int id = getDateId();
-		log.info("dateId ==> {}", id);
 		return repo.getMovieTopInfo(id);
 	}
 	

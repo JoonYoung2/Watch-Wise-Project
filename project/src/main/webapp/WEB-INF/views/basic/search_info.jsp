@@ -6,70 +6,176 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/resources/css/home.css">
+<link rel="stylesheet" href="/resources/css/search_info.css">
 <title>Insert title here</title>
 </head>
 <body>
+	<c:set var="imgWidth" value="300"/>
+	<c:set var="imgHeight" value="428.16"/>
 	<%@ include file="/WEB-INF/views/header.jsp"%>
 	<% int cnt = 0; %>
 	<div align="center" style="width: 100%;">
 		<div align="center" style="width: 80%;">
 			<c:if test="${ not empty searchList1 }">
-			
+				
 				&quot${ query }&quot 검색결과  ${ searchList1.size() }개
 				
-				<div align="left" style="width:100%; padding-bottom:10px;"><span style="font-size:30px; font-weight:bold;">최근 개봉된 외국 영화</span></div>
+				<!-- SearchCase1 검색결과 Movies START -->
+				<div align="left" style="width:100%; padding-bottom:10px;"><span style="font-size:30px; font-weight:bold;">&quot${ query }&quot 검색결과</span></div>
 				<div style="display:flex; position:relative">
-				
-					<button id="recentlyFoLeftBtn" class="leftBtn" onclick="recentlyFoLeftBtn();">◀</button>
 					
-					<c:forEach var="list" items="${ memberCommend }">
+					<button id="searchMoviesLeftBtn" class="leftBtn" onclick="searchMoviesLeftBtn();">◀</button>
+						
+					<c:forEach var="list" items="${ searchList1 }">
 					<% 
 						if(cnt < 5){ 
 					%>
-					<a href="/movieInfo?movieId=${ list.movieId }" class="recentlyFo" style="all:unset; cursor:pointer; display:;">
+					<a href="/movieInfo?movieId=${ list.movieId }" class="searchMovies" style="all:unset; cursor:pointer; display:;">
 						<div style="padding-right:10px;">
-							<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }">
-							<div align="left">
-								<c:if test="${ list.movieNm.length() > 15 }">
-									<span style="font-size:18px; font-weight:bold">${ list.movieNm.substring(0, 15) }...</span><br>	
-								</c:if>
-								<c:if test="${ list.movieNm.length() <= 15 }">
-									<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
-								</c:if>
-								${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-								<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+							<c:if test="${ list.posterUrl ne 'nan' }">
+								<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }">
+							</c:if>
+							<c:if test="${ list.posterUrl eq 'nan' }">
+								<div style="width:${imgWidth}px; height:${ imgHeight }px; border:1px solid rgba(0, 0, 0, 0.1); display:flex; justify-content:center; align-items:center;">이미지가 없습니다.</div>								</c:if>
+								<div align="left">
+									<c:if test="${ list.movieNm.length() > 15 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm.substring(0, 15) }...</span><br>	
+									</c:if>
+									<c:if test="${ list.movieNm.length() <= 15 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
+									</c:if>
+									${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+									<c:set var="gradeNum" value="${ list.gradeAvg } + ''"/>
+									<c:if test="${ list.gradeCheck eq true }">
+										<span style="color:orange;">평가함 ★ ${ gradeNum.substring(0,3) }</span>
+									</c:if>
+									<c:if test="${ list.gradeCheck ne true }">
+										<span style="color:red;">평균 ★ ${ gradeNum.substring(0,3) }</span>
+									</c:if>
+								</div>
 							</div>
-						</div>
-					</a>
-					<%
-					}else{
-					%>
-					<a href="/movieInfo?movieId=${ list.movieId }" class="recentlyFo" style="all:unset; cursor:pointer; display:none;">
-						<div style="padding-right:10px;">
-							<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }"><br>
-							<div align="left">
-								<c:if test="${ list.movieNm.length() > 18 }">
-									<span style="font-size:18px; font-weight:bold">${ list.movieNm.substring(0, 18) }...</span><br>	
+						</a>
+						<%
+						}else{
+						%>
+						<a href="/movieInfo?movieId=${ list.movieId }" class="searchMovies" style="all:unset; cursor:pointer; display:none;">
+							<div style="padding-right:10px;">
+								<c:if test="${ list.posterUrl ne 'nan' }">
+									<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }">
 								</c:if>
-								<c:if test="${ list.movieNm.length() <= 18 }">
-									<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
+								<c:if test="${ list.posterUrl eq 'nan' }">
+									<div style="width:${imgWidth}px; height:${ imgHeight }px; border:1px solid rgba(0, 0, 0, 0.1); display:flex; justify-content:center; align-items:center;">이미지가 없습니다.</div>
 								</c:if>
-								${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-								<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+								<div align="left">
+									<c:if test="${ list.movieNm.length() > 18 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm.substring(0, 18) }...</span><br>	
+									</c:if>
+									<c:if test="${ list.movieNm.length() <= 18 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
+									</c:if>
+									${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+									<c:if test="${ list.gradeCheck eq true }">
+										<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+									</c:if>
+									<c:if test="${ list.gradeCheck ne true }">
+										<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+									</c:if>
+								</div>
 							</div>
-						</div>
-					</a>
-					<%
-						}
-					cnt++;
-					%>
-						
-					</c:forEach>
-					<% if(cnt > 5){ %>
-					<button id="recentlyFoRightBtn" class="rightBtn" type="button" onclick="recentlyFoRightBtn('<%=cnt%>');">▶</button>
-					<% } %>
-				</div>
+						</a>
+						<%
+							}
+						cnt++;
+						%>
+							
+						</c:forEach>
+						<% if(cnt > 5){ %>
+							<button id="searchMoviesRightBtn" class="rightBtn" type="button" onclick="searchMoviesRightBtn('<%=cnt%>');">▶</button>
+						<% } %>
+					</div>
 				
+				<!-- SearchCase1 검색 결과 Movies END -->
+				
+				<!-- SearchCase1 회원 추천 Movies START -->
+				
+				<c:if test="${ memberCommend.size() > 0 }">
+					<div align="left" style="width:100%; padding-bottom:10px;"><span style="font-size:30px; font-weight:bold;">회원님만을 위한 추천영화</span></div>
+					<div style="display:flex; position:relative">
+					
+						<button id="memberCommendLeftBtn" class="leftBtn" onclick="memberCommendLeftBtn();">◀</button>
+						
+						<c:forEach var="list" items="${ memberCommend }">
+						<% 
+							if(cnt < 5){ 
+						%>
+						<a href="/movieInfo?movieId=${ list.movieId }" class="memberCommend" style="all:unset; cursor:pointer; display:;">
+							<div style="padding-right:10px;">
+								<c:if test="${ list.posterUrl ne 'nan' }">
+									<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }">
+								</c:if>
+								<c:if test="${ list.posterUrl eq 'nan' }">
+									<div style="width:${imgWidth}px; height:${ imgHeight }px; border:1px solid rgba(0, 0, 0, 0.1); display:flex; justify-content:center; align-items:center;">이미지가 없습니다.</div>
+								</c:if>
+								<div align="left">
+									<c:if test="${ list.movieNm.length() > 15 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm.substring(0, 15) }...</span><br>	
+									</c:if>
+									<c:if test="${ list.movieNm.length() <= 15 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
+									</c:if>
+									${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+									<c:set var="gradeNum" value="${ list.gradeAvg } + ''"/>
+									<c:if test="${ list.gradeCheck eq true }">
+										<span style="color:orange;">평가함 ★ ${ gradeNum.substring(0,3) }</span>
+									</c:if>
+									<c:if test="${ list.gradeCheck ne true }">
+										<span style="color:red;">평균 ★ ${ gradeNum.substring(0,3) }</span>
+									</c:if>
+								</div>
+							</div>
+						</a>
+						<%
+						}else{
+						%>
+						<a href="/movieInfo?movieId=${ list.movieId }" class="memberCommend" style="all:unset; cursor:pointer; display:none;">
+							<div style="padding-right:10px;">
+								<c:if test="${ list.posterUrl ne 'nan' }">
+									<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }">
+								</c:if>
+								<c:if test="${ list.posterUrl eq 'nan' }">
+									<div style="width:${imgWidth}px; height:${ imgHeight }px; border:1px solid rgba(0, 0, 0, 0.1); display:flex; justify-content:center; align-items:center;">이미지가 없습니다.</div>
+								</c:if>
+								<div align="left">
+									<c:if test="${ list.movieNm.length() > 18 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm.substring(0, 18) }...</span><br>	
+									</c:if>
+									<c:if test="${ list.movieNm.length() <= 18 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
+									</c:if>
+									${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+									<c:if test="${ list.gradeCheck eq true }">
+										<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+									</c:if>
+									<c:if test="${ list.gradeCheck ne true }">
+										<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+									</c:if>
+								</div>
+							</div>
+						</a>
+						<%
+							}
+						cnt++;
+						%>
+							
+						</c:forEach>
+						<% if(cnt > 5){ %>
+							<button id="memberCommendRightBtn" class="rightBtn" type="button" onclick="memberCommendRightBtn('<%=cnt%>');">▶</button>
+						<% } %>
+					</div>
+				<!-- SearchCase1 회원 추천 Movies END -->
+				</c:if>
+				
+				<!-- SearchCase1 Movie Informations START -->
 				<c:forEach var="movieInfo" items="${ searchList1 }">
 					<a style="all:unset; cursor:pointer;" href="movieInfo?movieId=${ movieInfo.movieId }">
 						<div style="display: flex;">
@@ -164,10 +270,175 @@
 						</div>
 					</c:if>
 				</c:forEach>
+			<!-- SearchCase1 Movie Informations END -->
 			</c:if>
-
+			
+			
+			<% cnt = 0; %>
 			<c:if test="${ not empty searchList2 }">
+				
 				&quot${ query }&quot 검색결과  ${ searchList2.size() }개
+				
+				<!-- SearchCase2 검색결과 Movies START -->
+				
+				<div align="left" style="width:100%; padding-bottom:10px;"><span style="font-size:30px; font-weight:bold;">&quot${ query }&quot 검색결과</span></div>
+				<div style="display:flex; position:relative">
+					
+					<button id="searchMoviesLeftBtn" class="leftBtn" onclick="searchMoviesLeftBtn();">◀</button>
+						
+					<c:forEach var="list" items="${ searchList2 }">
+					<% 
+						if(cnt < 5){ 
+					%>
+					<a href="/movieInfo?movieId=${ list.movieId }" class="searchMovies" style="all:unset; cursor:pointer; display:;">
+						<div style="padding-right:10px;">
+							<c:if test="${ list.posterUrl ne 'nan' }">
+								<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }">
+							</c:if>
+							<c:if test="${ list.posterUrl eq 'nan' }">
+								<div style="width:${imgWidth}px; height:${ imgHeight }px; border:1px solid rgba(0, 0, 0, 0.1); display:flex; justify-content:center; align-items:center;">이미지가 없습니다.</div>								</c:if>
+								<div align="left">
+									<c:if test="${ list.movieNm.length() > 15 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm.substring(0, 15) }...</span><br>	
+									</c:if>
+									<c:if test="${ list.movieNm.length() <= 15 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
+									</c:if>
+									${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+									<c:set var="gradeNum" value="${ list.gradeAvg } + ''"/>
+									<c:if test="${ list.gradeCheck eq true }">
+										<span style="color:orange;">평가함 ★ ${ gradeNum.substring(0,3) }</span>
+									</c:if>
+									<c:if test="${ list.gradeCheck ne true }">
+										<span style="color:red;">평균 ★ ${ gradeNum.substring(0,3) }</span>
+									</c:if>
+								</div>
+							</div>
+						</a>
+						<%
+						}else{
+						%>
+						<a href="/movieInfo?movieId=${ list.movieId }" class="searchMovies" style="all:unset; cursor:pointer; display:none;">
+							<div style="padding-right:10px;">
+								<c:if test="${ list.posterUrl ne 'nan' }">
+									<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }">
+								</c:if>
+								<c:if test="${ list.posterUrl eq 'nan' }">
+									<div style="width:${imgWidth}px; height:${ imgHeight }px; border:1px solid rgba(0, 0, 0, 0.1); display:flex; justify-content:center; align-items:center;">이미지가 없습니다.</div>
+								</c:if>
+								<div align="left">
+									<c:if test="${ list.movieNm.length() > 18 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm.substring(0, 18) }...</span><br>	
+									</c:if>
+									<c:if test="${ list.movieNm.length() <= 18 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
+									</c:if>
+									${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+									<c:if test="${ list.gradeCheck eq true }">
+										<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+									</c:if>
+									<c:if test="${ list.gradeCheck ne true }">
+										<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+									</c:if>
+								</div>
+							</div>
+						</a>
+						<%
+							}
+						cnt++;
+						%>
+							
+						</c:forEach>
+						<% if(cnt > 5){ %>
+							<button id="searchMoviesRightBtn" class="rightBtn" type="button" onclick="searchMoviesRightBtn('<%=cnt%>');">▶</button>
+						<% } %>
+					</div>
+					
+				<!-- SearchCase2 검색 결과 Movies END -->
+				
+				<% cnt = 0; %>
+				<c:if test="${ memberCommend.size() > 0 }">
+					<div align="left" style="width:100%; padding-bottom:10px;"><span style="font-size:30px; font-weight:bold;">회원님만을 위한 추천영화</span></div>
+					<div style="display:flex; position:relative">
+					
+						<button id="memberCommendLeftBtn" class="leftBtn" onclick="memberCommendLeftBtn();">◀</button>
+						
+						<!-- SearchCase2 영화 추천 Movies START -->
+						
+						<c:forEach var="list" items="${ memberCommend }">
+						<% 
+							if(cnt < 5){ 
+						%>
+						<a href="/movieInfo?movieId=${ list.movieId }" class="memberCommend" style="all:unset; cursor:pointer; display:;">
+							<div style="padding-right:10px;">
+								<c:if test="${ list.posterUrl ne 'nan' }">
+									<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }">
+								</c:if>
+								<c:if test="${ list.posterUrl eq 'nan' }">
+									<div style="width:${imgWidth}px; height:${ imgHeight }px; border:1px solid rgba(0, 0, 0, 0.1); display:flex; justify-content:center; align-items:center;">이미지가 없습니다.</div>
+								</c:if>
+								<div align="left">
+									<c:if test="${ list.movieNm.length() > 15 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm.substring(0, 15) }...</span><br>	
+									</c:if>
+									<c:if test="${ list.movieNm.length() <= 15 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
+									</c:if>
+									${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+									<c:set var="gradeNum" value="${ list.gradeAvg } + ''"/>
+									<c:if test="${ list.gradeCheck eq true }">
+										<span style="color:orange;">평가함 ★ ${ gradeNum.substring(0,3) }</span>
+									</c:if>
+									<c:if test="${ list.gradeCheck ne true }">
+										<span style="color:red;">평균 ★ ${ gradeNum.substring(0,3) }</span>
+									</c:if>
+								</div>
+							</div>
+						</a>
+						<%
+						}else{
+						%>
+						<a href="/movieInfo?movieId=${ list.movieId }" class="memberCommend" style="all:unset; cursor:pointer; display:none;">
+							<div style="padding-right:10px;">
+								<c:if test="${ list.posterUrl ne 'nan' }">
+									<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }">
+								</c:if>
+								<c:if test="${ list.posterUrl eq 'nan' }">
+									<div style="width:${imgWidth}px; height:${ imgHeight }px; border:1px solid rgba(0, 0, 0, 0.1); display:flex; justify-content:center; align-items:center;">이미지가 없습니다.</div>
+								</c:if>
+								<div align="left">
+									<c:if test="${ list.movieNm.length() > 18 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm.substring(0, 18) }...</span><br>	
+									</c:if>
+									<c:if test="${ list.movieNm.length() <= 18 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
+									</c:if>
+									${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+									<c:if test="${ list.gradeCheck eq true }">
+										<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+									</c:if>
+									<c:if test="${ list.gradeCheck ne true }">
+										<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+									</c:if>
+								</div>
+							</div>
+						</a>
+						<%
+							}
+						cnt++;
+						%>
+							
+						</c:forEach>
+						<% if(cnt > 5){ %>
+							<button id="memberCommendRightBtn" class="rightBtn" type="button" onclick="memberCommendRightBtn('<%=cnt%>');">▶</button>
+						<% } %>
+					</div>
+					<!-- SearchCase2 영화 추천 Movies END -->
+				</c:if>
+				
+				<% cnt = 0; %>
+				
+				<!-- SearchCase2 Movie Informations START -->
 				<c:forEach var="movieInfo" items="${ searchList2 }">
 					<a style="all:unset; cursor:pointer;" href="movieInfo?movieId=${ movieInfo.movieId }">
 						<div style="display: flex;">
@@ -264,10 +535,91 @@
 					</c:if>
 					<br><br><br>
 				</c:forEach>
+				<!-- SearchCase2 Movie Informations END -->
 			</c:if>
-
+			
+			<% cnt = 0; %>
+			
 			<c:if test="${ not empty searchList3 }">
+			
 				&quot${ query }&quot 검색결과  ${ searchList3.size() }개<br>
+				
+				<c:if test="${ memberCommend.size() > 0 }">
+					<div align="left" style="width:100%; padding-bottom:10px;"><span style="font-size:30px; font-weight:bold;">회원님만을 위한 추천영화</span></div>
+					<div style="display:flex; position:relative">
+					
+						<button id="memberCommendLeftBtn" class="leftBtn" onclick="memberCommendLeftBtn();">◀</button>
+						
+						<c:forEach var="list" items="${ memberCommend }">
+						<% 
+							if(cnt < 5){ 
+						%>
+						<a href="/movieInfo?movieId=${ list.movieId }" class="memberCommend" style="all:unset; cursor:pointer; display:;">
+							<div style="padding-right:10px;">
+								<c:if test="${ list.posterUrl ne 'nan' }">
+									<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }">
+								</c:if>
+								<c:if test="${ list.posterUrl eq 'nan' }">
+									<div style="width:${imgWidth}px; height:${ imgHeight }px; border:1px solid rgba(0, 0, 0, 0.1); display:flex; justify-content:center; align-items:center;">이미지가 없습니다.</div>
+								</c:if>
+								<div align="left">
+									<c:if test="${ list.movieNm.length() > 15 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm.substring(0, 15) }...</span><br>	
+									</c:if>
+									<c:if test="${ list.movieNm.length() <= 15 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
+									</c:if>
+									${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+									<c:set var="gradeNum" value="${ list.gradeAvg } + ''"/>
+									<c:if test="${ list.gradeCheck eq true }">
+										<span style="color:orange;">평가함 ★ ${ gradeNum.substring(0,3) }</span>
+									</c:if>
+									<c:if test="${ list.gradeCheck ne true }">
+										<span style="color:red;">평균 ★ ${ gradeNum.substring(0,3) }</span>
+									</c:if>
+								</div>
+							</div>
+						</a>
+						<%
+						}else{
+						%>
+						<a href="/movieInfo?movieId=${ list.movieId }" class="memberCommend" style="all:unset; cursor:pointer; display:none;">
+							<div style="padding-right:10px;">
+								<c:if test="${ list.posterUrl ne 'nan' }">
+									<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }">
+								</c:if>
+								<c:if test="${ list.posterUrl eq 'nan' }">
+									<div style="width:${imgWidth}px; height:${ imgHeight }px; border:1px solid rgba(0, 0, 0, 0.1); display:flex; justify-content:center; align-items:center;">이미지가 없습니다.</div>
+								</c:if>
+								<div align="left">
+									<c:if test="${ list.movieNm.length() > 18 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm.substring(0, 18) }...</span><br>	
+									</c:if>
+									<c:if test="${ list.movieNm.length() <= 18 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
+									</c:if>
+									${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+									<c:if test="${ list.gradeCheck eq true }">
+										<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+									</c:if>
+									<c:if test="${ list.gradeCheck ne true }">
+										<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+									</c:if>
+								</div>
+							</div>
+						</a>
+						<%
+							}
+						cnt++;
+						%>
+							
+						</c:forEach>
+						<% if(cnt > 5){ %>
+							<button id="memberCommendRightBtn" class="rightBtn" type="button" onclick="memberCommendRightBtn('<%=cnt%>');">▶</button>
+						<% } %>
+					</div>
+				</c:if>
+				
 				<c:forEach var="peopleList" items="${ searchList3 }">
 				${ peopleList.peopleId }<br>
 				${ peopleList.peopleNm }<br>
@@ -292,9 +644,89 @@
 					</div>
 				</c:forEach>
 			</c:if>
-
+			
+			<% cnt = 0; %>
+			
 			<c:if test="${ not empty searchList4 }">
+			
 				&quot${ query }&quot 검색결과  ${ searchList4.size() }개<br>
+				
+				<c:if test="${ memberCommend.size() > 0 }">
+					<div align="left" style="width:100%; padding-bottom:10px;"><span style="font-size:30px; font-weight:bold;">회원님만을 위한 추천영화</span></div>
+					<div style="display:flex; position:relative">
+					
+						<button id="memberCommendLeftBtn" class="leftBtn" onclick="memberCommendLeftBtn();">◀</button>
+						
+						<c:forEach var="list" items="${ memberCommend }">
+						<% 
+							if(cnt < 5){ 
+						%>
+						<a href="/movieInfo?movieId=${ list.movieId }" class="memberCommend" style="all:unset; cursor:pointer; display:;">
+							<div style="padding-right:10px;">
+								<c:if test="${ list.posterUrl ne 'nan' }">
+									<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }">
+								</c:if>
+								<c:if test="${ list.posterUrl eq 'nan' }">
+									<div style="width:${imgWidth}px; height:${ imgHeight }px; border:1px solid rgba(0, 0, 0, 0.1); display:flex; justify-content:center; align-items:center;">이미지가 없습니다.</div>
+								</c:if>
+								<div align="left">
+									<c:if test="${ list.movieNm.length() > 15 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm.substring(0, 15) }...</span><br>	
+									</c:if>
+									<c:if test="${ list.movieNm.length() <= 15 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
+									</c:if>
+									${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+									<c:set var="gradeNum" value="${ list.gradeAvg } + ''"/>
+									<c:if test="${ list.gradeCheck eq true }">
+										<span style="color:orange;">평가함 ★ ${ gradeNum.substring(0,3) }</span>
+									</c:if>
+									<c:if test="${ list.gradeCheck ne true }">
+										<span style="color:red;">평균 ★ ${ gradeNum.substring(0,3) }</span>
+									</c:if>
+								</div>
+							</div>
+						</a>
+						<%
+						}else{
+						%>
+						<a href="/movieInfo?movieId=${ list.movieId }" class="memberCommend" style="all:unset; cursor:pointer; display:none;">
+							<div style="padding-right:10px;">
+								<c:if test="${ list.posterUrl ne 'nan' }">
+									<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }">
+								</c:if>
+								<c:if test="${ list.posterUrl eq 'nan' }">
+									<div style="width:${imgWidth}px; height:${ imgHeight }px; border:1px solid rgba(0, 0, 0, 0.1); display:flex; justify-content:center; align-items:center;">이미지가 없습니다.</div>
+								</c:if>
+								<div align="left">
+									<c:if test="${ list.movieNm.length() > 18 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm.substring(0, 18) }...</span><br>	
+									</c:if>
+									<c:if test="${ list.movieNm.length() <= 18 }">
+										<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
+									</c:if>
+									${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+									<c:if test="${ list.gradeCheck eq true }">
+										<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+									</c:if>
+									<c:if test="${ list.gradeCheck ne true }">
+										<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+									</c:if>
+								</div>
+							</div>
+						</a>
+						<%
+							}
+						cnt++;
+						%>
+							
+						</c:forEach>
+						<% if(cnt > 5){ %>
+							<button id="memberCommendRightBtn" class="rightBtn" type="button" onclick="memberCommendRightBtn('<%=cnt%>');">▶</button>
+						<% } %>
+					</div>
+				</c:if>
+				
 				<c:forEach var="peopleList" items="${ searchList4 }">
 					${ peopleList.peopleId }<br>
 					${ peopleList.peopleNm }<br>
@@ -323,6 +755,6 @@
 
 	<script src="/resources/js/common.js"></script>
 	<script src="/resources/js/search_common.js"></script>
-	<script src="/resources/js/home.js"></script>
+	<script src="/resources/js/search_info.js"></script>
 </body>
 </html>

@@ -38,7 +38,7 @@
 	</select>
 	
 	<select id="getMovieInfoByGenreNm" resultMap="movieInfo">
-		<![CDATA[SELECT * FROM (SELECT * FROM movie_info WHERE genre_nm = #{genreNm} ORDER BY like_num DESC) WHERE ROWNUM <= 50]]>
+		<![CDATA[SELECT * FROM (SELECT * FROM movie_info WHERE genre_nm = #{genreNm} AND NOT poster_url='nan' ORDER BY like_num DESC) WHERE ROWNUM <= 50]]>
 	</select>
 	
 </mapper>

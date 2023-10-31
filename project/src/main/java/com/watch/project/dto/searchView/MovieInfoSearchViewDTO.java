@@ -3,9 +3,12 @@ package com.watch.project.dto.searchView;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.Data;
+import com.watch.project.dto.MovieInfoDTO;
 
-@Data
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
 public class MovieInfoSearchViewDTO {
 	private String movieId;
 	private String movieNm;
@@ -17,18 +20,30 @@ public class MovieInfoSearchViewDTO {
 	private String posterUrl;
 	private String showTime;
 	private int likeNum;
+	private float gradeAvg;
+	private boolean gradeCheck;
 	private List<MovieActorsDTO> movieActorList;
 	
-	public MovieInfoSearchViewDTO(String movieId, String movieNm, String movieNmEn, String openDt, String nations, String genreNm, String watchGradeNm, String posterUrl, String showTime) {
-		this.movieId = movieId;
-		this.movieNm = movieNm;
-		this.movieNmEn = movieNmEn;
-		this.openDt = openDt;
-		this.nations = nations;
-		this.genreNm = genreNm;
-		this.watchGradeNm = watchGradeNm;
-		this.posterUrl = posterUrl;
+	@Builder
+	public MovieInfoSearchViewDTO(MovieInfoDTO movieInfoDto, boolean gradeCheck) {
+		this.movieId = movieInfoDto.getMovieId();
+		this.movieNm = movieInfoDto.getMovieNm();
+		this.movieNmEn = movieInfoDto.getMovieNmEn();
+		this.openDt = movieInfoDto.getOpenDt();
+		this.nations = movieInfoDto.getNations();
+		this.genreNm = movieInfoDto.getGenreNm();
+		this.watchGradeNm = movieInfoDto.getWatchGradeNm();
+		this.posterUrl = movieInfoDto.getPosterUrl();
+		int time = movieInfoDto.getShowTime();
+		String showTime = "";
+		if(time % 60 == 0) {
+			showTime = time / 60 + "시간";
+		}else {
+			showTime = time / 60 + "시간 " + time % 60 + "분";
+		}
 		this.showTime = showTime;
+		this.gradeAvg = movieInfoDto.getGradeAvg();
+		this.gradeCheck = gradeCheck;
 		movieActorList = new ArrayList<>();
 	}
 }
