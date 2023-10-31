@@ -2,6 +2,8 @@ package com.watch.project.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MovieInfoController {
 	private final MovieInfoService service;
 	private final ReviewService reviewService;
+	private final HttpSession session;
 	
 	@GetMapping("movieInfo")
 	public String movieInfo(@RequestParam String movieId, Model model) {
@@ -31,6 +34,7 @@ public class MovieInfoController {
 		MovieInfoDTO movieInfoDto = service.getMovieInfoById(movieId);
 		MovieInfoViewDTO movieInfoViewDto = service.setMMovieInfoViewDto(movieInfoDto);
 		PeopleInfoDTO peopleInfoDto = new PeopleInfoDTO();
+		int likeCheck = 0;
 		
 		if(!movieInfoViewDto.getActors()[0].equals("nan")) {	// 출연진이 있는 경우
 			if(movieInfoViewDto.getActors().length >= 12) {		// 출연진이 12명이상인 경우
@@ -78,6 +82,13 @@ public class MovieInfoController {
 			peopleInfoDto.setEnd(peopleInfoDto.getPeopleId().length-1);
 			model.addAttribute("peopleInfo", peopleInfoDto);
 		}
+		/*
+		 영화 좋아요 체크 
+		*/
+		String userEmail = (String) session.getAttribute("userEmail");
+		likeCheck = service.getMovieLikeCheck(movieId, userEmail);
+		model.addAttribute("likeCheck", likeCheck);
+		
 		List<MovieReviewDTO> comments = reviewService.getEveryCommentForThisMovie(movieId);//이 영화에 대한 모든 사용자의 코멘트들 가져오는 메서드
 		MovieReviewDTO ifWroteComment = reviewService.getComment(movieId);//로그인한 사용자가 작성한 코멘트가 있다면 가져옴
 //		System.out.println("ifWroteComment.getReviewComment()============> : "+ifWroteComment.getReviewComment());

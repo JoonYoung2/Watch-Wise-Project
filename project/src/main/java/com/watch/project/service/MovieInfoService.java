@@ -37,6 +37,7 @@ public class MovieInfoService {
 		dto.setNations(movieInfoDto.getNations());
 		dto.setGenreNm(movieInfoDto.getGenreNm());
 		dto.setWatchGradeNm(movieInfoDto.getWatchGradeNm());
+		dto.setLikeNum(movieInfoDto.getLikeNum());
 		if(movieInfoDto.getShowTime() % 60 == 0) {
 			int time = movieInfoDto.getShowTime();
 			int hour = time / 60;
@@ -103,5 +104,14 @@ public class MovieInfoService {
 		String id = movieId + userEmail;
 		repo.movieLikeCancel(movieId);
 		repo.movieLikeDelete(id);
+	}
+	
+	public int getMovieLikeCheck(String movieId, String userEmail) {
+		String id = movieId + userEmail;
+		MovieLikeDTO movieLikeDto = repo.getMovieLikeById(id);
+		if(movieLikeDto == null) {
+			return 0;			
+		}else
+			return 1;
 	}
 }
