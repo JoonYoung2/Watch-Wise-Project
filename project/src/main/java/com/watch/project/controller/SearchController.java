@@ -3,6 +3,8 @@ package com.watch.project.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,10 +31,13 @@ public class SearchController {
 		List<MovieInfoSearchViewDTO> searchList2 = new ArrayList<>();
 		List<PeopleInfoSearchViewDTO> searchList3 = new ArrayList<>();
 		List<PeopleInfoSearchViewDTO> searchList4 = new ArrayList<>();
+		List<MovieInfoDTO> memberCommendedList = service.getMemberCommendedList();
 		log.info("searchingStep1 Size => {}", searchList1.size());
+		log.info("memberCommendedListSize => {}", memberCommendedList.size());
 		model.addAttribute("query", query);
 		if(searchList1.size() != 0) {
 			model.addAttribute("searchList1", searchList1);
+			model.addAttribute("memberCommend", memberCommendedList);
 			return "basic/search_info";
 		}else {
 			searchList2 = service.searchingStep2(query);
@@ -41,6 +46,7 @@ public class SearchController {
 		
 		if(searchList2.size() != 0) {
 			model.addAttribute("searchList2", searchList2);
+			model.addAttribute("memberCommend", memberCommendedList);
 			return "basic/search_info";
 		}else {
 			searchList3 = service.searchingStep3(query);
@@ -49,6 +55,7 @@ public class SearchController {
 		
 		if(searchList3.size() != 0) {
 			model.addAttribute("searchList3", searchList3);
+			model.addAttribute("memberCommend", memberCommendedList);
 			return "basic/search_info";
 		}else {
 			searchList4 = service.searchingStep4(query);
@@ -57,6 +64,7 @@ public class SearchController {
 		
 		if(searchList4.size() != 0) {
 			model.addAttribute("searchList4", searchList4);
+			model.addAttribute("memberCommend", memberCommendedList);
 			return "basic/search_info";
 		}
 		

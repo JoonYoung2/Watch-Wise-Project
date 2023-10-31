@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watch.project.repository.recommended.RecommendedRepository">
+	<resultMap type="com.watch.project.dto.MovieInfoDTO" id="movieInfo">
+		<result column="movie_id" property="movieId"/>
+		<result column="movie_nm" property="movieNm"/>
+		<result column="movie_nm_en" property="movieNmEn"/>
+		<result column="prdt_year" property="prdtYear"/>
+		<result column="open_dt" property="openDt"/>
+		<result column="type_nm" property="typeNm"/>
+		<result column="nations" property="nations"/>
+		<result column="genre_nm" property="genreNm"/>
+		<result column="poster_url" property="posterUrl"/>
+		<result column="show_time" property="showTime"/>
+		<result column="actors" property="actors"/>
+		<result column="cast" property="cast"/>
+		<result column="watch_grade_nm" property="watchGradeNm"/>	
+	</resultMap>
+	
+	<resultMap type="com.watch.project.dto.MovieTopInfoDTO" id="movieTopInfo">
+		<result column="id" property="id"/>
+		<result column="movie_ids" property="movieIds"/>
+	</resultMap>
+	
+	<select id="getMovieIdByUserEmail" resultType="String" parameterType="String">
+		SELECT movie_id FROM movie_review WHERE user_email=#{userEmail}
+	</select>
+	
+	<select id="getGenreNmByMovieIds" resultType="String">
+		<![CDATA[SELECT genre_nm 
+				 FROM (SELECT genre_nm, COUNT(genre_nm) AS genre_cnt FROM movie_info 
+				 WHERE movie_id IN (${movieIds}) 
+				 GROUP BY genre_nm 
+				 ORDER BY genre_cnt desc) 
+				 WHERE rownum = 1]]>
+	</select>
+	
+	<select id="getMovieInfoByGenreNm" resultMap="movieInfo">
+		<![CDATA[SELECT * FROM (SELECT * FROM movie_info WHERE genre_nm = #{genreNm} ORDER BY like_num DESC) WHERE ROWNUM <= 50]]>
+	</select>
+	
+</mapper>
+

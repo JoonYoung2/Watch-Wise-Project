@@ -25,8 +25,6 @@ public class HomeController {
 	@GetMapping("/")
 	public String home(Model model) {
 		List<MovieTopInfoDTO> topInfoList = service.getMovieTopInfo();
-		log.info("topInfoList -> {}", topInfoList);
-		log.info("topInfoListSize -> {}", topInfoList.size());
 		Map<String, List<MovieInfoDTO>> movieInfoMap = new HashMap<>();
 		for(int i = 0; i < topInfoList.size(); ++i) {
 			List<MovieInfoDTO> movieInfoList = new ArrayList<>();
@@ -45,7 +43,6 @@ public class HomeController {
 				movieInfoMap.put("weekly2", movieInfoList);
 			}
 		}
-		log.info("movieInfoMap - key(daily) {}", movieInfoMap.get("daily").get(0));
 		
 		// 곧 개봉하는 영화
 		List<MovieInfoDTO> upcomingMovies = service.upcomingMovies();

@@ -18,5 +18,7 @@ public class MovieInfoDTO {
 	private String cast;
 	private String watchGradeNm;
 	private int likeNum;
+	private float gradeAvg;
+	private boolean gradeCheck;
 	private int dDay;
 }

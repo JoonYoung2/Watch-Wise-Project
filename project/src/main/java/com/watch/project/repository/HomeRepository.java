@@ -24,4 +24,8 @@ public interface HomeRepository {
 	
 	public List<MovieInfoDTO> recentlyReleasedForeignMovies(String date);
 	
+	public float getMovieGradeAvgByMovieId(String movieId);
+	
+	public int getGradeCheckById(String id);
+	
 }

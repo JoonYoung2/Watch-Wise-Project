@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.ibatis.binding.BindingException;
 import org.springframework.stereotype.Service;
 
 import com.watch.project.dto.HomeDTO;
@@ -22,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class HomeService {
 	private final HomeRepository repo;
+	private final HttpSession session;
 	public HomeDTO getId() {
 		
 		return repo.getId();
@@ -34,14 +38,36 @@ public class HomeService {
 	}
 	
 	public List<MovieInfoDTO> getMovieInfoListByIds(String ids){
+		String[] movieId = ids.replaceAll("'", "").split(",");
 		String ids2 = "'" + ids.replaceAll("'", "") + "'";
 		Map<String, String> map = new HashMap<>();
 		map.put("ids", ids);
 		map.put("ids2", ids2);
 		List<MovieInfoDTO> movieInfoList = repo.getMovieInfoListByIds(map);
+		
+		for(int i = 0; i < movieInfoList.size(); ++i) {
+			float gradeAvg = getMovieGradeAvgByMovieId(movieId[i]);
+			movieInfoList.get(i).setGradeAvg(gradeAvg);
+			String id = movieId[i] + (String)session.getAttribute("userEmail");
+			boolean gradeCheck = false;
+			if(id != null) {
+				 gradeCheck = getMovieGradeCheckById(id);				
+			}
+			movieInfoList.get(i).setGradeCheck(gradeCheck);
+		}
+		
 		return movieInfoList;
 	}
 	
+	private boolean getMovieGradeCheckById(String id) {
+		boolean gradeCheck = false;
+		int check = repo.getGradeCheckById(id);
+		if(check == 1)
+			gradeCheck = true;
+		
+		return gradeCheck;
+	}
+
 	public List<MovieInfoDTO> upcomingMovies(){
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
@@ -72,12 +98,14 @@ public class HomeService {
 		for(int i = 0; i < movieInfoDto.size(); ++i) {
 			String posterUrl = movieInfoDto.get(i).getPosterUrl().split("\\|")[0];
 			movieInfoDto.get(i).setPosterUrl(posterUrl);
+			float gradeScore = getMovieGradeAvgByMovieId(movieInfoDto.get(i).getMovieId());
+			movieInfoDto.get(i).setGradeAvg(gradeScore);
 		}
 		
 		return movieInfoDto;
 	}
 	
-public List<MovieInfoDTO> recentlyReleasedForeignMovies(){
+	public List<MovieInfoDTO> recentlyReleasedForeignMovies(){
 		
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
@@ -89,6 +117,9 @@ public List<MovieInfoDTO> recentlyReleasedForeignMovies(){
 		for(int i = 0; i < movieInfoDto.size(); ++i) {
 			String posterUrl = movieInfoDto.get(i).getPosterUrl().split("\\|")[0];
 			movieInfoDto.get(i).setPosterUrl(posterUrl);
+			
+			float gradeScore = getMovieGradeAvgByMovieId(movieInfoDto.get(i).getMovieId());
+			movieInfoDto.get(i).setGradeAvg(gradeScore);
 		}
 		
 		return movieInfoDto;
@@ -127,6 +158,19 @@ public List<MovieInfoDTO> recentlyReleasedForeignMovies(){
 			date = Integer.parseInt(dateStr) * 10;
 		}
 		return date;
+	}
+	
+	private float getMovieGradeAvgByMovieId(String movieId) {
+		float gradeAvg = 0.0f;
+		try {
+			gradeAvg = repo.getMovieGradeAvgByMovieId(movieId);
+		}catch(NullPointerException e) {
+			
+		}catch(BindingException e) {
+			
+		}
+		
+		return gradeAvg;
 	}
 	
 }

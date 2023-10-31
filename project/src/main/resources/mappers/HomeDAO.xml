@@ -50,5 +50,13 @@
 		<![CDATA[SELECT * FROM (SELECT * FROM movie_info WHERE open_dt <= '${date}' AND NOT poster_url = 'nan' AND NOT nations LIKE '한국' ORDER BY open_dt DESC) WHERE ROWNUM <= 100]]>
 	</select>
 	
+	<select id="getMovieGradeAvgByMovieId" resultType="Float">
+		SELECT AVG(review_score) AS grade_avg FROM movie_review WHERE movie_id=#{movieId} GROUP BY movie_id
+	</select>
+	
+	<select id="getGradeCheckById" resultType="Integer">
+		SELECT COUNT(id) from movie_review where id=#{id} AND NOT review_score=0
+	</select>
+	
 </mapper>
 

@@ -12,7 +12,7 @@ import com.watch.project.dto.PeopleInfoDetailDTO;
 public interface SearchRepository {
 	
 	public List<MovieInfoDTO> searchingStep1(String query);
-
+	
 	public List<MovieInfoDTO> searchingStep2(String query);
 	
 	public List<PeopleInfoDetailDTO> searchingStep3(String query);
@@ -22,5 +22,9 @@ public interface SearchRepository {
 	public List<MovieInfoDTO> getMovieInfoByMovieIds(String movieIds);
 	
 	public int getPeopleIdByPeopleNmAndMovieNm(Map<String, String> map);
+	
+	/*
+	 * 회원 추천 서칭
+	 */
 	
 }

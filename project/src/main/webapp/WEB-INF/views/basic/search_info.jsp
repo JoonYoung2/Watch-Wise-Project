@@ -10,13 +10,66 @@
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/header.jsp"%>
-	
+	<% int cnt = 0; %>
 	<div align="center" style="width: 100%;">
 		<div align="center" style="width: 80%;">
-		
 			<c:if test="${ not empty searchList1 }">
 			
 				&quot${ query }&quot 검색결과  ${ searchList1.size() }개
+				
+				<div align="left" style="width:100%; padding-bottom:10px;"><span style="font-size:30px; font-weight:bold;">최근 개봉된 외국 영화</span></div>
+				<div style="display:flex; position:relative">
+				
+					<button id="recentlyFoLeftBtn" class="leftBtn" onclick="recentlyFoLeftBtn();">◀</button>
+					
+					<c:forEach var="list" items="${ memberCommend }">
+					<% 
+						if(cnt < 5){ 
+					%>
+					<a href="/movieInfo?movieId=${ list.movieId }" class="recentlyFo" style="all:unset; cursor:pointer; display:;">
+						<div style="padding-right:10px;">
+							<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }">
+							<div align="left">
+								<c:if test="${ list.movieNm.length() > 15 }">
+									<span style="font-size:18px; font-weight:bold">${ list.movieNm.substring(0, 15) }...</span><br>	
+								</c:if>
+								<c:if test="${ list.movieNm.length() <= 15 }">
+									<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
+								</c:if>
+								${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+								<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+							</div>
+						</div>
+					</a>
+					<%
+					}else{
+					%>
+					<a href="/movieInfo?movieId=${ list.movieId }" class="recentlyFo" style="all:unset; cursor:pointer; display:none;">
+						<div style="padding-right:10px;">
+							<img style="width:${imgWidth}px; height:${ imgHeight }px;" src="${ list.posterUrl }"><br>
+							<div align="left">
+								<c:if test="${ list.movieNm.length() > 18 }">
+									<span style="font-size:18px; font-weight:bold">${ list.movieNm.substring(0, 18) }...</span><br>	
+								</c:if>
+								<c:if test="${ list.movieNm.length() <= 18 }">
+									<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
+								</c:if>
+								${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
+								<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+							</div>
+						</div>
+					</a>
+					<%
+						}
+					cnt++;
+					%>
+						
+					</c:forEach>
+					<% if(cnt > 5){ %>
+					<button id="recentlyFoRightBtn" class="rightBtn" type="button" onclick="recentlyFoRightBtn('<%=cnt%>');">▶</button>
+					<% } %>
+				</div>
+				
 				<c:forEach var="movieInfo" items="${ searchList1 }">
 					<a style="all:unset; cursor:pointer;" href="movieInfo?movieId=${ movieInfo.movieId }">
 						<div style="display: flex;">
@@ -270,5 +323,6 @@
 
 	<script src="/resources/js/common.js"></script>
 	<script src="/resources/js/search_common.js"></script>
+	<script src="/resources/js/home.js"></script>
 </body>
 </html>

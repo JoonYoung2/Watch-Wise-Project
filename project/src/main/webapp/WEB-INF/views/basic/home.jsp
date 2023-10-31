@@ -48,6 +48,7 @@
 	SimpleDateFormat dtFormat = new SimpleDateFormat("yyyyMMdd");
 	int todayDate = Integer.parseInt(dtFormat.format(cal.getTime()));
 %>
+<c:if test="${ daily.size() > 0 }">
 <div align="center" style="width:100%;">
 	<div align="center" style="width:80%;">
 		<div align="left" style="width:100%; padding-bottom:10px;"><span style="font-size:30px; font-weight:bold;">일간 Best 10</span></div>
@@ -69,7 +70,13 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-						평균 ★ 0.0
+						
+						<c:if test="${ list.gradeCheck eq true }">
+							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+						</c:if>
+						<c:if test="${ list.gradeCheck ne true }">
+							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+						</c:if>
 					</div>
 				</div>
 			</a>
@@ -88,7 +95,12 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-						평균 ★ 0.0
+						<c:if test="${ list.gradeCheck eq true }">
+							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+						</c:if>
+						<c:if test="${ list.gradeCheck ne true }">
+							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+						</c:if>
 					</div>
 				</div>
 			</a>
@@ -102,7 +114,9 @@
 		</div>
 	</div>
 </div>
+</c:if>
 
+<c:if test="${ weekly0.size() > 0 }">
 <br><br><br>
 <% 
 	cnt = 0; 
@@ -129,7 +143,12 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-						평균 ★ 0.0
+						<c:if test="${ list.gradeCheck eq true }">
+							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+						</c:if>
+						<c:if test="${ list.gradeCheck ne true }">
+							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+						</c:if>
 					</div>
 				</div>
 			</a>
@@ -148,7 +167,12 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-						평균 ★ 0.0
+						<c:if test="${ list.gradeCheck eq true }">
+							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+						</c:if>
+						<c:if test="${ list.gradeCheck ne true }">
+							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+						</c:if>
 					</div>
 				</div>
 			</a>
@@ -162,7 +186,9 @@
 		</div>
 	</div>
 </div>
+</c:if>
 
+<c:if test="${ weekly1.size() > 0 }">
 <br><br><br>
 <% 
 	cnt = 0; 
@@ -189,7 +215,12 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-						평균 ★ 0.0
+						<c:if test="${ list.gradeCheck eq true }">
+							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+						</c:if>
+						<c:if test="${ list.gradeCheck ne true }">
+							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+						</c:if>
 					</div>
 				</div>
 			</a>
@@ -208,7 +239,12 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-						평균 ★ 0.0
+						<c:if test="${ list.gradeCheck eq true }">
+							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+						</c:if>
+						<c:if test="${ list.gradeCheck ne true }">
+							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+						</c:if>
 					</div>
 				</div>
 			</a>
@@ -222,6 +258,9 @@
 		</div>
 	</div>
 </div>
+</c:if>
+
+<c:if test="${ weekly2.size() > 0 }">
 <br><br><br>
 <% 
 	cnt = 0; 
@@ -248,7 +287,12 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-						평균 ★ 0.0
+						<c:if test="${ list.gradeCheck eq true }">
+							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+						</c:if>
+						<c:if test="${ list.gradeCheck ne true }">
+							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+						</c:if>
 					</div>
 				</div>
 			</a>
@@ -267,7 +311,12 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-						평균 ★ 0.0
+						<c:if test="${ list.gradeCheck eq true }">
+							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+						</c:if>
+						<c:if test="${ list.gradeCheck ne true }">
+							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+						</c:if>
 					</div>
 				</div>
 			</a>
@@ -281,7 +330,9 @@
 		</div>
 	</div>
 </div>
+</c:if>
 
+<c:if test="${ recentlyKo.size() > 0 }">
 <br><br><br>
 <% 
 	cnt = 0; 
@@ -308,7 +359,12 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-						평균 ★ 0.0
+						<c:if test="${ list.gradeCheck eq true }">
+							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+						</c:if>
+						<c:if test="${ list.gradeCheck ne true }">
+							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+						</c:if>
 					</div>
 				</div>
 			</a>
@@ -326,7 +382,12 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-						평균 ★ 0.0
+						<c:if test="${ list.gradeCheck eq true }">
+							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+						</c:if>
+						<c:if test="${ list.gradeCheck ne true }">
+							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+						</c:if>
 					</div>
 				</div>
 			</a>
@@ -342,7 +403,9 @@
 		</div>
 	</div>
 </div>
+</c:if>
 
+<c:if test="${ recentlyFo.size() > 0 }">
 <br><br><br>
 <% 
 	cnt = 0; 
@@ -369,7 +432,7 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-						평균 ★ 0.0
+						<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
 					</div>
 				</div>
 			</a>
@@ -387,7 +450,7 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-						평균 ★ 0.0
+						<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
 					</div>
 				</div>
 			</a>
@@ -403,7 +466,9 @@
 		</div>
 	</div>
 </div>
+</c:if>
 
+<c:if test="${ upcoming.size() > 0 }">
 <br><br><br>
 <% 
 	cnt = 0; 
@@ -435,7 +500,7 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-						D-${ list.getDDay() }
+						<span style="color:blue;">D-${ list.getDDay() }</span>
 					</div>
 				</div>
 			</a>
@@ -458,7 +523,7 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-						D-${ list.getDDay() }
+						<span style="color:blue;">D-${ list.getDDay() }</span>
 					</div>
 				</div>
 			</a>
@@ -474,6 +539,7 @@
 		</div>
 	</div>
 </div>
+</c:if>
 
 <script src="/resources/js/common.js"></script>
 <script src="/resources/js/home.js"></script>

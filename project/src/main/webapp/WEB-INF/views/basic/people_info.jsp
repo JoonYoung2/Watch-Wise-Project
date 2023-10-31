@@ -101,7 +101,12 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-						평균 ★ 0.0
+						<c:if test="${ list.gradeCheck eq true }">
+							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+						</c:if>
+						<c:if test="${ list.gradeCheck ne true }">
+							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+						</c:if>
 					</div>
 				</div>
 			</a>
@@ -124,7 +129,12 @@
 							<span style="font-size:18px; font-weight:bold">${ list.movieNm }</span><br>
 						</c:if>
 						${ list.openDt.substring(0, 4) } ・ ${ list.nations }<br>
-						평균 ★ 0.0
+						<c:if test="${ list.gradeCheck eq true }">
+							<span style="color:orange;">평가함 ★ ${ list.gradeAvg }</span>
+						</c:if>
+						<c:if test="${ list.gradeCheck ne true }">
+							<span style="color:red;">평균 ★ ${ list.gradeAvg }</span>
+						</c:if>
 					</div>
 				</div>
 			</a>

@@ -1,8 +1,8 @@
 package com.watch.project.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.binding.BindingException;
 import org.springframework.stereotype.Service;
@@ -10,8 +10,7 @@ import org.springframework.stereotype.Service;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.PeopleInfoDetailDTO;
 import com.watch.project.dto.PeopleLikeDTO;
-import com.watch.project.dto.movieInfoView.MovieInfoViewDTO;
-import com.watch.project.repository.MovieInfoRepository;
+import com.watch.project.repository.HomeRepository;
 import com.watch.project.repository.PeopleInfoRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PeopleInfoService {
 	private final PeopleInfoRepository repo;
+	private final HomeRepository homeRepository;
+	private final HttpSession session;
 	
 	public PeopleInfoDetailDTO getPeopleInfoDetailById(int peopleId) {
 		return repo.getPeopleInfoDetailById(peopleId);
@@ -32,10 +33,39 @@ public class PeopleInfoService {
 		for(int i = 0; i < list.size(); ++i) {
 			String posterUrl = list.get(i).getPosterUrl().split("\\|")[0];
 			list.get(i).setPosterUrl(posterUrl);
+			
+			float gradeAvg = getMovieGradeAvgByMovieId(list.get(i).getMovieId());
+			list.get(i).setGradeAvg(gradeAvg);
+			
+			String id = list.get(i).getMovieId() + session.getAttribute("userEmail");
+			boolean gradeCheck = getMovieGradeCheckById(id);
+			list.get(i).setGradeCheck(gradeCheck);
 		}
 		return list;
 	}
 	
+	private boolean getMovieGradeCheckById(String id) {
+		boolean gradeCheck = false;
+		int check = homeRepository.getGradeCheckById(id);
+		if(check == 1)
+			gradeCheck = true;
+		
+		return gradeCheck;
+	}
+	
+	private float getMovieGradeAvgByMovieId(String movieId) {
+		float gradeAvg = 0.0f;
+		try {
+			gradeAvg = homeRepository.getMovieGradeAvgByMovieId(movieId);
+		}catch(NullPointerException e) {
+			log.info("Error getMovieGradeAvgByMovieId NullPointerException");
+		}catch(BindingException e) {
+			log.info("Error getMovieGradeAvgByMovieId BindingException");
+		}
+		
+		return gradeAvg;
+	}
+
 	public void peopleLikeAdd(int peopleId, String userEmail) {
 		String id = peopleId + userEmail;
 		PeopleLikeDTO peopleLikeDto = new PeopleLikeDTO();

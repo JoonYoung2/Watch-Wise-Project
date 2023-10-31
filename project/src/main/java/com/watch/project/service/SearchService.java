@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.binding.BindingException;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import com.watch.project.dto.searchView.MovieActorsDTO;
 import com.watch.project.dto.searchView.MovieInfoSearchViewDTO;
 import com.watch.project.dto.searchView.PeopleInfoSearchViewDTO;
 import com.watch.project.repository.SearchRepository;
+import com.watch.project.repository.recommended.RecommendedRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SearchService {
 	private final SearchRepository repo;
+	private final RecommendedRepository recommendedRepository;
+	private final HttpSession session;
 	
 	public List<MovieInfoSearchViewDTO> searchingStep1(String query){
 		List<MovieInfoDTO> movieInfoList = repo.searchingStep1(query);
@@ -225,5 +230,34 @@ public class SearchService {
 			peopleInfoSearchViewList.add(peopleInfoSearchViewDto);
 		}
 		return peopleInfoSearchViewList;
+	}
+
+	public List<MovieInfoDTO> getMemberCommendedList() {
+		List<MovieInfoDTO> movieInfoList = new ArrayList<>();
+		String userEmail = (String) session.getAttribute("userEmail");
+		String movieIds = "";
+		String genreNm = "";
+		if(userEmail != null) {
+			String[] movieId = recommendedRepository.getMovieIdByUserEmail(userEmail);
+			if(movieId.length > 0) {
+				for(int i = 0; i < movieId.length; ++i) {
+					if(i != movieId.length-1) 
+						movieIds += "'" + movieId[i] + "',";
+					else
+						movieIds += "'" + movieId[i] + "'";
+				}
+				try {
+					genreNm = recommendedRepository.getGenreNmByMovieIds(movieIds);					
+				}catch(NullPointerException e) {
+					
+				}catch(BindingException e) {
+					
+				}
+				if(!genreNm.equals("")) {
+					movieInfoList = recommendedRepository.getMovieInfoByGenreNm(genreNm);
+				}
+			}
+		}
+		return movieInfoList;
 	}
 }
