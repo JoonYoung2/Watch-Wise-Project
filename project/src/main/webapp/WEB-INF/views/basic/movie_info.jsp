@@ -89,7 +89,6 @@
 <c:if test="${not empty sessionScope.userEmail }">
 <hr>
 <div align="center" id="review">
-<<<<<<< HEAD
 
 		<label for="select-box">이 영화에 대한 나의 평점</label> <br>
 		<select id="select-box" name="rating" onchange="rating(this.value,'${movieInfo.movieId }');">
