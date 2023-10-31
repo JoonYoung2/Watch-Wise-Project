@@ -202,7 +202,14 @@ public class ReviewService {
 	}
 
 	public float getAverageRating(String movieId) {
-		float averageRating = repo.getAverageRating(movieId);
+		float averageRating = 0.0f;
+		try {
+			 averageRating = repo.getAverageRating(movieId);			
+		}catch(NullPointerException e) {
+			
+		}catch(BindingException e) {
+			
+		}
 		return averageRating;
 	}
 
