@@ -22,7 +22,6 @@ public class ReviewAjaxController {
 	public MsgResponse reviewWithScore(@RequestBody MovieReviewDTO dto) {
 	    float score = dto.getReviewScore();
 	    String movieId = dto.getMovieId();
-	    
 	    String msg = service.insertOrUpdateScore(movieId, score);
 	    MsgResponse response = new MsgResponse(msg);
 	    return response;
@@ -36,8 +35,16 @@ public class ReviewAjaxController {
 		}
 	}
 	
+	@Data
+	public class ResultResponse{
+		private int result;
+		public ResultResponse(int result){
+			this.result = result;
+		}
+	}
+	
 	@PostMapping("/increaseLikeCount")
-	public MsgResponse increaseLikeCount(@RequestBody MovieReviewDTO dto, CommentLikedUsersDTO commentDto, HttpSession session) {//userEmail, movieId
+	public ResultResponse increaseLikeCount(@RequestBody MovieReviewDTO dto, CommentLikedUsersDTO commentDto, HttpSession session) {//userEmail, movieId
 		String id = dto.getMovieId() + dto.getUserEmail();//작성자 이메일
 		dto.setId(id);
 		commentDto.setId(id+(String)session.getAttribute("userEmail"));// +현재 접속한 사용자 이메일
@@ -45,13 +52,13 @@ public class ReviewAjaxController {
 		commentDto.setLikedUserEmail((String)session.getAttribute("userEmail"));
 		
 		System.out.println("CommentDto .s et id = "+ commentDto.getId());
-		String msg = service.increaseLikeCountForComment(dto, commentDto);
-		MsgResponse response = new MsgResponse(msg);
+		int commentLikeCounts = service.increaseLikeCountForComment(dto, commentDto);
+		ResultResponse response = new ResultResponse(commentLikeCounts);
 		return response;
 	}
 	
 	@PostMapping("/decreaseLikeCount")
-	public MsgResponse decreaseLikeCount(@RequestBody MovieReviewDTO dto, CommentLikedUsersDTO commentDto, HttpSession session) {//userEmail, movieId
+	public ResultResponse decreaseLikeCount(@RequestBody MovieReviewDTO dto, CommentLikedUsersDTO commentDto, HttpSession session) {//userEmail, movieId
 		String id = dto.getMovieId() + dto.getUserEmail();
 		dto.setId(id);
 		commentDto.setId(id+(String)session.getAttribute("userEmail"));// +현재 접속한 사용자 이메일
@@ -59,8 +66,8 @@ public class ReviewAjaxController {
 		commentDto.setLikedUserEmail((String)session.getAttribute("userEmail"));
 		
 		System.out.println("decreaseLikeCount commentDto.set id = "+ commentDto.getId());
-		String msg = service.decreaseLikeCountForComment(dto, commentDto);
-		MsgResponse response = new MsgResponse(msg);
+		int commentLikeCounts = service.decreaseLikeCountForComment(dto, commentDto);
+		ResultResponse response = new ResultResponse(commentLikeCounts);
 		return response;
 	}
 }

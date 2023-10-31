@@ -75,4 +75,16 @@
 	<delete id="deleteLikedUserInfo" parameterType="com.watch.project.dto.CommentLikedUsersDTO">
 		DELETE FROM comment_liked_users WHERE id=#{id}
 	</delete>
+	
+	<select id="selectLikedComment" resultMap="comment_liked_user">
+		SELECT * FROM comment_liked_users WHERE id=#{id}
+	</select>
+	
+	<select id="selectCommentLikes" resultType="Integer">
+		SELECT review_comment_likes FROM movie_review WHERE id=#{id}
+	</select>
+	
+	<select id="getAverageRating" resultType="Float">
+		SELECT AVG(review_score) FROM movie_review WHERE movie_id=#{movieId}
+	</select>
 </mapper>

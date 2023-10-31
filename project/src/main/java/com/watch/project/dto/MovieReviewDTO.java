@@ -13,4 +13,5 @@ public class MovieReviewDTO {
 	private String reviewComment;
 	private String reviewCommentDate;
 	private int reviewCommentLikes;
+	private int isLiked;
 }

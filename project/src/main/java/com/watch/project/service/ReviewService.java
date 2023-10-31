@@ -73,6 +73,10 @@ public class ReviewService {
 
 	public String insertComment(MovieReviewDTO dto) {//movieId, reviewComment
 		String msg = "저장되었습니다.";
+		if(dto.getReviewComment() == null || dto.getReviewComment().equals("")) {
+			msg ="코멘트를 입력해주세요.";
+			return msg;
+		}
 		String pk = dto.getMovieId()+(String)session.getAttribute("userEmail");
 		float existance = checkScore(pk);
 		
@@ -130,6 +134,17 @@ public class ReviewService {
 
 	public List<MovieReviewDTO> getEveryCommentForThisMovie(String movieId) {
 		List<MovieReviewDTO> comments = repo.selectComments(movieId);
+		for(MovieReviewDTO comment : comments) {
+			String CommentLikedUsersDtoId = comment.getId() + (String)session.getAttribute("userEmail");
+			
+			CommentLikedUsersDTO likedComment = repo.selectLikedComment(CommentLikedUsersDtoId);
+		
+			if(likedComment != null) {
+				comment.setIsLiked(1);
+			}else {
+				comment.setIsLiked(0);
+			}
+		}
 		return comments;
 	}
 
@@ -164,24 +179,31 @@ public class ReviewService {
 		return msg;
 	}
 
-	public String increaseLikeCountForComment(MovieReviewDTO dto, CommentLikedUsersDTO commentDto) {//id, movieId, userEmail
+	public int increaseLikeCountForComment(MovieReviewDTO dto, CommentLikedUsersDTO commentDto) {//id, movieId, userEmail
 		String msg="";
 		int updateResult = repo.increaseLikeCountForComment(dto);
 		int insertResult = repo.insertLikedUserInfo(commentDto);
+		int commentLikeCount = repo.selectCommentLikes(dto);
 		if(updateResult != 1||insertResult !=1) {
 			msg = "오류가 발생했습니다. 다시 시도해주세요.";
 		}
-		return msg;
+		return commentLikeCount;
 	}
 
-	public String decreaseLikeCountForComment(MovieReviewDTO dto, CommentLikedUsersDTO commentDto) {//id, movieId, userEmail
+	public int decreaseLikeCountForComment(MovieReviewDTO dto, CommentLikedUsersDTO commentDto) {//id, movieId, userEmail
 		String msg="";
 		int updateResult = repo.decreaseLikeCountForComment(dto);
 		int deleteResult = repo.deleteLikedUserInfo(commentDto);
+		int commentLikeCount = repo.selectCommentLikes(dto);
 		if(updateResult != 1 || deleteResult != 1) {
 			msg = "오류가 발생했습니다. 다시 시도해주세요.";
 		}
-		return msg;
+		return commentLikeCount;
+	}
+
+	public float getAverageRating(String movieId) {
+		float averageRating = repo.getAverageRating(movieId);
+		return averageRating;
 	}
 
 //	public int deleteFromMovieReview(String userEmail) {///////////////////////////////////////////////////////////////////////

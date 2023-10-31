@@ -50,6 +50,9 @@
 				<c:if test="${ movieInfo.openDt ne 'nan' }">
 					<span style="font-size:18px;">개봉일 : ${ movieInfo.openDt.substring(0, 4) }년 ${ movieInfo.openDt.substring(4, 6) }월 ${ movieInfo.openDt.substring(6, 8) }일</span>
 				</c:if>
+				<br>
+				<span style="font-size:30px;"><b> ★ ${averageRating }</b> / 5.0 </span>
+				
 			</div>
 		</div>
 	</div>
@@ -335,19 +338,33 @@
 	<c:if test="${dto.reviewComment != 'nan' }">
 	 <div class="comment-card">
         <span class="comment-content">
+        <span class="movie_score">
         <c:if test="${dto.reviewScore != 0}">
-            <b> ★ ${dto.reviewScore}</b> / 5.0 <br>
+            <span><b> ★ ${dto.reviewScore}</b> / 5.0 </span><br>
         </c:if>
         <c:if test="${dto.reviewScore eq 0 }">
-        	평점 기록 없음<br>
+        	<span>평점 기록 없음</span><br>
         </c:if>
+        </span>
         	<span class="date">${dto.userEmail } </span><br>
             <b>${dto.reviewComment}</b> <br>
             <span class="date">${dto.reviewCommentDate} </span>
         </span>
+        <span>
+        <span class="comment_like_count">♥ x ${dto.reviewCommentLikes }</span>
+        <br><br>
         <span class="comment">
-        	<button class="likeButton" onclick="increaseLikeCount('${dto.userEmail}', '${movieInfo.movieId}', '${ cnt }');">좋아요</button>
-        	<button class="likeButton" onclick="decreaseLikeCount('${dto.userEmail}', '${movieInfo.movieId}', '${ cnt }');">좋아요 취소</button>
+        <c:choose>
+        <c:when test="${dto.isLiked eq 0 }">
+        	<button class="likeButton" onclick="increaseLikeCount('${dto.userEmail}', '${movieInfo.movieId}', '${ cnt }');">♡</button>
+        </c:when>
+        <c:otherwise>
+        	<button class="likeButton" onclick="decreaseLikeCount('${dto.userEmail}', '${movieInfo.movieId}', '${ cnt }');">♥</button>
+        </c:otherwise>
+        </c:choose>
+        <br><br>
+        
+        </span>
         </span>
         <c:set var="cnt" value="${ cnt+1 }"/>
     </div>	

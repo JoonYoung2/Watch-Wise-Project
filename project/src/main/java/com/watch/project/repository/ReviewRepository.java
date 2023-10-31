@@ -37,6 +37,12 @@ public interface ReviewRepository {
 
 	int deleteLikedUserInfo(CommentLikedUsersDTO commentDto);
 
+	CommentLikedUsersDTO selectLikedComment(String commentLikedUsersDtoId);
+
+	int selectCommentLikes(MovieReviewDTO dto);
+
+	float getAverageRating(String movieId);
+
 //	int deleteFromMovieReview(String userEmail);////////////////////////////////////////////////////////////////
 
 }

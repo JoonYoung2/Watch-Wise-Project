@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -91,11 +90,14 @@ public class MovieInfoController {
 		
 		List<MovieReviewDTO> comments = reviewService.getEveryCommentForThisMovie(movieId);//이 영화에 대한 모든 사용자의 코멘트들 가져오는 메서드
 		MovieReviewDTO ifWroteComment = reviewService.getComment(movieId);//로그인한 사용자가 작성한 코멘트가 있다면 가져옴
+		 //로그인한 사용자가 평가한 점수를 가져옴.
+		float averageRating = reviewService.getAverageRating(movieId);//영화의 평점의 평균을 가져옴
 //		System.out.println("ifWroteComment.getReviewComment()============> : "+ifWroteComment.getReviewComment());
 
 		model.addAttribute("comments", comments);
 		model.addAttribute("ifWroteComment", ifWroteComment);
 		model.addAttribute("movieInfo", movieInfoViewDto);
+		model.addAttribute("averageRating", averageRating);
 		return "basic/movie_info";
 	}
 }
