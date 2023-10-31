@@ -1,9 +1,10 @@
 package com.watch.project.dto;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 
-@Getter
+@Data
 public class MovieLikeDTO {
 	private String id;
 	private String movieId;

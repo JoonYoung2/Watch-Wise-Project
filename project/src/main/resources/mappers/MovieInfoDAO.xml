@@ -59,7 +59,7 @@
 		DELETE FROM movie_like WHERE id=#{id}
 	</delete>
 	
-	<select id="getMovieLikeById" resultMap="movieLike">
+	<select id="getMovieLikeById" resultMap="movieLike" parameterType="String">
 		SELECT * FROM movie_like WHERE id=#{id}
 	</select>
 	

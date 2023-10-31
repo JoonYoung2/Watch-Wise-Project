@@ -108,10 +108,15 @@ public class MovieInfoService {
 	
 	public int getMovieLikeCheck(String movieId, String userEmail) {
 		String id = movieId + userEmail;
-		MovieLikeDTO movieLikeDto = repo.getMovieLikeById(id);
-		if(movieLikeDto == null) {
-			return 0;			
-		}else
-			return 1;
+		log.info("id => {}",id);
+		try {
+			MovieLikeDTO movieLikeDto = repo.getMovieLikeById(id);	
+			if(movieLikeDto == null) {
+				return 0;			
+			}else
+				return 1;
+		}catch(NullPointerException e) {
+			return 0;
+		}
 	}
 }
