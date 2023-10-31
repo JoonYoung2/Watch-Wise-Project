@@ -19,6 +19,20 @@
 	<result property="likedUserEmail" column="liked_user_email"/>
 </resultMap>
 
+<resultMap type="com.watch.project.dto.userInfo.ReviewListDTO" id="review_list">
+    <result property="id" column="id" />
+	<result property="movieId" column="movie_id"/>
+	<result property="userEmail" column="user_email"/>
+	
+	<result property="movieNm" column="movie_nm"/>
+	<result property="movieNmEn" column="movie_nm_en"/>
+	<result property="posterUrl" column="poster_url"/>
+
+	<result property="reviewScore" column="review_score" />
+	<result property="reviewComment" column="review_comment"/>
+	<result property="reviewCommentDate" column="review_comment_date"/>
+</resultMap>
+
 
 	<select id="getInfoByPk" resultMap="review">
 		SELECT * FROM movie_review WHERE id=#{pk}
@@ -87,4 +101,9 @@
 	<select id="getAverageRating" resultType="Float">
 		SELECT AVG(review_score) FROM movie_review WHERE movie_id=#{movieId}
 	</select>
+	
+	<select id="selectReviewListByEmail" resultMap="review" >
+		SELECT * FROM movie_review WHERE user_email=#{userEmail}
+	</select>
+	
 </mapper>

@@ -1,13 +1,20 @@
 package com.watch.project.controller.review;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.MovieReviewDTO;
+import com.watch.project.dto.userInfo.ReviewListDTO;
 import com.watch.project.service.ReviewService;
 
 @Controller
@@ -42,5 +49,13 @@ public class ReviewController {
 		return "redirect:/movieInfo?movieId="+dto.getMovieId();
 	}
 	
+	@GetMapping("/userReviewList")
+	public String userReviewList(Model model, HttpSession session) {
+		List<ReviewListDTO> reviewList = service.getReviewList((String)session.getAttribute("userEmail")); 
+		model.addAttribute("reviewList", reviewList);
+		return "member/common/review_list";
+	}
+	
+
 
 }

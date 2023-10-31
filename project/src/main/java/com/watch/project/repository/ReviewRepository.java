@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.watch.project.dto.CommentLikedUsersDTO;
 import com.watch.project.dto.MovieReviewDTO;
+import com.watch.project.dto.userInfo.ReviewListDTO;
 
 @Mapper
 public interface ReviewRepository {
@@ -42,6 +43,9 @@ public interface ReviewRepository {
 	int selectCommentLikes(MovieReviewDTO dto);
 
 	float getAverageRating(String movieId);
+
+	List<MovieReviewDTO> selectReviewListByEmail(String userEmail);
+
 
 //	int deleteFromMovieReview(String userEmail);////////////////////////////////////////////////////////////////
 

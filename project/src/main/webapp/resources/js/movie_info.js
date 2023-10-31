@@ -138,6 +138,7 @@ function rating(score, movieId) {  //평점
 	});
 }
 
+
 function showModifyForm(){  //코멘트
 	console.log("gdgd");
 	let modifyFormId = document.getElementById("modify-form");
