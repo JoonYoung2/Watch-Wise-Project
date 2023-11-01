@@ -51,7 +51,7 @@
 	</select>
 	
 	<select id="getMovieGradeAvgByMovieId" resultType="Float">
-		SELECT AVG(review_score) AS grade_avg FROM movie_review WHERE movie_id=#{movieId} GROUP BY movie_id
+		SELECT AVG(review_score) AS grade_avg FROM movie_review WHERE movie_id=#{movieId} AND NOT review_score=0 GROUP BY movie_id
 	</select>
 	
 	<select id="getGradeCheckById" resultType="Integer">

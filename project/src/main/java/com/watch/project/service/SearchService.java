@@ -17,6 +17,7 @@ import com.watch.project.dto.searchView.MovieActorsDTO;
 import com.watch.project.dto.searchView.MovieInfoSearchViewDTO;
 import com.watch.project.dto.searchView.PeopleInfoSearchViewDTO;
 import com.watch.project.repository.HomeRepository;
+import com.watch.project.repository.PeopleInfoRepository;
 import com.watch.project.repository.SearchRepository;
 import com.watch.project.repository.recommended.RecommendedRepository;
 
@@ -28,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SearchService {
 	private final SearchRepository repo;
+	private final PeopleInfoRepository peopleInfoRepository;
 	private final RecommendedRepository recommendedRepository;
 	private final HomeRepository homeRepository;
 	private final HttpSession session;
@@ -76,8 +78,7 @@ public class SearchService {
 					try {
 						peopleId = repo.getPeopleIdByPeopleNmAndMovieNm(map);					
 					}catch(BindingException e) {
-						log.error("Error searchingStep1 BindingException => {}", e);
-						peopleId = 0;
+						
 					}
 					MovieActorsDTO movieActorsDto = new MovieActorsDTO(peopleId, peopleNm, cast);
 					movieInfoSearchDto.getMovieActorList().add(movieActorsDto);
@@ -114,11 +115,12 @@ public class SearchService {
 			movieInfoList.get(i).setGradeAvg(gradeAvg);
 			String showTime = getShowTime(movieInfoList.get(i).getShowTime());
 
-			MovieInfoSearchViewDTO movieInfoSearchDto = MovieInfoSearchViewDTO
-														.builder()
-														.movieInfoDto(movieInfoList.get(i))
-														.gradeCheck(gradeCheck)
-														.build();
+			MovieInfoSearchViewDTO movieInfoSearchDto = 
+					MovieInfoSearchViewDTO
+					.builder()
+					.movieInfoDto(movieInfoList.get(i))
+					.gradeCheck(gradeCheck)
+					.build();
 			
 			String[] actors = movieInfoList.get(i).getActors().split(",");
 			String[] casts = movieInfoList.get(i).getCast().split(",");
@@ -137,8 +139,7 @@ public class SearchService {
 					try {
 						peopleId = repo.getPeopleIdByPeopleNmAndMovieNm(map);					
 					}catch(BindingException e) {
-						log.error("Error searchingStep1 BindingException => {}", e);
-						peopleId = 0;
+						
 					}
 					MovieActorsDTO movieActorsDto = new MovieActorsDTO(peopleId, peopleNm, cast);
 					movieInfoSearchDto.getMovieActorList().add(movieActorsDto);

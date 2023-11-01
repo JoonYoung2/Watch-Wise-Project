@@ -90,9 +90,9 @@ public class PeopleInfoService {
 	public int getPeopleLikeCheck(int peopleId, String userEmail) {
 		String id = peopleId + userEmail;
 		PeopleLikeDTO peopleLikeDto = repo.getPeopleLikeById(id);
-		if(peopleLikeDto == null) {
+		if(peopleLikeDto == null)
 			return 0;			
-		}else
+		else
 			return 1;
 	}
 	

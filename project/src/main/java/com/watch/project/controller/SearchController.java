@@ -14,6 +14,7 @@ import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.PeopleInfoDetailDTO;
 import com.watch.project.dto.searchView.MovieInfoSearchViewDTO;
 import com.watch.project.dto.searchView.PeopleInfoSearchViewDTO;
+import com.watch.project.service.PeopleInfoService;
 import com.watch.project.service.SearchService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SearchController {
 	private final SearchService service;
+	private final HttpSession session;
+	private final PeopleInfoService peopleInfoService;
 	
 	@GetMapping("search")
 	public String searching(@RequestParam("query") String query, Model model) {
@@ -54,15 +57,29 @@ public class SearchController {
 		}
 		
 		if(searchList3.size() != 0) {
+			int[] likeCheck = new int[searchList3.size()];
+			String userEmail = (String)session.getAttribute("userEmail");
+			for(int i = 0; i < searchList3.size(); ++i) {
+				int peopleId = searchList3.get(i).getPeopleId();
+				likeCheck[i] = peopleInfoService.getPeopleLikeCheck(peopleId, userEmail);
+			}
+			model.addAttribute("likeCheck", likeCheck);
 			model.addAttribute("searchList3", searchList3);
 			model.addAttribute("memberCommend", memberCommendedList);
 			return "basic/search_info";
 		}else {
 			searchList4 = service.searchingStep4(query);
 			log.info("searchingStep4 Size => {}", searchList4.size());
-		}
+		} 
 		
 		if(searchList4.size() != 0) {
+			int[] likeCheck = new int[searchList4.size()];
+			String userEmail = (String)session.getAttribute("userEmail");
+			for(int i = 0; i < searchList4.size(); ++i) {
+				int peopleId = searchList4.get(i).getPeopleId();
+				likeCheck[i] = peopleInfoService.getPeopleLikeCheck(peopleId, userEmail);
+			}
+			model.addAttribute("likeCheck", likeCheck);
 			model.addAttribute("searchList4", searchList4);
 			model.addAttribute("memberCommend", memberCommendedList);
 			return "basic/search_info";

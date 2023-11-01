@@ -69,8 +69,7 @@
 		</div>
 	</div>
 </c:if>
-
-<br><br><br>
+<br>
 <% 
 	int cnt = 0; 
 %>

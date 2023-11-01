@@ -106,7 +106,7 @@
 	<br><br><br>
 
 	<!-- SearchCase1 회원 추천 Movies START -->
-
+	<% cnt = 0; %>
 	<c:if test="${ memberCommend.size() > 0 }">
 		<%@ include file="./recommend/memberRecommend.jsp"%>
 	</c:if>
