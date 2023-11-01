@@ -21,7 +21,7 @@
 				&quot${ query }&quot 검색결과  ${ searchList1.size() }개
 				
 				<!-- SearchCase1 검색결과 Movies START -->
-				<div align="left" style="width:100%; padding-bottom:10px;"><span style="font-size:30px; font-weight:bold;">&quot${ query }&quot 검색결과</span></div>
+				<div align="left" style="width:100%; padding-bottom:10px;"><span style="font-size:30px; font-weight:bold;">&quot${ query }&quot 연관 영화</span></div>
 				<div style="display:flex; position:relative">
 					
 					<button id="searchMoviesLeftBtn" class="leftBtn" onclick="searchMoviesLeftBtn();">◀</button>

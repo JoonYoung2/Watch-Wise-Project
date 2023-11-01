@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 public class TopUpdateScheduled {
 	private final MovieDailyUpdateScheduled dailyUpdate;
 	private final MovieWeeklyUpdateScheduled weeklyUpdate;
-	@Scheduled(cron = "0 57 9 * * *")
+	@Scheduled(cron = "0 36 9 * * *")
 	public void allUpdateProcess() throws UnsupportedEncodingException {
 		dailyUpdate.allFindAndInsert();
 		dailyUpdate.DailyMovieInsert();
