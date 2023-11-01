@@ -103,7 +103,7 @@
 	</select>
 	
 	<select id="selectReviewListByEmail" resultMap="review" >
-		SELECT * FROM movie_review WHERE user_email=#{userEmail}
+		SELECT * FROM movie_review WHERE user_email=#{userEmail} ORDER BY review_comment_date DESC
 	</select>
 	
 </mapper>

@@ -22,7 +22,7 @@
 			<td><a href="/movieInfo?movieId=${ data.movieId }">${data.movieNm}</a></td>
 			<td>${data.reviewScore}</td>
 			<td>${data.reviewComment}</td>
-
+${ data.posterUrl }
 		</tr>
 		</c:forEach>
 	</table>
