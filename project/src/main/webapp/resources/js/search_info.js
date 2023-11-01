@@ -1,19 +1,19 @@
 // Paging Method START
 
 let memberCommendLeftBtnId = document.getElementById("memberCommendLeftBtn");
-let memberCommend2LeftBtnId = document.getElementById("memberCommend2LeftBtn");
+let searchMoviesLeftBtnId = document.getElementById("searchMoviesLeftBtn");
 
 let memberCommendRightBtnId = document.getElementById("memberCommendRightBtn");
-let memberCommend2RightBtnId = document.getElementById("memberCommend2RightBtn");
+let searchMoviesRightBtnId = document.getElementById("searchMoviesRightBtn");
 
 let memberCommendClass = document.querySelectorAll(".memberCommend");
-let memberCommend2Class = document.querySelectorAll(".memberCommend2");
+let searchMoviesClass = document.querySelectorAll(".searchMovies");
 
 let memberCommendPageNum = 1;
-let memberCommend2PageNum = 1;
+let searchMoviesPageNum = 1;
 
 let memberCommendCnt = 0;
-let memberCommend2Cnt = 0;
+let searchMoviesCnt = 0;
 
 const memberCommendLeftBtn = () => {
     memberCommendPageNum--;
@@ -67,53 +67,53 @@ const memberCommendRightBtn = (cnt) => {
     }
 }
 
-const memberCommend2LeftBtn = () => {
-    memberCommend2PageNum--;
-    if(memberCommend2PageNum == 1){
-        memberCommend2LeftBtnId.style.display = "none";
-        memberCommend2RightBtnId.style.display = "block";
-        for(var i = 0; i < memberCommend2Class.length; i++){
-            if(i >= memberCommend2PageNum*5-5 && i < memberCommend2PageNum*5){
-                memberCommend2Class[i].style.display = "";
+const searchMoviesLeftBtn = () => {
+    searchMoviesPageNum--;
+    if(searchMoviesPageNum == 1){
+        searchMoviesLeftBtnId.style.display = "none";
+        searchMoviesRightBtnId.style.display = "block";
+        for(var i = 0; i < searchMoviesClass.length; i++){
+            if(i >= searchMoviesPageNum*5-5 && i < searchMoviesPageNum*5){
+                searchMoviesClass[i].style.display = "";
             }else{
-                memberCommend2Class[i].style.display = "none";
+                searchMoviesClass[i].style.display = "none";
             }
         }
     }else{
-        memberCommend2LeftBtnId.style.display = "block";
-        memberCommend2RightBtnId.style.display = "block";
-        for(var i = 0; i < memberCommend2Class.length; i++){
-            if(i >= memberCommend2PageNum*5-5 && i < memberCommend2PageNum*5){
-                memberCommend2Class[i].style.display = "";
+        searchMoviesLeftBtnId.style.display = "block";
+        searchMoviesRightBtnId.style.display = "block";
+        for(var i = 0; i < searchMoviesClass.length; i++){
+            if(i >= searchMoviesPageNum*5-5 && i < searchMoviesPageNum*5){
+                searchMoviesClass[i].style.display = "";
             }else{
-                memberCommend2Class[i].style.display = "none";
+                searchMoviesClass[i].style.display = "none";
             }
         }
     }
 }
 
-const memberCommend2RightBtn = (cnt) => {
-    memberCommend2Cnt = Number(cnt);
-    let pageNum = Math.ceil(memberCommend2Cnt / 5);
-    memberCommend2PageNum++;
-    if(memberCommend2PageNum == pageNum){
-        memberCommend2LeftBtnId.style.display = "block";
-        memberCommend2RightBtnId.style.display = "none";
-        for(var i = 0; i < memberCommend2Class.length; i++){
-            if(i >= memberCommend2PageNum*5-5 && i < memberCommend2PageNum*5){
-                memberCommend2Class[i].style.display = "";
+const searchMoviesRightBtn = (cnt) => {
+    searchMoviesCnt = Number(cnt);
+    let pageNum = Math.ceil(searchMoviesCnt / 5);
+    searchMoviesPageNum++;
+    if(searchMoviesPageNum == pageNum){
+        searchMoviesLeftBtnId.style.display = "block";
+        searchMoviesRightBtnId.style.display = "none";
+        for(var i = 0; i < searchMoviesClass.length; i++){
+            if(i >= searchMoviesPageNum*5-5 && i < searchMoviesPageNum*5){
+                searchMoviesClass[i].style.display = "";
             }else{
-                memberCommend2Class[i].style.display = "none";
+                searchMoviesClass[i].style.display = "none";
             }
         }
     }else{
-        memberCommend2LeftBtnId.style.display = "block";
-        memberCommend2RightBtnId.style.display = "block";
-        for(var i = 0; i < memberCommend2Class.length; i++){
-            if(i >= memberCommend2PageNum*5-5 && i < memberCommend2PageNum*5){
-                memberCommend2Class[i].style.display = "";
+        searchMoviesLeftBtnId.style.display = "block";
+        searchMoviesRightBtnId.style.display = "block";
+        for(var i = 0; i < searchMoviesClass.length; i++){
+            if(i >= searchMoviesPageNum*5-5 && i < searchMoviesPageNum*5){
+                searchMoviesClass[i].style.display = "";
             }else{
-                memberCommend2Class[i].style.display = "none";
+                searchMoviesClass[i].style.display = "none";
             }
         }
     }

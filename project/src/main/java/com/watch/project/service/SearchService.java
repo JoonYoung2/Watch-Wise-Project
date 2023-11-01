@@ -170,30 +170,34 @@ public class SearchService {
 		}
 		 
 		for(int i = 0; i < peopleInfoDetailList.size(); ++i) {
-			int peopleId = peopleInfoDetailList.get(i).getPeopleId();
-			String peopleNm = peopleInfoDetailList.get(i).getPeopleNm();
-			String peopleNmEn = peopleInfoDetailList.get(i).getPeopleNmEn();
-			String sex = peopleInfoDetailList.get(i).getSex();
-			int likeNum = peopleInfoDetailList.get(i).getLikeNum();
-			
-			PeopleInfoSearchViewDTO peopleInfoSearchViewDto = new PeopleInfoSearchViewDTO(peopleId, peopleNm, peopleNmEn, sex, likeNum);
+			PeopleInfoSearchViewDTO peopleInfoSearchViewDto = 
+					PeopleInfoSearchViewDTO
+					.builder()
+					.peopleInfoDetailDto(peopleInfoDetailList.get(i))
+					.build();
 			String movieIds = "";
-			String[] movieId = peopleInfoDetailList.get(i).getMovieId().split(",");
+			String[] movie = peopleInfoDetailList.get(i).getMovieId().split(",");
 			
-			for(int j = 0; j < movieId.length; ++j) {
-				if(j != movieId.length-1) 
-					movieIds += "'" + movieId[j] + "',";
+			for(int j = 0; j < movie.length; ++j) {
+				if(j != movie.length-1) 
+					movieIds += "'" + movie[j] + "',";
 				else
-					movieIds += "'" + movieId[j] + "'";
+					movieIds += "'" + movie[j] + "'";
 			}
 			
 			peopleInfoSearchViewDto.setMovieInfoList(repo.getMovieInfoByMovieIds(movieIds));
 			
 			for(int j = 0; j < peopleInfoSearchViewDto.getMovieInfoList().size(); ++j) {
 				String posterUrl = peopleInfoSearchViewDto.getMovieInfoList().get(j).getPosterUrl().split("\\|")[0];
+				String movieId = peopleInfoSearchViewDto.getMovieInfoList().get(j).getMovieId();
+				String id = movieId + (String) session.getAttribute("userEmail");
+				float gradeAvg = getMovieGradeAvgByMovieId(movieId);
+				boolean gradeCheck = getMovieGradeCheckById(id);
 				if(!posterUrl.equals("nan")) {
 					peopleInfoSearchViewDto.getMovieInfoList().get(j).setPosterUrl(posterUrl);					
 				}
+				peopleInfoSearchViewDto.getMovieInfoList().get(j).setGradeAvg(gradeAvg);
+				peopleInfoSearchViewDto.getMovieInfoList().get(j).setGradeCheck(gradeCheck);
 			}
 			
 			peopleInfoSearchViewList.add(peopleInfoSearchViewDto);
@@ -209,30 +213,34 @@ public class SearchService {
 		}
 		
 		for(int i = 0; i < peopleInfoDetailList.size(); ++i) {
-			int peopleId = peopleInfoDetailList.get(i).getPeopleId();
-			String peopleNm = peopleInfoDetailList.get(i).getPeopleNm();
-			String peopleNmEn = peopleInfoDetailList.get(i).getPeopleNmEn();
-			String sex = peopleInfoDetailList.get(i).getSex();
-			int likeNum = peopleInfoDetailList.get(i).getLikeNum();
 			
-			PeopleInfoSearchViewDTO peopleInfoSearchViewDto = new PeopleInfoSearchViewDTO(peopleId, peopleNm, peopleNmEn, sex, likeNum);
+			PeopleInfoSearchViewDTO peopleInfoSearchViewDto = 
+					PeopleInfoSearchViewDTO.builder()
+					.peopleInfoDetailDto(peopleInfoDetailList.get(i))
+					.build();
 			String movieIds = "";
-			String[] movieId = peopleInfoDetailList.get(i).getMovieId().split(",");
+			String[] movie = peopleInfoDetailList.get(i).getMovieId().split(",");
 			
-			for(int j = 0; j < movieId.length; ++j) {
-				if(j != movieId.length-1) 
-					movieIds += "'" + movieId[j] + "',";
+			for(int j = 0; j < movie.length; ++j) {
+				if(j != movie.length-1) 
+					movieIds += "'" + movie[j] + "',";
 				else
-					movieIds += "'" + movieId[j] + "'";
+					movieIds += "'" + movie[j] + "'";
 			}
 			
 			peopleInfoSearchViewDto.setMovieInfoList(repo.getMovieInfoByMovieIds(movieIds));
 			
 			for(int j = 0; j < peopleInfoSearchViewDto.getMovieInfoList().size(); ++j) {
 				String posterUrl = peopleInfoSearchViewDto.getMovieInfoList().get(j).getPosterUrl().split("\\|")[0];
+				String movieId = peopleInfoSearchViewDto.getMovieInfoList().get(j).getMovieId();
+				String id = movieId + (String) session.getAttribute("userEmail");
+				float gradeAvg = getMovieGradeAvgByMovieId(movieId);
+				boolean gradeCheck = getMovieGradeCheckById(id);
 				if(!posterUrl.equals("nan")) {
 					peopleInfoSearchViewDto.getMovieInfoList().get(j).setPosterUrl(posterUrl);					
 				}
+				peopleInfoSearchViewDto.getMovieInfoList().get(j).setGradeAvg(gradeAvg);
+				peopleInfoSearchViewDto.getMovieInfoList().get(j).setGradeCheck(gradeCheck);
 			}
 			
 			peopleInfoSearchViewList.add(peopleInfoSearchViewDto);

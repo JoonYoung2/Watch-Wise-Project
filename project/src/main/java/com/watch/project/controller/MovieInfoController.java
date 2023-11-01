@@ -98,4 +98,3 @@ public class MovieInfoController {
 		return "basic/movie_info";
 	}
 }
-

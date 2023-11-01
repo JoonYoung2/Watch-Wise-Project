@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.watch.project.dto.MovieInfoDTO;
+import com.watch.project.dto.PeopleInfoDetailDTO;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
@@ -16,12 +18,13 @@ public class PeopleInfoSearchViewDTO {
 	private int likeNum;
 	private List<MovieInfoDTO> movieInfoList;
 	
-	public PeopleInfoSearchViewDTO(int peopleId, String peopleNm, String peopleNmEn, String sex, int likeNum) {
-		this.peopleId = peopleId;
-		this.peopleNm = peopleNm;
-		this.peopleNmEn = peopleNmEn;
-		this.sex = sex;
-		this.likeNum = likeNum;
+	@Builder
+	public PeopleInfoSearchViewDTO(PeopleInfoDetailDTO peopleInfoDetailDto) {
+		this.peopleId = peopleInfoDetailDto.getPeopleId();
+		this.peopleNm = peopleInfoDetailDto.getPeopleNm();
+		this.peopleNmEn = peopleInfoDetailDto.getPeopleNmEn();
+		this.sex = peopleInfoDetailDto.getSex();
+		this.likeNum = peopleInfoDetailDto.getLikeNum();
 		this.movieInfoList = new ArrayList<>();
 	}
 }
