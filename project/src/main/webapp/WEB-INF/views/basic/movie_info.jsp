@@ -89,21 +89,22 @@
 <c:if test="${not empty sessionScope.userEmail }">
 <hr>
 <div align="center" id="review">
-      <label for="select-box">평점</label> <br>
-      <select id="select-box" name="rating" onchange="rating(this.value,'${movieInfo.movieId }');">
-            <option value="0.0">0.0</option>
-            <option value="0.5">0.5</option>
-            <option value="1.0">1.0</option>
-           <option value="1.5">1.5</option>
-            <option value="2.0">2.0</option>
-            <option value="2.5">2.5</option>
-            <option value="3.0">3.0</option>
-            <option value="3.5">3.5</option>
-            <option value="4.0">4.0</option>
-            <option value="4.5">4.5</option>
-            <option value="5.0">5.0</option>
-      </select>
-      <div id="msg"></div>
+
+		<label for="select-box">이 영화에 대한 나의 평점</label> <br>
+		<select id="select-box" name="rating" onchange="rating(this.value,'${movieInfo.movieId }');">
+        <option value="0.0" ${ifWroteComment.reviewScore == 0.0 ? 'selected' : ''}>0.0</option>
+        <option value="0.5" ${ifWroteComment.reviewScore == 0.5 ? 'selected' : ''}>0.5</option>
+        <option value="1.0" ${ifWroteComment.reviewScore == 1.0 ? 'selected' : ''}>1.0</option>
+        <option value="1.5" ${ifWroteComment.reviewScore == 1.5 ? 'selected' : ''}>1.5</option>
+        <option value="2.0" ${ifWroteComment.reviewScore == 2.0 ? 'selected' : ''}>2.0</option>
+        <option value="2.5" ${ifWroteComment.reviewScore == 2.5 ? 'selected' : ''}>2.5</option>
+        <option value="3.0" ${ifWroteComment.reviewScore == 3.0 ? 'selected' : ''}>3.0</option>
+        <option value="3.5" ${ifWroteComment.reviewScore == 3.5 ? 'selected' : ''}>3.5</option>
+        <option value="4.0" ${ifWroteComment.reviewScore == 4.0 ? 'selected' : ''}>4.0</option>
+        <option value="4.5" ${ifWroteComment.reviewScore == 4.5 ? 'selected' : ''}>4.5</option>
+        <option value="5.0" ${ifWroteComment.reviewScore == 5.0 ? 'selected' : ''}>5.0</option>
+		</select>
+		<div id="msg"></div>
 </div>
 </c:if>
    

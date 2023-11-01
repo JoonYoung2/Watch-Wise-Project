@@ -1,27 +1,33 @@
 package com.watch.project.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.binding.BindingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.watch.project.controller.HomeController;
 import com.watch.project.dto.CommentLikedUsersDTO;
+import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.MovieReviewDTO;
+import com.watch.project.dto.userInfo.ReviewListDTO;
+import com.watch.project.repository.MovieInfoRepository;
 import com.watch.project.repository.ReviewRepository;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Service
 public class ReviewService {
 	@Autowired
 	private ReviewRepository repo;
 	@Autowired
 	private HttpSession session;
+	@Autowired
+	private MovieInfoRepository movieInfoRepo;
 
 	public String insertOrUpdateScore(String movieId, float rating) {
 		String msg = "";
@@ -79,28 +85,20 @@ public class ReviewService {
 		}
 		String pk = dto.getMovieId()+(String)session.getAttribute("userEmail");
 		float existance = checkScore(pk);
-		
-		System.out.println(existance);
-		System.out.println("*******************************111***********************************");
-		
+				
 		String dateStr = getDate();
 		
-		System.out.println(dateStr);
-		System.out.println("*******************************222***********************************");
-
 		dto.setId(pk);
 		dto.setUserEmail((String)session.getAttribute("userEmail"));
 		dto.setReviewScore(existance);
 		dto.setReviewCommentDate(dateStr);
 		
 		if(existance > 0) {//평점을 먼저한 사람 => 이미 데이터 행이 있음. update
-			System.out.println("=================update 문으로 들어옴=====================");
 			int updateResult = repo.updateForComment(dto);
 			if(updateResult != 1) {
 				msg = "오류가 발생했습니다. 다시 시도해주세요.";
 			}
 		} else {//코멘트를 먼저하는 사람 => 데이터 행 없음. insert
-			System.out.println("=================insert 문으로 들어옴=====================");
 			int storageResult = repo.insertForComment(dto);
 			if(storageResult != 1) {
 				msg = "오류가 발생했습니다. 다시 시도해주세요.";
@@ -124,12 +122,7 @@ public class ReviewService {
 		}catch(Exception e){
 			System.out.println("에러 발생");
 		}
-//		if(reviewScore == 0.0) {
-//			return 0;
-//		}else {
-//		System.out.println("0.0이 아닌, review Score는 그래서 뭐라고 : "+ reviewScore);
 			return reviewScore;
-//		}
 	}
 
 	public List<MovieReviewDTO> getEveryCommentForThisMovie(String movieId) {
@@ -213,10 +206,24 @@ public class ReviewService {
 		return averageRating;
 	}
 
-//	public int deleteFromMovieReview(String userEmail) {///////////////////////////////////////////////////////////////////////
-//		int result = repo.deleteFromMovieReview(userEmail);
-//		return result;
-//	}
-
+	public List<ReviewListDTO> getReviewList(String userEmail) {
+		List<MovieReviewDTO> reviewInfoList = repo.selectReviewListByEmail(userEmail);//해당 유저의 모든 리뷰 조회
+		List<ReviewListDTO> reviewList = new ArrayList<>();
+		for(MovieReviewDTO movie : reviewInfoList) {
+			MovieInfoDTO movieInfo = movieInfoRepo.getMovieInfoById(movie.getMovieId());
+			ReviewListDTO tempDto = new ReviewListDTO();
+			tempDto.setId(movie.getId());
+			tempDto.setMovieId(movie.getMovieId());
+			tempDto.setUserEmail(movie.getUserEmail());
+			tempDto.setReviewScore(movie.getReviewScore());
+			tempDto.setReviewComment(movie.getReviewComment());
+			tempDto.setReviewCommentDate(movie.getReviewCommentDate());
+			tempDto.setMovieNm(movieInfo.getMovieNm());
+			tempDto.setMovieNmEn(movieInfo.getMovieNmEn());
+			tempDto.setPosterUrl(movieInfo.getPosterUrl());
+			reviewList.add(tempDto);
+		}
+		return reviewList;
+	}
 
 }

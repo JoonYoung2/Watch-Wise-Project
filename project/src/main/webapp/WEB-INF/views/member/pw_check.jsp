@@ -17,7 +17,7 @@
 		</script>
 	</c:if>
 	<form action="verifyPw" method="post">
-		<input type="password" name="userPw">
+		<input type="password" name="userPw" placeholder="password">
 		<input type="submit" value="인증하기">
 	</form>
 </body>
