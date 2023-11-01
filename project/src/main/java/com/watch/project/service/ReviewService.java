@@ -14,6 +14,7 @@ import com.watch.project.controller.HomeController;
 import com.watch.project.dto.CommentLikedUsersDTO;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.MovieReviewDTO;
+import com.watch.project.dto.userInfo.LikedCommentListDTO;
 import com.watch.project.dto.userInfo.ReviewListDTO;
 import com.watch.project.repository.MovieInfoRepository;
 import com.watch.project.repository.ReviewRepository;
@@ -211,6 +212,8 @@ public class ReviewService {
 		List<ReviewListDTO> reviewList = new ArrayList<>();
 		for(MovieReviewDTO movie : reviewInfoList) {
 			MovieInfoDTO movieInfo = movieInfoRepo.getMovieInfoById(movie.getMovieId());
+			String[] mainPosterList = movieInfo.getPosterUrl().split("\\|");
+			String mainPoster = mainPosterList[0];
 			ReviewListDTO tempDto = new ReviewListDTO();
 			tempDto.setId(movie.getId());
 			tempDto.setMovieId(movie.getMovieId());
@@ -220,10 +223,21 @@ public class ReviewService {
 			tempDto.setReviewCommentDate(movie.getReviewCommentDate());
 			tempDto.setMovieNm(movieInfo.getMovieNm());
 			tempDto.setMovieNmEn(movieInfo.getMovieNmEn());
-			tempDto.setPosterUrl(movieInfo.getPosterUrl());
+			tempDto.setPosterUrl(mainPoster);
 			reviewList.add(tempDto);
 		}
 		return reviewList;
+	}
+
+	public List<LikedCommentListDTO> getLikedCommentList(String userEmail) {
+		List<String> commentIdList = repo.selectCommentIdByEmail(userEmail);//로그인한 유저가 좋아요한 코멘트들의 아이디
+		List<LikedCommentListDTO> likedCommentList = new ArrayList<>();
+//		List<MovieReviewDTO> reviewDtoInFinalDto = new ArrayList
+		for(String id : commentIdList) {
+			MovieReviewDTO likedCommentsInfo = repo.getComment(id);
+		}
+		
+		return likedCommentList;
 	}
 
 }

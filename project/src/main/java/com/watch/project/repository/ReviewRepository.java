@@ -46,6 +46,9 @@ public interface ReviewRepository {
 
 	List<MovieReviewDTO> selectReviewListByEmail(String userEmail);
 
+	List<String> selectCommentIdByEmail(String userEmail);
+
+
 
 //	int deleteFromMovieReview(String userEmail);////////////////////////////////////////////////////////////////
 
