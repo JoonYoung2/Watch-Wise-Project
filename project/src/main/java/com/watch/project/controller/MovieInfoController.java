@@ -91,6 +91,7 @@ public class MovieInfoController {
 		MovieReviewDTO ifWroteComment = reviewService.getComment(movieId);//로그인한 사용자가 작성한 코멘트가 있다면 가져옴
 		//float score = reviewService.getScore(movieId); //로그인한 사용자가 평가한 점수를 가져옴.
 		float averageRating = reviewService.getAverageRating(movieId);//영화의 평점의 평균을 가져옴
+
 		model.addAttribute("comments", comments);
 		model.addAttribute("ifWroteComment", ifWroteComment);
 		model.addAttribute("movieInfo", movieInfoViewDto);
