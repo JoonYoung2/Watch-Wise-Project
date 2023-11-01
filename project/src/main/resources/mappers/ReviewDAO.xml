@@ -106,4 +106,8 @@
 		SELECT * FROM movie_review WHERE user_email=#{userEmail} ORDER BY review_comment_date DESC
 	</select>
 	
+	<select id="selectCommentIdByEmail" resultType="String">
+		SELECT comment_id FROM comment_liked_users WHERE liked_user_email=#{userEmail}
+	</select>
+	
 </mapper>

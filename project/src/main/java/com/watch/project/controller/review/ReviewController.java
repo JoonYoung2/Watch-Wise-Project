@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.MovieReviewDTO;
+import com.watch.project.dto.userInfo.LikedCommentListDTO;
 import com.watch.project.dto.userInfo.ReviewListDTO;
 import com.watch.project.service.ReviewService;
 
@@ -56,6 +57,13 @@ public class ReviewController {
 		return "member/common/review_list";
 	}
 	
-
+	@GetMapping("/userLikedCommentList")
+	public String userLikedCommentList(Model model, HttpSession session) {
+		List<LikedCommentListDTO> likedCommentList = service.getLikedCommentList((String)session.getAttribute("userEmail"));
+		model.addAttribute("likedCommentList", likedCommentList);
+		return "member/common/liked_comment_list";
+	}
+	
+	
 
 }

@@ -6,9 +6,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="/resources/js/common.js"></script>
 </head>
 <body>
-<div>
+<%@ include file="/WEB-INF/views/header.jsp" %>
+<hr>
+<br>
+<br>
+<div style="position: absolute; top: 50%; left: 50%;transform: translate(-50%, -50%);">
+	<h3 style="text-align: center;">나의 평점 기록</h3>
 	<table border="1">
 		<tr>
 			<th>Img</th>
@@ -18,11 +24,10 @@
 		</tr>
 		<c:forEach var="data" items="${reviewList}" >
 		<tr>
-			<td><img src="${ data.posterUrl }"></td>
-			<td><a href="/movieInfo?movieId=${ data.movieId }">${data.movieNm}</a></td>
-			<td>${data.reviewScore}</td>
+			<td><a href="/movieInfo?movieId=${ data.movieId }"><img style="width:75px; height: auto;" src="${ data.posterUrl }"></a></td>
+			<td style="text-align: center;"><a href="/movieInfo?movieId=${ data.movieId }">${data.movieNm}</a></td>
+			<td style="text-align: center;">${data.reviewScore}</td>
 			<td>${data.reviewComment}</td>
-${ data.posterUrl }
 		</tr>
 		</c:forEach>
 	</table>
