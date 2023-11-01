@@ -93,7 +93,7 @@ public class MovieInfoController {
 		//float score = reviewService.getScore(movieId); //로그인한 사용자가 평가한 점수를 가져옴.
 		float averageRating = reviewService.getAverageRating(movieId);//영화의 평점의 평균을 가져옴
 //		System.out.println("ifWroteComment.getReviewComment()============> : "+ifWroteComment.getReviewComment());
-		System.out.println("************getReviewScore**************"+ifWroteComment.getReviewScore());
+//		System.out.println("************getReviewScore**************"+ifWroteComment.getReviewScore());
 		model.addAttribute("comments", comments);
 		model.addAttribute("ifWroteComment", ifWroteComment);
 		model.addAttribute("movieInfo", movieInfoViewDto);
