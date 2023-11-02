@@ -231,13 +231,17 @@ public class ReviewService {
 
 	public List<LikedCommentListDTO> getLikedCommentList(String userEmail) {
 		List<String> commentIdList = repo.selectCommentIdByEmail(userEmail);//로그인한 유저가 좋아요한 코멘트들의 아이디
-		List<LikedCommentListDTO> likedCommentList = new ArrayList<>();
-//		List<MovieReviewDTO> reviewDtoInFinalDto = new ArrayList
+		List<LikedCommentListDTO> FinalDtoList = new ArrayList<>();
+		List<String> movieIdList = new ArrayList<>();
+//		List<MovieReviewDTO> reviewDtoInFinalDto = new ArrayList<>();
 		for(String id : commentIdList) {
+			String movieId = repo.getMovieIdById(id);
+			if(movieIdList.contains(movieId)) {
+				movieIdList.add(movieId);				
+			}
 			MovieReviewDTO likedCommentsInfo = repo.getComment(id);
 		}
-		
-		return likedCommentList;
+		return FinalDtoList;
 	}
 
 }
