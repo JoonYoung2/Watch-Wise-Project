@@ -19,6 +19,11 @@
 		<result column="watch_grade_nm" property="watchGradeNm"/>	
 	</resultMap>
 	
+	<resultMap type="com.watch.project.dto.movieInfoView.GradeInfoDTO" id="gradeInfo">
+		<result column="grade_avg" property="gradeAvg"/>
+		<result column="grade_cnt" property="gradeCnt"/>
+	</resultMap>
+	
 	<resultMap type="com.watch.project.dto.MovieTopInfoDTO" id="movieTopInfo">
 		<result column="id" property="id"/>
 		<result column="movie_ids" property="movieIds"/>
@@ -50,9 +55,9 @@
 		<![CDATA[SELECT * FROM (SELECT * FROM movie_info WHERE open_dt <= '${date}' AND NOT poster_url = 'nan' AND NOT nations LIKE '한국' ORDER BY open_dt DESC) WHERE ROWNUM <= 100]]>
 	</select>
 	
-	<select id="getMovieGradeAvgByMovieId" resultType="Float">
-		SELECT AVG(review_score) AS grade_avg FROM movie_review WHERE movie_id=#{movieId} AND NOT review_score=0 GROUP BY movie_id
-	</select>
+	<select id="getMovieGradeAvgByMovieId" resultMap="gradeInfo">
+		SELECT AVG(review_score) AS grade_avg, COUNT(review_score) AS grade_cnt FROM movie_review WHERE movie_id=#{movieId} AND NOT review_score=0 GROUP BY movie_id
+	</select> 
 	
 	<select id="getGradeCheckById" resultType="Integer">
 		SELECT COUNT(id) from movie_review where id=#{id} AND NOT review_score=0

@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.MovieLikeDTO;
 import com.watch.project.dto.PeopleLikeDTO;
+import com.watch.project.dto.movieInfoView.GradeInfoDTO;
 import com.watch.project.dto.movieInfoView.MovieInfoViewDTO;
+import com.watch.project.repository.HomeRepository;
 import com.watch.project.repository.MovieInfoRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MovieInfoService {
 	private final MovieInfoRepository repo;
+	private final HomeRepository homeRepository;
 	
 	public MovieInfoDTO getMovieInfoById(String movieId) {
 		return repo.getMovieInfoById(movieId);
@@ -27,42 +30,37 @@ public class MovieInfoService {
 
 	public MovieInfoViewDTO setMMovieInfoViewDto(MovieInfoDTO movieInfoDto) {
 		String showTime = "";
-		MovieInfoViewDTO dto = new MovieInfoViewDTO();
-		dto.setMovieId(movieInfoDto.getMovieId());
-		dto.setMovieNm(movieInfoDto.getMovieNm());
-		dto.setMovieNmEn(movieInfoDto.getMovieNmEn());
-		dto.setPrdtYear(movieInfoDto.getPrdtYear());
-		dto.setOpenDt(movieInfoDto.getOpenDt());
-		dto.setTypeNm(movieInfoDto.getTypeNm());
-		dto.setNations(movieInfoDto.getNations());
-		dto.setGenreNm(movieInfoDto.getGenreNm());
-		dto.setWatchGradeNm(movieInfoDto.getWatchGradeNm());
-		dto.setLikeNum(movieInfoDto.getLikeNum());
+		String[] posterUrl = null;
+		String[] actors = null;
+		String[] cast = null;
 		if(movieInfoDto.getShowTime() % 60 == 0) {
 			int time = movieInfoDto.getShowTime();
 			int hour = time / 60;
 			showTime += hour + "시간";
-			dto.setShowTime(showTime);
 		}else {
 			int time = movieInfoDto.getShowTime();
 			int hour = time / 60;
 			int min = time % 60;
 			showTime += hour + "시간 " + min + "분";
-			dto.setShowTime(showTime);
 		}
 		if(movieInfoDto.getPosterUrl() != "nan") {
-			String[] posterUrl = movieInfoDto.getPosterUrl().split("\\|");
-			dto.setPosterUrl(posterUrl);
+			posterUrl = movieInfoDto.getPosterUrl().split("\\|");
 		}
 		if(movieInfoDto.getActors() != "nan") {
-			String[] actors = movieInfoDto.getActors().split(",");
-			dto.setActors(actors);
+			actors = movieInfoDto.getActors().split(",");
 		}
 		if(movieInfoDto.getCast() != "nan") {
-			String[] cast = movieInfoDto.getCast().split(",");
-			dto.setCast(cast);
+			cast = movieInfoDto.getCast().split(",");
 		}
-		return dto;
+		
+		return MovieInfoViewDTO
+				.builder()
+				.actors(actors)
+				.cast(cast)
+				.movieInfoDto(movieInfoDto)
+				.posterUrl(posterUrl)
+				.showTime(showTime)
+				.build();
 	}
 	
 	public int getPeopleIdByPeopleNmAndMovieNm(String peopleNm, String movieNm) {
@@ -113,5 +111,22 @@ public class MovieInfoService {
 		}catch(NullPointerException e) {
 			return 0;
 		}
+	}
+
+	public GradeInfoDTO getGradeInfoDto(String movieId) {
+		GradeInfoDTO gradeInfoDto = new GradeInfoDTO();
+		try {
+			gradeInfoDto = homeRepository.getMovieGradeAvgByMovieId(movieId);
+		}catch(NullPointerException e) {
+			
+		}catch(BindingException e) {
+			  
+		}
+		if(gradeInfoDto == null) {
+			gradeInfoDto = new GradeInfoDTO();
+			gradeInfoDto.setGradeAvg(0.0f);
+			gradeInfoDto.setGradeCnt(0);
+		}
+		return gradeInfoDto;
 	}
 }

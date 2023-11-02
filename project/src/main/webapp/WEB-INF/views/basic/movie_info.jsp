@@ -12,103 +12,145 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/header.jsp" %>
+<c:set var="gradeNum" value="${ gradeInfo.gradeAvg } + ''"/>
+<input type="hidden" id="reviewScore" value="${ ifWroteComment.reviewScore }">
+<input type="hidden" id="gradeCnt" value="${ gradeInfo.gradeCnt }">
    <div align="center" style="width:100%;">
       <div align="center" style="width:80%; display:flex;">
-      
-         <c:if test="${movieInfo.posterUrl[0] ne 'nan' }">
-            <div align="center" style="width:50%;">
-               <img style="width:40%;" src="${ movieInfo.posterUrl[0] }">
-            </div>
-         </c:if>
-         <c:if test="${movieInfo.posterUrl[0] eq 'nan' }">
-            <div align="center" style="width:50%;">
-               <div style="width:300px; height:400px; border:1px solid rgba(0, 0, 0, 0.1); display:flex; justify-content:center; align-items:center;">이미지가 없습니다.</div>
-            </div>
-         </c:if>
-         
-         <div align="left" style="width:50%;">
-            <br><br><br>
-            <span style="font-size:40px; font-weight:bold;">${ movieInfo.movieNm }</span><br><br>
-            <c:if test="${ movieInfo.movieNmEn ne 'nan' }">
-               <span style="font-size:18px;">${ movieInfo.movieNmEn }</span><br>
-            </c:if>
-            <c:if test="${ movieInfo.openDt ne 'nan' }">
-               <span style="font-size:18px;">${ movieInfo.openDt.substring(0, 4) }</span>
-            </c:if>
-            <c:if test="${ movieInfo.genreNm ne 'nan' }">
-               ・ <span style="font-size:18px;">${ movieInfo.genreNm.replaceAll(",", "/") }</span>
-            </c:if>
-            <c:if test="${ movieInfo.nations ne 'nan' }">
-               ・ <span style="font-size:18px;">${ movieInfo.nations.replaceAll(",", "/") }</span>
-            </c:if>
-            <br>
-            <span style="font-size:18px;">${ movieInfo.showTime }</span>
-            <c:if test="${ movieInfo.watchGradeNm ne 'nan' }">
-               ・ <span style="font-size:18px;">${ movieInfo.watchGradeNm.replaceAll(",", "/") }</span>
-            </c:if>
-            <br>
-            <c:if test="${ movieInfo.openDt ne 'nan' }">
-               <span style="font-size:18px;">개봉일 : ${ movieInfo.openDt.substring(0, 4) }년 ${ movieInfo.openDt.substring(4, 6) }월 ${ movieInfo.openDt.substring(6, 8) }일</span>
-            </c:if>
-            <br>
-            <span style="font-size:30px;"><b> ★ ${averageRating }</b> / 5.0 </span>
-            
+         <div align="left" style="width:100%;">
+            <hr>
+            <div style="display:flex; justify-content:center;">
+	            <div style="display:flex;">
+		            <div>
+			            <c:if test="${movieInfo.posterUrl[0] ne 'nan' }">
+				            <div align="right" style="margin-right:60px;">
+				               <img style="width:350px;" src="${ movieInfo.posterUrl[0] }">
+				            </div>
+				         </c:if>
+				         <c:if test="${movieInfo.posterUrl[0] eq 'nan' }">
+				            <div align="right" style="">
+				               <div style="width:350px; height:497.88px; border:1px solid rgba(0, 0, 0, 0.1); display:flex; justify-content:center; align-items:center;">이미지가 없습니다.</div>
+				            </div>
+				         </c:if>
+				         <div style="display:flex; align-items:center; width:100%;">
+				         	<div style="display:flex; justify-content: center; align-items:center; width:100%;">
+				         		<div>
+					            	<span style="">
+					            		<c:if test="${ ifWroteComment.reviewScore eq 0.0 || empty ifWroteComment.reviewScore }">
+					            			<b> <span id="allGradeAvg" style="color:red; font-size:25px;">★ ${ gradeNum.substring(0, 3) }</span></b><span> / 5.0</span> <div align="center">평균 별점 <span id="gradeCount">(${ gradeInfo.gradeCnt }명)</span></div>
+					            		</c:if>
+					            		<c:if test="${ ifWroteComment.reviewScore ne 0.0 && not empty ifWroteComment.reviewScore }">
+					            			<b> <span id="allGradeAvg" style="color:red; font-size:25px;">★ ${ gradeNum.substring(0, 3) }</span></b> / 5.0 <br> <div align="center">평균 별점 <span id="gradeCount">(${ gradeInfo.gradeCnt }명)</span></div>
+					            		</c:if> 
+					            	</span>
+				            	</div>
+			            	</div>
+            			</div>
+			         </div>
+			         <div style="display:flex; height:497.88px; align-items:center;">
+			         	<div>
+				         	<div style="display:flex;">
+				         		<div>
+				            		<span style="font-size:40px; font-weight:bold;">${ movieInfo.movieNm }</span>
+				            	</div>
+				            	<div id="likeDiv" style="display:flex; align-items:center;">
+						            <c:if test="${ not empty sessionScope.userEmail }">
+						               <c:if test="${ movieLikedCheck eq 0 }">
+						                  <div style="display:flex; justify-content:center; align-items:center;" class="likeAdd" onclick="likeAdd('${ movieInfo.movieId }');">
+						                  		<div style="display:flex; align-items:center;">
+						                     		<img style="width:40px; padding-left:7px;" src="/resources/img/like.png"><span style="padding-left:7px; font-size:30px;">(${ movieInfo.likeNum })</span>
+						                     	</div>
+						                  </div>
+						               </c:if>
+						               <c:if test="${ movieLikedCheck eq 1 }">
+						                  <div style="display:flex; justify-content:center; align-items:center;" class="likeCancel" onclick="likeCancel('${ movieInfo.movieId }');">
+						                  		<div style="display:flex; align-items:center;">
+						                     		<img style="width:40px; padding-left:7px;" src="/resources/img/likeColor.png"><span style="padding-left:7px; font-size:30px;">(${ movieInfo.likeNum })</span>
+						                     	</div>
+						                  </div>
+						               </c:if>
+						            </c:if>
+						            <c:if test="${ empty sessionScope.userEmail }">
+						               <div style="display:flex; justify-content:center; align-items:center;" class="likeAdd" onclick="unregisterLickClick();">
+						               		<div style="display:flex; align-items:center;">
+						                  		<img style="width:40px; padding-left:7px;" src="/resources/img/like.png"><span style="padding-left:7px; font-size:30px;">(${ movieInfo.likeNum })</span>
+						                  	</div>
+						               </div>
+						            </c:if>
+						         </div>
+				            </div>
+				            <div>
+				            	<br><br>
+					            <c:if test="${ movieInfo.movieNmEn ne 'nan' }">
+					               <span style="font-size:20px;">${ movieInfo.movieNmEn }</span><br>
+					            </c:if>
+					            <c:if test="${ movieInfo.openDt ne 'nan' }">
+					               <span style="font-size:20px;">${ movieInfo.openDt.substring(0, 4) }</span>
+					            </c:if>
+					            <c:if test="${ movieInfo.genreNm ne 'nan' }">
+					               	・ <span style="font-size:20px;">${ movieInfo.genreNm.replaceAll(",", "/") }</span>
+					            </c:if>
+					            <c:if test="${ movieInfo.nations ne 'nan' }">
+					               	・ <span style="font-size:20px;">${ movieInfo.nations.replaceAll(",", "/") }</span>
+					            </c:if>
+					            <br>
+					            <span style="font-size:20px;">${ movieInfo.showTime }</span>
+					            <c:if test="${ movieInfo.watchGradeNm ne 'nan' }">
+					               	・ <span style="font-size:20px;">${ movieInfo.watchGradeNm.replaceAll(",", "/") }</span>
+					            </c:if>
+					            <br>
+					            <c:if test="${ movieInfo.openDt ne 'nan' }">
+					               <span style="font-size:20px;">개봉일 : ${ movieInfo.openDt.substring(0, 4) }년 ${ movieInfo.openDt.substring(4, 6) }월 ${ movieInfo.openDt.substring(6, 8) }일</span><br><br><br>
+					            </c:if>
+				            </div>
+				            <!-------------------------------- 평점 START ----------------------------------------------------------->
+				            <div>
+								<c:if test="${not empty sessionScope.userEmail }">
+									<div align="center" id="review" style="">
+										<c:if test="${ ifWroteComment.reviewScore ne 0.0 && not empty ifWroteComment.reviewScore }">
+											<select id="select-box" name="rating" style="all:unset; font-size:25px; text-align:center; align-items:center; width:150px; height: 50px; border:1px solid rgba(0, 0, 0, 0.1); color:orange; width:100%;" onchange="rating(this.value,'${movieInfo.movieId }');">
+										        <option value="0.0" ${ifWroteComment.reviewScore == 0.0 ? 'selected' : ''}>취소하기</option>
+										        <option value="0.5" ${ifWroteComment.reviewScore == 0.5 ? 'selected' : ''}>★ 0.5</option>
+										        <option value="1.0" ${ifWroteComment.reviewScore == 1.0 ? 'selected' : ''}>★ 1.0</option>
+										        <option value="1.5" ${ifWroteComment.reviewScore == 1.5 ? 'selected' : ''}>★ 1.5</option>
+										        <option value="2.0" ${ifWroteComment.reviewScore == 2.0 ? 'selected' : ''}>★ 2.0</option>
+										        <option value="2.5" ${ifWroteComment.reviewScore == 2.5 ? 'selected' : ''}>★ 2.5</option>
+										        <option value="3.0" ${ifWroteComment.reviewScore == 3.0 ? 'selected' : ''}>★ 3.0</option>
+										        <option value="3.5" ${ifWroteComment.reviewScore == 3.5 ? 'selected' : ''}>★ 3.5</option>
+										        <option value="4.0" ${ifWroteComment.reviewScore == 4.0 ? 'selected' : ''}>★ 4.0</option>
+										        <option value="4.5" ${ifWroteComment.reviewScore == 4.5 ? 'selected' : ''}>★ 4.5</option>
+										        <option value="5.0" ${ifWroteComment.reviewScore == 5.0 ? 'selected' : ''}>★ 5.0</option>
+											</select>
+											<div align="center" id="msg" style="font-size:20px;"></div>
+										</c:if>
+										<c:if test="${ ifWroteComment.reviewScore eq 0.0 || empty ifWroteComment.reviewScore }">
+											<select id="select-box" name="rating" style="all:unset; font-size:25px; text-align:center; align-items:center; width:150px; height: 50px; border:1px solid rgba(0, 0, 0, 0.1); color:red; width:100%;" onchange="rating(this.value,'${movieInfo.movieId }');">
+										        <option value="0.0" ${ifWroteComment.reviewScore == 0.0 ? 'selected' : ''}>★ 0.0</option>
+										        <option value="0.5" ${ifWroteComment.reviewScore == 0.5 ? 'selected' : ''}>★ 0.5</option>
+										        <option value="1.0" ${ifWroteComment.reviewScore == 1.0 ? 'selected' : ''}>★ 1.0</option>
+										        <option value="1.5" ${ifWroteComment.reviewScore == 1.5 ? 'selected' : ''}>★ 1.5</option>
+										        <option value="2.0" ${ifWroteComment.reviewScore == 2.0 ? 'selected' : ''}>★ 2.0</option>
+										        <option value="2.5" ${ifWroteComment.reviewScore == 2.5 ? 'selected' : ''}>★ 2.5</option>
+										        <option value="3.0" ${ifWroteComment.reviewScore == 3.0 ? 'selected' : ''}>★ 3.0</option>
+										        <option value="3.5" ${ifWroteComment.reviewScore == 3.5 ? 'selected' : ''}>★ 3.5</option>
+										        <option value="4.0" ${ifWroteComment.reviewScore == 4.0 ? 'selected' : ''}>★ 4.0</option>
+										        <option value="4.5" ${ifWroteComment.reviewScore == 4.5 ? 'selected' : ''}>★ 4.5</option>
+										        <option value="5.0" ${ifWroteComment.reviewScore == 5.0 ? 'selected' : ''}>★ 5.0</option>
+											</select>
+											<div align="center" id="msg" style="font-size:20px;">평가해주세요</div>
+										</c:if>
+									</div>
+								</c:if>
+							</div>
+				<!-------------------------------- 평점 END ----------------------------------------------------------->
+						</div>
+		            </div>
+		     	</div>
+	     	</div>
          </div>
       </div>
    </div>
    
-   <br><br><br>
-   
-   <div align="center" style="width:100%;">
-      <div align="center" style="width:80%;">
-         <hr>
-         <div id="likeDiv">
-            <c:if test="${ not empty sessionScope.userEmail }">
-               <c:if test="${ likeCheck eq 0 }">
-                  <div style="display:flex; justify-content:center; align-items:center;" class="likeAdd" onclick="likeAdd('${ movieInfo.movieId }');">
-                     <img style="width:16px;" src="/resources/img/like.png"> <span style="padding-left:7px;">좋아요 ${ movieInfo.likeNum }명이 이 영화를 좋아합니다.</span>
-                  </div>
-               </c:if>
-               <c:if test="${ likeCheck eq 1 }">
-                  <div style="display:flex; justify-content:center; align-items:center;" class="likeCancel" onclick="likeCancel('${ movieInfo.movieId }');">
-                     <img style="width:16px;" src="/resources/img/likeColor.png"> <span style="padding-left:7px;">좋아요 ${ movieInfo.likeNum }명이 이 영화를 좋아합니다.</span>
-                  </div>
-               </c:if>
-            </c:if>
-            <c:if test="${ empty sessionScope.userEmail }">
-               <div style="display:flex; justify-content:center; align-items:center;" class="likeAdd" onclick="unregisterLickClick();">
-                  <img style="width:16px;" src="/resources/img/like.png"> <span style="padding-left:7px;">좋아요 ${ movieInfo.likeNum }명이 이 영화를 좋아합니다.</span>
-               </div>
-            </c:if>
-         </div>
-         <hr>
-      </div>
-   </div>
-   
-   <!-------------------------------- 평점 START ----------------------------------------------------------->
-<c:if test="${not empty sessionScope.userEmail }">
-<hr>
-<div align="center" id="review">
-
-		<label for="select-box">이 영화에 대한 나의 평점</label> <br>
-		<select id="select-box" name="rating" onchange="rating(this.value,'${movieInfo.movieId }');">
-        <option value="0.0" ${ifWroteComment.reviewScore == 0.0 ? 'selected' : ''}>0.0</option>
-        <option value="0.5" ${ifWroteComment.reviewScore == 0.5 ? 'selected' : ''}>0.5</option>
-        <option value="1.0" ${ifWroteComment.reviewScore == 1.0 ? 'selected' : ''}>1.0</option>
-        <option value="1.5" ${ifWroteComment.reviewScore == 1.5 ? 'selected' : ''}>1.5</option>
-        <option value="2.0" ${ifWroteComment.reviewScore == 2.0 ? 'selected' : ''}>2.0</option>
-        <option value="2.5" ${ifWroteComment.reviewScore == 2.5 ? 'selected' : ''}>2.5</option>
-        <option value="3.0" ${ifWroteComment.reviewScore == 3.0 ? 'selected' : ''}>3.0</option>
-        <option value="3.5" ${ifWroteComment.reviewScore == 3.5 ? 'selected' : ''}>3.5</option>
-        <option value="4.0" ${ifWroteComment.reviewScore == 4.0 ? 'selected' : ''}>4.0</option>
-        <option value="4.5" ${ifWroteComment.reviewScore == 4.5 ? 'selected' : ''}>4.5</option>
-        <option value="5.0" ${ifWroteComment.reviewScore == 5.0 ? 'selected' : ''}>5.0</option>
-		</select>
-		<div id="msg"></div>
-</div>
-</c:if>
-   
-   <!-------------------------------- 평점 END ----------------------------------------------------------->
    <!-- Actors -->
    
    <c:if test="${ not empty peopleInfo }">

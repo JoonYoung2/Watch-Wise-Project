@@ -23,15 +23,18 @@ public class ReviewAjaxController {
 	    float score = dto.getReviewScore();
 	    String movieId = dto.getMovieId();
 	    String msg = service.insertOrUpdateScore(movieId, score);
-	    MsgResponse response = new MsgResponse(msg);
+	    float gradeAvg = service.getAverageRating(movieId);
+	    MsgResponse response = new MsgResponse(msg, gradeAvg);
 	    return response;
 	}
 	
 	@Data
 	public class MsgResponse{
 		private String msg;
-		public MsgResponse(String msg){
+		private float gradeAvg;
+		public MsgResponse(String msg, float gradeAvg){
 			this.msg = msg;
+			this.gradeAvg = gradeAvg;
 		}
 	}
 	

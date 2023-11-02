@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.watch.project.dto.HomeDTO;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.MovieTopInfoDTO;
+import com.watch.project.dto.movieInfoView.GradeInfoDTO;
 
 @Mapper
 public interface HomeRepository {
@@ -24,7 +25,7 @@ public interface HomeRepository {
 	
 	public List<MovieInfoDTO> recentlyReleasedForeignMovies(String date);
 	
-	public float getMovieGradeAvgByMovieId(String movieId);
+	public GradeInfoDTO getMovieGradeAvgByMovieId(String movieId);
 	
 	public int getGradeCheckById(String id);
 	

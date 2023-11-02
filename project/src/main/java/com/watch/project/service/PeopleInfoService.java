@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.PeopleInfoDetailDTO;
 import com.watch.project.dto.PeopleLikeDTO;
+import com.watch.project.dto.movieInfoView.GradeInfoDTO;
 import com.watch.project.repository.HomeRepository;
 import com.watch.project.repository.PeopleInfoRepository;
 
@@ -31,14 +32,15 @@ public class PeopleInfoService {
 	public List<MovieInfoDTO> getMovieInfoByMovieIds(String movieIds){
 		List<MovieInfoDTO> list = repo.getMovieInfoByMovieIds(movieIds);
 		for(int i = 0; i < list.size(); ++i) {
+			GradeInfoDTO gradeInfoDto = getMovieGradeAvgByMovieId(list.get(i).getMovieId());
+			
 			String posterUrl = list.get(i).getPosterUrl().split("\\|")[0];
-			list.get(i).setPosterUrl(posterUrl);
-			
-			float gradeAvg = getMovieGradeAvgByMovieId(list.get(i).getMovieId());
-			list.get(i).setGradeAvg(gradeAvg);
-			
+			float gradeAvg = gradeInfoDto.getGradeAvg();
 			String id = list.get(i).getMovieId() + session.getAttribute("userEmail");
 			boolean gradeCheck = getMovieGradeCheckById(id);
+			
+			list.get(i).setPosterUrl(posterUrl);
+			list.get(i).setGradeAvg(gradeAvg);			
 			list.get(i).setGradeCheck(gradeCheck);
 		}
 		return list;
@@ -53,17 +55,22 @@ public class PeopleInfoService {
 		return gradeCheck;
 	}
 	
-	private float getMovieGradeAvgByMovieId(String movieId) {
-		float gradeAvg = 0.0f;
+	private GradeInfoDTO getMovieGradeAvgByMovieId(String movieId) {
+		GradeInfoDTO gradeInfoDto = new GradeInfoDTO();
 		try {
-			gradeAvg = homeRepository.getMovieGradeAvgByMovieId(movieId);
+			gradeInfoDto = homeRepository.getMovieGradeAvgByMovieId(movieId);
 		}catch(NullPointerException e) {
 			
 		}catch(BindingException e) {
-			
+			  
+		}
+		if(gradeInfoDto == null) {
+			gradeInfoDto = new GradeInfoDTO();
+			gradeInfoDto.setGradeAvg(0.0f);
+			gradeInfoDto.setGradeCnt(0);
 		}
 		
-		return gradeAvg;
+		return gradeInfoDto;
 	}
 
 	public void peopleLikeAdd(int peopleId, String userEmail) {

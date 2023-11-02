@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.watch.project.dto.HomeDTO;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.MovieTopInfoDTO;
+import com.watch.project.dto.movieInfoView.GradeInfoDTO;
 import com.watch.project.repository.HomeRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,7 @@ public class HomeService {
 	}
 	
 	public List<MovieInfoDTO> getMovieInfoListByIds(String ids){
+		
 		String[] movieId = ids.replaceAll("'", "").split(",");
 		String ids2 = "'" + ids.replaceAll("'", "") + "'";
 		Map<String, String> map = new HashMap<>();
@@ -45,13 +47,16 @@ public class HomeService {
 		List<MovieInfoDTO> movieInfoList = repo.getMovieInfoListByIds(map);
 		
 		for(int i = 0; i < movieInfoList.size(); ++i) {
-			float gradeAvg = getMovieGradeAvgByMovieId(movieId[i]);
-			movieInfoList.get(i).setGradeAvg(gradeAvg);
+			GradeInfoDTO gradeInfoDto = getMovieGradeAvgByMovieId(movieId[i]);
+			
+			float gradeAvg = gradeInfoDto.getGradeAvg();
 			String id = movieId[i] + (String)session.getAttribute("userEmail");
 			boolean gradeCheck = false;
+			
 			if(id != null) {
 				 gradeCheck = getMovieGradeCheckById(id);				
 			}
+			movieInfoList.get(i).setGradeAvg(gradeAvg);
 			movieInfoList.get(i).setGradeCheck(gradeCheck);
 		}
 		
@@ -92,16 +97,26 @@ public class HomeService {
 		SimpleDateFormat dtFormat = new SimpleDateFormat("yyyyMMdd");
 		String date = dtFormat.format(cal.getTime());
 		
-		List<MovieInfoDTO> movieInfoDto = repo.recentlyReleasedKoreanMovies(date);
+		List<MovieInfoDTO> movieInfoList = repo.recentlyReleasedKoreanMovies(date);
 		
-		for(int i = 0; i < movieInfoDto.size(); ++i) {
-			String posterUrl = movieInfoDto.get(i).getPosterUrl().split("\\|")[0];
-			movieInfoDto.get(i).setPosterUrl(posterUrl);
-			float gradeScore = getMovieGradeAvgByMovieId(movieInfoDto.get(i).getMovieId());
-			movieInfoDto.get(i).setGradeAvg(gradeScore);
+		for(int i = 0; i < movieInfoList.size(); ++i) {
+			GradeInfoDTO gradeInfoDto = getMovieGradeAvgByMovieId(movieInfoList.get(i).getMovieId());
+			
+			float gradeAvg = gradeInfoDto.getGradeAvg();
+			String posterUrl = movieInfoList.get(i).getPosterUrl().split("\\|")[0];
+			
+			movieInfoList.get(i).setPosterUrl(posterUrl);
+			String id = movieInfoList.get(i).getMovieId() + (String)session.getAttribute("userEmail");
+			boolean gradeCheck = false;
+			
+			if(id != null) {
+				 gradeCheck = getMovieGradeCheckById(id);				
+			}
+			movieInfoList.get(i).setGradeAvg(gradeAvg);
+			movieInfoList.get(i).setGradeCheck(gradeCheck);
 		}
 		
-		return movieInfoDto;
+		return movieInfoList;
 	}
 	
 	public List<MovieInfoDTO> recentlyReleasedForeignMovies(){
@@ -111,17 +126,26 @@ public class HomeService {
 		SimpleDateFormat dtFormat = new SimpleDateFormat("yyyyMMdd");
 		String date = dtFormat.format(cal.getTime());
 		
-		List<MovieInfoDTO> movieInfoDto = repo.recentlyReleasedForeignMovies(date);
+		List<MovieInfoDTO> movieInfoList = repo.recentlyReleasedForeignMovies(date);
 		
-		for(int i = 0; i < movieInfoDto.size(); ++i) {
-			String posterUrl = movieInfoDto.get(i).getPosterUrl().split("\\|")[0];
-			movieInfoDto.get(i).setPosterUrl(posterUrl);
+		for(int i = 0; i < movieInfoList.size(); ++i) {
+			GradeInfoDTO gradeInfoDto = getMovieGradeAvgByMovieId(movieInfoList.get(i).getMovieId());
 			
-			float gradeScore = getMovieGradeAvgByMovieId(movieInfoDto.get(i).getMovieId());
-			movieInfoDto.get(i).setGradeAvg(gradeScore);
+			float gradeAvg = gradeInfoDto.getGradeAvg();
+			String posterUrl = movieInfoList.get(i).getPosterUrl().split("\\|")[0];
+			
+			movieInfoList.get(i).setPosterUrl(posterUrl);
+			String id = movieInfoList.get(i).getMovieId() + (String)session.getAttribute("userEmail");
+			boolean gradeCheck = false;
+			
+			if(id != null) {
+				 gradeCheck = getMovieGradeCheckById(id);				
+			}
+			movieInfoList.get(i).setGradeAvg(gradeAvg);
+			movieInfoList.get(i).setGradeCheck(gradeCheck);
 		}
 		
-		return movieInfoDto;
+		return movieInfoList;
 	}
 
 	private int getDDay(String openDt) {
@@ -159,17 +183,21 @@ public class HomeService {
 		return date;
 	}
 	
-	private float getMovieGradeAvgByMovieId(String movieId) {
-		float gradeAvg = 0.0f;
+	private GradeInfoDTO getMovieGradeAvgByMovieId(String movieId) {
+		GradeInfoDTO gradeInfoDto = new GradeInfoDTO();
 		try {
-			gradeAvg = repo.getMovieGradeAvgByMovieId(movieId);
+			gradeInfoDto = repo.getMovieGradeAvgByMovieId(movieId);
 		}catch(NullPointerException e) {
 			
 		}catch(BindingException e) {
-			
+			  
 		}
-		
-		return gradeAvg;
+		if(gradeInfoDto == null) {
+			gradeInfoDto = new GradeInfoDTO();
+			gradeInfoDto.setGradeAvg(0.0f);
+			gradeInfoDto.setGradeCnt(0);
+		}
+		return gradeInfoDto;
 	}
 	
 }

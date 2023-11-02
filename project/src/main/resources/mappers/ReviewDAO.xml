@@ -99,7 +99,7 @@
 	</select>
 	
 	<select id="getAverageRating" resultType="Float">
-		SELECT AVG(review_score) FROM movie_review WHERE movie_id=#{movieId}
+		SELECT AVG(review_score) FROM movie_review WHERE movie_id=#{movieId} AND NOT review_score = 0
 	</select>
 	
 	<select id="selectReviewListByEmail" resultMap="review" >

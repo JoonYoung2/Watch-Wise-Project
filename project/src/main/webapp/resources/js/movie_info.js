@@ -1,3 +1,33 @@
+let reviewScoreId = document.getElementById("reviewScore");
+let reviewScoreValue = 0.0;
+window.onload = () => {
+	reviewScoreValue = Number(reviewScoreId.value);
+	let msg = document.getElementById("msg");
+	if(reviewScoreValue != 0.0){
+		if(reviewScoreValue == 0.5){
+			msg.innerHTML = "최악이에요";
+		}else if(reviewScoreValue == 1.0){
+			msg.innerHTML = "싫어요";
+		}else if(reviewScoreValue == 1.5){
+			msg.innerHTML = "재미없어요";
+		}else if(reviewScoreValue == 2.0){
+			msg.innerHTML = "별로예요";
+		}else if(reviewScoreValue == 2.5){
+			msg.innerHTML = "부족해요";
+		}else if(reviewScoreValue == 3.0){
+			msg.innerHTML = "보통이에요";
+		}else if(reviewScoreValue == 3.5){
+			msg.innerHTML = "볼만해요";
+		}else if(reviewScoreValue == 4.0){
+			msg.innerHTML = "재미있어요";
+		}else if(reviewScoreValue == 4.5){
+			msg.innerHTML = "훌륭해요";
+		}else if(reviewScoreValue == 5.0){
+			msg.innerHTML = "최고예요";
+		}
+	}
+}
+
 let postersLeftBtnId = document.getElementById("postersLeftBtn");
 
 let postersRightBtnId = document.getElementById("postersRightBtn");
@@ -28,7 +58,7 @@ const likeAdd = async (movieId) => {
             var likeNum = response.likeNum;
 
                 msg += "<div style='display:flex; justify-content:center; align-items:center;' class='likeCancel' onclick='likeCancel("+movieId+");'>";
-                msg += "<img style='width:16px;' src='/resources/img/likeColor.png'> <span style='padding-left:7px;'>좋아요 "+likeNum+"명이 이 인물을 좋아합니다.</span>";
+                msg += "<div style='display:flex; align-items:center;'><img style='width:40px; padding-left:7px;' src='/resources/img/likeColor.png'><span style='padding-left:7px; font-size:30px;'>("+likeNum+")</span></div>";
                 msg += "</div>";
                 likeDiv.innerHTML=msg;
         },
@@ -52,7 +82,7 @@ const likeCancel = async (movieId) => {
 
             console.log("서버 응답 - likeNum: " + likeNum);
                 msg += "<div style='display:flex; justify-content:center; align-items:center;' class='likeAdd' onclick='likeAdd("+movieId+");'>";
-                msg += "<img style='width:16px;' src='/resources/img/like.png'> <span style='padding-left:7px;'>좋아요 "+likeNum+"명이 이 인물을 좋아합니다.</span>";
+                msg += "<div style='display:flex; align-items:center;'><img style='width:40px; padding-left:7px;' src='/resources/img/like.png'><span style='padding-left:7px; font-size:30px;'>("+likeNum+")</span></div>";
                 msg += "</div>";
                 likeDiv.innerHTML=msg;
         },
@@ -117,20 +147,65 @@ const postersRightBtn = (cnt) => {
 
 //------------------------------------ 평점 / 코멘트 START --------------------------------------------------
 
+let gradeCnt = Number(document.getElementById("gradeCnt").value);
+
 function rating(score, movieId) {  //평점
-	let selectedScore = Number(score);
+	let allGradeAvgId = document.getElementById("allGradeAvg");
+	let selectBoxId = document.getElementById("select-box");
+	let gradeCntId = document.getElementById("gradeCount");
 	let msgId = document.getElementById("msg");
+	let selectedScore = Number(score);
 	let data = {reviewScore : selectedScore, movieId};
+	let gradeMsg = "";
 	$.ajax({
 		url: '/getReivewScore', // 서버의 엔드포인트 URL
 		type: 'POST', // HTTP 요청 메서드 (GET 또는 POST 중 선택)
 		data: JSON.stringify(data), // 데이터를 JSON 문자열로 변환
         contentType: 'application/json', // 데이터 타입 설정
 		success: (response) => {
-			console.log(response);
 			msgId.innerHTML = response.msg;
-			
-			scoreMsg="<span><b> ★ "+ dto.reviewScore+"</b> / 5.0 </span><br>";
+			let gradeAvg = response.gradeAvg + "";
+			if(gradeAvg.length > 3){
+				gradeAvg = gradeAvg.substring(0, 3);
+			}
+			if(gradeAvg.length == 1){
+				gradeAvg += ".0";
+			}
+			if(selectedScore == 0.0){
+				selectBoxId.style.color = "black";
+				msgId.innerHTML = "평가해주세요";
+				selectBoxId.innerHTML = `<option value="0.0">★ 0.0</option>
+						        <option value="0.5">★ 0.5</option>
+						        <option value="1.0">★ 1.0</option>
+						        <option value="1.5">★ 1.5</option>
+						        <option value="2.0">★ 2.0</option>
+						        <option value="2.5">★ 2.5</option>
+						        <option value="3.0">★ 3.0</option>
+						        <option value="3.5">★ 3.5</option>
+						        <option value="4.0">★ 4.0</option>
+						        <option value="4.5">★ 4.5</option>
+						        <option value="5.0">★ 5.0</option>`;
+				gradeMsg += "(";
+				gradeMsg += gradeCnt - 1;
+				gradeMsg += "명)";
+				gradeCnt = gradeCnt - 1;
+				gradeCntId.innerHTML = gradeMsg;
+				reviewScoreValue = selectedScore;
+				selectBoxId.style.color="red";
+				allGradeAvgId.style.color="red";
+				allGradeAvgId.innerHTML = "★ " + gradeAvg;
+			}else{
+				selectBoxId.style.color = "orange";
+				allGradeAvgId.innerHTML = "★ " + gradeAvg;
+				if(reviewScoreValue == 0.0){
+					gradeMsg += "(";
+					gradeMsg += gradeCnt + 1;
+					gradeMsg += "명)";
+					gradeCnt = gradeCnt + 1;
+					gradeCntId.innerHTML = gradeMsg;
+					reviewScoreValue = selectedScore;
+				}
+			}
 		},
 		error: () => {
 			console.log(error);

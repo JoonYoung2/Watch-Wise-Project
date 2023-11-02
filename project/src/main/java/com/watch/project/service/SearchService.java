@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.PeopleInfoDetailDTO;
+import com.watch.project.dto.movieInfoView.GradeInfoDTO;
 import com.watch.project.dto.movieInfoView.MovieInfoViewDTO;
 import com.watch.project.dto.searchView.MovieActorsDTO;
 import com.watch.project.dto.searchView.MovieInfoSearchViewDTO;
@@ -46,14 +47,14 @@ public class SearchService {
 			String movieId = movieInfoList.get(i).getMovieId();
 			String movieNm = movieInfoList.get(i).getMovieNm();
 			String id = movieId + (String) session.getAttribute("userEmail");
-			float gradeAvg = getMovieGradeAvgByMovieId(movieId);
+			GradeInfoDTO gradeInfoDto = getMovieGradeAvgByMovieId(movieId);
 			boolean gradeCheck = getMovieGradeCheckById(id);
 			String posterUrl = "nan";
 			if(!movieInfoList.get(i).getPosterUrl().split("\\|")[0].equals("nan")) {
 				posterUrl = movieInfoList.get(i).getPosterUrl().split("\\|")[0];				
 			}
 			movieInfoList.get(i).setPosterUrl(posterUrl);
-			movieInfoList.get(i).setGradeAvg(gradeAvg);
+			movieInfoList.get(i).setGradeAvg(gradeInfoDto.getGradeAvg());
 			movieInfoList.get(i).setGradeCheck(gradeCheck);
 
 			MovieInfoSearchViewDTO movieInfoSearchDto = MovieInfoSearchViewDTO
@@ -105,14 +106,14 @@ public class SearchService {
 			String movieNm = movieInfoList.get(i).getMovieNm();
 			String id = movieId + session.getAttribute("userEmail");
 			String posterUrl = "nan";
-			float gradeAvg = getMovieGradeAvgByMovieId(movieId);
+			GradeInfoDTO gradeInfoDto = getMovieGradeAvgByMovieId(movieId);
 			boolean gradeCheck = getMovieGradeCheckById(id);
 			if(!movieInfoList.get(i).getPosterUrl().split("\\|")[0].equals("nan")) {
 				posterUrl = movieInfoList.get(i).getPosterUrl().split("\\|")[0];				
 			}
 			
 			movieInfoList.get(i).setPosterUrl(posterUrl);
-			movieInfoList.get(i).setGradeAvg(gradeAvg);
+			movieInfoList.get(i).setGradeAvg(gradeInfoDto.getGradeAvg());
 			String showTime = getShowTime(movieInfoList.get(i).getShowTime());
 
 			MovieInfoSearchViewDTO movieInfoSearchDto = 
@@ -192,12 +193,12 @@ public class SearchService {
 				String posterUrl = peopleInfoSearchViewDto.getMovieInfoList().get(j).getPosterUrl().split("\\|")[0];
 				String movieId = peopleInfoSearchViewDto.getMovieInfoList().get(j).getMovieId();
 				String id = movieId + (String) session.getAttribute("userEmail");
-				float gradeAvg = getMovieGradeAvgByMovieId(movieId);
+				GradeInfoDTO gradeInfoDto = getMovieGradeAvgByMovieId(movieId);
 				boolean gradeCheck = getMovieGradeCheckById(id);
 				if(!posterUrl.equals("nan")) {
 					peopleInfoSearchViewDto.getMovieInfoList().get(j).setPosterUrl(posterUrl);					
 				}
-				peopleInfoSearchViewDto.getMovieInfoList().get(j).setGradeAvg(gradeAvg);
+				peopleInfoSearchViewDto.getMovieInfoList().get(j).setGradeAvg(gradeInfoDto.getGradeAvg());
 				peopleInfoSearchViewDto.getMovieInfoList().get(j).setGradeCheck(gradeCheck);
 			}
 			
@@ -235,12 +236,12 @@ public class SearchService {
 				String posterUrl = peopleInfoSearchViewDto.getMovieInfoList().get(j).getPosterUrl().split("\\|")[0];
 				String movieId = peopleInfoSearchViewDto.getMovieInfoList().get(j).getMovieId();
 				String id = movieId + (String) session.getAttribute("userEmail");
-				float gradeAvg = getMovieGradeAvgByMovieId(movieId);
+				GradeInfoDTO gradeInfoDto = getMovieGradeAvgByMovieId(movieId);
 				boolean gradeCheck = getMovieGradeCheckById(id);
 				if(!posterUrl.equals("nan")) {
 					peopleInfoSearchViewDto.getMovieInfoList().get(j).setPosterUrl(posterUrl);					
 				}
-				peopleInfoSearchViewDto.getMovieInfoList().get(j).setGradeAvg(gradeAvg);
+				peopleInfoSearchViewDto.getMovieInfoList().get(j).setGradeAvg(gradeInfoDto.getGradeAvg());
 				peopleInfoSearchViewDto.getMovieInfoList().get(j).setGradeCheck(gradeCheck);
 			}
 			
@@ -276,11 +277,11 @@ public class SearchService {
 						String posterUrl = movieInfoList.get(i).getPosterUrl().split("\\|")[0];
 						String movieId = movieInfoList.get(i).getMovieId();
 						String id = movieId + userEmail;
-						float gradeAvg = getMovieGradeAvgByMovieId(movieId);
+						GradeInfoDTO gradeInfoDto = getMovieGradeAvgByMovieId(movieId);
 						boolean gradeCheck = getMovieGradeCheckById(id);
 						
 						movieInfoList.get(i).setPosterUrl(posterUrl);
-						movieInfoList.get(i).setGradeAvg(gradeAvg);
+						movieInfoList.get(i).setGradeAvg(gradeInfoDto.getGradeAvg());
 						movieInfoList.get(i).setGradeCheck(gradeCheck);
 					}
 				}
@@ -289,17 +290,22 @@ public class SearchService {
 		return movieInfoList;
 	}
 	
-	private float getMovieGradeAvgByMovieId(String movieId) {
-		float gradeAvg = 0.0f;
+	private GradeInfoDTO getMovieGradeAvgByMovieId(String movieId) {
+		GradeInfoDTO gradeInfoDto = new GradeInfoDTO();
 		try {
-			gradeAvg = homeRepository.getMovieGradeAvgByMovieId(movieId);
+			gradeInfoDto = homeRepository.getMovieGradeAvgByMovieId(movieId);
 		}catch(NullPointerException e) {
 			
 		}catch(BindingException e) {
-			
+			  
+		}
+		if(gradeInfoDto == null) {
+			gradeInfoDto = new GradeInfoDTO();
+			gradeInfoDto.setGradeAvg(0.0f);
+			gradeInfoDto.setGradeCnt(0);
 		}
 		
-		return gradeAvg;
+		return gradeInfoDto;
 	}
 	
 	private boolean getMovieGradeCheckById(String id) {
