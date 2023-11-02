@@ -233,13 +233,30 @@ public class ReviewService {
 		List<String> commentIdList = repo.selectCommentIdByEmail(userEmail);//로그인한 유저가 좋아요한 코멘트들의 아이디
 		List<LikedCommentListDTO> FinalDtoList = new ArrayList<>();
 		List<String> movieIdList = new ArrayList<>();
+		List<MovieInfoDTO> movieInfoList = new ArrayList<>();
 //		List<MovieReviewDTO> reviewDtoInFinalDto = new ArrayList<>();
 		for(String id : commentIdList) {
 			String movieId = repo.getMovieIdById(id);
 			if(movieIdList.contains(movieId)) {
 				movieIdList.add(movieId);				
 			}
-			MovieReviewDTO likedCommentsInfo = repo.getComment(id);
+		}
+		for(String movieId : movieIdList) {
+			MovieInfoDTO movieInfo = movieInfoRepo.getMovieInfoById(movieId);
+//			LikedCommentListDTO finalTempDto = new LikedCommentListDTO(); //마지막에 final dto에 set할 때 쓸 DTO
+			List<MovieReviewDTO> likedCommentsInfo = repo.getCommentByMovieId(movieId);//영화 하나 당 달린 코멘트들 리스트
+			for(MovieReviewDTO commentInfo : likedCommentsInfo) {
+				
+			}
+			LikedCommentListDTO finalTempDto = LikedCommentListDTO.builder()
+					.movieReviewDto(null)
+					.movieId(movieId)
+					.movieNm(movieInfo.getMovieNm())
+					.movieNmEn(movieInfo.getMovieNmEn())
+					.prdtYear(movieInfo.getPrdtYear())
+					.posterUrl(movieInfo.getPosterUrl()).build();
+					
+			FinalDtoList.add(finalTempDto);
 		}
 		return FinalDtoList;
 	}

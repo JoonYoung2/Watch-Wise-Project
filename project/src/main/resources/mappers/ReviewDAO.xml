@@ -114,4 +114,7 @@
 		SELECT movie_id FROM movie_review WHERE id=#{id}
 	</select>
 	
+	<select id="getCommentByMovieId" resultMap="review">
+		SELECT * FROM movie_review WHERE movie_id=#{movieId}
+	</select>
 </mapper>

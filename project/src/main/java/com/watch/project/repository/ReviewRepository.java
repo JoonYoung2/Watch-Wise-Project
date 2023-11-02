@@ -50,6 +50,8 @@ public interface ReviewRepository {
 
 	String getMovieIdById(String id);
 
+	List<MovieReviewDTO> getCommentByMovieId(String movieId);
+
 
 
 //	int deleteFromMovieReview(String userEmail);////////////////////////////////////////////////////////////////
