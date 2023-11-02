@@ -1,5 +1,7 @@
 package com.watch.project.dto.userInfo;
 
+import java.util.List;
+
 import com.watch.project.dto.MovieReviewDTO;
 
 import lombok.Builder;
@@ -8,7 +10,7 @@ import lombok.Getter;
 @Builder
 @Getter
 public class LikedCommentListDTO {
-	private MovieReviewDTO movieReviewDto;
+	private List<MovieReviewDTO> movieReviewDto;
 //	//--------------movie_review------------------------
 //	private String id; //movieId+userEmail
 //	private String userEmail;

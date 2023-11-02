@@ -110,4 +110,8 @@
 		SELECT comment_id FROM comment_liked_users WHERE liked_user_email=#{userEmail}
 	</select>
 	
+	<select id="getMovieIdById" resultType="String">
+		SELECT movie_id FROM movie_review WHERE id=#{id}
+	</select>
+	
 </mapper>
