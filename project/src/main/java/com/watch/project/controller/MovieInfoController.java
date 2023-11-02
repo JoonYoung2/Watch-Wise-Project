@@ -61,7 +61,7 @@ public class MovieInfoController {
 		PeopleInfoDTO peopleInfoDto = null;
 		
 		if(!movieInfoViewDto.getActors()[0].equals("nan")) {	// 출연진이 있는 경우
-			peopleInfoDto = setPeopleInfoDto(movieInfoViewDto);
+			peopleInfoDto = service.setPeopleInfoDto(movieInfoViewDto);
 		}
 		
 		model.addAttribute("peopleInfo", peopleInfoDto);
@@ -71,73 +71,5 @@ public class MovieInfoController {
 		model.addAttribute("movieInfo", movieInfoViewDto);
 		model.addAttribute("gradeInfo", gradeInfoDto);
 		return "basic/movie_info";
-	}
-
-	private PeopleInfoDTO setPeopleInfoDto(MovieInfoViewDTO movieInfoViewDto) {
-		int peopleLength = 12;
-		int castLength = 0;
-		String peopleNmStr = "";
-		String movieNmStr = "";
-		String peopleCastStr = "nan";
-		
-		// PeopleInfoDTO
-		int[] peopleId = null;
-		String[] peopleNm = null;
-		String[] peopleCast = null;
-		int end = 0;
-		
-		if(movieInfoViewDto.getActors().length >= 12) {		// 출연진이 12명이상인 경우
-			castLength = movieInfoViewDto.getCast().length;
-			
-			peopleId = new int[peopleLength];
-			peopleNm = new String[peopleLength];
-			peopleCast = new String[castLength];
-			for(int i = 0; i < 12; ++i) {
-				peopleNmStr = movieInfoViewDto.getActors()[i];
-				movieNmStr = movieInfoViewDto.getMovieNm();
-				peopleCastStr = "nan";
-				if(!movieInfoViewDto.getCast()[0].equals("nan")) {
-					if(i <= castLength-1) {
-						peopleCastStr = movieInfoViewDto.getCast()[i];						
-					}
-				}
-				peopleId[i] = service.getPeopleIdByPeopleNmAndMovieNm(peopleNmStr, movieNmStr);
-				peopleNm[i] = peopleNmStr;
-				if(i <= castLength-1) {
-					peopleCast[i] = peopleCastStr;						
-				}
-			}
-		}else { // 12명 미만인 경우
-			peopleLength = movieInfoViewDto.getActors().length;
-			castLength = movieInfoViewDto.getCast().length;
-			
-			peopleId = new int[peopleLength];
-			peopleNm = new String[peopleLength];
-			peopleCast = new String[castLength];
-			for(int i = 0; i < peopleLength; ++i) {
-				peopleNmStr = movieInfoViewDto.getActors()[i];
-				movieNmStr = movieInfoViewDto.getMovieNm();
-				peopleCastStr = "nan";
-				if(!movieInfoViewDto.getCast()[0].equals("nan")) {
-					if(i <= castLength-1) {
-						peopleCastStr = movieInfoViewDto.getCast()[i];						
-					}
-				}
-				peopleId[i] = service.getPeopleIdByPeopleNmAndMovieNm(peopleNmStr, movieNmStr);
-				peopleNm[i] = peopleNmStr;
-				if(i <= castLength-1) {
-					peopleCast[i] = peopleCastStr;						
-				}
-			}
-		}
-		end = peopleId.length-1;
-		
-		return PeopleInfoDTO
-				.builder()
-				.end(end)
-				.peopleCast(peopleCast)
-				.peopleId(peopleId)
-				.peopleNm(peopleNm)
-				.build();
 	}
 }

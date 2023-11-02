@@ -25,36 +25,32 @@ public class HomeController {
 	@GetMapping("/")
 	public String home(Model model) {
 		List<MovieTopInfoDTO> topInfoList = service.getMovieTopInfo();
-		Map<String, List<MovieInfoDTO>> movieInfoMap = new HashMap<>();
-		for(int i = 0; i < topInfoList.size(); ++i) {
-			List<MovieInfoDTO> movieInfoList = new ArrayList<>();
-			movieInfoList = service.getMovieInfoListByIds(topInfoList.get(i).getMovieIds());
-			for(int j = 0; j < movieInfoList.size(); ++j) {
-				String movieUrl = movieInfoList.get(j).getPosterUrl().split("\\|")[0];
-				movieInfoList.get(j).setPosterUrl(movieUrl);
-			}
-			if(i == 0) {
-				movieInfoMap.put("daily", movieInfoList);
-			}else if(i == 1) {
-				movieInfoMap.put("weekly0", movieInfoList);
-			}else if(i == 2) {
-				movieInfoMap.put("weekly1", movieInfoList);
-			}else if(i == 3) {
-				movieInfoMap.put("weekly2", movieInfoList);
-			}
-		}
+				
+		/*
+		 * Top 10 Daily~Weekly 4개
+		 */
+		 Map<String, List<MovieInfoDTO>> movieInfoMap = service.setMovieInfoMap(topInfoList);
 		
-		// 곧 개봉하는 영화
+		/*
+		 * 곧 개봉하는 영화
+		 */
 		List<MovieInfoDTO> upcomingMovies = service.upcomingMovies();
-		movieInfoMap.put("upcoming", upcomingMovies);
 		
+		/*
+		 * 최근 개봉한 한국 영화
+		 */
 		List<MovieInfoDTO> recentlyReleasedKoreanMovies = service.recentlyReleasedKoreanMovies();
-		movieInfoMap.put("recentlyKorea", recentlyReleasedKoreanMovies);
 		
+		/*
+		 * 최근 개봉한 외국 영화
+		 */
 		List<MovieInfoDTO> recentlyReleasedForeignMovies = service.recentlyReleasedForeignMovies();
-		movieInfoMap.put("recentlyForeign", recentlyReleasedForeignMovies);
 		
+		movieInfoMap.put("upcoming", upcomingMovies);
+		movieInfoMap.put("recentlyKorea", recentlyReleasedKoreanMovies);
+		movieInfoMap.put("recentlyForeign", recentlyReleasedForeignMovies);
 		model.addAttribute("movieInfoMap", movieInfoMap);
+		
 		return "basic/home"; 
 	}
 	@GetMapping("/test")

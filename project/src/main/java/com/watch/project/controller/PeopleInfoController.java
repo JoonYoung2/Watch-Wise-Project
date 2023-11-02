@@ -27,10 +27,33 @@ public class PeopleInfoController {
 	
 	@GetMapping("peopleInfo")
 	public String peopleInfoView(@RequestParam int peopleId, Model model, HttpSession session) {
+		/*
+		 * 배우 정보
+		 */
 		PeopleInfoDetailDTO peopleInfoDetailDto = service.getPeopleInfoDetailById(peopleId);
-		String[] movieId = peopleInfoDetailDto.getMovieId().split(",");
+				
+		/*
+		 * 영화 정보 리스트
+		 */
+		List<MovieInfoDTO> movieInfoList = service.getMovieInfoByMovieIds(getMovieIds(setMovieIdArray(peopleInfoDetailDto)));
+		
+		/*
+		 * 유저 좋아요 체크여부
+		 */
+		int likeCheck = service.getPeopleLikeCheck(peopleId, (String)session.getAttribute("userEmail"));
+		
+		model.addAttribute("peopleInfo", peopleInfoDetailDto);
+		model.addAttribute("movieInfo", movieInfoList);
+		model.addAttribute("likeCheck", likeCheck);
+		return "basic/people_info";
+	}
+	
+	private String[] setMovieIdArray(PeopleInfoDetailDTO peopleInfoDetailDto) {
+		return peopleInfoDetailDto.getMovieId().split(",");
+	}
+
+	private String getMovieIds(String[] movieId) {
 		String movieIds = "";
-		int likeCheck = 0;
 		for(int i = 0; i < movieId.length; ++i) {
 			if(i != movieId.length-1) {
 				movieIds += "'" + movieId[i] + "',";
@@ -38,17 +61,7 @@ public class PeopleInfoController {
 				movieIds += "'" + movieId[i] + "'";
 			}
 		}
-		log.info("movieIds => {}", movieIds);
-		List<MovieInfoDTO> movieInfoList = service.getMovieInfoByMovieIds(movieIds);
-		log.info("movieInfoListSize => {}", movieInfoList.size());
-		
-		String userEmail = (String)session.getAttribute("userEmail");
-		likeCheck = service.getPeopleLikeCheck(peopleId, userEmail);
-		
-		model.addAttribute("likeCheck", likeCheck);
-		model.addAttribute("peopleInfo", peopleInfoDetailDto);
-		model.addAttribute("movieInfo", movieInfoList);
-		return "basic/people_info";
+		return movieIds;
 	}
 	
 }

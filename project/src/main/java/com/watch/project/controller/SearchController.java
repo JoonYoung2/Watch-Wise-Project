@@ -30,61 +30,66 @@ public class SearchController {
 	
 	@GetMapping("search")
 	public String searching(@RequestParam("query") String query, Model model) {
-		List<MovieInfoSearchViewDTO> searchList1 = service.searchingStep1(query);
-		List<MovieInfoSearchViewDTO> searchList2 = new ArrayList<>();
-		List<PeopleInfoSearchViewDTO> searchList3 = new ArrayList<>();
-		List<PeopleInfoSearchViewDTO> searchList4 = new ArrayList<>();
+		/*
+		 * 영화명으로 검색 조건(2가지 케이스)
+		 */
+		List<MovieInfoSearchViewDTO> movieInfoSearchViewList = service.movieNmSearchingCase(query);
+		/*
+		 * 회원 추천 영화
+		 */
 		List<MovieInfoDTO> memberCommendedList = service.getMemberCommendedList();
-		log.info("searchingStep1 Size => {}", searchList1.size());
-		log.info("memberCommendedListSize => {}", memberCommendedList.size());
+		
+		if(movieInfoSearchViewList.size() != 0) {
+			return movieNmSearchCaseModelAndView(movieInfoSearchViewList, memberCommendedList, query, model);
+		}
+		
+		/*
+		 * 배우명으로 검색 조건(2가지 케이스)
+		 */
+		List<PeopleInfoSearchViewDTO> peopleInfoSearchViewList = service.ActorNmSearchingCase(query);
+		
+		if(peopleInfoSearchViewList.size() != 0) {
+			int[] likeCheck = setLikeCheck(peopleInfoSearchViewList);
+			return actorNmSearchCaseModelAndView(peopleInfoSearchViewList, memberCommendedList, likeCheck, query, model);
+		}
 		model.addAttribute("query", query);
-		if(searchList1.size() != 0) {
-			model.addAttribute("searchList1", searchList1);
-			model.addAttribute("memberCommend", memberCommendedList);
-			return "basic/search_info";
-		}else {
-			searchList2 = service.searchingStep2(query);
-			log.info("searchingStep2 Size => {}", searchList2.size());
-		}
+		return "basic/search_info";
+	}
+	
+	/*
+	 * Model And View
+	 */
+	private String movieNmSearchCaseModelAndView(List<MovieInfoSearchViewDTO> movieInfoSearchViewList, 
+			List<MovieInfoDTO> memberCommendedList, String query, Model model) {
 		
-		if(searchList2.size() != 0) {
-			model.addAttribute("searchList2", searchList2);
-			model.addAttribute("memberCommend", memberCommendedList);
-			return "basic/search_info";
-		}else {
-			searchList3 = service.searchingStep3(query);
-			log.info("searchingStep3 Size => {}", searchList3.size());
-		}
-		
-		if(searchList3.size() != 0) {
-			int[] likeCheck = new int[searchList3.size()];
-			String userEmail = (String)session.getAttribute("userEmail");
-			for(int i = 0; i < searchList3.size(); ++i) {
-				int peopleId = searchList3.get(i).getPeopleId();
-				likeCheck[i] = peopleInfoService.getPeopleLikeCheck(peopleId, userEmail);
-			}
-			model.addAttribute("likeCheck", likeCheck);
-			model.addAttribute("searchList3", searchList3);
-			model.addAttribute("memberCommend", memberCommendedList);
-			return "basic/search_info";
-		}else {
-			searchList4 = service.searchingStep4(query);
-			log.info("searchingStep4 Size => {}", searchList4.size());
-		} 
-		
-		if(searchList4.size() != 0) {
-			int[] likeCheck = new int[searchList4.size()];
-			String userEmail = (String)session.getAttribute("userEmail");
-			for(int i = 0; i < searchList4.size(); ++i) {
-				int peopleId = searchList4.get(i).getPeopleId();
-				likeCheck[i] = peopleInfoService.getPeopleLikeCheck(peopleId, userEmail);
-			}
-			model.addAttribute("likeCheck", likeCheck);
-			model.addAttribute("searchList4", searchList4);
-			model.addAttribute("memberCommend", memberCommendedList);
-			return "basic/search_info";
-		}
+		model.addAttribute("searchList1", movieInfoSearchViewList);
+		model.addAttribute("memberCommend", memberCommendedList);
+		model.addAttribute("query", query);
 		
 		return "basic/search_info";
+	}
+	
+	/*
+	 * Model And View
+	 */
+	private String actorNmSearchCaseModelAndView(List<PeopleInfoSearchViewDTO> peopleInfoSearchViewList,
+			List<MovieInfoDTO> memberCommendedList, int[] likeCheck,String query, Model model) {
+		
+		model.addAttribute("searchList3", peopleInfoSearchViewList);
+		model.addAttribute("memberCommend", memberCommendedList);
+		model.addAttribute("likeCheck", likeCheck);
+		model.addAttribute("query", query);
+		return "basic/search_info";
+	}
+
+	private int[] setLikeCheck(List<PeopleInfoSearchViewDTO> peopleInfoSearchViewList) {
+		int[] likeCheck = new int[peopleInfoSearchViewList.size()];
+		String userEmail = (String)session.getAttribute("userEmail");
+		
+		for(int i = 0; i < peopleInfoSearchViewList.size(); ++i) {
+			int peopleId = peopleInfoSearchViewList.get(i).getPeopleId();
+			likeCheck[i] = peopleInfoService.getPeopleLikeCheck(peopleId, userEmail);
+		}
+		return likeCheck;
 	}
 }

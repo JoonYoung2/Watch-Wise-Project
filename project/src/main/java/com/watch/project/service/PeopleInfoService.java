@@ -25,19 +25,76 @@ public class PeopleInfoService {
 	private final HomeRepository homeRepository;
 	private final HttpSession session;
 	
+	/*
+	 * 배우 정보
+	 */
 	public PeopleInfoDetailDTO getPeopleInfoDetailById(int peopleId) {
 		return repo.getPeopleInfoDetailById(peopleId);
 	}
 	
+	/*
+	 * 영화 정보 리스트
+	 */
 	public List<MovieInfoDTO> getMovieInfoByMovieIds(String movieIds){
+		List<MovieInfoDTO> list = setMovieInfoDtoList(movieIds);
+		
+		return list;
+	}
+	
+	/*
+	 * 배우 좋아요 추가
+	 */
+	public void peopleLikeAdd(int peopleId, String userEmail) {
+		String id = peopleId + userEmail;
+		PeopleLikeDTO peopleLikeDto = new PeopleLikeDTO();
+		peopleLikeDto.setId(id);
+		peopleLikeDto.setPeopleId(peopleId);
+		peopleLikeDto.setUserEmail(userEmail);
+		
+		repo.peopleLikeAdd(peopleId);
+		repo.peopleLikeInsert(peopleLikeDto);
+	}
+	
+	/*
+	 * 배우 좋아요 삭제
+	 */
+	public void peopleLikeCancel(int peopleId, String userEmail) {
+		String id = peopleId + userEmail;
+		repo.peopleLikeCancel(peopleId);
+		repo.peopleLikeDelete(id);
+	}
+	
+	/*
+	 * 총 좋아요 수
+	 */
+	public int getLikeNumById(int peopleId) {
+		return repo.getLikeNumById(peopleId);
+	}
+	
+	/*
+	 * 사용자 좋아요 체크여부
+	 */
+	public int getPeopleLikeCheck(int peopleId, String userEmail) {
+		String id = peopleId + userEmail;
+		PeopleLikeDTO peopleLikeDto = repo.getPeopleLikeById(id);
+		if(peopleLikeDto == null)
+			return 0;			
+		else
+			return 1;
+	}
+	
+	private List<MovieInfoDTO> setMovieInfoDtoList(String movieIds) {
 		List<MovieInfoDTO> list = repo.getMovieInfoByMovieIds(movieIds);
+		return setGradeInfoAndPosterUrl(list);
+	}
+
+	private List<MovieInfoDTO> setGradeInfoAndPosterUrl(List<MovieInfoDTO> list) {
 		for(int i = 0; i < list.size(); ++i) {
-			GradeInfoDTO gradeInfoDto = getMovieGradeAvgByMovieId(list.get(i).getMovieId());
-			
+			GradeInfoDTO gradeInfoDto = setMovieGradeAvgByMovieId(list.get(i).getMovieId());
 			String posterUrl = list.get(i).getPosterUrl().split("\\|")[0];
 			float gradeAvg = gradeInfoDto.getGradeAvg();
 			String id = list.get(i).getMovieId() + session.getAttribute("userEmail");
-			boolean gradeCheck = getMovieGradeCheckById(id);
+			boolean gradeCheck = setMovieGradeCheckById(id);
 			
 			list.get(i).setPosterUrl(posterUrl);
 			list.get(i).setGradeAvg(gradeAvg);			
@@ -45,8 +102,8 @@ public class PeopleInfoService {
 		}
 		return list;
 	}
-	
-	private boolean getMovieGradeCheckById(String id) {
+
+	private boolean setMovieGradeCheckById(String id) {
 		boolean gradeCheck = false;
 		int check = homeRepository.getGradeCheckById(id);
 		if(check == 1)
@@ -55,7 +112,7 @@ public class PeopleInfoService {
 		return gradeCheck;
 	}
 	
-	private GradeInfoDTO getMovieGradeAvgByMovieId(String movieId) {
+	private GradeInfoDTO setMovieGradeAvgByMovieId(String movieId) {
 		GradeInfoDTO gradeInfoDto = new GradeInfoDTO();
 		try {
 			gradeInfoDto = homeRepository.getMovieGradeAvgByMovieId(movieId);
@@ -73,34 +130,6 @@ public class PeopleInfoService {
 		return gradeInfoDto;
 	}
 
-	public void peopleLikeAdd(int peopleId, String userEmail) {
-		String id = peopleId + userEmail;
-		PeopleLikeDTO peopleLikeDto = new PeopleLikeDTO();
-		peopleLikeDto.setId(id);
-		peopleLikeDto.setPeopleId(peopleId);
-		peopleLikeDto.setUserEmail(userEmail);
-		
-		repo.peopleLikeAdd(peopleId);
-		repo.peopleLikeInsert(peopleLikeDto);
-	}
 	
-	public void peopleLikeCancel(int peopleId, String userEmail) {
-		String id = peopleId + userEmail;
-		repo.peopleLikeCancel(peopleId);
-		repo.peopleLikeDelete(id);
-	}
-	
-	public int getLikeNumById(int peopleId) {
-		return repo.getLikeNumById(peopleId);
-	}
-
-	public int getPeopleLikeCheck(int peopleId, String userEmail) {
-		String id = peopleId + userEmail;
-		PeopleLikeDTO peopleLikeDto = repo.getPeopleLikeById(id);
-		if(peopleLikeDto == null)
-			return 0;			
-		else
-			return 1;
-	}
 	
 }

@@ -1,6 +1,7 @@
 package com.watch.project.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -198,6 +199,29 @@ public class HomeService {
 			gradeInfoDto.setGradeCnt(0);
 		}
 		return gradeInfoDto;
+	}
+
+	public Map<String, List<MovieInfoDTO>> setMovieInfoMap(List<MovieTopInfoDTO> topInfoList) {
+		Map<String, List<MovieInfoDTO>> movieInfoMap = new HashMap<>();
+		for(int i = 0; i < topInfoList.size(); ++i) {
+			List<MovieInfoDTO> movieInfoList = new ArrayList<>();
+			movieInfoList = getMovieInfoListByIds(topInfoList.get(i).getMovieIds());
+			for(int j = 0; j < movieInfoList.size(); ++j) {
+				String movieUrl = movieInfoList.get(j).getPosterUrl().split("\\|")[0];
+				movieInfoList.get(j).setPosterUrl(movieUrl);
+			}
+			if(i == 0) {
+				movieInfoMap.put("daily", movieInfoList);
+			}else if(i == 1) {
+				movieInfoMap.put("weekly0", movieInfoList);
+			}else if(i == 2) {
+				movieInfoMap.put("weekly1", movieInfoList);
+			}else if(i == 3) {
+				movieInfoMap.put("weekly2", movieInfoList);
+			}
+		}
+		
+		return movieInfoMap;
 	}
 	
 }

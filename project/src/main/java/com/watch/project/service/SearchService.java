@@ -35,12 +35,15 @@ public class SearchService {
 	private final HomeRepository homeRepository;
 	private final HttpSession session;
 	
-	public List<MovieInfoSearchViewDTO> searchingStep1(String query){
+	public List<MovieInfoSearchViewDTO> movieNmSearchingCase(String query){
 		List<MovieInfoDTO> movieInfoList = repo.searchingStep1(query);
 		List<MovieInfoSearchViewDTO> movieInfoSearchList = new ArrayList<>();
 		
 		if(movieInfoList.size() == 0) {
-			return movieInfoSearchList;
+			movieInfoList = repo.searchingStep2(query);
+			if(movieInfoList.size() == 0) {
+				return movieInfoSearchList;
+			}
 		}
 		
 		for(int i = 0; i < movieInfoList.size(); ++i) {
@@ -93,82 +96,14 @@ public class SearchService {
 		return movieInfoSearchList;
 	}
 
-	public List<MovieInfoSearchViewDTO> searchingStep2(String query) {
-		List<MovieInfoDTO> movieInfoList = repo.searchingStep2(query);
-		List<MovieInfoSearchViewDTO> movieInfoSearchList = new ArrayList<>();
-		
-		if(movieInfoList.size() == 0) {
-			return movieInfoSearchList;
-		}
-		
-		for(int i = 0; i < movieInfoList.size(); ++i) {
-			String movieId = movieInfoList.get(i).getMovieId();
-			String movieNm = movieInfoList.get(i).getMovieNm();
-			String id = movieId + session.getAttribute("userEmail");
-			String posterUrl = "nan";
-			GradeInfoDTO gradeInfoDto = getMovieGradeAvgByMovieId(movieId);
-			boolean gradeCheck = getMovieGradeCheckById(id);
-			if(!movieInfoList.get(i).getPosterUrl().split("\\|")[0].equals("nan")) {
-				posterUrl = movieInfoList.get(i).getPosterUrl().split("\\|")[0];				
-			}
-			
-			movieInfoList.get(i).setPosterUrl(posterUrl);
-			movieInfoList.get(i).setGradeAvg(gradeInfoDto.getGradeAvg());
-			String showTime = getShowTime(movieInfoList.get(i).getShowTime());
-
-			MovieInfoSearchViewDTO movieInfoSearchDto = 
-					MovieInfoSearchViewDTO
-					.builder()
-					.movieInfoDto(movieInfoList.get(i))
-					.gradeCheck(gradeCheck)
-					.build();
-			
-			String[] actors = movieInfoList.get(i).getActors().split(",");
-			String[] casts = movieInfoList.get(i).getCast().split(",");
-			if(!actors[0].equals("nan")) {
-				for(int j = 0; j < actors.length; ++j) {
-					String peopleNm = actors[j];
-					String cast = "nan";
-					if( j <= casts.length-1 ) {
-						cast = casts[j];
-					}
-					Map<String, String> map = new HashMap<>();
-					map.put("peopleNm", peopleNm);
-					map.put("movieNm", movieNm);
-					
-					int peopleId = 0;
-					try {
-						peopleId = repo.getPeopleIdByPeopleNmAndMovieNm(map);					
-					}catch(BindingException e) {
-						
-					}
-					MovieActorsDTO movieActorsDto = new MovieActorsDTO(peopleId, peopleNm, cast);
-					movieInfoSearchDto.getMovieActorList().add(movieActorsDto);
-					if(j == 3) 
-						break;
-				}				
-			}
-			movieInfoSearchList.add(movieInfoSearchDto);
-		}
-		
-		return movieInfoSearchList;
-	}
-	
-	private String getShowTime(int time) {
-		String showTime = "";
-		if(time % 60 == 0) {
-			showTime = time / 60 + "시간";
-		}else {
-			showTime = time / 60 + "시간 " + time % 60 + "분";
-		}
-		return showTime;
-	}
-
-	public List<PeopleInfoSearchViewDTO> searchingStep3(String query) {
+	public List<PeopleInfoSearchViewDTO> ActorNmSearchingCase(String query) {
 		List<PeopleInfoDetailDTO> peopleInfoDetailList = repo.searchingStep3(query);
 		List<PeopleInfoSearchViewDTO> peopleInfoSearchViewList = new ArrayList<>();
 		if(peopleInfoDetailList.size() == 0) {
-			return peopleInfoSearchViewList;
+			peopleInfoDetailList = repo.searchingStep4(query);
+			if(peopleInfoDetailList.size() == 0) {
+				return peopleInfoSearchViewList;
+			}
 		}
 		 
 		for(int i = 0; i < peopleInfoDetailList.size(); ++i) {
