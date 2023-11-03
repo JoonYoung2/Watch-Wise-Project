@@ -46,7 +46,7 @@ public class MovieInfoController {
 		/*
 		 * 영화 정보 
 		 */
-		MovieInfoViewDTO movieInfoViewDto = service.setMMovieInfoViewDto(movieInfoDto);
+		MovieInfoViewDTO movieInfoViewDto = service.getMovieInfoViewDto(movieInfoDto);
 		/*
 		 * 영화 좋아요 & 평가 수 
 		 */
@@ -61,7 +61,7 @@ public class MovieInfoController {
 		PeopleInfoDTO peopleInfoDto = null;
 		
 		if(!movieInfoViewDto.getActors()[0].equals("nan")) {	// 출연진이 있는 경우
-			peopleInfoDto = service.setPeopleInfoDto(movieInfoViewDto);
+			peopleInfoDto = service.getPeopleInfoDto(movieInfoViewDto);
 		}
 		
 		model.addAttribute("peopleInfo", peopleInfoDto);

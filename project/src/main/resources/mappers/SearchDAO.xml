@@ -28,7 +28,15 @@
 		<result column="movie_nm" property="movieNm"/>
 		<result column="like_num" property="likeNum"/>
 	</resultMap>
-
+	
+	<resultMap type="com.watch.project.dto.ContentSearchingDTO" id="contentSearch">
+		<result column="id" property="id"/>
+		<result column="user_email" property="userEmail"/>
+		<result column="content" property="content"/>
+		<result column="search_date" property="searchDate"/>
+		<result column="search_use" property="searchUse"/>
+	</resultMap>
+	
 	<select id="searchingStep1" resultMap="movieInfo">
 		<![CDATA[SELECT * FROM movie_info WHERE (movie_nm LIKE '${query}' OR movie_nm_en LIKE '${query}') AND NOT genre_nm LIKE '%에로%' AND rownum <= 50]]>
 	</select>
@@ -61,5 +69,37 @@
 		SELECT people_id FROM people_info_detail WHERE people_nm=#{peopleNm} AND movie_nm LIKE '%${movieNm}%'
 	</select>
 	
+	<select id="getSearchingCheckByUserEmailAndContent" resultType="Integer">
+		SELECT COUNT(id) FROM content_searching WHERE user_email=#{userEmail} AND content=#{content}
+	</select>
+	
+	<insert id="contentInsert" parameterType="com.watch.project.dto.ContentSearchingDTO">
+		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+			SELECT NVL(MAX(id), 0)+1 FROM content_searching
+		</selectKey>
+		INSERT INTO content_searching values(#{id}, #{userEmail}, #{content}, #{searchDate}, #{searchUse})
+	</insert>
+	
+	<select id="recentSearchesByUserEmail" resultType="String">
+		<![CDATA[SELECT content FROM 
+		(SELECT * FROM content_searching WHERE user_email=#{userEmail} AND search_use = 1 ORDER BY id DESC)
+		where ROWNUM <= 3]]>
+	</select>
+	
+	<select id="popularSearches" resultType="String">
+		<![CDATA[SELECT content FROM
+		(SELECT content, count(content) AS count FROM 
+		(SELECT * FROM content_searching WHERE search_date >= #{sixMonthAgo} ORDER BY search_date DESC) 
+		GROUP BY content ORDER BY count DESC) 
+		WHERE ROWNUM <= 5]]>
+	</select>
+	
+	<update id="recentSearchesAllRemoveUpdateByUserEmail" parameterType="String">
+		UPDATE content_searching SET search_use = 0 WHERE user_email=#{userEmail}
+	</update>
+	
+	<update id="recentSearchesAddUpdateByUserEmailAndContent" parameterType="Map">
+		UPDATE content_searching SET search_use = 1 WHERE user_email=#{userEmail} AND content=#{content}
+	</update>
 </mapper>
 

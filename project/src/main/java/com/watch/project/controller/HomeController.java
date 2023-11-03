@@ -1,7 +1,5 @@
 package com.watch.project.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.MovieTopInfoDTO;
 import com.watch.project.service.HomeService;
+import com.watch.project.service.SearchService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class HomeController {
 	private final HomeService service;
+	private final SearchService searchService;
 
 	@GetMapping("/")
 	public String home(Model model) {
@@ -46,6 +46,18 @@ public class HomeController {
 		 */
 		List<MovieInfoDTO> recentlyReleasedForeignMovies = service.recentlyReleasedForeignMovies();
 		
+		/*
+		 * 최근 검색어
+		 */
+		String[] recentSearches = searchService.recentSearchesByUserEmail();
+		
+		/*
+		 * 최근 6개월 간 인기 검색어
+		 */
+		String[] popularSearches = searchService.popularSearches();
+		
+		model.addAttribute("recentSearches", recentSearches);
+		model.addAttribute("popularSearches", popularSearches);
 		movieInfoMap.put("upcoming", upcomingMovies);
 		movieInfoMap.put("recentlyKorea", recentlyReleasedKoreanMovies);
 		movieInfoMap.put("recentlyForeign", recentlyReleasedForeignMovies);

@@ -17,33 +17,22 @@
 	<div align="center" style="width: 100%;">
 		<div align="center" style="width: 80%;">
 			<% int cnt = 0; %>
-			<c:if test="${ not empty searchList1 }">
-				<%@ include file="../include/search_include/case1.jsp"%>
+			<c:if test="${ not empty movieNmSearchingCase }">
+				<%@ include file="../include/search_include/movieNmSearchingCase.jsp"%>
 			</c:if>
 			
 			<% cnt = 0; %>
-			<c:if test="${ not empty searchList2 }">
-				<%@ include file="../include/search_include/case2.jsp"%>
-			</c:if>
-			
-			<% cnt = 0; %>
-			<c:if test="${ not empty searchList3 }">
-				<%@ include file="../include/search_include/case3.jsp"%>
-			</c:if>
-			
-			<% cnt = 0; %>
-			<c:if test="${ not empty searchList4 }">
-				<%@ include file="../include/search_include/case4.jsp"%>
+			<c:if test="${ not empty actorNmSearchingCase }">
+				<%@ include file="../include/search_include/actorNmSearchingCase.jsp"%>
 			</c:if>
 			
 		</div>
 	</div>
 	
-	<!-- Member 관련 JS -->
+	<!-- Header JS -->
 	<script src="/resources/js/common.js"></script>
-	<!-- 검색 JS -->
 	<script src="/resources/js/search_common.js"></script>
-	<!-- 페이지 JS -->
+	<!-- Present page JS -->
 	<script src="/resources/js/search_info.js"></script>
 </body>
 </html>

@@ -46,10 +46,13 @@ public class PeopleInfoService {
 	 */
 	public void peopleLikeAdd(int peopleId, String userEmail) {
 		String id = peopleId + userEmail;
-		PeopleLikeDTO peopleLikeDto = new PeopleLikeDTO();
-		peopleLikeDto.setId(id);
-		peopleLikeDto.setPeopleId(peopleId);
-		peopleLikeDto.setUserEmail(userEmail);
+		PeopleLikeDTO peopleLikeDto = 
+				PeopleLikeDTO
+				.builder()
+				.id(id)
+				.peopleId(peopleId)
+				.userEmail(userEmail)
+				.build();
 		
 		repo.peopleLikeAdd(peopleId);
 		repo.peopleLikeInsert(peopleLikeDto);
@@ -113,7 +116,7 @@ public class PeopleInfoService {
 	}
 	
 	private GradeInfoDTO setMovieGradeAvgByMovieId(String movieId) {
-		GradeInfoDTO gradeInfoDto = new GradeInfoDTO();
+		GradeInfoDTO gradeInfoDto = GradeInfoDTO.builder().build();
 		try {
 			gradeInfoDto = homeRepository.getMovieGradeAvgByMovieId(movieId);
 		}catch(NullPointerException e) {
@@ -122,9 +125,11 @@ public class PeopleInfoService {
 			  
 		}
 		if(gradeInfoDto == null) {
-			gradeInfoDto = new GradeInfoDTO();
-			gradeInfoDto.setGradeAvg(0.0f);
-			gradeInfoDto.setGradeCnt(0);
+			gradeInfoDto = GradeInfoDTO
+					.builder()
+					.gradeAvg(0.0f)
+					.gradeCnt(0)
+					.build();
 		}
 		
 		return gradeInfoDto;

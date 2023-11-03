@@ -29,10 +29,6 @@
 		<result column="movie_ids" property="movieIds"/>
 	</resultMap>
 	
-	<select id="getId" resultType="com.watch.project.dto.HomeDTO">
-		select * from test
-	</select>
-	
 	<select id="getMovieTopInfo" resultMap="movieTopInfo">
 		SELECT * FROM daily_top_info WHERE id = (SELECT max(id) FROM daily_top_info) UNION ALL
 		SELECT * FROM weekly_top_info WHERE id >= #{id}

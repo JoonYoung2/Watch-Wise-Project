@@ -24,59 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MovieInfoService {
 	private final MovieInfoRepository repo;
 	private final HomeRepository homeRepository;
-	
-	public MovieInfoDTO getMovieInfoById(String movieId) {
-		return repo.getMovieInfoById(movieId);
-	}
 
-	public MovieInfoViewDTO setMMovieInfoViewDto(MovieInfoDTO movieInfoDto) {
-		String showTime = "";
-		String[] posterUrl = null;
-		String[] actors = null;
-		String[] cast = null;
-		if(movieInfoDto.getShowTime() % 60 == 0) {
-			int time = movieInfoDto.getShowTime();
-			int hour = time / 60;
-			showTime += hour + "시간";
-		}else {
-			int time = movieInfoDto.getShowTime();
-			int hour = time / 60;
-			int min = time % 60;
-			showTime += hour + "시간 " + min + "분";
-		}
-		if(movieInfoDto.getPosterUrl() != "nan") {
-			posterUrl = movieInfoDto.getPosterUrl().split("\\|");
-		}
-		if(movieInfoDto.getActors() != "nan") {
-			actors = movieInfoDto.getActors().split(",");
-		}
-		if(movieInfoDto.getCast() != "nan") {
-			cast = movieInfoDto.getCast().split(",");
-		}
-		
-		return MovieInfoViewDTO
-				.builder()
-				.actors(actors)
-				.cast(cast)
-				.movieInfoDto(movieInfoDto)
-				.posterUrl(posterUrl)
-				.showTime(showTime)
-				.build();
-	}
-	
-	public int getPeopleIdByPeopleNmAndMovieNm(String peopleNm, String movieNm) {
-		int peopleId = 0;
-		Map<String, String> map = new HashMap<>();
-		map.put("peopleNm", peopleNm);
-		map.put("movieNm", movieNm);
-		try {
-			peopleId = repo.getPeopleIdByPeopleNmAndMovieNm(map);
-		}catch(BindingException e) {
-			
-		}
-		
-		return peopleId;
-	}
 	/*
 	 *영화 좋아요
 	 */
@@ -101,6 +49,9 @@ public class MovieInfoService {
 		repo.movieLikeDelete(id);
 	}
 	
+	/*
+	 * 유저 영화 좋아요 여부
+	 */
 	public int getMovieLikeCheck(String movieId, String userEmail) {
 		String id = movieId + userEmail;
 		try {
@@ -113,25 +64,28 @@ public class MovieInfoService {
 			return 0;
 		}
 	}
-
-	public GradeInfoDTO getGradeInfoDto(String movieId) {
-		GradeInfoDTO gradeInfoDto = new GradeInfoDTO();
-		try {
-			gradeInfoDto = homeRepository.getMovieGradeAvgByMovieId(movieId);
-		}catch(NullPointerException e) {
-			
-		}catch(BindingException e) {
-			  
-		}
-		if(gradeInfoDto == null) {
-			gradeInfoDto = new GradeInfoDTO();
-			gradeInfoDto.setGradeAvg(0.0f);
-			gradeInfoDto.setGradeCnt(0);
-		}
-		return gradeInfoDto;
+	
+	public MovieInfoDTO getMovieInfoById(String movieId) {
+		return repo.getMovieInfoById(movieId);
 	}
 
-	public PeopleInfoDTO setPeopleInfoDto(MovieInfoViewDTO movieInfoViewDto) {
+	public MovieInfoViewDTO getMovieInfoViewDto(MovieInfoDTO movieInfoDto) {
+		return setMovieInfoViewDto(movieInfoDto);
+	}
+
+	public int getPeopleIdByPeopleNmAndMovieNm(String peopleNm, String movieNm) {
+		return setPeopleIdByPeopleNmAndMovieNm(peopleNm, movieNm);
+	}
+	
+	public GradeInfoDTO getGradeInfoDto(String movieId) {
+		return setGradeInfoDto(movieId);
+	}
+
+	public PeopleInfoDTO getPeopleInfoDto(MovieInfoViewDTO movieInfoViewDto) {
+		return setPeopleInfoDto(movieInfoViewDto);
+	}
+	
+	private PeopleInfoDTO setPeopleInfoDto(MovieInfoViewDTO movieInfoViewDto) {
 		int peopleLength = 12;
 		int castLength = 0;
 		String peopleNmStr = "";
@@ -196,6 +150,72 @@ public class MovieInfoService {
 				.peopleCast(peopleCast)
 				.peopleId(peopleId)
 				.peopleNm(peopleNm)
+				.build();
+	}
+	private GradeInfoDTO setGradeInfoDto(String movieId) {
+		GradeInfoDTO gradeInfoDto = GradeInfoDTO.builder().build();
+		try {
+			gradeInfoDto = homeRepository.getMovieGradeAvgByMovieId(movieId);
+		}catch(NullPointerException e) {
+			
+		}catch(BindingException e) {
+			  
+		}
+		if(gradeInfoDto == null) {
+			gradeInfoDto = GradeInfoDTO
+					.builder()
+					.gradeAvg(0.0f)
+					.gradeCnt(0)
+					.build();
+		}
+		return gradeInfoDto;
+	}
+	
+	private int setPeopleIdByPeopleNmAndMovieNm(String peopleNm, String movieNm) {
+		int peopleId = 0;
+		Map<String, String> map = new HashMap<>();
+		map.put("peopleNm", peopleNm);
+		map.put("movieNm", movieNm);
+		try {
+			peopleId = repo.getPeopleIdByPeopleNmAndMovieNm(map);
+		}catch(BindingException e) {
+			
+		}
+		return peopleId;
+	}
+	
+	private MovieInfoViewDTO setMovieInfoViewDto(MovieInfoDTO movieInfoDto) {
+		String showTime = "";
+		String[] posterUrl = null;
+		String[] actors = null;
+		String[] cast = null;
+		if(movieInfoDto.getShowTime() % 60 == 0) {
+			int time = movieInfoDto.getShowTime();
+			int hour = time / 60;
+			showTime += hour + "시간";
+		}else {
+			int time = movieInfoDto.getShowTime();
+			int hour = time / 60;
+			int min = time % 60;
+			showTime += hour + "시간 " + min + "분";
+		}
+		if(movieInfoDto.getPosterUrl() != "nan") {
+			posterUrl = movieInfoDto.getPosterUrl().split("\\|");
+		}
+		if(movieInfoDto.getActors() != "nan") {
+			actors = movieInfoDto.getActors().split(",");
+		}
+		if(movieInfoDto.getCast() != "nan") {
+			cast = movieInfoDto.getCast().split(",");
+		}
+		
+		return MovieInfoViewDTO
+				.builder()
+				.actors(actors)
+				.cast(cast)
+				.movieInfoDto(movieInfoDto)
+				.posterUrl(posterUrl)
+				.showTime(showTime)
 				.build();
 	}
 }

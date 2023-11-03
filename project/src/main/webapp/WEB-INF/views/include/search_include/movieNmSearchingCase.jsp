@@ -10,7 +10,7 @@
 <body>
 	
 				
-	&quot${ query }&quot 검색결과  ${ searchList1.size() }개
+	&quot${ query }&quot 검색결과  ${ movieNmSearchingCase.size() }개
 				
 	<!-- SearchCase1 검색결과 Movies START -->
 	<div align="left" style="width: 100%; padding-bottom: 10px;">
@@ -20,7 +20,7 @@
 
 	<button id="searchMoviesLeftBtn" class="leftBtn" onclick="searchMoviesLeftBtn();">◀</button>
 
-	<c:forEach var="list" items="${ searchList1 }">
+	<c:forEach var="list" items="${ movieNmSearchingCase }">
 		<%
 			if (cnt < 5) {
 		%>
@@ -115,7 +115,7 @@
 	<br><br><br>
 
 	<!-- SearchCase1 Movie Informations START -->
-	<c:forEach var="movieInfo" items="${ searchList1 }">
+	<c:forEach var="movieInfo" items="${ movieNmSearchingCase }">
 		<a style="all: unset; cursor: pointer;" href="movieInfo?movieId=${ movieInfo.movieId }">
 			<div style="display: flex;">
 				<c:if test="${movieInfo.posterUrl ne 'nan' }">

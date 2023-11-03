@@ -26,36 +26,43 @@ import lombok.extern.slf4j.Slf4j;
 public class PeopleInfoAjaxController {
 	private final PeopleInfoService service;
 	
+	/*
+	 * 배우 좋아요 추가
+	 */
 	@GetMapping("peopleLikeAdd")
 	public LikeUpdateResponse peopleLikeAdd(@RequestParam("peopleId") int peopleId, HttpSession session) {
 		String userEmail = (String)session.getAttribute("userEmail");
 		int likeNum = 0;
-		if(userEmail != null) {
+		
+		if(userEmail != null) 
 			service.peopleLikeAdd(peopleId, userEmail);			
-		}
+		
 		
 		likeNum = service.getLikeNumById(peopleId);
-
-		LikeUpdateResponse response = new LikeUpdateResponse(likeNum);
 		
-        return response;
+        return new LikeUpdateResponse(likeNum);
 	}
 	
+	/*
+	 * 배우 좋아요 취소
+	 */
 	@GetMapping("peopleLikeCancel")
 	public LikeUpdateResponse peopleLikeCancel(@RequestParam("peopleId") int peopleId, HttpSession session) {
 		String userEmail = (String)session.getAttribute("userEmail");
 		int likeNum = 0;
 		
-		service.peopleLikeCancel(peopleId, userEmail);
+		if(userEmail != null)
+			service.peopleLikeCancel(peopleId, userEmail);
+		
 		likeNum = service.getLikeNumById(peopleId);
 		
-		LikeUpdateResponse response = new LikeUpdateResponse(likeNum);
-		return response;
+		return new LikeUpdateResponse(likeNum);
 	}
 	
 	@Data
 	private class LikeUpdateResponse{
 		private int likeNum;
+		
 		public LikeUpdateResponse(int likeNum) {
 			this.likeNum = likeNum;
 		}
