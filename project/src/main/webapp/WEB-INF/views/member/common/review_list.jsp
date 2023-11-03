@@ -13,24 +13,25 @@
 <hr>
 <br>
 <br>
-<div style="position: absolute; top: 50%; left: 50%;transform: translate(-50%, -50%);">
+
 	<h3 style="text-align: center;">나의 평점 기록</h3>
-	<table border="1">
-		<tr>
-			<th>Img</th>
-			<th>Movie Name</th>
-			<th>My score</th>	
-			<th>My comment</th>		
-		</tr>
-		<c:forEach var="data" items="${reviewList}" >
-		<tr>
-			<td><a href="/movieInfo?movieId=${ data.movieId }"><img style="width:75px; height: auto;" src="${ data.posterUrl }"></a></td>
-			<td style="text-align: center;"><a href="/movieInfo?movieId=${ data.movieId }">${data.movieNm}</a></td>
-			<td style="text-align: center;">${data.reviewScore}</td>
-			<td>${data.reviewComment}</td>
-		</tr>
-		</c:forEach>
-	</table>
-</div>
+	<div align="center">
+		<table border="1">
+			<tr>
+				<th>Img</th>
+				<th>Movie Name</th>
+				<th>My score</th>	
+				<th>My comment</th>		
+			</tr>
+			<c:forEach var="data" items="${reviewList}" >
+			<tr>
+				<td><a href="/movieInfo?movieId=${ data.movieId }"><img style="width:75px; height: auto;" src="${ data.posterUrl }"></a></td>
+				<td style="text-align: center;"><a href="/movieInfo?movieId=${ data.movieId }">${data.movieNm}</a></td>
+				<td style="text-align: center;">${data.reviewScore}</td>
+				<td>${data.reviewComment}</td>
+			</tr>
+			</c:forEach>
+		</table>
+	</div>	
 </body>
 </html>
