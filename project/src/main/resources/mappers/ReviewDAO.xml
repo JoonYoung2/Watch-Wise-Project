@@ -115,6 +115,6 @@
 	</select>
 	
 	<select id="getCommentByMovieId" resultMap="review">
-		SELECT * FROM movie_review WHERE movie_id=#{movieId}
+		SELECT * FROM movie_review WHERE movie_id=#{movieId} AND id=#{id}
 	</select>
 </mapper>

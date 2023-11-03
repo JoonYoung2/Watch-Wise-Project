@@ -3,7 +3,10 @@ package com.watch.project.service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.binding.BindingException;
@@ -234,30 +237,63 @@ public class ReviewService {
 		List<LikedCommentListDTO> FinalDtoList = new ArrayList<>();
 		List<String> movieIdList = new ArrayList<>();
 		List<MovieInfoDTO> movieInfoList = new ArrayList<>();
+		Map<Integer, String> map = new HashMap<>();
+		
 //		List<MovieReviewDTO> reviewDtoInFinalDto = new ArrayList<>();
+		int cnt = 0;
 		for(String id : commentIdList) {
-			String movieId = repo.getMovieIdById(id);
-			if(movieIdList.contains(movieId)) {
-				movieIdList.add(movieId);				
-			}
-		}
-		for(String movieId : movieIdList) {
-			MovieInfoDTO movieInfo = movieInfoRepo.getMovieInfoById(movieId);
-//			LikedCommentListDTO finalTempDto = new LikedCommentListDTO(); //마지막에 final dto에 set할 때 쓸 DTO
-			List<MovieReviewDTO> likedCommentsInfo = repo.getCommentByMovieId(movieId);//영화 하나 당 달린 코멘트들 리스트
-			for(MovieReviewDTO commentInfo : likedCommentsInfo) {
+			log.info("id => {}",id);
+			if(map.containsValue(id) == false) {
+				
+					map.put(cnt++, id);					
 				
 			}
+			String movieId = repo.getMovieIdById(id);
+			System.out.println("^^^^^^^^^^^==>"+ movieId);
+			if(!(movieIdList.contains(movieId))) {
+				movieIdList.add(movieId);
+			}
+		}
+		
+		log.info("{}", commentIdList.size());
+		log.info("{}", movieIdList.size());
+		log.info("{}",map.size());
+		
+		for(String movieId : movieIdList) {
+			System.out.println("^^^^^1111111111^^^^^^==>"+ movieId);
+			MovieInfoDTO movieInfo = movieInfoRepo.getMovieInfoById(movieId);
+//			LikedCommentListDTO finalTempDto = new LikedCommentListDTO(); //마지막에 final dto에 set할 때 쓸 DTO
+			String posterUrl = movieInfo.getPosterUrl().split("\\|")[0];
+			movieInfo.setPosterUrl(posterUrl);
+			List<MovieReviewDTO> likedCommentsInfo = new ArrayList<>();
+			for(int i = 0; i < map.size(); ++i) {
+				Map<String, String> map2 = new HashMap<>();
+				map2.put("id", map.get(i));
+				map2.put("movieId", movieId);
+				List<MovieReviewDTO> list = repo.getCommentByMovieId(map2);//영화 하나 당 달린 코멘트들 리스트
+				if(list.size() == 1) {
+					likedCommentsInfo.add(list.get(0));
+				}
+			}
+//			for(MovieReviewDTO commentInfo : likedCommentsInfo) {				
+//			}
 			LikedCommentListDTO finalTempDto = LikedCommentListDTO.builder()
-					.movieReviewDto(null)
-					.movieId(movieId)
-					.movieNm(movieInfo.getMovieNm())
-					.movieNmEn(movieInfo.getMovieNmEn())
-					.prdtYear(movieInfo.getPrdtYear())
-					.posterUrl(movieInfo.getPosterUrl()).build();
-					
+					.movieReviewDto(likedCommentsInfo)
+					.movieInfoDto(movieInfo)
+					.build();
+//			finalTempDto.setMovieReviewDto(likedCommentsInfo);
+//			finalTempDto.setMovieId(movieId);
+//			finalTempDto.setMovieNm(movieInfo.getMovieNm());
+//			finalTempDto.setMovieNmEn(movieInfo.getMovieNmEn());
+//			finalTempDto.setPrdtYear(movieInfo.getPrdtYear());
+//			finalTempDto.setPosterUrl(movieInfo.getPosterUrl());
+			
+			log.info("review service final DTO inside => {}", movieInfo.getMovieNm());
+
 			FinalDtoList.add(finalTempDto);
 		}
+		log.info("review service final DTO => {}", FinalDtoList);
+
 		return FinalDtoList;
 	}
 
