@@ -37,6 +37,11 @@
 		<result column="search_use" property="searchUse"/>
 	</resultMap>
 	
+	<resultMap type="com.watch.project.dto.relatedSearch.RelatedSearchResponseDTO" id="relatedSearch">
+		<result column="content" property="content"/>
+		<result column="search_type" property="searchType"/>
+	</resultMap>
+	
 	<select id="searchingStep1" resultMap="movieInfo">
 		<![CDATA[SELECT * FROM movie_info WHERE (movie_nm LIKE '${query}' OR movie_nm_en LIKE '${query}') AND NOT genre_nm LIKE '%에로%' AND rownum <= 50]]>
 	</select>
@@ -99,7 +104,47 @@
 	</update>
 	
 	<update id="recentSearchesAddUpdateByUserEmailAndContent" parameterType="Map">
-		UPDATE content_searching SET search_use = 1 WHERE user_email=#{userEmail} AND content=#{content}
+		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+			SELECT NVL(MAX(id), 0) + 1 FROM content_searching
+		</selectKey>
+		UPDATE content_searching SET search_use = 1, id=#{id} WHERE user_email=#{userEmail} AND content=#{content}
 	</update>
+	
+	<select id="getRelatedSearchByContentAndUserEmail" resultMap="relatedSearch">
+		<![CDATA[
+		-- 사용자 연관 검색어 쿼리
+		SELECT * FROM (
+		SELECT content, 1 AS search_type  FROM content_searching WHERE REGEXP_LIKE(content, '^${ content }') and user_email = '${ userEmail }') WHERE rownum <= 3
+		UNION ALL
+		
+		-- 토탈 사용자 검색어 
+		SELECT * FROM (
+		SELECT content, 2 AS search_type  FROM content_searching WHERE REGEXP_LIKE(content, '^${ content }') and not user_email = '${ userEmail }' 
+		MINUS
+		SELECT content, 2 AS search_type  FROM content_searching WHERE REGEXP_LIKE(content, '^${ content }') and user_email = '${ userEmail }' 
+		) WHERE rownum <= 3
+		UNION ALL
+		
+		-- 관련 영화 연관 검색어 쿼리
+		SELECT movie_nm AS content, 3 AS search_type FROM 
+		(SELECT movie_nm FROM 
+		(SELECT * FROM movie_info) WHERE REGEXP_LIKE(movie_nm, '^${ content }') 
+		ORDER BY like_num DESC) 
+		WHERE ROWNUM <= 3 
+		UNION ALL
+		
+		-- 영어 영화 연관 검색 쿼리
+		SELECT movie_nm_en AS content, 3 AS search_type FROM 
+		(SELECT movie_nm_en FROM (SELECT * FROM movie_info) 
+		WHERE REGEXP_LIKE(movie_nm_en, '^${ content }') ORDER BY like_num DESC) 
+		WHERE ROWNUM <= 3 
+		UNION ALL
+		
+		-- 배우 연관 검색 쿼리
+		SELECT people_nm AS content, 4 AS search_type FROM 
+		(SELECT * FROM people_info_detail WHERE REGEXP_LIKE(people_nm, '^${ content }') ORDER BY like_num DESC) 
+		WHERE ROWNUM <= 3
+		]]>
+	</select>
 </mapper>
 

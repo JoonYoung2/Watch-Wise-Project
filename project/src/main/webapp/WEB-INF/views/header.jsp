@@ -15,25 +15,31 @@
 				<div align="left" style="width:50%; display:flex; align-items:center;">
 					<a href="/"><img style="width:200px;" src="/resources/img/WWlogo.png"></a>
 					<div style="position:relative;">
-						<input id="query" style="width:300px; height:38px; font-size:20px;" type="text" onclick="searchesClick();" onblur="searchesBlur();" onkeydown="searchesKeydown(event)" value="${ query }" autocomplete='off'>
+						<input id="query" style="width:300px; height:38px; font-size:20px;" type="text" onclick="searchesClick();" onblur="searchesBlur();" onkeyup="searchesKeyup(event)" value="${ query }" autocomplete='off'>
 						<div id="searches" style="position:absolute; width:306px; border:solid 1px rgba(0, 0, 0, 0.1); z-index:1; background-color:white; display:none;">
-							<c:if test="${ not empty recentSearches }">
-								<div style="display:flex; justify-content:space-between; width:100%;">
-									<div style="padding:10px; color:red;">최근 검색어</div>
-									<a style="all:unset; cursor:pointer;" onclick="searchAllMove();">
-										<div style="padding:10px; color:rgba(0, 0, 0, 0.5);">모두 삭제</div>
-									</a>
-								</div>
-								<c:forEach var="list" items="${ recentSearches }">
-									<a href="search?query=${ list }" style="all:unset; cursor:pointer;"><div style='padding:5px 10px;'>${ list }</div></a>
-								</c:forEach>
-							</c:if>
+							<div id="recentDiv">
+								<c:if test="${ not empty recentSearches }">
+									<div style="display:flex; justify-content:space-between; width:100%; display:;">
+										<div style="padding:10px; color:red;">최근 검색어</div>
+										<a style="all:unset; cursor:pointer;" onmousedown="searchAllMove();">
+											<div style="padding:10px; color:rgba(0, 0, 0, 0.5);">모두 삭제</div>
+										</a>
+									</div>
+									<c:forEach var="list" items="${ recentSearches }">
+										<a style="all:unset; cursor:pointer;" onmousedown="searchStartMouseDown('${list}')"><div style='padding:5px 10px;'>${ list }</div></a>
+									</c:forEach>
+								</c:if>
+							</div>
 							<c:if test="${ not empty popularSearches }">
-								<div style="padding:10px; color:red;">인기 검색어</div>
+								<div style='padding:10px; color:red;'>인기 검색어</div>
 								<c:forEach var="list" items="${ popularSearches }">
-									<a href="search?query=${ list }" style="all:unset; cursor:pointer;"><div style='padding:5px 10px;'>${ list }</div></a>
+									<a style="all:unset; cursor:pointer;" onmousedown="searchStartMouseDown('${list}')"><div style='padding:5px 10px;'>${ list }</div></a>
 								</c:forEach>
 							</c:if>
+						</div>
+						<div id="searches2" style="position:absolute; width:306px; border:solid 1px rgba(0, 0, 0, 0.1); z-index:1; background-color:white; display:none;">
+							<div style='padding:10px; color:red;'>연관 검색어</div>
+							<a style='all:unset; cursor:pointer;' onmousedown='searchStartMouseDown("송중기")'><div style='padding:5px 10px;'>송중기</div></a>
 						</div>
 					</div>
 				</div>

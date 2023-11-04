@@ -18,6 +18,8 @@ import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.PeopleInfoDetailDTO;
 import com.watch.project.dto.movieInfoView.GradeInfoDTO;
 import com.watch.project.dto.movieInfoView.MovieInfoViewDTO;
+import com.watch.project.dto.relatedSearch.RelatedSearchRequestDTO;
+import com.watch.project.dto.relatedSearch.RelatedSearchResponseDTO;
 import com.watch.project.dto.searchView.MovieActorsDTO;
 import com.watch.project.dto.searchView.MovieInfoSearchViewDTO;
 import com.watch.project.dto.searchView.PeopleInfoSearchViewDTO;
@@ -223,6 +225,97 @@ public class SearchService {
 	
 	public void recentSearchesAllRemoveUpdateByUserEmail() {
 		repo.recentSearchesAllRemoveUpdateByUserEmail((String)session.getAttribute("userEmail"));
+	}
+	
+	public List<RelatedSearchResponseDTO> getRelatedSearchByContentAndUserEmail(String content) {
+		for(char c : content.toCharArray()) {
+			if(c == 'ㄱ' || c == 'ㄲ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㄴ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㄷ' || c == 'ㄸ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㄹ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㅁ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㅂ' || c == 'ㅃ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㅅ' || c == 'ㅆ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㅇ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㅈ' || c == 'ㅉ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㅊ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㅋ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㅌ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㅍ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㅎ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}
+		}
+		
+		log.info(content);
+		return repo.getRelatedSearchByContentAndUserEmail(
+				RelatedSearchRequestDTO
+				.builder()
+				.content(content)
+				.userEmail((String)session.getAttribute("userEmail"))
+				.build());
+	}
+	
+	private String regularConversion(char c) {
+		String conversion = "";
+		if(c == 'ㄱ' || c == 'ㄲ') {
+			conversion = "\\[가-낗\\]";
+		}else if(c == 'ㄴ') {
+			conversion = "\\[나-닣\\]";
+		}else if(c == 'ㄷ' || c == 'ㄸ') {
+			conversion = "\\[다-띻\\]";
+		}else if(c == 'ㄹ') {
+			conversion = "\\[라-맇\\]";
+		}else if(c == 'ㅁ') {
+			conversion = "\\[마-밓\\]";
+		}else if(c == 'ㅂ' || c == 'ㅃ') {
+			conversion = "\\[바-삫\\]";
+		}else if(c == 'ㅅ' || c == 'ㅆ') {
+			conversion = "\\[사-앃\\]";
+		}else if(c == 'ㅇ') {
+			conversion = "\\[아-잏\\]";
+		}else if(c == 'ㅈ' || c == 'ㅉ') {
+			conversion = "\\[자-찧\\]";
+		}else if(c == 'ㅊ') {
+			conversion = "\\[차-칳\\]";
+		}else if(c == 'ㅋ') {
+			conversion = "\\[카-킿\\]";
+		}else if(c == 'ㅌ') {
+			conversion = "\\[타-팋\\]";
+		}else if(c == 'ㅍ') {
+			conversion = "\\[파-핗\\]";
+		}else if(c == 'ㅎ') {
+			conversion = "\\[하-힣\\]";
+		}
+		
+		return conversion;
 	}
 	
 	private String getSixMonthAgoDate() {

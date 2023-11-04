@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Mapper;
 import com.watch.project.dto.ContentSearchingDTO;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.PeopleInfoDetailDTO;
+import com.watch.project.dto.relatedSearch.RelatedSearchRequestDTO;
+import com.watch.project.dto.relatedSearch.RelatedSearchResponseDTO;
 
 @Mapper
 public interface SearchRepository {
@@ -35,5 +37,7 @@ public interface SearchRepository {
 	public void recentSearchesAllRemoveUpdateByUserEmail(String userEmail);
 	
 	public void recentSearchesAddUpdateByUserEmailAndContent(Map<String, String> map);
+	
+	public List<RelatedSearchResponseDTO> getRelatedSearchByContentAndUserEmail(RelatedSearchRequestDTO dto);
 	
 }
