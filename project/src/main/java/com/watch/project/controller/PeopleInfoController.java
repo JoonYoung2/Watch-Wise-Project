@@ -15,6 +15,7 @@ import com.watch.project.dto.movieInfoView.MovieInfoViewDTO;
 import com.watch.project.dto.movieInfoView.PeopleInfoDTO;
 import com.watch.project.service.MovieInfoService;
 import com.watch.project.service.PeopleInfoService;
+import com.watch.project.service.SearchService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PeopleInfoController {
 	private final PeopleInfoService service;
+	private final SearchService searchService;
 	
 	@GetMapping("peopleInfo")
 	public String peopleInfoView(@RequestParam int peopleId, Model model, HttpSession session) {
@@ -42,9 +44,33 @@ public class PeopleInfoController {
 		 */
 		int likeCheck = service.getPeopleLikeCheck(peopleId, (String)session.getAttribute("userEmail"));
 		
+		/*
+		 * 최근 검색어
+		 */
+		String[] recentSearches = searchService.recentSearchesByUserEmail();
+		
+		/*
+		 * 최근 6개월 간 인기 검색어
+		 */
+		String[] popularSearches = searchService.popularSearches();
+		
+		/*
+		 * 최근 검색어 + 인기 검색어 크기
+		 */
+		int recentSearchesSize = -1;
+		try {
+			recentSearchesSize = recentSearches.length;			
+		}catch(NullPointerException e) {
+			
+		}
+		
 		model.addAttribute("peopleInfo", peopleInfoDetailDto);
 		model.addAttribute("movieInfo", movieInfoList);
 		model.addAttribute("likeCheck", likeCheck);
+		model.addAttribute("recentSearches", recentSearches);
+		model.addAttribute("popularSearches", popularSearches);
+		model.addAttribute("recentSearchesSize", recentSearchesSize);
+		
 		return "basic/people_info";
 	}
 	

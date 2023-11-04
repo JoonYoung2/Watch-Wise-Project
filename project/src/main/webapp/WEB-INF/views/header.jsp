@@ -21,25 +21,26 @@
 								<c:if test="${ not empty recentSearches }">
 									<div style="display:flex; justify-content:space-between; width:100%; display:;">
 										<div style="padding:10px; color:red;">최근 검색어</div>
-										<a style="all:unset; cursor:pointer;" onmousedown="searchAllMove();">
+										<a style="all:unset; cursor:pointer;" onmousedown="searchAllMove('${recentSearchesSize}');">
 											<div style="padding:10px; color:rgba(0, 0, 0, 0.5);">모두 삭제</div>
 										</a>
 									</div>
 									<c:forEach var="list" items="${ recentSearches }">
-										<a style="all:unset; cursor:pointer;" onmousedown="searchStartMouseDown('${list}')"><div style='padding:5px 10px;'>${ list }</div></a>
+										<a style="all:unset; cursor:pointer;" onmousedown="searchStartMouseDown('${list}')"><div class="relatedSearches" style="padding:5px 10px; background-color:white;">${ list }</div></a>
+										<input type="hidden" class="relatedSearchesValue" value="${ list }">
 									</c:forEach>
 								</c:if>
 							</div>
 							<c:if test="${ not empty popularSearches }">
 								<div style='padding:10px; color:red;'>인기 검색어</div>
 								<c:forEach var="list" items="${ popularSearches }">
-									<a style="all:unset; cursor:pointer;" onmousedown="searchStartMouseDown('${list}')"><div style='padding:5px 10px;'>${ list }</div></a>
+									<a style="all:unset; cursor:pointer;" onmousedown="searchStartMouseDown('${list}')"><div class="relatedSearches" style="padding:5px 10px; background-color:white;">${ list }</div></a>
+									<input type="hidden" class="relatedSearchesValue" value="${ list }">
 								</c:forEach>
 							</c:if>
 						</div>
 						<div id="searches2" style="position:absolute; width:306px; border:solid 1px rgba(0, 0, 0, 0.1); z-index:1; background-color:white; display:none;">
 							<div style='padding:10px; color:red;'>연관 검색어</div>
-							<a style='all:unset; cursor:pointer;' onmousedown='searchStartMouseDown("송중기")'><div style='padding:5px 10px;'>송중기</div></a>
 						</div>
 					</div>
 				</div>

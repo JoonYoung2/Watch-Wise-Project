@@ -56,17 +56,25 @@ public class HomeController {
 		 */
 		String[] popularSearches = searchService.popularSearches();
 		
-		model.addAttribute("recentSearches", recentSearches);
-		model.addAttribute("popularSearches", popularSearches);
+		/*
+		 * 최근 검색어 + 인기 검색어 크기
+		 */
+		int recentSearchesSize = -1;
+		
+		try {
+			recentSearchesSize = recentSearches.length;			
+		}catch(NullPointerException e) {
+			
+		}
+		
 		movieInfoMap.put("upcoming", upcomingMovies);
 		movieInfoMap.put("recentlyKorea", recentlyReleasedKoreanMovies);
 		movieInfoMap.put("recentlyForeign", recentlyReleasedForeignMovies);
 		model.addAttribute("movieInfoMap", movieInfoMap);
+		model.addAttribute("recentSearches", recentSearches);
+		model.addAttribute("popularSearches", popularSearches);
+		model.addAttribute("recentSearchesSize", recentSearchesSize);
 		
 		return "basic/home"; 
-	}
-	@GetMapping("/test")
-	public String test() {
-		return "home";
 	}
 }

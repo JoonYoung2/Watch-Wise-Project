@@ -1,7 +1,10 @@
 let reviewScoreId = document.getElementById("reviewScore");
 let reviewScoreValue = 0.0;
+let gradeCheckValue = document.getElementById("gradeCheck").value;
+
 window.onload = () => {
 	reviewScoreValue = Number(reviewScoreId.value);
+	
 	let msg = document.getElementById("msg");
 	if(reviewScoreValue != 0.0){
 		if(reviewScoreValue == 0.5){
@@ -190,6 +193,7 @@ function rating(score, movieId) {  //평점
 				gradeMsg += "명)";
 				gradeCnt = gradeCnt - 1;
 				gradeCntId.innerHTML = gradeMsg;
+				gradeCheckValue = 0;
 				reviewScoreValue = selectedScore;
 				selectBoxId.style.color="red";
 				allGradeAvgId.style.color="red";
@@ -197,13 +201,24 @@ function rating(score, movieId) {  //평점
 			}else{
 				selectBoxId.style.color = "orange";
 				allGradeAvgId.innerHTML = "★ " + gradeAvg;
-				if(reviewScoreValue == 0.0){
+				if(reviewScoreValue == 0.0 && gradeCheckValue == 0){
 					gradeMsg += "(";
 					gradeMsg += gradeCnt + 1;
 					gradeMsg += "명)";
 					gradeCnt = gradeCnt + 1;
 					gradeCntId.innerHTML = gradeMsg;
 					reviewScoreValue = selectedScore;
+					gradeCheckValue = 1;
+				}else{
+					if(gradeCheckValue == 0){
+						gradeMsg += "(";
+						gradeMsg += gradeCnt + 1;
+						gradeMsg += "명)";
+						gradeCnt = gradeCnt + 1;
+						gradeCntId.innerHTML = gradeMsg;
+						reviewScoreValue = selectedScore;
+					}
+					gradeCheckValue = 1;
 				}
 			}
 		},

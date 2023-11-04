@@ -54,8 +54,19 @@ public class SearchController {
 		 */
 		String[] popularSearches = service.popularSearches();
 		
+		/*
+		 * 최근 검색어 + 인기 검색어 크기
+		 */
+		int recentSearchesSize = -1;
+		
+		try {
+			recentSearchesSize = recentSearches.length;			
+		}catch(NullPointerException e) {
+			
+		}
+		
 		if(movieInfoSearchViewList.size() != 0) {
-			return movieNmSearchCaseModelAndView(movieInfoSearchViewList, memberCommendedList, recentSearches, popularSearches, query, model);
+			return movieNmSearchCaseModelAndView(movieInfoSearchViewList, memberCommendedList, recentSearches, popularSearches, recentSearchesSize, query, model);
 		}
 		
 		/*
@@ -65,7 +76,7 @@ public class SearchController {
 		
 		if(peopleInfoSearchViewList.size() != 0) {
 			int[] likeCheck = setLikeCheck(peopleInfoSearchViewList);
-			return actorNmSearchCaseModelAndView(peopleInfoSearchViewList, memberCommendedList, likeCheck, recentSearches, popularSearches, query, model);
+			return actorNmSearchCaseModelAndView(peopleInfoSearchViewList, memberCommendedList, likeCheck, recentSearches, popularSearches, recentSearchesSize, query, model);
 		}
 		model.addAttribute("query", query);
 		return "basic/search_info";
@@ -76,12 +87,13 @@ public class SearchController {
 	 */
 	private String movieNmSearchCaseModelAndView(List<MovieInfoSearchViewDTO> movieInfoSearchViewList, 
 			List<MovieInfoDTO> memberCommendedList, String[] recentSearches, 
-			String[] popularSearches, String query, Model model) {
+			String[] popularSearches, int recentSearchesSize, String query, Model model) {
 		
 		model.addAttribute("movieNmSearchingCase", movieInfoSearchViewList);
 		model.addAttribute("memberCommend", memberCommendedList);
 		model.addAttribute("recentSearches", recentSearches);
 		model.addAttribute("popularSearches", popularSearches);
+		model.addAttribute("recentSearchesSize", recentSearchesSize);
 		model.addAttribute("query", query);
 		
 		return "basic/search_info";
@@ -92,13 +104,14 @@ public class SearchController {
 	 */
 	private String actorNmSearchCaseModelAndView(List<PeopleInfoSearchViewDTO> peopleInfoSearchViewList,
 			List<MovieInfoDTO> memberCommendedList, int[] likeCheck, String[] recentSearches, 
-			String[] popularSearches, String query, Model model) {
+			String[] popularSearches, int recentSearchesSize, String query, Model model) {
 		
 		model.addAttribute("actorNmSearchingCase", peopleInfoSearchViewList);
 		model.addAttribute("memberCommend", memberCommendedList);
 		model.addAttribute("likeCheck", likeCheck);
 		model.addAttribute("recentSearches", recentSearches);
 		model.addAttribute("popularSearches", popularSearches);
+		model.addAttribute("recentSearchesSize", recentSearchesSize);
 		model.addAttribute("query", query);
 		return "basic/search_info";
 	}
