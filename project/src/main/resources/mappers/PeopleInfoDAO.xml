@@ -67,5 +67,10 @@
 		SELECT like_num FROM people_info_detail WHERE people_id=#{peopleId}
 	</select>
 	
+	<!--  아래는 수아가 추가함  -->
+	<select id="getLikedActorIdByEmail" resultType="Integer">
+		SELECT people_id FROM people_like WHERE user_email=#{userEmail}
+	</select>
+	
 </mapper>
 

@@ -36,7 +36,7 @@ public class MovieInfoAjaxController {
         return response;
 	}
 	
-	@GetMapping("movieLikeCancel")
+	@GetMapping("/movieLikeCancel")
 	public LikeUpdateResponse movieLikeCancel(@RequestParam("movieId") String movieId, HttpSession session) {
 		String userEmail = (String)session.getAttribute("userEmail");
 		int likeNum = 0;

@@ -22,11 +22,6 @@ import com.watch.project.service.ReviewService;
 public class ReviewController {
 	@Autowired
 	private ReviewService service;
-	
-	@GetMapping("/testSua")
-	public String test() {
-		return "test";
-	}
 
 	@PostMapping("/saveComment")
 	public String saveComment(MovieReviewDTO dto, RedirectAttributes redirectAttr) {//movieId, reviewComment
@@ -54,14 +49,14 @@ public class ReviewController {
 	public String userReviewList(Model model, HttpSession session) {
 		List<ReviewListDTO> reviewList = service.getReviewList((String)session.getAttribute("userEmail")); 
 		model.addAttribute("reviewList", reviewList);
-		return "member/common/review_list";
+		return "member/member_info/review_list";
 	}
 	
 	@GetMapping("/userLikedCommentList")
 	public String userLikedCommentList(Model model, HttpSession session) {
 		List<LikedCommentListDTO> likedCommentList = service.getLikedCommentList((String)session.getAttribute("userEmail"));
 		model.addAttribute("likedCommentList", likedCommentList);
-		return "member/common/liked_comment_list";
+		return "member/member_info/liked_comment_list";
 	}
 	
 	

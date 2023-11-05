@@ -16,14 +16,14 @@
 	<c:forEach var="list" items="${likedCommentList}">
 	<c:set var="movieInfo" value="${ list.movieInfoDto }"/>
 	<div class="movie-card">
-		<div class="movie-info" onclick="moveToMovieInfo('${movieInfo.movieId }','${cntForMovie}');">
+		<div class="movie-info" style="cursor: pointer;" onclick="moveToMovieInfo('${movieInfo.movieId }');">
 		<span>
-		<img style="width:120px; height:auto;" src="${movieInfo.posterUrl }">
+		<img style="width:60px; height:auto;" src="${movieInfo.posterUrl }">
 		</span>
 		<span>
-		<h3>${movieInfo.movieNm }</h3>
-		<br>
-		${movieInfo.movieNmEn}
+		<b style="font-size:17px;">${movieInfo.movieNm }</b><br>
+		${movieInfo.movieNmEn}<br>
+		${movieInfo.genreNm }
 		</span>
 		</div>
 	
@@ -70,32 +70,25 @@
 	</c:forEach>
 <style> 
 .movie-card {
-	
-	background-color: lightgray;
 	border : 1px solid #ccc;
 	border-radius: 5px;
 	margin:10px auto;
 	padding: 10px;
-	width:60%;
+	width:40%;
 }
 
 .movie-info {
     display: flex; /* 내부 요소들을 가로로 배치하기 위해 flex 사용 */
     align-items: center; /* 수직 가운데 정렬 */
-	border : 5px solid #ccc;
 	border-radius: 5px;
-	margin:10px auto;
+	margin-left:5px auto;
 	padding: 10px;
-	width:50%;
+	width:70%;
 }
 
-
-/* 나머지 정보 스타일 */
 .movie-info span {
     margin-left: 10px; /* 이미지와 다른 정보들 간격 조절 */
 }
-
-
 
 .comment-card {
 	display: flex;
@@ -104,10 +97,9 @@
 	border-radius: 5px;
 	margin: 10px auto;
 	padding: 10px;
-	width: 90%; /* 너비를 50%로 설정 */
+	width: 95%; /* 너비를 50%로 설정 */
 }
 
-/* Comment content styles */
 .comment-content {
     flex: 1;
 }
@@ -125,6 +117,7 @@
     color: #888;
 }
 </style>
+
 	<!-- 헤더기능들 -->
 	<script src="/resources/js/common.js"></script>
 	<script src="/resources/js/search_common.js"></script>

@@ -1,5 +1,6 @@
 package com.watch.project.repository;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -24,4 +25,8 @@ public interface MovieInfoRepository {
 	public void movieLikeDelete(String id);
 
 	public MovieLikeDTO getMovieLikeById(String id);
+	
+	//---------아래 getLikedMovieIdByEmail는 수아가 건드림? 추가함------------------------
+
+	public List<String> getLikedMovieIdByEmail(String userEmail);
 }

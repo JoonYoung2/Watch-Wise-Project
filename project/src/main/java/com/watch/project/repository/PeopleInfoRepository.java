@@ -27,5 +27,8 @@ public interface PeopleInfoRepository {
 	public void peopleLikeDelete(String id);
 	
 	public int getLikeNumById(int peopleId);
+
+	//-------------- 아래는 수아가 추가----------------------
+	public List<Integer> getLikedActorIdByEmail(String userEmail);
 	
 }

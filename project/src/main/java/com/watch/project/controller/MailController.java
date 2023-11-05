@@ -43,7 +43,7 @@ public class MailController {
 			
 			mailservice.send3(email);//session이 꼭 있어야 하나..?
 			
-			return "member/email_auth";
+			return "member/local_member/email_auth";
 		}
 		return null;
 	}
@@ -55,11 +55,11 @@ public class MailController {
 		if(sessionKey.equals(authKey)) {
 			System.out.println("일치하는 authkey임"+session.getAttribute("userEmail"));
 			model.addAttribute("userEmail", session.getAttribute("userEmail"));
-			return "member/sign_up";
+			return "member/local_member/sign_up";
 		}else {
 			model.addAttribute("msg", "인증코드가 불일치합니다. 다시시도해주세요.");
 			System.out.println("일치하지 않는 authkey임");
-			return "member/email_auth";			
+			return "member/local_member/email_auth";			
 		}
 	}
 	
