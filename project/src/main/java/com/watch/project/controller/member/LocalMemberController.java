@@ -28,11 +28,11 @@ public class LocalMemberController {
 	@GetMapping("/checkEmail")
 	public String checkEmail(Model model) {
 		model.addAttribute("msg", "이메일 인증 과정이 필요합니다. 본인의 이메일 주소를 입력해주세요.");
-		return "member/email_form";
+		return "member/local_member/email_form";
 	}
 	@GetMapping("/signUp")
 	public String signUp() {
-		return "member/sign_up";
+		return "member/local_member/sign_up";
 	}
 	
 	@PostMapping("/signUpDo")
@@ -49,7 +49,7 @@ public class LocalMemberController {
 		}else {
 			model.addAttribute("dto", dto);
 			model.addAttribute("msg", msg);
-			return "member/sign_up";			
+			return "member/local_member/sign_up";			
 		}
 		return null;
 	}
@@ -62,7 +62,7 @@ public class LocalMemberController {
 		if(msg !="환영합니다.") { //로그인시 입력한 정보가 올바르지 않을 경우
 			model.addAttribute("msg", msg);
 			model.addAttribute("dto", dto);
-			return "member/sign_in";
+			return "member/common/sign_in";
 		}else { //로그인 입력 정보가 올바른 경우
 			session.setAttribute("userEmail", dto.getUserEmail());
 			session.setAttribute("userLoginType", dto.getUserLoginType());//// 이 부분 다시 고려해보기.
@@ -81,7 +81,7 @@ public class LocalMemberController {
 	
 	@GetMapping("/unregister")
 	public String unregister() {
-		return "member/unregister_form";
+		return "member/local_member/unregister_form";
 	}
 	
 	@PostMapping("/passwordCh")
@@ -89,7 +89,7 @@ public class LocalMemberController {
 		String msg = service.pwCh(dto);
 		if(msg != "회원탈퇴가 완료되었습니다.") {//탈퇴과정에 문제가 있으면
 			model.addAttribute("msg", msg);
-			return "member/unregister_form";
+			return "member/local_member/unregister_form";
 		}else { //탈퇴 성공시
 			session.invalidate();
 			redirectAttr.addFlashAttribute("msg", msg);
@@ -101,12 +101,12 @@ public class LocalMemberController {
 	public String localMemberInfo(HttpSession session, Model model) {
 		MemberDTO memberInfo = common.getMemberInfoByEmail((String)session.getAttribute("userEmail"));
 		model.addAttribute("dto", memberInfo);
-		return "member/member_info";
+		return "member/local_member/member_info";
 	}
 	
 	@GetMapping("/pwCheck")
 	public String pwCheck() {
-		return "member/pw_check";
+		return "member/local_member/pw_check";
 	}
 	
 	@PostMapping("/verifyPw")
@@ -114,7 +114,7 @@ public class LocalMemberController {
 		String msg = service.getMsgAndCompare(dto);
 		if(msg != "인증되었습니다.") {
 			model.addAttribute("msg", msg);
-			return "member/pw_check";
+			return "member/local_member/pw_check";
 		}else {
 			redirectAttr.addFlashAttribute("msg", msg);
 			return "redirect:/localMemberInfoModify";
@@ -125,7 +125,7 @@ public class LocalMemberController {
 	public String localMemberInfoModify(HttpSession session, Model model) {
 		MemberDTO memberInfo = common.getMemberInfoByEmail((String)session.getAttribute("userEmail"));
 		model.addAttribute("dto", memberInfo);
-		return "member/member_info_modify";
+		return "member/local_member/member_info_modify";
 	}
 	
 	@PostMapping("/localModifyInfoDo")
@@ -135,7 +135,7 @@ public class LocalMemberController {
 			if(msg != "정보 수정이 완료되었습니다.") {
 				model.addAttribute("msg", msg);
 				model.addAttribute("dto", dto);
-				return "member/member_info_modify"; 
+				return "member/local_member/member_info_modify"; 
 			}else {
 				return "redirect:/localMemberInfo";
 			}
@@ -146,7 +146,7 @@ public class LocalMemberController {
 				return "redirect:/localMemberInfo";			
 			} else {
 				model.addAttribute("msg", msg);
-				return "member/member_info_modify";
+				return "member/local_member/member_info_modify";
 			}
 		}
 	}

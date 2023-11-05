@@ -63,5 +63,9 @@
 		SELECT * FROM movie_like WHERE id=#{id}
 	</select>
 	
+	<!-- 아래는 수아가 추가함 -->
+	<select id="getLikedMovieIdByEmail" resultType="String">
+		SELECT movie_id FROM movie_like WHERE user_email=#{userEmail}
+	</select>
 </mapper>
 

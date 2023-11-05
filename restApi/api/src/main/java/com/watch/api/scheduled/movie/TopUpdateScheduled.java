@@ -18,6 +18,7 @@ public class TopUpdateScheduled {
 	private final MovieDailyUpdateScheduled dailyUpdate;
 	private final MovieWeeklyUpdateScheduled weeklyUpdate;
 	
+<<<<<<< HEAD
 	@Scheduled(cron = "10 21 19 * * *")
 	public void A() {
 		char[] x = {'가','나','ㄷ','ㄹ','ㅁ','ㅂ','ㅅ','ㅇ','ㅈ','ㅊ','ㅌ','ㅍ','ㅎ'};
@@ -27,6 +28,9 @@ public class TopUpdateScheduled {
 	}
 	
 	@Scheduled(cron = "40 1 15 * * *")
+=======
+	@Scheduled(cron = "0 3 12 * * *")
+>>>>>>> 433374b6f7dea9bf25ed1b9eb2a42168757d9bca
 	public void allUpdateProcess() throws UnsupportedEncodingException {
 		dailyUpdate.allFindAndInsert();
 		dailyUpdate.DailyMovieInsert();
