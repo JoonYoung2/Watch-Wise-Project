@@ -30,10 +30,12 @@ public class SearchController {
 	
 	@GetMapping("search")
 	public String searching(@RequestParam("query") String query, Model model) {
+		
 		/*
 		 * 영화명으로 검색 조건(2가지 케이스)
 		 */
 		List<MovieInfoSearchViewDTO> movieInfoSearchViewList = service.movieNmSearchingCase(query);
+		
 		/*
 		 * 회원 추천 영화
 		 */
@@ -78,6 +80,11 @@ public class SearchController {
 			int[] likeCheck = setLikeCheck(peopleInfoSearchViewList);
 			return actorNmSearchCaseModelAndView(peopleInfoSearchViewList, memberCommendedList, likeCheck, recentSearches, popularSearches, recentSearchesSize, query, model);
 		}
+		
+		model.addAttribute("memberCommend", memberCommendedList);
+		model.addAttribute("recentSearches", recentSearches);
+		model.addAttribute("popularSearches", popularSearches);
+		model.addAttribute("recentSearchesSize", recentSearchesSize);
 		model.addAttribute("query", query);
 		return "basic/search_info";
 	}

@@ -53,6 +53,14 @@ public class MovieInfoController {
 		MovieInfoViewDTO movieInfoViewDto = service.getMovieInfoViewDto(movieInfoDto);
 		
 		/*
+		 * 영화 출연진 가져오기
+		 */
+		PeopleInfoDTO peopleInfoDto = null;
+		if(!movieInfoViewDto.getActors()[0].equals("nan")) {	// 출연진이 있는 경우
+			peopleInfoDto = service.getPeopleInfoDto(movieInfoViewDto);
+		}
+		
+		/*
 		 * 영화 좋아요 & 평가 수 
 		 */
 		GradeInfoDTO gradeInfoDto = service.getGradeInfoDto(movieId);
@@ -61,11 +69,6 @@ public class MovieInfoController {
 		 * 사용자 영화 좋아요 체크
 		 */
 		movieLikedCheck = service.getMovieLikeCheck(movieId, userEmailStr);
-		
-		/*
-		 * 영화 출연진 가져오기
-		 */
-		PeopleInfoDTO peopleInfoDto = null;
 		
 		/*
 		 * 최근 검색어
@@ -85,10 +88,6 @@ public class MovieInfoController {
 			recentSearchesSize = recentSearches.length;			
 		}catch(NullPointerException e) {
 			
-		}
-		
-		if(!movieInfoViewDto.getActors()[0].equals("nan")) {	// 출연진이 있는 경우
-			peopleInfoDto = service.getPeopleInfoDto(movieInfoViewDto);
 		}
 		
 		model.addAttribute("peopleInfo", peopleInfoDto);

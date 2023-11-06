@@ -29,6 +29,7 @@ public class PeopleInfoController {
 	
 	@GetMapping("peopleInfo")
 	public String peopleInfoView(@RequestParam int peopleId, Model model, HttpSession session) {
+		
 		/*
 		 * 배우 정보
 		 */

@@ -57,7 +57,7 @@ public class HomeController {
 		String[] popularSearches = searchService.popularSearches();
 		
 		/*
-		 * 최근 검색어 + 인기 검색어 크기
+		 * 최근 검색어 크기
 		 */
 		int recentSearchesSize = -1;
 		
