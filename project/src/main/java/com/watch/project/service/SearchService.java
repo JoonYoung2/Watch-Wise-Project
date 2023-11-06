@@ -229,16 +229,43 @@ public class SearchService {
 	 */
 	public List<RelatedSearchResponseDTO> getRelatedSearchByContentAndUserEmail(String content) {
 		content = consonantRegux(content);
-		content = consonantAndVowelRegux(content);
-		
-		return repo.getRelatedSearchByContentAndUserEmail(
+		List<RelatedSearchResponseDTO> relatedSearchResponseList1 = 
+				repo.getRelatedSearchByContentAndUserEmail(
 				RelatedSearchRequestDTO
 				.builder()
 				.content(content)
 				.userEmail((String)session.getAttribute("userEmail"))
 				.build());
+		content = consonantAndVowelRegux(content);
+		List<RelatedSearchResponseDTO> relatedSearchResponseList2 = 
+				repo.getRelatedSearchByContentAndUserEmail(
+				RelatedSearchRequestDTO
+				.builder()
+				.content(content)
+				.userEmail((String)session.getAttribute("userEmail"))
+				.build());
+		for(int i = 0; i < relatedSearchResponseList2.size(); ++i) {
+			relatedSearchResponseList1.add(relatedSearchResponseList2.get(i));
+		}
+		
+		return removeDuplicationContent(relatedSearchResponseList1);
 	}
 	
+	/*
+	 * 중복 검색 내용 제거
+	 */
+	private List<RelatedSearchResponseDTO> removeDuplicationContent(List<RelatedSearchResponseDTO> relatedSearchResponseList) {
+		for(int i = 0; i < relatedSearchResponseList.size()-1; ++i) {
+			String content = relatedSearchResponseList.get(i).getContent();
+			for(int j = i+1; j < relatedSearchResponseList.size(); ++j) {
+				if(relatedSearchResponseList.get(j).getContent().equals(content)) {
+					relatedSearchResponseList.remove(j);
+				}
+			}
+		}
+		return relatedSearchResponseList;
+	}
+
 	private String getSixMonthAgoDate() {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());

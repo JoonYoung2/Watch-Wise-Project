@@ -208,7 +208,13 @@ const searchesKeyup = (event) => {
                 let msg = "";
                 msg += "<div style='padding:10px; color:red;'>연관 검색어</div>";
                 for (let i = 0; i < response.length; i++) {
-                    msg += "<a style='all:unset; cursor:pointer;' onmousedown='searchStartMouseDown(\"" + response[i].content + "\")'><div class='relatedClass' style='padding:5px 10px; background-color:;'>"+response[i].content+"</div></a>";
+                    if(response[i].searchType == 1){
+                        msg += "<a style='all:unset; cursor:pointer;' onmousedown='searchStartMouseDown(\"" + response[i].content + "\")'>";
+                        msg += "<div class='relatedClass' style='padding:5px 10px; background-color:;'><img style='width:15px; padding-right:10px;' src='/resources/img/past.png'>"+response[i].content+"</div></a>";
+                    }else{
+                        msg += "<a style='all:unset; cursor:pointer;' onmousedown='searchStartMouseDown(\"" + response[i].content + "\")'>";
+                        msg += "<div class='relatedClass' style='padding:5px 10px; background-color:;'>"+response[i].content+"</div></a>";
+                    }
                     msg += "<input type='hidden' class='relatedClassValue' value='"+response[i].content+"'>";
                 }
 

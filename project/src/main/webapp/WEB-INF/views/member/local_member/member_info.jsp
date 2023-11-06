@@ -30,11 +30,19 @@
 		</tr>
 		<tr>
 			<th>내가 평가한 영화</th>
-			<td><a href="/userReviewList">목록 보기</a></td>
+			<td><a href="/userReviewList">목록 보기</a></td>  <!-- com.watch.project.controller.review.ReviewController -->
 		</tr>
 		<tr>
 			<th>내가 좋아요한 코멘트</th>
-			<td><a href="/userLikedCommentList">목록 보기</a></td>
+			<td><a href="/userLikedCommentList">목록 보기</a></td>  <!-- com.watch.project.controller.review.ReviewController -->
+		</tr>
+		<tr>
+			<th>내가 좋아요한 영화</th>
+			<td><a href="/userLikedMovieList">목록 보기</a></td>  <!-- com.watch.project.controller.member.MemberInfoController -->
+		</tr>
+		<tr>
+			<th>내가 좋아요한 배우</th>
+			<td><a href="/userLikedActorList">목록 보기</a></td>  <!-- com.watch.project.controller.member.MemberInfoController -->
 		</tr>
 	</table>
 <a href="/pwCheck">정보 수정하기</a>

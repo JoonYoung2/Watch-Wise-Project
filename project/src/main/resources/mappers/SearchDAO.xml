@@ -114,7 +114,8 @@
 		<![CDATA[
 		-- 사용자 연관 검색어 쿼리
 		SELECT * FROM (
-		SELECT content, 1 AS search_type  FROM content_searching WHERE REGEXP_LIKE(content, '^${ content }') and user_email = '${ userEmail }') WHERE rownum <= 3
+		SELECT content, 1 AS search_type  FROM content_searching WHERE REGEXP_LIKE(content, '^${ content }') and user_email = '${ userEmail }') 
+		WHERE rownum <= 10
 		UNION ALL
 		
 		-- 토탈 사용자 검색어 
@@ -122,7 +123,7 @@
 		SELECT content, 2 AS search_type  FROM content_searching WHERE REGEXP_LIKE(content, '^${ content }') and not user_email = '${ userEmail }' 
 		MINUS
 		SELECT content, 2 AS search_type  FROM content_searching WHERE REGEXP_LIKE(content, '^${ content }') and user_email = '${ userEmail }' 
-		) WHERE rownum <= 3
+		) WHERE rownum <= 10
 		UNION ALL
 		
 		-- 관련 영화 연관 검색어 쿼리
@@ -130,20 +131,20 @@
 		(SELECT movie_nm FROM 
 		(SELECT * FROM movie_info) WHERE REGEXP_LIKE(movie_nm, '^${ content }') 
 		ORDER BY like_num DESC) 
-		WHERE ROWNUM <= 3 
+		WHERE ROWNUM <= 10
 		UNION ALL
 		
 		-- 영어 영화 연관 검색 쿼리
 		SELECT movie_nm_en AS content, 3 AS search_type FROM 
 		(SELECT movie_nm_en FROM (SELECT * FROM movie_info) 
 		WHERE REGEXP_LIKE(movie_nm_en, '^${ content }') ORDER BY like_num DESC) 
-		WHERE ROWNUM <= 3 
+		WHERE ROWNUM <= 10
 		UNION ALL
 		
 		-- 배우 연관 검색 쿼리
 		SELECT people_nm AS content, 4 AS search_type FROM 
 		(SELECT * FROM people_info_detail WHERE REGEXP_LIKE(people_nm, '^${ content }') ORDER BY like_num DESC) 
-		WHERE ROWNUM <= 3
+		WHERE ROWNUM <= 10
 		]]>
 	</select>
 </mapper>

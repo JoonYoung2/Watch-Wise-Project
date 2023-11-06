@@ -236,20 +236,15 @@ public class ReviewService {
 		List<String> commentIdList = repo.selectCommentIdByEmail(userEmail);//로그인한 유저가 좋아요한 코멘트들의 아이디
 		List<LikedCommentListDTO> FinalDtoList = new ArrayList<>();
 		List<String> movieIdList = new ArrayList<>();
-		List<MovieInfoDTO> movieInfoList = new ArrayList<>();
 		Map<Integer, String> map = new HashMap<>();
 		
-//		List<MovieReviewDTO> reviewDtoInFinalDto = new ArrayList<>();
 		int cnt = 0;
 		for(String id : commentIdList) {
 			log.info("id => {}",id);
 			if(map.containsValue(id) == false) {
-				
 					map.put(cnt++, id);					
-				
 			}
 			String movieId = repo.getMovieIdById(id);
-			System.out.println("^^^^^^^^^^^==>"+ movieId);
 			if(!(movieIdList.contains(movieId))) {
 				movieIdList.add(movieId);
 			}
@@ -260,9 +255,7 @@ public class ReviewService {
 		log.info("{}",map.size());
 		
 		for(String movieId : movieIdList) {
-			System.out.println("^^^^^1111111111^^^^^^==>"+ movieId);
 			MovieInfoDTO movieInfo = movieInfoRepo.getMovieInfoById(movieId);
-//			LikedCommentListDTO finalTempDto = new LikedCommentListDTO(); //마지막에 final dto에 set할 때 쓸 DTO
 			String posterUrl = movieInfo.getPosterUrl().split("\\|")[0];
 			movieInfo.setPosterUrl(posterUrl);
 			List<MovieReviewDTO> likedCommentsInfo = new ArrayList<>();
@@ -275,18 +268,10 @@ public class ReviewService {
 					likedCommentsInfo.add(list.get(0));
 				}
 			}
-//			for(MovieReviewDTO commentInfo : likedCommentsInfo) {				
-//			}
 			LikedCommentListDTO finalTempDto = LikedCommentListDTO.builder()
 					.movieReviewDto(likedCommentsInfo)
 					.movieInfoDto(movieInfo)
 					.build();
-//			finalTempDto.setMovieReviewDto(likedCommentsInfo);
-//			finalTempDto.setMovieId(movieId);
-//			finalTempDto.setMovieNm(movieInfo.getMovieNm());
-//			finalTempDto.setMovieNmEn(movieInfo.getMovieNmEn());
-//			finalTempDto.setPrdtYear(movieInfo.getPrdtYear());
-//			finalTempDto.setPosterUrl(movieInfo.getPosterUrl());
 			
 			log.info("review service final DTO inside => {}", movieInfo.getMovieNm());
 
