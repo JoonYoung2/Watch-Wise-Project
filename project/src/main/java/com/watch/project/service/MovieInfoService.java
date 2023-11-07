@@ -91,11 +91,13 @@ public class MovieInfoService {
 		String peopleNmStr = "";
 		String movieNmStr = "";
 		String peopleCastStr = "nan";
+		String profileUrlStr = "nan";
 		
 		// PeopleInfoDTO
 		int[] peopleId = null;
 		String[] peopleNm = null;
 		String[] peopleCast = null;
+		String[] profileUrl = null;
 		int end = 0;
 		
 		if(movieInfoViewDto.getActors().length >= 12) {		// 출연진이 12명이상인 경우
@@ -104,6 +106,7 @@ public class MovieInfoService {
 			peopleId = new int[peopleLength];
 			peopleNm = new String[peopleLength];
 			peopleCast = new String[castLength];
+			profileUrl = new String[peopleLength];
 			for(int i = 0; i < 12; ++i) {
 				peopleNmStr = movieInfoViewDto.getActors()[i];
 				movieNmStr = movieInfoViewDto.getMovieNm();
@@ -115,6 +118,10 @@ public class MovieInfoService {
 				}
 				peopleId[i] = getPeopleIdByPeopleNmAndMovieNm(peopleNmStr, movieNmStr);
 				peopleNm[i] = peopleNmStr;
+				if(peopleId[i] != 0) 
+					profileUrl[i] = repo.getProfileUrlByPeopleId(peopleId[i]);					
+				else
+					profileUrl[i] = "nan";
 				if(i <= castLength-1) {
 					peopleCast[i] = peopleCastStr;						
 				}
@@ -126,6 +133,7 @@ public class MovieInfoService {
 			peopleId = new int[peopleLength];
 			peopleNm = new String[peopleLength];
 			peopleCast = new String[castLength];
+			profileUrl = new String[peopleLength];
 			for(int i = 0; i < peopleLength; ++i) {
 				peopleNmStr = movieInfoViewDto.getActors()[i];
 				movieNmStr = movieInfoViewDto.getMovieNm();
@@ -137,6 +145,7 @@ public class MovieInfoService {
 				}
 				peopleId[i] = getPeopleIdByPeopleNmAndMovieNm(peopleNmStr, movieNmStr);
 				peopleNm[i] = peopleNmStr;
+				profileUrl[i] = repo.getProfileUrlByPeopleId(peopleId[i]);
 				if(i <= castLength-1) {
 					peopleCast[i] = peopleCastStr;						
 				}
@@ -150,6 +159,7 @@ public class MovieInfoService {
 				.peopleCast(peopleCast)
 				.peopleId(peopleId)
 				.peopleNm(peopleNm)
+				.profileUrl(profileUrl)
 				.build();
 	}
 	private GradeInfoDTO setGradeInfoDto(String movieId) {
@@ -174,6 +184,7 @@ public class MovieInfoService {
 	private int setPeopleIdByPeopleNmAndMovieNm(String peopleNm, String movieNm) {
 		int peopleId = 0;
 		Map<String, String> map = new HashMap<>();
+		movieNm = movieNm.replaceAll("'", "''");
 		map.put("peopleNm", peopleNm);
 		map.put("movieNm", movieNm);
 		try {

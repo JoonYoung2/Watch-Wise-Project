@@ -18,4 +18,7 @@ public interface PeopleInfoApiRepository {
 
 	public void savePeopleInfoDetail(PeopleInfoDetailDTO dto);
 	
+	public void updateProfileUrlByPeopleId(PeopleInfoDetailDTO dto);
+	
+	public List<PeopleInfoDetailDTO> getAllPeopleInfoDetail();
 }

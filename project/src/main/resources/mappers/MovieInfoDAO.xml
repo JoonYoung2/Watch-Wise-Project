@@ -67,5 +67,10 @@
 	<select id="getLikedMovieIdByEmail" resultType="String">
 		SELECT movie_id FROM movie_like WHERE user_email=#{userEmail}
 	</select>
+	
+	<select id="getProfileUrlByPeopleId" resultType="String">
+		SELECT profile_url FROM people_info_detail WHERE people_id=#{peopleId}
+	</select>
+	
 </mapper>
 

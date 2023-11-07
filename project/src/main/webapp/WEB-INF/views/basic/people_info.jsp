@@ -20,7 +20,14 @@
 <!-- 		<div align="left" style="width:100%; padding-bottom:10px;"><span style="font-size:30px; font-weight:bold;">프로필</span></div> -->
 		<div align="left" style="display:flex;">
 			<div>
-				<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
+				<c:if test="${ peopleInfo.profileUrl ne 'nan' }">
+					<div style="width: 80px; height: 80px; overflow: hidden; border-radius:100px;">
+				        <img style="max-width: 100%;" src="${ peopleInfo.profileUrl }" alt="영화 포스터">
+				    </div>
+				</c:if>
+				<c:if test="${ peopleInfo.profileUrl eq 'nan' }">
+					<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
+				</c:if>
 			</div>
 			<div style="padding-left:20px;">
 				<span style="font-size:20px; font-weight:bold; color:rgba(0, 0, 0, 0.5);">${ peopleInfo.sex }・배우</span><br>

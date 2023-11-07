@@ -11,4 +11,5 @@ public class PeopleInfoDetailDTO {
 	private String movieId;
 	private String movieNm;
 	private int likeNum;
+	private String profileUrl;
 }

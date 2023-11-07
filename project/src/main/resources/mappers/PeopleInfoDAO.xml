@@ -27,6 +27,7 @@
 		<result column="movie_id" property="movieId"/>
 		<result column="movie_nm" property="movieNm"/>
 		<result column="like_num" property="likeNum"/>
+		<result column="profile_url" property="profileUrl"/>
 	</resultMap>
 	
 	<resultMap type="com.watch.project.dto.PeopleLikeDTO" id="peopleLike">

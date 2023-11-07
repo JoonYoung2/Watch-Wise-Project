@@ -9,6 +9,16 @@
 		<result column="people_nm_en" property="peopleNmEn"/>
 		<result column="filmo_names" property="filmoNames"/>
 	</resultMap>
+	<resultMap type="com.watch.api.dto.PeopleInfoDetailDTO" id="peopleInfoDetail">
+		<result column="people_id" property="peopleId"/>
+		<result column="people_nm" property="peopleNm"/>
+		<result column="people_nm_en" property="peopleNmEn"/>
+		<result column="sex" property="sex"/>
+		<result column="movie_id" property="movieId"/>
+		<result column="movie_nm" property="movieNm"/>
+		<result column="like_num" property="likeNum"/>
+		<result column="profile_url" property="profileUrl"/>
+	</resultMap>
 	
 	<select id="getPeopleInfoById" resultMap="peopleInfo">
 		SELECT * FROM people_info WHERE people_id = #{peopleId}
@@ -23,8 +33,16 @@
 	</select>
 	
 	<insert id="savePeopleInfoDetail" parameterType="com.watch.api.dto.PeopleInfoDetailDTO">
-		INSERT INTO people_info_detail VALUES(#{peopleId}, #{peopleNm}, #{peopleNmEn}, #{sex}, #{movieId}, #{movieNm}, 0)
+		INSERT INTO people_info_detail VALUES(#{peopleId}, #{peopleNm}, #{peopleNmEn}, #{sex}, #{movieId}, #{movieNm}, 0, 'nan')
 	</insert>
+	
+	<update id="updateProfileUrlByPeopleId" parameterType="com.watch.api.dto.PeopleInfoDetailDTO">
+		UPDATE people_info_detail SET profile_url=#{profileUrl} WHERE people_id=#{peopleId}
+	</update>
+	
+	<select id="getAllPeopleInfoDetail" resultMap="peopleInfoDetail">
+		SELECT * FROM people_info_detail
+	</select>
 	
 </mapper>
 

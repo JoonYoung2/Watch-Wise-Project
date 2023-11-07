@@ -9,7 +9,7 @@
 <script src="/resources/js/common.js"></script>
 </head>
 <body>	
-<%@ include file="/WEB-INF/views/header.jsp" %> 
+<%@ include file="/WEB-INF/views/header.jsp" %>
 	<c:if test="${signOutAlert == true }"><!--redirect 하면 알림 안뜸.-->
 		<script type="text/javascript">
 			alert('로그아웃 되었습니다.');

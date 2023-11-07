@@ -29,4 +29,6 @@ public interface MovieInfoRepository {
 	//---------아래 getLikedMovieIdByEmail는 수아가 건드림? 추가함------------------------
 
 	public List<String> getLikedMovieIdByEmail(String userEmail);
+
+	public String getProfileUrlByPeopleId(int peopleId);
 }
