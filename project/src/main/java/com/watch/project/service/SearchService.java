@@ -44,12 +44,13 @@ public class SearchService {
 		
 		if(movieInfoList.size() == 0) {
 			Map<String, String> queryMap = new HashMap<>();
-			query = query.replaceAll("\'", "\'\'");
+			
 			String content = consonantRegux(query);
 			String content2 = consonantAndVowelRegux(content);
 			queryMap.put("query", query);
 			queryMap.put("content", content);
 			queryMap.put("content2", content2);
+			log.info("query => {} content => {} content2 => {}", query, content, content2);
 			movieInfoList = repo.searchingStep2(queryMap);
 			
 			for(int i = 0; i < movieInfoList.size(); ++i) {

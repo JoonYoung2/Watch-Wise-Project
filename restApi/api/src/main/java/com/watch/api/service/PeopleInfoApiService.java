@@ -44,5 +44,9 @@ public class PeopleInfoApiService {
 	public void updateProfileUrlByPeopleId(PeopleInfoDetailDTO dto) {
 		repo.updateProfileUrlByPeopleId(dto);
 	}
+
+	public int checkMovieExsist(String query) {
+		return repo.checkMovieExsist(query);
+	}
 	
 }

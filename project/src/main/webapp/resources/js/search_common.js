@@ -21,6 +21,7 @@ const query = () => {
 
 const searchesClick = () => {
     let query = document.getElementById("query").value;
+    
     if(query.length == 0){
         let searchesId = document.getElementById("searches");
         searchesId.style.display='block';
@@ -38,7 +39,6 @@ const searchesBlur = () => {
 }
 
 const searchesKeyup = (event) => {
-    console.log("searchesKeyup");
     let query = document.getElementById("query").value;
     let searchesId = document.getElementById("searches");
     let searches2Id = document.getElementById("searches2");
@@ -48,10 +48,10 @@ const searchesKeyup = (event) => {
             // location.href="/";
             return;
         }
+        query = query.replaceAll("'", "''");
         location.href = "search?query=" + query;
         return;
     }
-    console.log("searchesCheck => " + searchesCheck);
     // 연관 검색어 관련 ArrowUp OR ArrowDown 눌렀을 시
     if (query.length > 0) {
         if(searchesCheck == 1){
@@ -165,7 +165,7 @@ const searchesKeyup = (event) => {
             let relatedSearches = document.querySelectorAll(".relatedSearches");
             let relatedSearchesValue = document.querySelectorAll(".relatedSearchesValue");
             let queryId = document.getElementById("query");
-            console.log(popularKeyUpAndDown);
+
             if(popularKeyUpAndDown == -1){
                 popularKeyUpAndDown = popularStartLength;
                 relatedSearches[popularKeyUpAndDown].style.backgroundColor = "rgba(0,0,0,0.1)";
@@ -199,6 +199,9 @@ const searchesKeyup = (event) => {
     if (query.length > 0) {
         searchesId.style.display = 'none';
         searches2Id.style.display = 'block';
+        
+        query = query.replaceAll("'", "''");
+
         let relatedSearch = query;
         $.ajax({
             url: "http://localhost:8080/relatedSearch",
@@ -208,6 +211,7 @@ const searchesKeyup = (event) => {
                 let msg = "";
                 msg += "<div style='padding:10px; color:red;'>연관 검색어</div>";
                 for (let i = 0; i < response.length; i++) {
+                    
                     if(response[i].searchType == 1){
                         msg += "<a style='all:unset; cursor:pointer;' onmousedown='searchStartMouseDown(\"" + response[i].content + "\")'>";
                         msg += "<div class='relatedClass' style='padding:5px 10px; background-color:;'><img style='width:15px; padding-right:10px;' src='/resources/img/past.png'>"+response[i].content+"</div></a>";
@@ -215,7 +219,7 @@ const searchesKeyup = (event) => {
                         msg += "<a style='all:unset; cursor:pointer;' onmousedown='searchStartMouseDown(\"" + response[i].content + "\")'>";
                         msg += "<div class='relatedClass' style='padding:5px 10px; background-color:;'>"+response[i].content+"</div></a>";
                     }
-                    msg += "<input type='hidden' class='relatedClassValue' value='"+response[i].content+"'>";
+                    msg += "<input type='hidden' class='relatedClassValue' value=\"" + response[i].content.replace(/"/g, '&quot;') + "\">";
                 }
 
                 relatedSearchesClass = document.querySelectorAll(".relatedSearches");
@@ -240,7 +244,7 @@ const searchesKeyup = (event) => {
 
 const searchAllMove = (num) => {
     let count = Number(num);
-    console.log(num);
+    
     $.ajax({
         url: "http://localhost:8080/searchAllMove",
         method: "GET",

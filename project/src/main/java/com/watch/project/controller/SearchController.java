@@ -101,6 +101,11 @@ public class SearchController {
 		}
 		
 		/*
+		 * DB때문에 ''로 변환했던 거 다시 '하나로 돌리기 위해
+		 */
+		query = query.replaceAll("''", "'");
+		
+		/*
 		 * 사람만 서칭됐을 때
 		 */
 		if(peopleInfoSearchViewList.size() != 0 && movieInfoSearchViewList.size() == 0) {
@@ -122,7 +127,7 @@ public class SearchController {
 			int[] likeCheck = setLikeCheck(peopleInfoSearchViewList);
 			return movieNmSearchAndActorNmSearchCaseModelAndView(peopleInfoSearchViewList, movieInfoSearchViewList, memberCommendedList, likeCheck,recentSearches, popularSearches, recentSearchesSize, query, model);
 		}
-		
+		query = query.replaceAll("''", "'");
 		model.addAttribute("memberCommend", memberCommendedList);
 		model.addAttribute("recentSearches", recentSearches);
 		model.addAttribute("popularSearches", popularSearches);

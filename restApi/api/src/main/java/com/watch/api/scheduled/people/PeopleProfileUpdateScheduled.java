@@ -31,11 +31,11 @@ import okhttp3.Response;
 @RequiredArgsConstructor
 @Slf4j
 public class PeopleProfileUpdateScheduled {
-	private static int cnt = 0;
+	private static int cnt = 14000;
 	private final PeopleInfoApiService service;
 	
 	/*
-	 * 결과가 1개만 있을 경우
+	 * 결과가 1개만 있을 경우 WHERE 절 삭제
 	 */
 	@Scheduled(cron = "5 12 14 * * *")
 	public void peopleDetailSearchAndSave() throws UnsupportedEncodingException {
@@ -100,10 +100,11 @@ public class PeopleProfileUpdateScheduled {
 	/*
 	 * 여러 결과가 있을 경우 DAO에 WHERE profile_url='nan' 추가
 	 */
-	@Scheduled(cron = "5 12 14 * * *")
+	@Scheduled(cron = "15 4 21 * * *")
 	public void peopleDetailSearchAndSave2() throws UnsupportedEncodingException {
 		List<PeopleInfoDetailDTO> peopleInfoDetailList = service.getAllPeopleInfoDetail();
 		while(cnt != peopleInfoDetailList.size()) {
+			int check = cnt;
 			String peopleNm = peopleInfoDetailList.get(cnt).getPeopleNm();
 			StringBuilder urlBuilder = new StringBuilder();
 			urlBuilder.append("http://api.themoviedb.org/3/search/person?");
@@ -135,18 +136,68 @@ public class PeopleProfileUpdateScheduled {
 				log.info("response body = {}", sb.toString());
 				conn.disconnect();
 				br.close();
-
+				
+				int peopleId = peopleInfoDetailList.get(cnt).getPeopleId();
 				JsonParser parser = new JsonParser();
 				JsonElement element =  parser.parse(sb.toString());
 				JsonArray results = element.getAsJsonObject().get("results").getAsJsonArray();
-				
-				if(results.size() == 1) {
-					String profilePath = results.get(0).getAsJsonObject().get("profile_path").toString().replaceAll("\"", "");
-					String profileUrl = "https://image.tmdb.org/t/p/w500" + profilePath;
-					peopleInfoDetailList.get(cnt).setProfileUrl(profileUrl);
-					service.updateProfileUrlByPeopleId(peopleInfoDetailList.get(cnt));
-					cnt++;
-					log.info("{}번째 업데이트 완료(성공)", cnt);
+				log.info("1111111");
+				if(results.size() > 1) {
+					for(int i = 0; i < results.size(); ++i) {
+						log.info("222222");
+						JsonArray knownFor = results.get(i).getAsJsonObject().get("known_for").getAsJsonArray();
+						log.info("knownForSize => {}", knownFor.size());
+						String query = "people_id="+peopleId + " and (";
+						log.info("querySize => {}", query.length());
+						for(int j = 0; j < knownFor.size(); ++j) {
+							log.info("query => {}", query);
+							if(j != knownFor.size() - 1) {
+								try {
+									String title = knownFor.get(j).getAsJsonObject().get("title").toString().replaceAll("\"", "");
+									query += "movie_nm like '%" + title + "%' or ";	
+								}catch(NullPointerException e) {
+									
+								}						
+							}else {
+								try {
+									String title = knownFor.get(j).getAsJsonObject().get("title").toString().replaceAll("\"", "");
+									query += "movie_nm like '%" + title + "%')";	
+								}catch(NullPointerException e) {
+									if(query.length() > 24) {
+										query = query.substring(0, query.length() - 3) + ")";
+									}
+								}							
+							}
+							log.info("query => {}", query);
+						}
+						log.info("query => {}", query);
+						int x = 0;
+						if(query.length() > 24) {
+							try {
+								x = service.checkMovieExsist(query);
+							}catch(NullPointerException e) {
+								
+							}							
+						}
+						if(x == 1) {
+							String profilePath = results.get(i).getAsJsonObject().get("profile_path").toString().replaceAll("\"", "");
+							if(profilePath == null || profilePath.equals("null") || profilePath.equals("")) {
+								cnt++;
+								log.info("null {}번째 업데이트 완료(실패)", cnt);
+								break;
+							}
+							String profileUrl = "https://image.tmdb.org/t/p/w500" + profilePath;
+							peopleInfoDetailList.get(cnt).setProfileUrl(profileUrl);
+							service.updateProfileUrlByPeopleId(peopleInfoDetailList.get(cnt));
+							cnt++;
+							log.info("{}번째 업데이트 완료(성공)", cnt);
+							break;
+						}
+					}
+					if(check == cnt) {
+						cnt++;
+						log.info("{}번째 업데이트 완료(실패)", cnt);
+					}
 				}else {
 					cnt++;
 					log.info("{}번째 업데이트 완료(실패)", cnt);

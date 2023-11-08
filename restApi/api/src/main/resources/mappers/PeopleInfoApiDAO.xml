@@ -44,5 +44,9 @@
 		SELECT * FROM people_info_detail WHERE profile_url='nan'
 	</select>
 	
+	<select id="checkMovieExsist" resultType="Integer">
+		SELECT COUNT(people_id) AS count FROM people_info_detail WHERE ${query} 
+	</select>
+	
 </mapper>
 
