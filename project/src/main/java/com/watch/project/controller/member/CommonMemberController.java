@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.watch.project.dto.MemberDTO;
+import com.watch.project.service.SearchService;
 import com.watch.project.service.member.CommonMemberService;
 import com.watch.project.service.member.GoogleMemberService;
 import com.watch.project.service.member.KakaoMemberService;
@@ -26,6 +27,8 @@ public class CommonMemberController {
 	private NaverMemberService naverService;
 	@Autowired
 	private GoogleMemberService googleService;
+	@Autowired
+	private SearchService searchService;
 	@Autowired
 	private CommonMemberService common;
 	
@@ -52,6 +55,18 @@ public class CommonMemberController {
 		String userEmail = (String)session.getAttribute("userEmail");
 		MemberDTO memberInfo = common.getMemberInfoByEmail(userEmail);
 		Map<String, Integer> numbers = common.getNumbersOfDatasForMemberInfo(userEmail);
+		/*
+		 * 최근 검색어
+		 */
+		String[] recentSearches = searchService.recentSearchesByUserEmail();
+		
+		/*
+		 * 최근 6개월 간 인기 검색어
+		 */
+		String[] popularSearches = searchService.popularSearches();
+		
+		model.addAttribute("recentSearches", recentSearches);
+		model.addAttribute("popularSearches", popularSearches);
 		model.addAttribute("dto", memberInfo);
 		model.addAttribute("map", numbers);
 		return "member/member_info/member_info";
