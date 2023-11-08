@@ -27,6 +27,7 @@
 		<result column="movie_id" property="movieId"/>
 		<result column="movie_nm" property="movieNm"/>
 		<result column="like_num" property="likeNum"/>
+		<result column="profile_url" property="profileUrl"/>
 	</resultMap>
 	
 	<resultMap type="com.watch.project.dto.ContentSearchingDTO" id="contentSearch">
@@ -43,19 +44,61 @@
 	</resultMap>
 	
 	<select id="searchingStep1" resultMap="movieInfo">
-		<![CDATA[SELECT * FROM movie_info WHERE (movie_nm LIKE '${query}' OR movie_nm_en LIKE '${query}') AND NOT genre_nm LIKE '%에로%' AND rownum <= 50]]>
+		<![CDATA[SELECT * FROM movie_info 
+		WHERE (movie_nm LIKE '${query}' OR movie_nm_en LIKE '${query}') 
+		AND NOT genre_nm LIKE '%에로%' AND 
+		rownum <= 50]]>
 	</select>
 	
 	<select id="searchingStep2" resultMap="movieInfo">
-		<![CDATA[SELECT * FROM movie_info WHERE (movie_nm LIKE '%${query}%' OR movie_nm_en LIKE '%${query}%') AND NOT genre_nm LIKE '%에로%' AND rownum <= 50]]>
+		<![CDATA[
+		SELECT * FROM movie_info 
+		WHERE (movie_nm LIKE '%${query}%' OR movie_nm_en LIKE '%${query}%') 
+		AND NOT genre_nm LIKE '%에로%' AND 
+		ROWNUM <= 50
+		UNION ALL
+		SELECT * FROM movie_info
+		WHERE REGEXP_LIKE(movie_nm, '^${ content }') OR REGEXP_LIKE(movie_nm_en, '^${ content }')
+		AND NOT genre_nm LIKE '%에로%' AND 
+		rownum <= 50
+		UNION ALL
+		SELECT * FROM movie_info
+		WHERE REGEXP_LIKE(movie_nm, '^${ content2 }') OR REGEXP_LIKE(movie_nm_en, '^${ content2 }')
+		AND NOT genre_nm LIKE '%에로%' AND 
+		rownum <= 50
+		]]>
 	</select>
 	
 	<select id="searchingStep3" resultMap="peopleInfoDetail">
-		<![CDATA[SELECT * FROM people_info_detail WHERE people_nm LIKE '${query}' AND rownum <= 50 ORDER BY LENGTH(movie_id) DESC]]>
+		<![CDATA[SELECT * FROM people_info_detail 
+		WHERE people_nm LIKE '${query}' AND 
+		ROWNUM <= 50 
+		ORDER BY LENGTH(movie_id) DESC]]>
 	</select>
 	
 	<select id="searchingStep4" resultMap="peopleInfoDetail">
-		<![CDATA[SELECT * FROM people_info_detail WHERE people_nm LIKE '%${query}%' AND rownum <= 50 ORDER BY LENGTH(movie_id) DESC]]>
+		<![CDATA[
+		SELECT * FROM(
+		SELECT * FROM people_info_detail 
+		WHERE people_nm LIKE '%${query}%' AND 
+		ROWNUM <= 50 
+		ORDER BY LENGTH(movie_id) DESC)
+		UNION ALL
+		
+		SELECT * FROM(
+		SELECT * FROM people_info_detail 
+		WHERE REGEXP_LIKE(people_nm, '^${ content }') OR REGEXP_LIKE(people_nm_en, '^${ content }') AND 
+		ROWNUM <= 50 
+		ORDER BY LENGTH(movie_id) DESC)
+		UNION ALL
+		
+		SELECT * FROM(
+		SELECT * FROM people_info_detail 
+		WHERE REGEXP_LIKE(people_nm, '^${ content2 }') OR REGEXP_LIKE(people_nm_en, '^${ content2 }') AND 
+		ROWNUM <= 50
+		ORDER BY LENGTH(movie_id) DESC)
+		
+		]]>
 	</select>
 	
 	<select id="searchingStep20" resultMap="movieInfo">
@@ -129,14 +172,15 @@
 		-- 관련 영화 연관 검색어 쿼리
 		SELECT movie_nm AS content, 3 AS search_type FROM 
 		(SELECT movie_nm FROM 
-		(SELECT * FROM movie_info) WHERE REGEXP_LIKE(movie_nm, '^${ content }') 
+		(SELECT * FROM movie_info WHERE NOT genre_nm LIKE '%에로%') WHERE REGEXP_LIKE(movie_nm, '^${ content }') 
 		ORDER BY like_num DESC) 
 		WHERE ROWNUM <= 10
 		UNION ALL
 		
 		-- 영어 영화 연관 검색 쿼리
 		SELECT movie_nm_en AS content, 3 AS search_type FROM 
-		(SELECT movie_nm_en FROM (SELECT * FROM movie_info) 
+		(SELECT movie_nm_en FROM 
+		(SELECT * FROM movie_info WHERE NOT genre_nm LIKE '%에로%') 
 		WHERE REGEXP_LIKE(movie_nm_en, '^${ content }') ORDER BY like_num DESC) 
 		WHERE ROWNUM <= 10
 		UNION ALL

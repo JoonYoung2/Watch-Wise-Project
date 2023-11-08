@@ -37,4 +37,12 @@ public class PeopleInfoApiService {
 		repo.savePeopleInfoDetail(dto);
 	}
 	
+	public List<PeopleInfoDetailDTO> getAllPeopleInfoDetail(){
+		return repo.getAllPeopleInfoDetail();
+	}
+	
+	public void updateProfileUrlByPeopleId(PeopleInfoDetailDTO dto) {
+		repo.updateProfileUrlByPeopleId(dto);
+	}
+	
 }

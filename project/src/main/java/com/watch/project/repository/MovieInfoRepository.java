@@ -32,4 +32,7 @@ public interface MovieInfoRepository {
 	public List<String> getLikedMovieIdByEmail(String userEmail);
 
 	public Integer getAmountOfLikedMovies(String userEmail);
+	
+	public String getProfileUrlByPeopleId(int peopleId);
+
 }

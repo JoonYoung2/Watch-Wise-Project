@@ -11,7 +11,14 @@
 	<a style="all:unset; cursor:pointer;" href="/peopleInfo?peopleId=${ peopleInfo.peopleId }">
 		<div align="left" style="display:flex;">
 			<div>
-				<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
+				<c:if test="${ peopleInfo.profileUrl ne 'nan' }">
+					<div style="width: 80px; height: 80px; overflow: hidden; border-radius:100px;">
+				        <img style="max-width: 100%;" src="${ peopleInfo.profileUrl }" alt="영화 포스터">
+				    </div>
+				</c:if>
+				<c:if test="${ peopleInfo.profileUrl eq 'nan' }">
+					<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
+				</c:if>
 			</div>
 			<div style="padding-left:20px;">
 				<div style="display:flex; align-items:center;">

@@ -43,7 +43,24 @@ public class SearchService {
 		List<MovieInfoSearchViewDTO> movieInfoSearchList = new ArrayList<>();
 		
 		if(movieInfoList.size() == 0) {
-			movieInfoList = repo.searchingStep2(query);
+			Map<String, String> queryMap = new HashMap<>();
+			query = query.replaceAll("\'", "\'\'");
+			String content = consonantRegux(query);
+			String content2 = consonantAndVowelRegux(content);
+			queryMap.put("query", query);
+			queryMap.put("content", content);
+			queryMap.put("content2", content2);
+			movieInfoList = repo.searchingStep2(queryMap);
+			
+			for(int i = 0; i < movieInfoList.size(); ++i) {
+				String movieId = movieInfoList.get(i).getMovieId();
+				for(int j = i+1; j < movieInfoList.size(); ++j) {
+					if(movieId.equals(movieInfoList.get(j).getMovieId())) {
+						movieInfoList.remove(j);
+						j--;
+					}
+				}
+			}
 			if(movieInfoList.size() == 0) {
 				return movieInfoSearchList;
 			}
@@ -56,7 +73,24 @@ public class SearchService {
 		List<PeopleInfoDetailDTO> peopleInfoDetailList = repo.searchingStep3(query);
 		List<PeopleInfoSearchViewDTO> peopleInfoSearchViewList = new ArrayList<>();
 		if(peopleInfoDetailList.size() == 0) {
-			peopleInfoDetailList = repo.searchingStep4(query);
+			Map<String, String> queryMap = new HashMap<>();
+			String content = consonantRegux(query);
+			String content2 = consonantAndVowelRegux(content);
+			queryMap.put("query", query);
+			queryMap.put("content", content);
+			queryMap.put("content2", content2);
+			peopleInfoDetailList = repo.searchingStep4(queryMap);
+			
+			for(int i = 0; i < peopleInfoDetailList.size(); ++i) {
+				int peopleId = peopleInfoDetailList.get(i).getPeopleId();
+				for(int j = i+1; j < peopleInfoDetailList.size(); ++j) {
+					if(peopleId == peopleInfoDetailList.get(j).getPeopleId()) {
+						peopleInfoDetailList.remove(j);
+						j--;
+					}
+				}
+			}
+			
 			if(peopleInfoDetailList.size() == 0) {
 				return peopleInfoSearchViewList;
 			}
@@ -95,49 +129,14 @@ public class SearchService {
 			
 			peopleInfoSearchViewList.add(peopleInfoSearchViewDto);
 		}
-		return peopleInfoSearchViewList;
-	}
-	
-	public List<PeopleInfoSearchViewDTO> searchingStep4(String query) {
-		List<PeopleInfoDetailDTO> peopleInfoDetailList = repo.searchingStep4(query);
-		List<PeopleInfoSearchViewDTO> peopleInfoSearchViewList = new ArrayList<>();
-		if(peopleInfoDetailList.size() == 0) {
-			return peopleInfoSearchViewList;
-		}
 		
-		for(int i = 0; i < peopleInfoDetailList.size(); ++i) {
-			
-			PeopleInfoSearchViewDTO peopleInfoSearchViewDto = 
-					PeopleInfoSearchViewDTO.builder()
-					.peopleInfoDetailDto(peopleInfoDetailList.get(i))
-					.build();
-			String movieIds = "";
-			String[] movie = peopleInfoDetailList.get(i).getMovieId().split(",");
-			
-			for(int j = 0; j < movie.length; ++j) {
-				if(j != movie.length-1) 
-					movieIds += "'" + movie[j] + "',";
-				else
-					movieIds += "'" + movie[j] + "'";
-			}
-			
-			peopleInfoSearchViewDto.setMovieInfoList(repo.getMovieInfoByMovieIds(movieIds));
-			
-			for(int j = 0; j < peopleInfoSearchViewDto.getMovieInfoList().size(); ++j) {
-				String posterUrl = peopleInfoSearchViewDto.getMovieInfoList().get(j).getPosterUrl().split("\\|")[0];
-				String movieId = peopleInfoSearchViewDto.getMovieInfoList().get(j).getMovieId();
-				String id = movieId + (String) session.getAttribute("userEmail");
-				GradeInfoDTO gradeInfoDto = getMovieGradeAvgByMovieId(movieId);
-				boolean gradeCheck = getMovieGradeCheckById(id);
-				if(!posterUrl.equals("nan")) {
-					peopleInfoSearchViewDto.getMovieInfoList().get(j).setPosterUrl(posterUrl);					
-				}
-				peopleInfoSearchViewDto.getMovieInfoList().get(j).setGradeAvg(gradeInfoDto.getGradeAvg());
-				peopleInfoSearchViewDto.getMovieInfoList().get(j).setGradeCheck(gradeCheck);
-			}
-			
-			peopleInfoSearchViewList.add(peopleInfoSearchViewDto);
-		}
+		
+//		if(peopleInfoSearchViewList.size() > 50) {
+//			for(int i = 50; i < peopleInfoSearchViewList.size(); ++i) {
+//				peopleInfoSearchViewList.remove(i);
+//			}
+//		}
+		
 		return peopleInfoSearchViewList;
 	}
 
@@ -260,6 +259,7 @@ public class SearchService {
 			for(int j = i+1; j < relatedSearchResponseList.size(); ++j) {
 				if(relatedSearchResponseList.get(j).getContent().equals(content)) {
 					relatedSearchResponseList.remove(j);
+					j--;
 				}
 			}
 		}
@@ -1080,6 +1080,39 @@ public class SearchService {
 			}else if(c == 'ㅎ') {
 				String regular = regularConversion(c);
 				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㄳ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㄵ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㄶ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㄺ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㄻ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㄼ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㄽ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㄾ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㄿ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㅀ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
+			}else if(c == 'ㅄ') {
+				String regular = regularConversion(c);
+				content = content.replaceAll(c+"", regular);
 			}
 		}
 		return content;
@@ -1115,7 +1148,33 @@ public class SearchService {
 			conversion = "\\[파-핗\\]";
 		}else if(c == 'ㅎ') {
 			conversion = "\\[하-힣\\]";
+		}else if(c == 'ㄳ') {
+			conversion = "\\[가-깋\\]\\[사-싷\\]";
+		}else if(c == 'ㄵ') {
+			conversion = "\\[나-닣\\]\\[자-짛\\]";
+		}else if(c == 'ㄶ') {
+			conversion = "\\[나-닣\\]\\[하-힣\\]";
+		}else if(c == 'ㄺ') {
+			conversion = "\\[라-맇\\]\\[가-깋\\]";
+		}else if(c == 'ㄻ') {
+			conversion = "\\[라-맇\\]\\[마-밓\\]";
+		}else if(c == 'ㄼ') {
+			conversion = "\\[라-맇\\]\\[바-빟\\]";
+		}else if(c == 'ㄽ') {
+			conversion = "\\[라-맇\\]\\[사-싷\\]";
+		}else if(c == 'ㄾ') {
+			conversion = "\\[라-맇\\]\\[타-팋\\]";
+		}else if(c == 'ㄿ') {
+			conversion = "\\[라-맇\\]\\[파-핗\\]";
+		}else if(c == 'ㅀ') {
+			conversion = "\\[라-맇\\]\\[라-맇\\]";
+		}else if(c == 'ㅄ') {
+			conversion = "\\[바-빟\\]\\[사-싷\\]";
 		}
+		
+//		else if(c == '!' || c == '@' || c == '#' || c == '$' || c == '%' || c == '^' || c == '&' || c == '&' || c == '*' || c == '(' || c == ')') {
+//			conversion = "\\[!@#$%^&*()\\]";
+//		}
 		
 		return conversion;
 	}

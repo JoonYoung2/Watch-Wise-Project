@@ -14,6 +14,8 @@
 			<div style="width:80%; display:flex; justify-content:center; align-items:center;">
 				<div align="left" style="width:50%; display:flex; align-items:center;">
 					<a href="/"><img style="width:200px;" src="/resources/img/WWlogo.png"></a>
+					
+					<!------------------------------ Search ------------------------------>
 					<div style="position:relative;">
 						<input id="query" style="width:300px; height:38px; font-size:20px;" type="text" onclick="searchesClick();" onblur="searchesBlur();" onkeyup="searchesKeyup(event)" value="${ query }" autocomplete='off'>
 						<div id="searches" style="position:absolute; width:306px; border:solid 1px rgba(0, 0, 0, 0.1); z-index:1; background-color:white; display:none;">
@@ -43,6 +45,8 @@
 							<div style='padding:10px; color:red;'>연관 검색어</div>
 						</div>
 					</div>
+					<!------------------------------ Search ------------------------------>
+					
 				</div>
 				<div align="right" id="header" style="width:50%;">
 				<c:if test="${empty sessionScope.userLoginType }">

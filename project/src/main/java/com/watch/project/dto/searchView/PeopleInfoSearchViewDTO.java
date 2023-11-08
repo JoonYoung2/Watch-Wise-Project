@@ -16,6 +16,7 @@ public class PeopleInfoSearchViewDTO {
 	private String peopleNmEn;
 	private String sex;
 	private int likeNum;
+	private String profileUrl;
 	private List<MovieInfoDTO> movieInfoList;
 	
 	@Builder
@@ -25,6 +26,7 @@ public class PeopleInfoSearchViewDTO {
 		this.peopleNmEn = peopleInfoDetailDto.getPeopleNmEn();
 		this.sex = peopleInfoDetailDto.getSex();
 		this.likeNum = peopleInfoDetailDto.getLikeNum();
+		this.profileUrl = peopleInfoDetailDto.getProfileUrl();
 		this.movieInfoList = new ArrayList<>();
 	}
 }

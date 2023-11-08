@@ -14,6 +14,13 @@
 	<c:set var="imgHeight" value="428.16"/>
 	<%@ include file="/WEB-INF/views/header.jsp"%>
 	
+	<c:if test="${ not empty nothing }">
+		<script>
+			alert("${nothing}");
+			history.back();
+		</script>
+	</c:if>
+	
 	<div align="center" style="width: 100%;">
 		<div align="center" style="width: 80%;">
 			<% int cnt = 0; %>

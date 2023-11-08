@@ -107,7 +107,7 @@
 
 	<!-- SearchCase1 회원 추천 Movies START -->
 	<% cnt = 0; %>
-	<c:if test="${ memberCommend.size() > 0 }">
+	<c:if test="${ memberCommend.size() > 0 and empty memberCommendCheck }">
 		<%@ include file="./recommend/memberRecommend.jsp"%>
 	</c:if>
 	<!-- SearchCase1 회원 추천 Movies END -->
@@ -115,7 +115,7 @@
 	<br><br><br>
 
 	<!-- SearchCase1 Movie Informations START -->
-	<c:forEach var="movieInfo" items="${ movieNmSearchingCase }">
+	<%-- <c:forEach var="movieInfo" items="${ movieNmSearchingCase }">
 		<a style="all: unset; cursor: pointer;" href="movieInfo?movieId=${ movieInfo.movieId }">
 			<div style="display: flex;">
 				<c:if test="${movieInfo.posterUrl ne 'nan' }">
@@ -216,7 +216,7 @@
 				</c:forEach>
 			</div>
 		</c:if>
-	</c:forEach>
+	</c:forEach> --%>
 	<!-- SearchCase1 Movie Informations END -->
 </body>
 </html>

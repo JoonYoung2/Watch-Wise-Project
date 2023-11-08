@@ -16,11 +16,11 @@ public interface SearchRepository {
 	
 	public List<MovieInfoDTO> searchingStep1(String query);
 	
-	public List<MovieInfoDTO> searchingStep2(String query);
+	public List<MovieInfoDTO> searchingStep2(Map<String, String> map);
 	
 	public List<PeopleInfoDetailDTO> searchingStep3(String query);
 	
-	public List<PeopleInfoDetailDTO> searchingStep4(String query);
+	public List<PeopleInfoDetailDTO> searchingStep4(Map<String, String> map);
 	
 	public List<MovieInfoDTO> getMovieInfoByMovieIds(String movieIds);
 	
@@ -39,5 +39,7 @@ public interface SearchRepository {
 	public void recentSearchesAddUpdateByUserEmailAndContent(Map<String, String> map);
 	
 	public List<RelatedSearchResponseDTO> getRelatedSearchByContentAndUserEmail(RelatedSearchRequestDTO dto);
+	
+	public List<MovieInfoDTO> getMovieReguxSearching(String content);
 	
 }

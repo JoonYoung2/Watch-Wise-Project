@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.exceptions.TooManyResultsException;
+import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,11 +32,42 @@ public class SearchController {
 	
 	@GetMapping("search")
 	public String searching(@RequestParam("query") String query, Model model) {
+		List<MovieInfoSearchViewDTO> movieInfoSearchViewList = null;
+		List<PeopleInfoSearchViewDTO> peopleInfoSearchViewList = null;
 		
 		/*
 		 * 영화명으로 검색 조건(2가지 케이스)
 		 */
-		List<MovieInfoSearchViewDTO> movieInfoSearchViewList = service.movieNmSearchingCase(query);
+		try {
+			movieInfoSearchViewList = new ArrayList<>();
+			movieInfoSearchViewList = service.movieNmSearchingCase(query);			
+		}catch(TooManyResultsException e) {
+			model.addAttribute("nothing", "다른 검색어를 입력해주세요.");
+			return "basic/search_info";
+		}catch(MyBatisSystemException e) {
+			model.addAttribute("nothing", "다른 검색어를 입력해주세요.");
+			return "basic/search_info";
+		}catch(StringIndexOutOfBoundsException e) {
+			model.addAttribute("nothing", "다른 검색어를 입력해주세요.");
+			return "basic/search_info";
+		}
+		
+		/*
+		 * 배우명으로 검색 조건(2가지 케이스)
+		 */
+		try {
+			peopleInfoSearchViewList = new ArrayList<>();
+			peopleInfoSearchViewList = service.ActorNmSearchingCase(query);			
+		}catch(TooManyResultsException e){
+			model.addAttribute("nothing", "다른 검색어를 입력해주세요.");
+			return "basic/search_info";
+		}catch(MyBatisSystemException e) {
+			model.addAttribute("nothing", "다른 검색어를 입력해주세요.");
+			return "basic/search_info";
+		}catch(StringIndexOutOfBoundsException e) {
+			model.addAttribute("nothing", "다른 검색어를 입력해주세요.");
+			return "basic/search_info";
+		}
 		
 		/*
 		 * 회원 추천 영화
@@ -67,18 +100,27 @@ public class SearchController {
 			
 		}
 		
-		if(movieInfoSearchViewList.size() != 0) {
+		/*
+		 * 사람만 서칭됐을 때
+		 */
+		if(peopleInfoSearchViewList.size() != 0 && movieInfoSearchViewList.size() == 0) {
+			int[] likeCheck = setLikeCheck(peopleInfoSearchViewList);
+			return actorNmSearchCaseModelAndView(peopleInfoSearchViewList, memberCommendedList, likeCheck, recentSearches, popularSearches, recentSearchesSize, query, model);
+		}
+		
+		/*
+		 * 영화만 서칭됐을 때
+		 */
+		if(movieInfoSearchViewList.size() != 0 && peopleInfoSearchViewList.size() == 0) {
 			return movieNmSearchCaseModelAndView(movieInfoSearchViewList, memberCommendedList, recentSearches, popularSearches, recentSearchesSize, query, model);
 		}
 		
 		/*
-		 * 배우명으로 검색 조건(2가지 케이스)
+		 * 둘 다 서칭됐을 때
 		 */
-		List<PeopleInfoSearchViewDTO> peopleInfoSearchViewList = service.ActorNmSearchingCase(query);
-		
-		if(peopleInfoSearchViewList.size() != 0) {
+		if(peopleInfoSearchViewList.size() != 0 && movieInfoSearchViewList.size() != 0) {
 			int[] likeCheck = setLikeCheck(peopleInfoSearchViewList);
-			return actorNmSearchCaseModelAndView(peopleInfoSearchViewList, memberCommendedList, likeCheck, recentSearches, popularSearches, recentSearchesSize, query, model);
+			return movieNmSearchAndActorNmSearchCaseModelAndView(peopleInfoSearchViewList, movieInfoSearchViewList, memberCommendedList, likeCheck,recentSearches, popularSearches, recentSearchesSize, query, model);
 		}
 		
 		model.addAttribute("memberCommend", memberCommendedList);
@@ -86,10 +128,12 @@ public class SearchController {
 		model.addAttribute("popularSearches", popularSearches);
 		model.addAttribute("recentSearchesSize", recentSearchesSize);
 		model.addAttribute("query", query);
+		model.addAttribute("nothing", "검색결과가 없습니다.");
 		return "basic/search_info";
 	}
-	
+
 	/*
+	 * 영화명 검색 결과
 	 * Model And View
 	 */
 	private String movieNmSearchCaseModelAndView(List<MovieInfoSearchViewDTO> movieInfoSearchViewList, 
@@ -107,6 +151,7 @@ public class SearchController {
 	}
 	
 	/*
+	 * 배우명 검색 결과
 	 * Model And View
 	 */
 	private String actorNmSearchCaseModelAndView(List<PeopleInfoSearchViewDTO> peopleInfoSearchViewList,
@@ -114,6 +159,27 @@ public class SearchController {
 			String[] popularSearches, int recentSearchesSize, String query, Model model) {
 		
 		model.addAttribute("actorNmSearchingCase", peopleInfoSearchViewList);
+		model.addAttribute("memberCommend", memberCommendedList);
+		model.addAttribute("likeCheck", likeCheck);
+		model.addAttribute("recentSearches", recentSearches);
+		model.addAttribute("popularSearches", popularSearches);
+		model.addAttribute("recentSearchesSize", recentSearchesSize);
+		model.addAttribute("query", query);
+		return "basic/search_info";
+	}
+	
+	/*
+	 * 영화명과 배우명 둘다 검색결과
+	 * Model And View
+	 */
+	private String movieNmSearchAndActorNmSearchCaseModelAndView(List<PeopleInfoSearchViewDTO> peopleInfoSearchViewList,
+			List<MovieInfoSearchViewDTO> movieInfoSearchViewList, List<MovieInfoDTO> memberCommendedList,
+			int[] likeCheck, String[] recentSearches, String[] popularSearches, int recentSearchesSize, String query,
+			Model model) {
+		
+		model.addAttribute("memberCommendCheck", 0);
+		model.addAttribute("actorNmSearchingCase", peopleInfoSearchViewList);
+		model.addAttribute("movieNmSearchingCase", movieInfoSearchViewList);
 		model.addAttribute("memberCommend", memberCommendedList);
 		model.addAttribute("likeCheck", likeCheck);
 		model.addAttribute("recentSearches", recentSearches);
