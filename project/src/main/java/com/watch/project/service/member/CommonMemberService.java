@@ -1,15 +1,24 @@
 package com.watch.project.service.member;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.repository.MemberRepository;
+import com.watch.project.repository.MovieInfoRepository;
+import com.watch.project.repository.PeopleInfoRepository;
+import com.watch.project.repository.ReviewRepository;
 
 @Service
 public class CommonMemberService {
-	@Autowired MemberRepository repo;
+	@Autowired private MemberRepository repo;
+	@Autowired private ReviewRepository reviewRepo;
+	@Autowired private MovieInfoRepository movieInfoRepo;
+	@Autowired private PeopleInfoRepository peopleInfoRepo;
 	
 	public String getAlertLocation(String msg, String url) {
 		String message = "<script>alert('" + msg + "');";
@@ -77,6 +86,21 @@ public class CommonMemberService {
 			msg = "정보 수정이 완료되었습니다.";
 		}
 		return msg;
+	}
+
+	public Map<String, Integer> getNumbersOfDatasForMemberInfo(String userEmail) {
+		Map<String, Integer> result = new HashMap<>();
+		//평가 수
+		result.put("score", reviewRepo.getAmountOfScoredOnes(userEmail));
+		//코멘트 수
+		result.put("comment", reviewRepo.getAmountOfComments(userEmail));
+		//좋아한 영화 수
+		result.put("likedMovie", movieInfoRepo.getAmountOfLikedMovies(userEmail));
+		//좋아한 배우 수
+		result.put("likedActor", peopleInfoRepo.getAountOfLikedActors(userEmail));
+		//좋아한 코멘트 수
+		result.put("likedComment", reviewRepo.getAmountOfLikedComments(userEmail));
+		return result;
 	}
 
 

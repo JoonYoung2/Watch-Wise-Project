@@ -61,4 +61,5 @@
 	<update id="updateNaverRefreshToken" parameterType="com.watch.project.dto.MemberDTO">
 		UPDATE member_info SET naver_refresh_token=#{naverRefreshToken} WHERE user_email=#{userEmail}
 	</update>
+
 </mapper>

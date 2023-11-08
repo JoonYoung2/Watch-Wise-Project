@@ -1,6 +1,7 @@
 package com.watch.project.controller.member;
 
 import java.security.Provider.Service;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -46,11 +47,14 @@ public class CommonMemberController {
 		return "member/sign_in";
 	}
 	
-	@GetMapping("/socialMemberInfo")
+	@GetMapping("/memberInfo")
 	public String socialmemberInfo(HttpSession session, Model model) {
-		MemberDTO memberInfo = common.getMemberInfoByEmail((String)session.getAttribute("userEmail"));
+		String userEmail = (String)session.getAttribute("userEmail");
+		MemberDTO memberInfo = common.getMemberInfoByEmail(userEmail);
+		Map<String, Integer> numbers = common.getNumbersOfDatasForMemberInfo(userEmail);
 		model.addAttribute("dto", memberInfo);
-		return "member/social_member/member_info";
+		model.addAttribute("map", numbers);
+		return "member/member_info/member_info";
 	}
 	
 	@GetMapping("/socialMemberInfoModify")
@@ -65,7 +69,7 @@ public class CommonMemberController {
 		String msg = common.updateMemberName(dto);
 		if(msg == "정보 수정이 완료되었습니다.") {
 			redirectAttr.addFlashAttribute("msg", msg);
-			return "redirect:/socialMemberInfo";			
+			return "redirect:/memberInfo";			
 		} else {
 			model.addAttribute("msg", msg);
 			return "member/social_member/member_info_modify";

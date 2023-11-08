@@ -57,9 +57,6 @@
 					<a style="cursor:pointer" onclick="socialConfirmUnregister()">
 					Unregister
 					</a>
-					<a style="cursor:pointer" href="/socialMemberInfo">
-						<img style="width:30px; cursor:pointer;" src="resources/img/bean_profile.png"/>
-					</a>
 				</c:if>
 				
 				<!---------------------------------------------------- Naver ---------------------------------------------------------------------------------- -->
@@ -69,9 +66,6 @@
 					</a>
 					<a style="cursor:pointer" onclick="socialConfirmUnregister()">
 						Unregister
-					</a>
-					<a style="cursor:pointer" href="/socialMemberInfo">
-						<img style="width:30px; cursor:pointer;" src="resources/img/bean_profile.png"/>
 					</a>
 				</c:if>
 					
@@ -84,9 +78,6 @@
 					<a style="cursor:pointer" onclick="socialConfirmUnregister()">
 					Unregister
 					</a>
-					<a style="cursor:pointer" href="/socialMemberInfo">
-						<img style="width:30px; cursor:pointer;" src="resources/img/bean_profile.png"/>
-					</a>
 				</c:if>
 				
 				<!---------------------------------------------------- Local ---------------------------------------------------------------------------------- -->
@@ -96,12 +87,11 @@
 						sign out
 					</a>
 					<a href="/unregister">Unregister</a>
-					
-					<a style="cursor:pointer" href="/localMemberInfo">
-						<img style="width:30px; cursor:pointer;" src="resources/img/bean_profile.png"/>
-					</a>
 				</c:if>
 					<!-------------------------------------------------------------------------------------------------------------------------------------- -->
+					<a style="cursor:pointer" href="/memberInfo">
+						<img style="width:30px; cursor:pointer;" src="resources/img/bean_profile.png"/>
+					</a>
 				</div>
 				<hr>
 			</div>

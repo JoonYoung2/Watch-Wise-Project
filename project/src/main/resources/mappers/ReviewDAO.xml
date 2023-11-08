@@ -117,4 +117,16 @@
 	<select id="getCommentByMovieId" resultMap="review">
 		SELECT * FROM movie_review WHERE movie_id=#{movieId} AND id=#{id}
 	</select>
+		
+	<select id="getAmountOfScoredOnes" resultType="Integer">
+		SELECT COUNT(*) FROM movie_review WHERE user_email =#{userEmail} AND review_score != 0
+	</select>
+	
+	<select id="getAmountOfComments" resultType="Integer">
+		SELECT COUNT(*) FROM movie_review WHERE user_email=#{userEmail} AND review_comment != 'nan'
+	</select>
+	
+	<select id="getAmountOfLikedComments" resultType="Integer">
+		SELECT COUNT(*) FROM comment_liked_users WHERE liked_user_email=#{userEmail}
+	</select>
 </mapper>

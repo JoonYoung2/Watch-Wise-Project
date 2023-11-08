@@ -10,6 +10,7 @@ import com.watch.project.dto.MovieLikeDTO;
 
 @Mapper
 public interface MovieInfoRepository {
+	//------------ 준영's ---------------------------------
 	public MovieInfoDTO getMovieInfoById(String movieId);
 	
 	public int getPeopleIdByPeopleNmAndMovieNm(Map<String, String> map);
@@ -26,7 +27,9 @@ public interface MovieInfoRepository {
 
 	public MovieLikeDTO getMovieLikeById(String id);
 	
-	//---------아래 getLikedMovieIdByEmail는 수아가 건드림? 추가함------------------------
-
+	
+	//------------ 수아's ---------------------------------
 	public List<String> getLikedMovieIdByEmail(String userEmail);
+
+	public Integer getAmountOfLikedMovies(String userEmail);
 }

@@ -16,7 +16,7 @@ public class TopUpdateScheduled {
 	private final MovieWeeklyUpdateScheduled weeklyUpdate;
 	
 
-	@Scheduled(cron = "0 45 16 * * *")
+	@Scheduled(cron = "0 45 9 * * *")
 	public void allUpdateProcess() throws UnsupportedEncodingException {
 		dailyUpdate.allFindAndInsert();
 		dailyUpdate.DailyMovieInsert();

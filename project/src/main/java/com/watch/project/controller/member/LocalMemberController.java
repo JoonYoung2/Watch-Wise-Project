@@ -97,12 +97,12 @@ public class LocalMemberController {
 		}
 	}
 	
-	@GetMapping("/localMemberInfo")
-	public String localMemberInfo(HttpSession session, Model model) {
-		MemberDTO memberInfo = common.getMemberInfoByEmail((String)session.getAttribute("userEmail"));
-		model.addAttribute("dto", memberInfo);
-		return "member/local_member/member_info";
-	}
+//	@GetMapping("/localMemberInfo")
+//	public String localMemberInfo(HttpSession session, Model model) {
+//		MemberDTO memberInfo = common.getMemberInfoByEmail((String)session.getAttribute("userEmail"));
+//		model.addAttribute("dto", memberInfo);
+//		return "member/local_member/member_info";
+//	}
 	
 	@GetMapping("/pwCheck")
 	public String pwCheck() {
@@ -137,13 +137,13 @@ public class LocalMemberController {
 				model.addAttribute("dto", dto);
 				return "member/local_member/member_info_modify"; 
 			}else {
-				return "redirect:/localMemberInfo";
+				return "redirect:/memberInfo";
 			}
 		}else {//비밀번호는 수정하지 않을 경우
 			String msg = common.updateMemberName(dto);
 			if(msg == "정보 수정이 완료되었습니다.") {
 				redirectAttr.addFlashAttribute("msg", msg);
-				return "redirect:/localMemberInfo";			
+				return "redirect:/memberInfo";			
 			} else {
 				model.addAttribute("msg", msg);
 				return "member/local_member/member_info_modify";

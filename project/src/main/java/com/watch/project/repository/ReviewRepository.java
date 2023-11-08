@@ -52,6 +52,11 @@ public interface ReviewRepository {
 
 	List<MovieReviewDTO> getCommentByMovieId(Map<String, String> map);
 
-//	int deleteFromMovieReview(String userEmail);////////////////////////////////////////////////////////////////
+	Integer getAmountOfScoredOnes(String userEmail);
 
+	Integer getAmountOfComments(String userEmail);
+
+	Integer getAmountOfLikedComments(String userEmail);
+
+//	int deleteFromMovieReview(String userEmail);////////////////////////////////////////////////////////////////
 }

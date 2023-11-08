@@ -15,6 +15,12 @@ function moveToLikedCommentList(){
 	window.location.href = path;
 }
 
+function moveToSetting(userEmail){
+	let path = "/userLikedCommentList";
+	window.location.href = path;
+}
+
+
 
 
 

@@ -12,6 +12,8 @@ import com.watch.project.dto.PeopleLikeDTO;
 @Mapper
 public interface PeopleInfoRepository {
 	
+	//------------ 준영's ---------------------------------
+
 	public PeopleInfoDetailDTO getPeopleInfoDetailById(int peopleId);
 	
 	public List<MovieInfoDTO> getMovieInfoByMovieIds(String movieIds);
@@ -28,7 +30,11 @@ public interface PeopleInfoRepository {
 	
 	public int getLikeNumById(int peopleId);
 
-	//-------------- 아래는 수아가 추가----------------------
+	
+	//------------ 수아's ---------------------------------
+	
 	public List<Integer> getLikedActorIdByEmail(String userEmail);
+
+	public Integer getAountOfLikedActors(String userEmail);
 	
 }
