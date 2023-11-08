@@ -15,26 +15,27 @@ function moveToLikedCommentList(){
 	window.location.href = path;
 }
 
-function moveToSetting(userEmail){
-	let path = "/userLikedCommentList";
-	window.location.href = path;
-}
+
+var openModalButton = document.getElementById('openModalButton');
+var closeModalButton = document.getElementById('closeModalButton');
+var modal = document.getElementById('myModal');
+var body = document.getElementById('bodyForShadow');
+var headerBody = document.getElementById('header-body');
 
 
+openModalButton.addEventListener('click', function() {
+    modal.style.display = 'block';
+    body.style.display = 'block';
+ 	modal.style.zIndex = '2';
+ 	body.style.zIndex = '1';
+});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+closeModalButton.addEventListener('click', function() {
+    modal.style.display = 'none';
+    body.style.display = 'none';
+    modal.style.zIndex = '-2';
+    body.style.zIndex = '-2';
+});
 
 
 

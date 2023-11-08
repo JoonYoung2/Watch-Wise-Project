@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
-<body>
+<body id="header-body">
 	<header>
 		<div align="center" style="width:100%;">
 			<div style="width:80%; display:flex; justify-content:center; align-items:center;">
