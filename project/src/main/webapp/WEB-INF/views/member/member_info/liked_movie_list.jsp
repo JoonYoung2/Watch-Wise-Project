@@ -14,6 +14,9 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/header.jsp" %>
+<hr style="border:1px solid #ccc;">
+<br>
+<br>
 <style>
 .liked-movie-list-frame .liked-movie-info {
     display: flex; /* 내부 요소들을 가로로 배치하기 위해 flex 사용 */

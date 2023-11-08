@@ -29,7 +29,7 @@ public class PeopleInfoAjaxController {
 	/*
 	 * 배우 좋아요 추가
 	 */
-	@GetMapping("peopleLikeAdd")
+	@GetMapping("/peopleLikeAdd")
 	public LikeUpdateResponse peopleLikeAdd(@RequestParam("peopleId") int peopleId, HttpSession session) {
 		String userEmail = (String)session.getAttribute("userEmail");
 		int likeNum = 0;
@@ -46,7 +46,7 @@ public class PeopleInfoAjaxController {
 	/*
 	 * 배우 좋아요 취소
 	 */
-	@GetMapping("peopleLikeCancel")
+	@GetMapping("/peopleLikeCancel")
 	public LikeUpdateResponse peopleLikeCancel(@RequestParam("peopleId") int peopleId, HttpSession session) {
 		String userEmail = (String)session.getAttribute("userEmail");
 		int likeNum = 0;

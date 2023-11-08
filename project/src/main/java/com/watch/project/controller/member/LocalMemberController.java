@@ -62,7 +62,7 @@ public class LocalMemberController {
 		if(msg !="환영합니다.") { //로그인시 입력한 정보가 올바르지 않을 경우
 			model.addAttribute("msg", msg);
 			model.addAttribute("dto", dto);
-			return "member/common/sign_in";
+			return "member/sign_in";
 		}else { //로그인 입력 정보가 올바른 경우
 			session.setAttribute("userEmail", dto.getUserEmail());
 			session.setAttribute("userLoginType", dto.getUserLoginType());//// 이 부분 다시 고려해보기.

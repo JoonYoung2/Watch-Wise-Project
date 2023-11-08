@@ -10,7 +10,7 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/header.jsp" %>
-<hr>
+<hr style="border:1px solid #ccc;">
 <br>
 <br>
 

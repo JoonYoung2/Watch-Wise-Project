@@ -9,7 +9,10 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
-	<%@ include file="/WEB-INF/views/header.jsp" %>
+<%@ include file="/WEB-INF/views/header.jsp" %>
+<hr style="border:1px solid #ccc;">
+<br>
+<br>
 	<h3 style="text-align:center">내가 좋아요한 코멘트들</h3>
 	<c:set var="cntForMovie" value="0"/>
 	<c:set var="cntForComment" value="0"/>

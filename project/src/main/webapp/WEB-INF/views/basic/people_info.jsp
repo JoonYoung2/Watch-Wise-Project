@@ -30,7 +30,7 @@
 				</c:if>
 			</div>
 			<div style="padding-left:20px;">
-				<span style="font-size:20px; font-weight:bold; color:rgba(0, 0, 0, 0.5);">${ peopleInfo.sex }・배우</span><br>
+				<span stylze="font-size:20px; font-weight:bold; color:rgba(0, 0, 0, 0.5);">${ peopleInfo.sex }・배우</span><br>
 				<c:if test="${ peopleInfo.peopleNmEn eq 'nan' }">
 					<span style="font-size:30px; font-weight:bold;">${ peopleInfo.peopleNm }</span><br><br>
 				</c:if>
