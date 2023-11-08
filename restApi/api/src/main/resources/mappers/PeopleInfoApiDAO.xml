@@ -41,7 +41,7 @@
 	</update>
 	
 	<select id="getAllPeopleInfoDetail" resultMap="peopleInfoDetail">
-		SELECT * FROM people_info_detail
+		SELECT * FROM people_info_detail WHERE profile_url='nan'
 	</select>
 	
 </mapper>
