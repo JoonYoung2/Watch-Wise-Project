@@ -274,10 +274,24 @@ const searchStartMouseDown = (query) => {
     location.href="search?query=" + query;
 }
 
-const searchMouseOver = () => {
+// Live Searches
 
+let locationDivId = document.getElementById("locationDiv");
+let liveSearchListId = document.getElementById("liveSearchList");
+const liveSearchMouseOver = () => {
+    locationDivId.innerText = "△";
+    liveSearchListId.style.display="block";
 }
 
-const searchMouseOut = () => {
-    
+const liveSearchMouseOut = () => {
+    locationDivId.innerText = "▽";
+    liveSearchListId.style.display="none";
 }
+
+const liveSearchClick = (content) => {
+    content = content.replaceAll("'", "''");
+    location.href = "search?query=" + content;
+    return;
+}
+
+// Live Searches

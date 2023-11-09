@@ -48,6 +48,7 @@
 	SimpleDateFormat dtFormat = new SimpleDateFormat("yyyyMMdd");
 	int todayDate = Integer.parseInt(dtFormat.format(cal.getTime()));
 %>
+<br><br>
 <c:if test="${ daily.size() > 0 }">
 <div align="center" style="width:100%;">
 	<div align="center" style="width:80%;">

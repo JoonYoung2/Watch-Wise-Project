@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watch.api.repository.LiveSearchRepository">
+	<select id="getLiveSearchDataList" resultType="com.watch.api.dto.LiveSearchDTO">
+		SELECT num, cnt, content, '0' as state FROM live_search_data order by num asc
+	</select>
+	<select id="getNewLiveSearchDataList" resultType="com.watch.api.dto.LiveSearchDTO">
+		<![CDATA[SELECT ROWNUM AS num, cnt, content, '0' AS state FROM
+		(SELECT * FROM
+		(SELECT COUNT(content) AS cnt, content from 
+		(SELECT * FROM content_searching WHERE search_date >= '${date}') 
+		GROUP BY content) 
+		ORDER BY cnt DESC)]]>
+	</select>
+	<delete id="deleteLiveSearchData">
+		DELETE FROM live_search_data
+	</delete>
+	<delete id="deleteLiveSearch">
+		DELETE FROM live_search
+	</delete>
+	<insert id="insertLiveSearchData" parameterType="com.watch.api.dto.LiveSearchDTO">
+		INSERT INTO live_search_data VALUES(#{num}, #{cnt}, #{content})
+	</insert>
+	<insert id="insertLiveSearch" parameterType="com.watch.api.dto.LiveSearchDTO">
+		INSERT INTO live_search VALUES(#{num}, #{cnt}, #{content}, #{state})
+	</insert>
+</mapper>
+

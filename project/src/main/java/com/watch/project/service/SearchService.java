@@ -14,6 +14,7 @@ import org.apache.ibatis.binding.BindingException;
 import org.springframework.stereotype.Service;
 
 import com.watch.project.dto.ContentSearchingDTO;
+import com.watch.project.dto.LiveSearchDTO;
 import com.watch.project.dto.MemberConfigDTO;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.PeopleInfoDetailDTO;
@@ -301,6 +302,21 @@ public class SearchService {
 		}
 		
 		return removeDuplicationContent(relatedSearchResponseList1);
+	}
+	
+	/*
+	 * 모든 검색 내용 삭제
+	 */
+	public void deleteAllSearchHistory() {
+		String userEmail = (String) session.getAttribute("userEmail");
+		repo.deleteAllSearchHistory(userEmail);
+	}
+	
+	/*
+	 * 선택한 검색 내용 삭제
+	 */
+	public void deleteSearchHistory(String ids) {
+		repo.deleteSearchHistory(ids);
 	}
 	
 	/*
@@ -1232,12 +1248,8 @@ public class SearchService {
 		return conversion;
 	}
 
-	public void deleteAllSearchHistory() {
-		String userEmail = (String) session.getAttribute("userEmail");
-		repo.deleteAllSearchHistory(userEmail);
-	}
-
-	public void deleteSearchHistory(String ids) {
-		repo.deleteSearchHistory(ids);
+	public List<LiveSearchDTO> getLiveSearchList() {
+		
+		return repo.getLiveSearchList();
 	}
 }

@@ -29,6 +29,7 @@
 		<result column="id" property="id"/>
 		<result column="movie_id" property="movieId"/>
 		<result column="user_email" property="userEmail"/>
+		<result column="like_date" property="likeDate"/>
 	</resultMap>
 	
 	<select id="getMovieInfoById" resultMap="movieInfo">
@@ -44,7 +45,7 @@
 	</update>
 	
 	<insert id="movieLikeInsert" parameterType="com.watch.project.dto.MovieLikeDTO">
-		INSERT INTO movie_like VALUES(#{id}, #{movieId}, #{userEmail})
+		INSERT INTO movie_like VALUES(#{id}, #{movieId}, #{userEmail}, #{likeDate})
 	</insert>
 	
 	<select id="getLikeNumById" resultType="Integer">

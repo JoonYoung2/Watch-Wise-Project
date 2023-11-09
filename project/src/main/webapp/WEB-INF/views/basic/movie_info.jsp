@@ -15,20 +15,20 @@
 <c:set var="gradeNum" value="${ gradeInfo.gradeAvg } + ''"/>
 <input type="hidden" id="reviewScore" value="${ ifWroteComment.reviewScore }">
 <input type="hidden" id="gradeCnt" value="${ gradeInfo.gradeCnt }">
+	<br><br><br><br>
    <div align="center" style="width:100%;">
       <div align="center" style="width:80%; display:flex;">
          <div align="left" style="width:100%;">
-            <hr>
             <div style="display:flex; justify-content:center;">
 	            <div style="display:flex;">
 		            <div>
 			            <c:if test="${movieInfo.posterUrl[0] ne 'nan' }">
-				            <div align="right" style="margin-right:60px;">
+				            <div align="right">
 				               <img style="width:350px;" src="${ movieInfo.posterUrl[0] }">
 				            </div>
 				         </c:if>
 				         <c:if test="${movieInfo.posterUrl[0] eq 'nan' }">
-				            <div align="right" style="">
+				            <div align="right" style="margin-right:60px;">
 				               <div style="width:350px; height:497.88px; border:1px solid rgba(0, 0, 0, 0.1); display:flex; justify-content:center; align-items:center;">이미지가 없습니다.</div>
 				            </div>
 				         </c:if>
@@ -49,7 +49,7 @@
 			            	</div>
             			</div>
 			         </div>
-			         <div style="display:flex; height:497.88px; align-items:center;">
+			         <div style="display:flex; height:497.88px; align-items:center; margin-left:200px; padding-top:50px;">
 			         	<div>
 				         	<div style="display:flex;">
 				         		<div>
@@ -198,14 +198,7 @@
                               <c:if test="${ not empty peopleInfo.peopleCast[j] && peopleInfo.peopleId[j] eq '0' }">
                                  <div style="display:flex; width:25%;">
                                     <div>
-                                       <c:if test="${ peopleInfo.profileUrl[j] ne 'nan' }">
-											<div style="width: 80px; height: 80px; overflow: hidden; border-radius:100px;">
-										        <img style="max-width: 100%;" src="${ peopleInfo.profileUrl[j] }" alt="영화 포스터">
-										    </div>
-										</c:if>
-										<c:if test="${ peopleInfo.profileUrl[j] eq 'nan' }">
-											<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
-										</c:if>
+										<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
                                     </div>
                                     <div style="width: 230px; border-bottom: solid 1px rgba(0, 0, 0, 0.1); margin-left:20px;">
                                        <div style="padding-top:10px;">
@@ -247,14 +240,7 @@
                               <c:if test="${ not empty peopleInfo.peopleCast[j] && peopleInfo.peopleId[j] eq '0' }">
                                  <div style="display:flex; width:25%;">
                                     <div>
-                                       <c:if test="${ peopleInfo.profileUrl[j] ne 'nan' }">
-											<div style="width: 80px; height: 80px; overflow: hidden; border-radius:100px;">
-										        <img style="max-width: 100%;" src="${ peopleInfo.profileUrl[j] }" alt="영화 포스터">
-										    </div>
-										</c:if>
-										<c:if test="${ peopleInfo.profileUrl[j] eq 'nan' }">
-											<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
-										</c:if>
+										<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
                                     </div>
                                     <div style="width: 230px; border-bottom: solid 1px rgba(0, 0, 0, 0.1); margin-left:20px;">
                                        <div style="padding-top:10px;">
@@ -300,14 +286,7 @@
                               <c:if test="${ peopleInfo.peopleId[j] eq '0' }">
                                  <div style="display:flex; width:25%;">
                                     <div>
-                                       <c:if test="${ peopleInfo.profileUrl[j] ne 'nan' }">
-											<div style="width: 80px; height: 80px; overflow: hidden; border-radius:100px;">
-										        <img style="max-width: 100%;" src="${ peopleInfo.profileUrl[j] }" alt="영화 포스터">
-										    </div>
-										</c:if>
-										<c:if test="${ peopleInfo.profileUrl[j] eq 'nan' }">
-											<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
-										</c:if>
+										<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
                                     </div>
                                     <div style="width: 230px; border-bottom: solid 1px rgba(0, 0, 0, 0.1); margin-left:20px;">
                                        <div style="padding-top:10px;">
@@ -349,14 +328,7 @@
                               <c:if test="${ peopleInfo.peopleId[j] eq '0' }">
                                  <div style="display:flex; width:25%;">
                                     <div>
-                                       <c:if test="${ peopleInfo.profileUrl[j] ne 'nan' }">
-											<div style="width: 80px; height: 80px; overflow: hidden; border-radius:100px;">
-										        <img style="max-width: 100%;" src="${ peopleInfo.profileUrl[j] }" alt="영화 포스터">
-										    </div>
-										</c:if>
-										<c:if test="${ peopleInfo.profileUrl[j] eq 'nan' }">
-											<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
-										</c:if>
+										<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
                                     </div>
                                     <div style="width: 230px; border-bottom: solid 1px rgba(0, 0, 0, 0.1); margin-left:20px;">
                                        <div style="padding-top:10px;">

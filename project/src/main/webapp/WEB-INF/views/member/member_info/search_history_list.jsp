@@ -63,7 +63,7 @@
 			<div style="position:fixed; top:400px; right:300px;">
 				<div style="border:1px solid rgba(0, 0, 0, 0.1); width:300px; height:200px; display:flex; align-items:center; justify-content:center;">
 					<div>
-						<a href="deleteAllSearchHistory" style="all:unset; cursor:pointer;">
+						<a onclick="deleteAllSearchHistory();" style="all:unset; cursor:pointer;">
 							<div style="background-color:rgba(0, 0, 0, 0.5); color:white; width:200px; height: 40px; display:flex; align-items:center; justify-content:center; margin-bottom:20px;">
 								검색기록 모두 삭제
 							</div>

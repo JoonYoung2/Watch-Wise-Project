@@ -29,11 +29,18 @@
 					<td height="200" width="200" style="text-align:center;">
 						<div style="position:relative">
 							<div>
-								<div>
-									<img src="/resources/img/bean_profile.png" onclick="moveToActorInfo('${list.peopleId}');" style="width:80px; height:80px; cursor:pointer;" class="image-a" >
-								</div>
+								<c:if test="${ list.profileUrl ne 'nan' }">
+									<div align="center">
+										<div style="width: 80px; height: 80px; overflow: hidden; border-radius:100px;">
+									        <img style="max-width: 100%;" src="${ list.profileUrl }" alt="영화 포스터">
+									    </div>
+								    </div>
+								</c:if>
+								<c:if test="${ list.profileUrl eq 'nan' }">
+									<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
+								</c:if>
 								<div class="liked-actor-list-heart">
-								<img src="/resources/img/likeColor.png" onclick="actorLikeCancel('${ list.peopleId }','${cnt }');" style="cursor:pointer; width:20px; position:absolute; bottom:20px; right:60px;">
+									<img src="/resources/img/likeColor.png" onclick="actorLikeCancel('${ list.peopleId }','${cnt }');" style="cursor:pointer; width:20px; position:absolute; bottom:20px; right:60px;">
 								</div>
 								<div onclick="moveToActorInfo('${list.peopleId}');" style="font-size:17px; font-weight:bold; cursor:pointer;">${list.peopleNm}</div>
 							</div>

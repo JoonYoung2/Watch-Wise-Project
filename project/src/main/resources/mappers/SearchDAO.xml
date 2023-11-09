@@ -43,6 +43,11 @@
 		<result column="search_type" property="searchType"/>
 	</resultMap>
 	
+	<!-- 실시간 검색어 -->
+	<select id="getLiveSearchList" resultType="com.watch.project.dto.LiveSearchDTO">
+		SELECT * FROM live_search ORDER BY num ASC
+	</select>
+	<!-- 실시간 검색어 -->
 	<!-- 검색 기록 설정 관련 -->
 	<select id="getContentSearchByUserEmail" resultMap="contentSearch">
 		SELECT * FROM content_searching WHERE user_email=#{userEmail} AND NOT search_use=2 ORDER BY search_date DESC
@@ -86,7 +91,7 @@
 	</insert>
 	
 	<update id="recentSearchesAllRemoveUpdateByUserEmail" parameterType="String">
-		UPDATE content_searching SET search_use = 0 WHERE user_email=#{userEmail}
+		UPDATE content_searching SET search_use = 0 WHERE user_email=#{userEmail} AND search_use = 1
 	</update>
 	
 	<update id="recentSearchesAddUpdateByUserEmailAndContent" parameterType="Map">

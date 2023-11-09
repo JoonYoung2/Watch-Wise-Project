@@ -47,14 +47,22 @@ const checkboxClick = () => {
 }
 
 const deleteSearchHistory = () => {
-    let checkboxClass = document.querySelectorAll(".checkboxClass");
-    let ids = "";
-    for(var i = 0; i < checkboxClass.length; i++){
-        if(checkboxClass[i].checked == true){
-            ids += checkboxClass[i].value + ",";
+    if(window.confirm("선택하신 검색 목록을 삭제하시겠습니까?")){
+        let checkboxClass = document.querySelectorAll(".checkboxClass");
+        let ids = "";
+        for(var i = 0; i < checkboxClass.length; i++){
+            if(checkboxClass[i].checked == true){
+                ids += checkboxClass[i].value + ",";
+            }
         }
+        ids = ids.substring(0, ids.length-1);
+        location.href="deleteSearchHistory?ids=" + ids;
+        return;
     }
-    ids = ids.substring(0, ids.length-1);
-    location.href="deleteSearchHistory?ids=" + ids;
-    return;
+}
+
+const deleteAllSearchHistory = () => {
+    if(window.confirm("검색 목록을 모두 삭제하시겠습니까?")){
+        location.href="/deleteAllSearchHistory";
+    }
 }

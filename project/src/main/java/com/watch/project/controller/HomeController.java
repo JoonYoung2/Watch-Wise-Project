@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.watch.project.dto.LiveSearchDTO;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.MovieTopInfoDTO;
 import com.watch.project.service.HomeService;
@@ -57,6 +58,11 @@ public class HomeController {
 		String[] popularSearches = searchService.popularSearches();
 		
 		/*
+		 * 실시간 검색어
+		 */
+		List<LiveSearchDTO> liveSearchList = searchService.getLiveSearchList();
+		
+		/*
 		 * 최근 검색어 크기
 		 */
 		int recentSearchesSize = -1;
@@ -70,6 +76,7 @@ public class HomeController {
 		movieInfoMap.put("upcoming", upcomingMovies);
 		movieInfoMap.put("recentlyKorea", recentlyReleasedKoreanMovies);
 		movieInfoMap.put("recentlyForeign", recentlyReleasedForeignMovies);
+		model.addAttribute("liveSearch", liveSearchList);
 		model.addAttribute("movieInfoMap", movieInfoMap);
 		model.addAttribute("recentSearches", recentSearches);
 		model.addAttribute("popularSearches", popularSearches);

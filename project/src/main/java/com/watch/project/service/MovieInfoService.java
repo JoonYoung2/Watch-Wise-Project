@@ -1,5 +1,7 @@
 package com.watch.project.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +32,7 @@ public class MovieInfoService {
 	 */
 	public void movieLikeAdd(String movieId, String userEmail) {
 		String id = movieId + userEmail;
-		MovieLikeDTO movieLikeDto = new MovieLikeDTO(id, movieId, userEmail);
+		MovieLikeDTO movieLikeDto = new MovieLikeDTO(id, movieId, userEmail, getDate());
 		repo.movieLikeAdd(movieId);
 		repo.movieLikeInsert(movieLikeDto);
 	}
@@ -228,5 +230,11 @@ public class MovieInfoService {
 				.posterUrl(posterUrl)
 				.showTime(showTime)
 				.build();
+	}
+	
+	private String getDate() {
+		Date currentDate = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return dateFormat.format(currentDate);
 	}
 }

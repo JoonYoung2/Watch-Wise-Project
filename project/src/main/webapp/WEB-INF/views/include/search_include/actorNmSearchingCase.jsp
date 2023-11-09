@@ -8,13 +8,14 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<br><br>
 	<% int movieCnt = 0; %>
 	<% int pageCnt = 0; %>
 	<c:set var="peopleCnt" value="0"/>
 	<input type="hidden" id="searchListSize" value="${ actorNmSearchingCase.size() }">
-	&quot${ query }&quot 검색결과  ${ actorNmSearchingCase.size() }개<br>
+	<!-- &quot${ query }&quot 검색결과  ${ actorNmSearchingCase.size() }개<br> -->
 	
-	<div align="left" style="width:100%; padding-bottom:10px;"><span style="font-size:30px; font-weight:bold;">&quot${ query }&quot 연관 인물</span></div>
+	<div align="center" style="width:100%; padding-bottom:10px;"><span style="font-size:30px; font-weight:bold;">&quot${ query }&quot 연관 인물 ${ actorNmSearchingCase.size() }명</span></div>
 	<c:forEach var="peopleInfo" items="${ actorNmSearchingCase }">
 		<% if(pageCnt < 3){ %>
 			<div class="pageCnt" style="display:;">

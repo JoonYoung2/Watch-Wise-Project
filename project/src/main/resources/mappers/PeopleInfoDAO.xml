@@ -34,6 +34,7 @@
 		<result column="id" property="id"/>
 		<result column="people_id" property="peopleId"/>
 		<result column="user_email" property="userEmail"/>
+		<result column="like_date" property="likeDate"/>
 	</resultMap>
 	
 	<select id="getPeopleInfoDetailById" resultMap="peopleInfoDetail">
@@ -57,7 +58,7 @@
 	</select>
 	
 	<insert id="peopleLikeInsert" parameterType="com.watch.project.dto.PeopleLikeDTO">
-		INSERT INTO people_like VALUES(#{id}, #{peopleId}, #{userEmail})
+		INSERT INTO people_like VALUES(#{id}, #{peopleId}, #{userEmail}, #{likeDate})
 	</insert>
 	
 	<delete id="peopleLikeDelete" parameterType="String">

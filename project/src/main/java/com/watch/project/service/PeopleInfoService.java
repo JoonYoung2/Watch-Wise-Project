@@ -1,5 +1,7 @@
 package com.watch.project.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -52,6 +54,7 @@ public class PeopleInfoService {
 				.id(id)
 				.peopleId(peopleId)
 				.userEmail(userEmail)
+				.likeDate(getDate())
 				.build();
 		
 		repo.peopleLikeAdd(peopleId);
@@ -135,6 +138,10 @@ public class PeopleInfoService {
 		return gradeInfoDto;
 	}
 
-	
+	private String getDate() {
+		Date currentDate = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return dateFormat.format(currentDate);
+	}
 	
 }

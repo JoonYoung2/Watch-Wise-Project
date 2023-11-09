@@ -8,13 +8,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-	
+	<br><br>
 				
-	&quot${ query }&quot 검색결과  ${ movieNmSearchingCase.size() }개
+	<!-- &quot${ query }&quot 검색결과  ${ movieNmSearchingCase.size() }개 -->
 				
 	<!-- SearchCase1 검색결과 Movies START -->
-	<div align="left" style="width: 100%; padding-bottom: 10px;">
-		<span style="font-size: 30px; font-weight: bold;">&quot${ query }&quot 연관 영화</span>
+	<div align="center" style="width: 100%; padding-bottom: 10px;">
+		<span style="font-size: 30px; font-weight: bold;">&quot${ query }&quot 연관 영화 ${ movieNmSearchingCase.size() }개</span>
 	</div>
 	<div style="display: flex; position: relative">
 
@@ -111,8 +111,6 @@
 		<%@ include file="./recommend/memberRecommend.jsp"%>
 	</c:if>
 	<!-- SearchCase1 회원 추천 Movies END -->
-	
-	<br><br><br>
 
 	<!-- SearchCase1 Movie Informations START -->
 	<%-- <c:forEach var="movieInfo" items="${ movieNmSearchingCase }">

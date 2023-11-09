@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.watch.project.dto.ContentSearchingDTO;
+import com.watch.project.dto.LiveSearchDTO;
 import com.watch.project.dto.MemberConfigDTO;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.PeopleInfoDetailDTO;
@@ -58,5 +59,7 @@ public interface SearchRepository {
 	public void insertMemberConfig(String userEmail);
 	
 	public List<ContentSearchingDTO> getContentSearchByUserEmail(String userEmail);
+
+	public List<LiveSearchDTO> getLiveSearchList();
 	
 }
