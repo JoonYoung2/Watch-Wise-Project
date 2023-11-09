@@ -87,8 +87,12 @@ public class ReviewService {
 			msg ="코멘트를 입력해주세요.";
 			return msg;
 		}
-		String pk = dto.getMovieId()+(String)session.getAttribute("userEmail");
+		String pk = dto.getMovieId()+(String)session.getAttribute("userEmail"); //movie_review 테이블의 id
 		float existance = checkScore(pk);
+		
+		 //comment가 nan인지 판별
+		String commentNanCh = checkCommentNan(pk);//null 이다, catch에 걸린다, 아예 없으니 insert/ nan이다, 잘 나온다 update 
+		
 				
 		String dateStr = getDate();
 		
@@ -97,7 +101,7 @@ public class ReviewService {
 		dto.setReviewScore(existance);
 		dto.setReviewCommentDate(dateStr);
 		
-		if(existance > 0) {//평점을 먼저한 사람 => 이미 데이터 행이 있음. update
+		if(existance > 0 ||commentNanCh != null) {//평점을 먼저한 사람 => 이미 데이터 행이 있음. / update
 			int updateResult = repo.updateForComment(dto);
 			if(updateResult != 1) {
 				msg = "오류가 발생했습니다. 다시 시도해주세요.";
@@ -109,6 +113,17 @@ public class ReviewService {
 			}
 		}
 		return msg;
+	}
+
+	private String checkCommentNan(String pk) {
+		String result = null;
+		try {
+			MovieReviewDTO comment = repo.getComment(pk); //null 이다, catch에 걸린다, 아예 없으니 insert/ nan이다, 잘 나온다 update 
+			result = comment.getReviewComment();
+		}catch(Exception e){
+			System.out.println("오류발생");
+		}
+		return result;
 	}
 
 	private String getDate() {
@@ -154,7 +169,9 @@ public class ReviewService {
 	public String deleteComment(String id) {
 		String msg = "해당 코멘트가 삭제되었습니다.";
 		int deleteResult = repo.deleteComment(id);
+		repo.deleteCommentLike(id);
 		if(deleteResult != 1) {
+			System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
 			msg = "오류가 발생했습니다. 다시 시도해주세요.";
 		}
 		return msg;
@@ -214,7 +231,16 @@ public class ReviewService {
 		List<MovieReviewDTO> reviewInfoList = repo.selectReviewListByEmail(userEmail);//해당 유저의 모든 리뷰 조회
 		List<ReviewListDTO> reviewList = new ArrayList<>();
 		for(MovieReviewDTO movie : reviewInfoList) {
-			MovieInfoDTO movieInfo = movieInfoRepo.getMovieInfoById(movie.getMovieId());
+			CommentLikedUsersDTO likedComment = new CommentLikedUsersDTO();
+			Map<String, String> box = new HashMap<>();
+			box.put("userEmail", userEmail);
+			box.put("id", movie.getId());
+			try{
+				likedComment = repo.chIfLikedComment(box);
+			}catch(Exception e) {
+				likedComment = null;
+			}
+			MovieInfoDTO movieInfo = movieInfoRepo.getMovieInfoById(movie.getMovieId()); //리뷰의 영화 모든 정보 조회
 			String[] mainPosterList = movieInfo.getPosterUrl().split("\\|");
 			String mainPoster = mainPosterList[0];
 			ReviewListDTO tempDto = new ReviewListDTO();
@@ -224,8 +250,15 @@ public class ReviewService {
 			tempDto.setReviewScore(movie.getReviewScore());
 			tempDto.setReviewComment(movie.getReviewComment());
 			tempDto.setReviewCommentDate(movie.getReviewCommentDate());
+			tempDto.setReviewCommentLikes(movie.getReviewCommentLikes());
 			tempDto.setMovieNm(movieInfo.getMovieNm());
 			tempDto.setMovieNmEn(movieInfo.getMovieNmEn());
+			tempDto.setGenreNm(movieInfo.getGenreNm());
+			if(likedComment != null) {
+				tempDto.setLiked(1);
+			}else {
+				tempDto.setLiked(0);
+			}
 			tempDto.setPosterUrl(mainPoster);
 			reviewList.add(tempDto);
 		}

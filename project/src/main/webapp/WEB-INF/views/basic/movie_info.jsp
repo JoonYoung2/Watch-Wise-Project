@@ -386,8 +386,8 @@
             <span class="date">${ifWroteComment.reviewCommentDate} </span>
         </span>
         <span>
-           <button type="button" onclick="showModifyForm();">수정</button>
-           <button type="button" onclick="location.href='/delete_comment?id=${ifWroteComment.id }&movieId=${movieInfo.movieId }' ">삭제</button>
+			<img src="resources/img/thinPencil.png" onclick="showModifyForm();" style="cursor:pointer; width:20px;"/>
+			<img src="resources/img/bin.png" onclick="location.href='/deleteComment?id=${ifWroteComment.id }&movieId=${movieInfo.movieId }'" style="padding-left:8px; cursor:pointer; width:20px;"/>
         </span>
        </div>   
        
@@ -424,18 +424,23 @@
             <span class="date">${dto.reviewCommentDate} </span>
         </span>
         <span>
-        <span class="comment_like_count">♥ x ${dto.reviewCommentLikes }</span>
+        <span>
+        	<img src="resources/img/likeColor.png" style="width:20px; vertical-align:-5px;">
+        	<span> x </span>
+        	<span class="comment_like_count" style="vertical-align:-1px;">${dto.reviewCommentLikes }</span>
+        	
+       	</span>
         <br><br>
         <span class="comment">
         <c:choose>
         <c:when test="${dto.isLiked eq 0 }">
-           <button class="likeButton" onclick="increaseLikeCount('${dto.userEmail}', '${movieInfo.movieId}', '${ cnt }');">♡</button>
+        	<img class="likeButton" src="resources/img/like.png" style="width:30px;margin-left:15px;" onclick="increaseLikeCount('${dto.userEmail}', '${movieInfo.movieId}', '${ cnt }');">
         </c:when>
         <c:otherwise>
-           <button class="likeButton" onclick="decreaseLikeCount('${dto.userEmail}', '${movieInfo.movieId}', '${ cnt }');">♥</button>
+           <img class="likeButton" src="resources/img/likeColor.png" style="width:30px; margin-left:15px;" onclick="decreaseLikeCount('${dto.userEmail}', '${movieInfo.movieId}', '${ cnt }');">
         </c:otherwise>
         </c:choose>
-        <br><br>
+
         
         </span>
         </span>

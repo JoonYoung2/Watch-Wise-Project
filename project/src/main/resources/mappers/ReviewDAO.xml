@@ -67,9 +67,12 @@
 	</select>
 	
 	<update id="deleteComment" parameterType="String">
-		UPDATE movie_review SET review_comment='nan', review_comment_date = NULL WHERE id=#{id}
+		UPDATE movie_review SET review_comment='nan', review_comment_date = NULL, review_comment_likes = 0 WHERE id=#{id}
 	</update>
 	
+	<delete id="deleteCommentLike" parameterType="String">
+		DELETE FROM comment_liked_users WHERE comment_id=#{id}
+	</delete>
 <!-- 	<delete id="deleteFromMovieReview" parameterType="String">//////////////////////////////////////////////////////////////////// -->
 <!-- 		DELTE FROM movie_review WHERE user_email=#{userEmail} -->
 <!-- 	</delete> -->
@@ -128,5 +131,9 @@
 	
 	<select id="getAmountOfLikedComments" resultType="Integer">
 		SELECT COUNT(*) FROM comment_liked_users WHERE liked_user_email=#{userEmail}
+	</select>
+	
+	<select id="chIfLikedComment" resultMap="comment_liked_user">
+		SELECT * FROM comment_liked_users WHERE comment_id=#{id} AND liked_user_email=#{userEmail}
 	</select>
 </mapper>

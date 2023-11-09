@@ -54,7 +54,7 @@
 							<a href="socialMemberInfoModify">
 						</c:otherwise>
 						</c:choose>
-							<img src="resources/img/pencil.png" style="width:20px;"/>
+							<img src="resources/img/pencil.png" style="cursor:pointer; width:20px;"/>
 							</a>
 				</div>
 			</div>
@@ -64,12 +64,12 @@
 		</div>
 		
 		<div style="display: flex; border-top: 1px solid rgb(244, 244, 247); margin-top:40px;">
-			<a href="/userReviewList" style="flex: 1; text-align: center; text-decoration:none; margin-top:10px;">
+			<a href="/userMyScoredMovieList" style="flex: 1; text-align: center; text-decoration:none; color:inherit; margin-top:10px;">
 				<span style="font-size:18px;">평가</span><br>
 				<span>${map['score']}</span>
 			</a>
 			<div style="background-color: rgb(232, 232, 239); width: 1px; height: 60px;"></div>
-			<a href="/userReviewList" style="flex: 1; text-align: center; text-decoration:none; margin-top:10px;">
+			<a href="/userMyCommentList" style="flex: 1; text-align: center; text-decoration:none; color:inherit; margin-top:10px;">
 				<span style="font-size:18px;">코멘트</span><br>
 				<span>${map['comment']}</span>
 			</a>

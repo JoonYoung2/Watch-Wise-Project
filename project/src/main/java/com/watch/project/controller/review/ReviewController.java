@@ -18,7 +18,10 @@ import com.watch.project.dto.userInfo.LikedCommentListDTO;
 import com.watch.project.dto.userInfo.ReviewListDTO;
 import com.watch.project.service.ReviewService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class ReviewController {
 	@Autowired
 	private ReviewService service;
@@ -31,13 +34,19 @@ public class ReviewController {
 		return "redirect:/movieInfo?movieId="+movieId;
 	}
 	
-	@GetMapping("/delete_comment")
+	@GetMapping("/deleteComment")
 	public String deleteComment(@RequestParam("id") String id, @RequestParam("movieId") String movieId, RedirectAttributes redirectAttr) {
 		String msg = service.deleteComment(id);
 		redirectAttr.addFlashAttribute("msg", msg);
 		return "redirect:/movieInfo?movieId="+movieId;
 	}
 	
+	@GetMapping("/deleteCommentFromMyCommentList")
+	public String deleteCommentFromMyCommentList(@RequestParam("id") String id, @RequestParam("movieId") String movieId, RedirectAttributes redirectAttr) {
+		String msg = service.deleteComment(id);
+		redirectAttr.addFlashAttribute("msg", msg);
+		return "redirect:/userMyCommentList";
+	}
 	@PostMapping("/modifyComment")
 	public String modifyComment(MovieReviewDTO dto, RedirectAttributes redirectAttr) {
 		String msg = service.modifyComment(dto);
@@ -45,11 +54,26 @@ public class ReviewController {
 		return "redirect:/movieInfo?movieId="+dto.getMovieId();
 	}
 	
-	@GetMapping("/userReviewList")
-	public String userReviewList(Model model, HttpSession session) {
-		List<ReviewListDTO> reviewList = service.getReviewList((String)session.getAttribute("userEmail")); 
+//	@GetMapping("/userReviewList")
+//	public String userReviewList(Model model, HttpSession session) {
+//		List<ReviewListDTO> reviewList = service.getReviewList((String)session.getAttribute("userEmail")); 
+//		model.addAttribute("reviewList", reviewList);
+//		return "member/member_info/review_list";
+//	}
+	
+	@GetMapping("/userMyCommentList")
+	public String userMyCommentList(Model model, HttpSession session) {
+		List<ReviewListDTO> reviewList = service.getReviewList((String)session.getAttribute("userEmail"));
+		log.info("reviewList => {}", reviewList);
 		model.addAttribute("reviewList", reviewList);
-		return "member/member_info/review_list";
+		return "member/member_info/my_comment_list";
+	}
+	
+	@GetMapping("/userMyScoredMovieList")
+	public String userMyScoredMovieList(Model model, HttpSession session) {
+		List<ReviewListDTO> reviewList = service.getReviewList((String)session.getAttribute("userEmail"));
+		model.addAttribute("reviewList", reviewList);
+		return "member/member_info/my_scored_movie_list";
 	}
 	
 	@GetMapping("/userLikedCommentList")

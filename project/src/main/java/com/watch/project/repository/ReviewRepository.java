@@ -58,5 +58,9 @@ public interface ReviewRepository {
 
 	Integer getAmountOfLikedComments(String userEmail);
 
+	int deleteCommentLike(String id);
+
+	CommentLikedUsersDTO chIfLikedComment(Map<String, String> box);
+
 //	int deleteFromMovieReview(String userEmail);////////////////////////////////////////////////////////////////
 }
