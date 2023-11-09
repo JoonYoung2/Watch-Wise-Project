@@ -50,52 +50,17 @@
 				</div>
 				<div align="right" id="header" style="width:50%;">
 				<c:if test="${empty sessionScope.userLoginType }">
-					<a href="selectSignUpType">sign up</a>
-					<a href="/signIn">sign in</a>
-				</c:if>
-				<!---------------------------------------------------- Kakao ---------------------------------------------------------------------------------- -->
-				<c:if test="${sessionScope.userLoginType eq 2 }">
-					<a style="cursor:pointer" href="https://kauth.kakao.com/oauth/logout?client_id=36b59ada5e8b70c6afae51b77c038484&logout_redirect_uri=http://localhost:8080/kakaoSignOut" >
-					sign out
-					</a>
-					<a style="cursor:pointer" onclick="socialConfirmUnregister()">
-					Unregister
-					</a>
-				</c:if>
-				
-				<!---------------------------------------------------- Naver ---------------------------------------------------------------------------------- -->
-				<c:if test="${sessionScope.userLoginType eq 3 }">
-					<a style="cursor:pointer" onclick="naverConfirmSignOut()"><!-- 혹시 탈퇴하거나 할 때 정보 동의 다 철회하고 토큰도 없애고 싶다면 a href ="remove?token=${sessionScope.accessToken }" 으로 하면 된다.-->
-						sign out
-					</a>
-					<a style="cursor:pointer" onclick="socialConfirmUnregister()">
-						Unregister
-					</a>
-				</c:if>
-					
-				<!---------------------------------------------------- Google ---------------------------------------------------------------------------------- -->
-				
-				<c:if test="${sessionScope.userLoginType eq 4 }">
-					<a style="cursor:pointer" onclick="googleConfirmSignOut()">
-					sign out
-					</a>
-					<a style="cursor:pointer" onclick="socialConfirmUnregister()">
-					Unregister
-					</a>
-				</c:if>
-				
-				<!---------------------------------------------------- Local ---------------------------------------------------------------------------------- -->
-				
-				<c:if test="${sessionScope.userLoginType eq 0 || sessionScope.userLoginType eq 1  }">
-					<a style="cursor:pointer" onclick="localConfirmSignOut()">
-						sign out
-					</a>
-					<a href="/unregister">Unregister</a>
+					<a href="/signIn" style="text-decoration:none; color:inherit; font-size:13px;">로그인</a>&nbsp	&nbsp	
+					<button style="background-color:transparent; border:1px solid rgb(200, 200, 300); padding:5px; border-radius:5px;">
+						<a href="selectSignUpType" style="text-decoration:none; color:inherit; font-size:13px;">회원가입</a>
+					</button>
 				</c:if>
 					<!-------------------------------------------------------------------------------------------------------------------------------------- -->
+				<c:if test="${not empty sessionScope.userEmail }">
 					<a style="cursor:pointer" href="/memberInfo">
 						<img style="width:30px; cursor:pointer;" src="resources/img/bean_profile.png"/>
 					</a>
+				</c:if>
 				</div>
 				<hr>
 			</div>
