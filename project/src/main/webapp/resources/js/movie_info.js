@@ -251,9 +251,9 @@ function increaseLikeCount(userEmail, movieId, cnt) {
         contentType: 'application/json', // 데이터 타입 설정
 		success: (response) => {//response : {result: 1}
 		console.log(response.result);
-		msg += "<button class='likeButton' onclick='decreaseLikeCount(\"" + userEmail + "\", \"" + movieId + "\", " + cnt + ");'>♥</button>";
+		msg += "<img class='likeButton' src='resources/img/likeColor.png' style='width:30px; margin-left:15px;' onclick='decreaseLikeCount(\"" + userEmail + "\", \"" + movieId + "\", " + cnt + ");'>";
 			comment[num].innerHTML=msg;
-		countMsg +=  "♥ x "+response.result;
+		countMsg += response.result;
 			count[num].innerHTML=countMsg;
 		},
 		error: () => {
@@ -278,9 +278,9 @@ function decreaseLikeCount(userEmail, movieId, cnt) {
 		data: JSON.stringify(data), // 데이터를 JSON 문자열로 변환
         contentType: 'application/json', // 데이터 타입 설정
 		success: (response) => {
-		msg += "<button class='likeButton' onclick='increaseLikeCount(\"" + userEmail + "\", \"" + movieId + "\", " + cnt + ");'>♡</button>";
+			msg += "<img class='likeButton' src='resources/img/like.png' style='width:30px;margin-left:15px;' onclick='increaseLikeCount(\"" + userEmail + "\", \"" + movieId + "\", " + cnt + ");'>";
 			comment[num].innerHTML=msg;
-		countMsg +=  "♥ x "+response.result;
+		countMsg += response.result;
 			count[num].innerHTML=countMsg;
 		},
 		error: () => {

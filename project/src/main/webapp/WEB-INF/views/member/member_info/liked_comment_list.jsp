@@ -14,6 +14,7 @@
 <br>
 <br>
 	<h3 style="text-align:center">내가 좋아요한 코멘트들</h3>
+	<br>
 	<c:set var="cntForMovie" value="0"/>
 	<c:set var="cntForComment" value="0"/>
 	<c:forEach var="list" items="${likedCommentList}">
@@ -47,26 +48,24 @@
             <b>${comment.reviewComment}</b> <br>
             <span class="date">${comment.reviewCommentDate} </span>
         </span>
-        <span>
-        <span class="comment_like_count">♥ x ${comment.reviewCommentLikes }</span>
+        
+        <span style="margin-right:14px;">
+	        <span>
+		        <img style="width:20px; vertical-align:-5px;" src="resources/img/likeColor.png"> 
+		        <span> x </span>
+		        <span class="comment_like_count" style="vertical-align:-1px;">${comment.reviewCommentLikes}</span>
+        	</span>
         <br><br>
         <span class="comment">
-           <button class="likeButton" onclick="decreaseLikeCount('${comment.userEmail}', '${movieInfo.movieId}', '${ cntForComment }');">♥</button>
-        <br><br>
+        	<img class="likeButton" src="resources/img/likeColor.png" style="width:30px; margin-left:15px;" onclick="decreaseLikeCount('${comment.userEmail}', '${movieInfo.movieId}', '${ cntForComment }');">     
+        </span>
+        </span>
         
-        </span>
-        </span>
         <c:set var="cntForComment" value="${ cntForComment+1 }"/>
     </div>   
     </c:if>
    </c:forEach>
-		<!-- 
-		<c:forEach var="comment" items="${list.movieReviewDto }">
-		<div class="comment-info">
-		${comment.reviewComment }
-		</div>
-		</c:forEach>
-		 -->
+
 	</div>
 	<br>
 	   	<c:set var="cntForMovie" value="${ cntForMovie+1 }"/>
