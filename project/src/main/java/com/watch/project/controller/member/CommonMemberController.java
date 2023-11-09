@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.binding.BindingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.watch.project.dto.MemberDTO;
+import com.watch.project.repository.SearchRepository;
 import com.watch.project.service.SearchService;
 import com.watch.project.service.member.CommonMemberService;
 import com.watch.project.service.member.GoogleMemberService;
@@ -31,6 +33,8 @@ public class CommonMemberController {
 	private SearchService searchService;
 	@Autowired
 	private CommonMemberService common;
+	@Autowired
+	private SearchRepository searchRepository;
 	
 	@GetMapping("/selectSignUpType")
 	public String selectSignUpType(Model model, HttpSession session) {
@@ -55,6 +59,14 @@ public class CommonMemberController {
 		String userEmail = (String)session.getAttribute("userEmail");
 		MemberDTO memberInfo = common.getMemberInfoByEmail(userEmail);
 		Map<String, Integer> numbers = common.getNumbersOfDatasForMemberInfo(userEmail);
+		
+		int searchHistory = 0;
+		try {
+			searchHistory = searchRepository.getSearchHistoryByUserEmail(userEmail);
+		}catch(NullPointerException e) {
+		}catch(BindingException e) {
+		}
+		
 		/*
 		 * 최근 검색어
 		 */
@@ -69,6 +81,7 @@ public class CommonMemberController {
 		model.addAttribute("popularSearches", popularSearches);
 		model.addAttribute("dto", memberInfo);
 		model.addAttribute("map", numbers);
+		model.addAttribute("searchHistory", searchHistory);
 		return "member/member_info/member_info";
 	}
 	

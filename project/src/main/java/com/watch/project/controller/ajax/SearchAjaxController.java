@@ -28,4 +28,11 @@ public class SearchAjaxController {
 	public List<RelatedSearchResponseDTO> getRelatedSearchByContentAndUserEmail(@RequestParam("query") String content){
 		return service.getRelatedSearchByContentAndUserEmail(content);
 	}
+	
+	@GetMapping("searchConfig")
+	public int searchConfig() {
+		int searchHistory = service.searchConfig();
+		
+		return searchHistory;
+	}
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.watch.project.dto.ContentSearchingDTO;
+import com.watch.project.dto.MemberConfigDTO;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.PeopleInfoDetailDTO;
 import com.watch.project.dto.relatedSearch.RelatedSearchRequestDTO;
@@ -38,8 +39,24 @@ public interface SearchRepository {
 	
 	public void recentSearchesAddUpdateByUserEmailAndContent(Map<String, String> map);
 	
+	public void recentSearchesAddUpdateByUserEmailAndContent2(Map<String, String> map);
+	
 	public List<RelatedSearchResponseDTO> getRelatedSearchByContentAndUserEmail(RelatedSearchRequestDTO dto);
 	
 	public List<MovieInfoDTO> getMovieReguxSearching(String content);
+	
+	public void deleteAllSearchHistory(String userEmail);
+	
+	public void deleteSearchHistory(String ids);
+
+	public int getSearchHistoryByUserEmail(String userEmail);
+	
+	public void searchOff(String userEmail);
+	
+	public void searchOn(String userEmail);
+	
+	public void insertMemberConfig(String userEmail);
+	
+	public List<ContentSearchingDTO> getContentSearchByUserEmail(String userEmail);
 	
 }

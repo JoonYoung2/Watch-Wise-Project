@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.watch.project.dto.ContentSearchingDTO;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.PeopleInfoDetailDTO;
 import com.watch.project.dto.searchView.MovieInfoSearchViewDTO;
@@ -30,7 +31,7 @@ public class SearchController {
 	private final HttpSession session;
 	private final PeopleInfoService peopleInfoService;
 	
-	@GetMapping("search")
+	@GetMapping("/search")
 	public String searching(@RequestParam("query") String query, Model model) {
 		List<MovieInfoSearchViewDTO> movieInfoSearchViewList = null;
 		List<PeopleInfoSearchViewDTO> peopleInfoSearchViewList = null;
@@ -75,6 +76,11 @@ public class SearchController {
 		List<MovieInfoDTO> memberCommendedList = service.getMemberCommendedList();
 		
 		/*
+		 * DB때문에 ''로 변환했던 거 다시 '하나로 돌리기 위해
+		 */
+		query = query.replaceAll("''", "'");
+		
+		/*
 		 * 검색어 저장
 		 */
 		service.queryInsert(query);
@@ -99,11 +105,6 @@ public class SearchController {
 		}catch(NullPointerException e) {
 			
 		}
-		
-		/*
-		 * DB때문에 ''로 변환했던 거 다시 '하나로 돌리기 위해
-		 */
-		query = query.replaceAll("''", "'");
 		
 		/*
 		 * 사람만 서칭됐을 때
@@ -135,6 +136,47 @@ public class SearchController {
 		model.addAttribute("query", query);
 		model.addAttribute("nothing", "검색결과가 없습니다.");
 		return "basic/search_info";
+	}
+	
+	@GetMapping("/searchHistoryView")
+	public String searchHistoryView(Model model) {
+		List<ContentSearchingDTO> contentSearchList = service.getContentSearchByUserEmail();
+		String[] recentSearches = service.recentSearchesByUserEmail();
+		String[] popularSearches = service.popularSearches();
+		
+		if(contentSearchList.size() == 0) {
+			String msg = "검색기록이 존재하지 않습니다.";
+			String location = "/memberInfo";
+			String view = alertAndView(msg, location, model);
+			return view;
+		}
+		model.addAttribute("recentSearches", recentSearches);
+		model.addAttribute("popularSearches", popularSearches);
+		model.addAttribute("contentSearch", contentSearchList);
+		return "member/member_info/search_history_list";
+	}
+	
+	@GetMapping("/deleteAllSearchHistory")
+	public String deleteAllSearchHistory(Model model) {
+		service.deleteAllSearchHistory();
+		String msg = "삭제가 완료되었습니다.";
+		String location = "/memberInfo";
+		model.addAttribute("msg", msg);
+		model.addAttribute("location", location);
+		return "alert_and_view";
+	}
+	
+	@GetMapping("/deleteSearchHistory")
+	public String deleteAllSearchHistory(@RequestParam("ids") String ids) {
+		service.deleteSearchHistory(ids);
+		return "redirect:searchHistoryView";
+	}
+	
+	private String alertAndView(String msg, String location, Model model) {
+		String view = "alert_and_view";
+		model.addAttribute("msg", msg);
+		model.addAttribute("location", location);
+		return view;
 	}
 
 	/*
