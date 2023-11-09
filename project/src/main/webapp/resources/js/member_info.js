@@ -194,3 +194,24 @@ function actorLikeAdd(peopleId, cnt){
 	});
 	console.log("바깥-------------------배우 좋아요 수를 1 증가시킵니다.");
 }
+
+const searchConfig = () => {
+	console.log("gdgd");
+	let msg = "";
+	$.ajax({
+		url: "/searchConfig",
+		method: "GET",
+		success: (response) =>{
+			let onAndOffId = document.getElementById("onAndOff");
+			if(response == 0){
+				msg += "<div class='on' style='color:#2AAEFA; font-weight:bold; cursor:pointer;' onclick='searchConfig()'>ON</div>";
+			}else{
+				msg += "<div class='on' style='color:red; font-weight:bold; cursor:pointer;' onclick='searchConfig()'>OFF</div>";
+			}
+			onAndOffId.innerHTML = msg;
+		},
+		error: ()=>{
+			console.log(error);
+		}
+	});
+}

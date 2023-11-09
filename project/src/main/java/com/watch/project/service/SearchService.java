@@ -14,6 +14,7 @@ import org.apache.ibatis.binding.BindingException;
 import org.springframework.stereotype.Service;
 
 import com.watch.project.dto.ContentSearchingDTO;
+import com.watch.project.dto.MemberConfigDTO;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.PeopleInfoDetailDTO;
 import com.watch.project.dto.movieInfoView.GradeInfoDTO;
@@ -37,6 +38,29 @@ public class SearchService {
 	private final RecommendedRepository recommendedRepository;
 	private final HomeRepository homeRepository;
 	private final HttpSession session;
+	
+	public int searchConfig() {
+		int searchHistory = 0;
+		String userEmail = (String) session.getAttribute("userEmail");
+		try {
+			searchHistory = repo.getSearchHistoryByUserEmail(userEmail);
+			if(searchHistory == 1) {
+				repo.searchOn(userEmail);
+				searchHistory = 0;
+			}else {
+				repo.searchOff(userEmail);
+				searchHistory = 1;
+			}
+		}catch(NullPointerException e) {
+			repo.insertMemberConfig(userEmail);
+			searchHistory = 1;
+		}catch(BindingException e) {
+			repo.insertMemberConfig(userEmail);
+			searchHistory = 1;
+		}
+		
+		return searchHistory;
+	}
 	
 	public List<MovieInfoSearchViewDTO> movieNmSearchingCase(String query){
 		List<MovieInfoDTO> movieInfoList = repo.searchingStep1(query);
@@ -194,15 +218,23 @@ public class SearchService {
 	}
 	
 	public void queryInsert(String query) {
-		Map<String, String> searchMap = new HashMap<>();
 		String userEmail = (String)session.getAttribute("userEmail");
 		if(userEmail == null) {
 			return;
 		}
+		int searchHistory = 0;
+		try {
+			searchHistory = repo.getSearchHistoryByUserEmail(userEmail);			
+		}catch(NullPointerException e) {
+		}catch(BindingException e) {
+		}
+		
+		Map<String, String> searchMap = new HashMap<>();
 		searchMap.put("userEmail", userEmail);
 		searchMap.put("content", query);
 		int searchingCheck = repo.getSearchingCheckByUserEmailAndContent(searchMap);
-		if(searchingCheck == 0) {
+		
+		if(searchingCheck == 0 && searchHistory == 0) {
 			ContentSearchingDTO contentSearchingDto =
 					ContentSearchingDTO
 					.builder()
@@ -212,12 +244,32 @@ public class SearchService {
 					.searchUse(1)
 					.build();
 			repo.contentInsert(contentSearchingDto);
+		}else if(searchingCheck == 0 && searchHistory == 1){
+			ContentSearchingDTO contentSearchingDto =
+					ContentSearchingDTO
+					.builder()
+					.userEmail(userEmail)
+					.content(query)
+					.searchDate(getDate())
+					.searchUse(2)
+					.build();
+			repo.contentInsert(contentSearchingDto);
 		}else {
 			Map<String, String> map = new HashMap<>();
 			map.put("userEmail", userEmail);
+			map.put("searchDate", getDate());
 			map.put("content", query);
-			repo.recentSearchesAddUpdateByUserEmailAndContent(map);
+			if(searchHistory == 0) {
+				repo.recentSearchesAddUpdateByUserEmailAndContent(map);				
+			}else {
+				repo.recentSearchesAddUpdateByUserEmailAndContent2(map);
+			}
 		}
+	}
+	
+	public List<ContentSearchingDTO> getContentSearchByUserEmail(){
+		String userEmail = (String) session.getAttribute("userEmail");
+		return repo.getContentSearchByUserEmail(userEmail);
 	}
 	
 	public void recentSearchesAllRemoveUpdateByUserEmail() {
@@ -1178,5 +1230,14 @@ public class SearchService {
 //		}
 		
 		return conversion;
+	}
+
+	public void deleteAllSearchHistory() {
+		String userEmail = (String) session.getAttribute("userEmail");
+		repo.deleteAllSearchHistory(userEmail);
+	}
+
+	public void deleteSearchHistory(String ids) {
+		repo.deleteSearchHistory(ids);
 	}
 }

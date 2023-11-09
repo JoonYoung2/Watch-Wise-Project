@@ -100,7 +100,7 @@ public class PeopleProfileUpdateScheduled {
 	/*
 	 * 여러 결과가 있을 경우 DAO에 WHERE profile_url='nan' 추가
 	 */
-	@Scheduled(cron = "15 4 21 * * *")
+	@Scheduled(cron = "45 52 23 * * *")
 	public void peopleDetailSearchAndSave2() throws UnsupportedEncodingException {
 		List<PeopleInfoDetailDTO> peopleInfoDetailList = service.getAllPeopleInfoDetail();
 		while(cnt != peopleInfoDetailList.size()) {
