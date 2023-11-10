@@ -27,7 +27,7 @@ public class PeopleInfoController {
 	private final PeopleInfoService service;
 	private final SearchService searchService;
 	
-	@GetMapping("peopleInfo")
+	@GetMapping("peopleInfo") 
 	public String peopleInfoView(@RequestParam int peopleId, Model model, HttpSession session) {
 		
 		/*

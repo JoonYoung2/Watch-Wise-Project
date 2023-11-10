@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watch.project.repository.admin.AutoPagingRepository">
+	
+	<resultMap type="com.watch.project.dto.admin.PagingConfigDTO" id="pagingConfig">
+		<result column="id" property="id" />
+		<result column="table_nm" property="tableNm" />
+		<result column="columns" property="columns" />
+		<result column="order_by_column" property="orderByColumn" />
+		<result column="row_num" property="rowNum" />
+	</resultMap>
+	
+	<select id="getAllPagingConfig" resultMap="pagingConfig">
+		SELECT * FROM paging_config
+	</select>
+	
+	<select id="getPagingConfigByTableNmAndOrderByColumn" resultMap="pagingConfig">
+		SELECT * FROM paging_config WHERE table_nm=#{tableNm} AND order_by_column=#{orderByColumn}
+	</select>
+	
+	<insert id="insertPagingConfig" parameterType="com.watch.project.dto.admin.PagingConfigDTO">
+		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+			SELECT NVL(MAX(id), 0)+1 FROM paging_config
+		</selectKey>
+		INSERT INTO paging_config values(#{id}, #{tableNm}, #{columns}, #{orderByColumn}, #{rowNum})
+	</insert>
+
+	<update id="updatePagingConfig" parameterType="com.watch.project.dto.admin.PagingConfigDTO">
+		UPDATE paging_config SET table_nm=#{tableNm}, columns=#{columns}, order_by_column=#{orderByColumn}, row_num = #{rowNum} WHERE id=#{id}
+	</update>
+	
+	<delete id="deletePagingConfig" parameterType="String">
+		DELETE FROM paging_config WHERE id=#{id}
+	</delete>
+	
+	<update id="updateRowNumByTableNm" parameterType="com.watch.project.dto.admin.PagingConfigDTO">
+		UPDATE paging_config SET row_num=#{rowNum} WHERE table_nm=#{tableNm}
+	</update>
+	
+</mapper>
+
