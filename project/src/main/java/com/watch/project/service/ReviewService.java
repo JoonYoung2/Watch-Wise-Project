@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,11 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.watch.project.controller.HomeController;
+import com.watch.project.dto.memberInfo.MyScoredListDTO;
 import com.watch.project.dto.CommentLikedUsersDTO;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.MovieReviewDTO;
-import com.watch.project.dto.userInfo.LikedCommentListDTO;
-import com.watch.project.dto.userInfo.ReviewListDTO;
+import com.watch.project.dto.memberInfo.LikedCommentListDTO;
+import com.watch.project.dto.memberInfo.ReviewListDTO;
 import com.watch.project.repository.MovieInfoRepository;
 import com.watch.project.repository.ReviewRepository;
 
@@ -313,6 +315,205 @@ public class ReviewService {
 		log.info("review service final DTO => {}", FinalDtoList);
 
 		return FinalDtoList;
+	}
+
+	public String updateNewComment(MovieReviewDTO dto) {
+		String msg = "코멘트 수정이 완료되었습니다.";
+		String dateStr = getDate();
+		dto.setReviewCommentDate(dateStr);
+		System.out.println("dto.getReviewComment()" + dto.getReviewComment() );
+		System.out.println("dto.getreviewCommentDate()" + dto.getReviewCommentDate() );
+		System.out.println("dto.getid()" + dto.getId() );
+		int result = repo.updateForComment(dto);
+		
+		if(result != 1) {
+			msg = "오류가 발생했습니다. 다시 시도해주세요.";
+			System.out.println("result가 1이 아님. 오류 발생.");
+		}
+		return msg;
+	}
+
+//	public List<MyScoredListDTO> getMyScoredMovieList(String userEmail) {
+//		List<MyScoredListDTO> finalList = new ArrayList<>();
+//		List<MovieReviewDTO> reviewDtoList = repo.getMoveReviewDTOWhereScoreIsNotZero(userEmail);
+//		for( MovieReviewDTO reviewDto : reviewDtoList ) {
+//			String movieId = reviewDto.getMovieId();
+//			MovieInfoDTO movieInfoDto = movieInfoRepo.getMovieInfoById(movieId);
+//			MyScoredListDTO tempDto = MyScoredListDTO.builder()
+//					.movieReviewDto(reviewDto)
+//					.movieInfoDto(movieInfoDto).build();
+//			finalList.add(tempDto);		
+//		}
+//		return finalList;
+//	}
+
+	public List<MyScoredListDTO> getScoreFive(String userEmail) { //스코어가 5.0인 애들
+		List<MyScoredListDTO> finalList = new ArrayList<>();
+		List<MovieReviewDTO> listFive = repo.getMoveReviewDtoWhereScoreIsFive(userEmail);
+		for( MovieReviewDTO movieReviewFive : listFive ) {
+			String movieId = movieReviewFive.getMovieId();
+			MovieInfoDTO movieInfoDto = movieInfoRepo.getMovieInfoById(movieId);
+			MyScoredListDTO tempDto = MyScoredListDTO.builder()
+					.movieReviewDto(movieReviewFive)
+					.movieInfoDto(movieInfoDto).build();
+			finalList.add(tempDto);
+		}
+		return finalList;
+	}
+
+	public List<MyScoredListDTO> getScoreFourPointFive(String userEmail) { //스코어가 4.5인 애들
+		List<MyScoredListDTO> finalList = new ArrayList<>();
+		List<MovieReviewDTO> listFourPointFive = repo.getMoveReviewDtoWhereScoreIsFourPointFive(userEmail);
+		for( MovieReviewDTO movieReviewFourPointFive : listFourPointFive ) {
+			String movieId = movieReviewFourPointFive.getMovieId();
+			MovieInfoDTO movieInfoDto = movieInfoRepo.getMovieInfoById(movieId);
+			MyScoredListDTO tempDto = MyScoredListDTO.builder()
+					.movieReviewDto(movieReviewFourPointFive)
+					.movieInfoDto(movieInfoDto).build();
+			finalList.add(tempDto);
+		}
+		return finalList;
+	}
+
+	public List<MyScoredListDTO> getScoreFour(String userEmail) { //스코어가 4.0인 애들
+		List<MyScoredListDTO> finalList = new ArrayList<>();
+		List<MovieReviewDTO> listFour = repo.getMoveReviewDtoWhereScoreIsFour(userEmail);
+		for( MovieReviewDTO movieReviewFour : listFour ) {
+			String movieId = movieReviewFour.getMovieId();
+			MovieInfoDTO movieInfoDto = movieInfoRepo.getMovieInfoById(movieId);
+			MyScoredListDTO tempDto = MyScoredListDTO.builder()
+					.movieReviewDto(movieReviewFour)
+					.movieInfoDto(movieInfoDto).build();
+			finalList.add(tempDto);
+		}
+		return finalList;
+	}
+
+	public List<MyScoredListDTO> getScoreThreePointFive(String userEmail) { //스코어가 3.5인 애들
+		List<MyScoredListDTO> finalList = new ArrayList<>();
+		List<MovieReviewDTO> listThreePointFive = repo.getMoveReviewDtoWhereScoreIsThreePointFive(userEmail);
+		for( MovieReviewDTO movieReviewThreePointFive : listThreePointFive ) {
+			String movieId = movieReviewThreePointFive.getMovieId();
+			MovieInfoDTO movieInfoDto = movieInfoRepo.getMovieInfoById(movieId);
+			MyScoredListDTO tempDto = MyScoredListDTO.builder()
+					.movieReviewDto(movieReviewThreePointFive)
+					.movieInfoDto(movieInfoDto).build();
+			finalList.add(tempDto);
+		}
+		return finalList;
+	}
+
+	public List<MyScoredListDTO> getScoreThree(String userEmail) { //스코어가 3.0인 애들
+		List<MyScoredListDTO> finalList = new ArrayList<>();
+		List<MovieReviewDTO> listThree = repo.getMoveReviewDtoWhereScoreIsThree(userEmail);
+		for( MovieReviewDTO movieReviewThree : listThree ) {
+			String movieId = movieReviewThree.getMovieId();
+			MovieInfoDTO movieInfoDto = movieInfoRepo.getMovieInfoById(movieId);
+			MyScoredListDTO tempDto = MyScoredListDTO.builder()
+					.movieReviewDto(movieReviewThree)
+					.movieInfoDto(movieInfoDto).build();
+			finalList.add(tempDto);
+		}
+		return finalList;
+	}
+
+	public List<MyScoredListDTO> getScoreTwoPointFive(String userEmail) { //스코어가 2.5인 애들
+		List<MyScoredListDTO> finalList = new ArrayList<>();
+		List<MovieReviewDTO> listTwoPointFive = repo.getMoveReviewDtoWhereScoreIsTwoPointFive(userEmail);
+		for( MovieReviewDTO movieReviewTwoPointFive : listTwoPointFive ) {
+			String movieId = movieReviewTwoPointFive.getMovieId();
+			MovieInfoDTO movieInfoDto = movieInfoRepo.getMovieInfoById(movieId);
+			MyScoredListDTO tempDto = MyScoredListDTO.builder()
+					.movieReviewDto(movieReviewTwoPointFive)
+					.movieInfoDto(movieInfoDto).build();
+			finalList.add(tempDto);
+		}
+		return finalList;
+	}
+
+	public List<MyScoredListDTO> getScoreTwo(String userEmail) { //스코어가 2.0인 애들
+		List<MyScoredListDTO> finalList = new ArrayList<>();
+		List<MovieReviewDTO> listTwo = repo.getMoveReviewDtoWhereScoreIsTwo(userEmail);
+		for( MovieReviewDTO movieReviewTwo : listTwo ) {
+			String movieId = movieReviewTwo.getMovieId();
+			MovieInfoDTO movieInfoDto = movieInfoRepo.getMovieInfoById(movieId);
+			MyScoredListDTO tempDto = MyScoredListDTO.builder()
+					.movieReviewDto(movieReviewTwo)
+					.movieInfoDto(movieInfoDto).build();
+			finalList.add(tempDto);
+		}
+		return finalList;
+	}
+
+	public List<MyScoredListDTO> getScoreOnePointFive(String userEmail) { //스코어가 1.5인 애들
+		List<MyScoredListDTO> finalList = new ArrayList<>();
+		List<MovieReviewDTO> listOnePointFive = repo.getMoveReviewDtoWhereScoreIsOnePointFive(userEmail);
+		for( MovieReviewDTO movieReviewOnePointFive : listOnePointFive ) {
+			String movieId = movieReviewOnePointFive.getMovieId();
+			MovieInfoDTO movieInfoDto = movieInfoRepo.getMovieInfoById(movieId);
+			MyScoredListDTO tempDto = MyScoredListDTO.builder()
+					.movieReviewDto(movieReviewOnePointFive)
+					.movieInfoDto(movieInfoDto).build();
+			finalList.add(tempDto);
+		}
+		return finalList;
+	}
+
+	public List<MyScoredListDTO> getScoreOne(String userEmail) { //스코어가 1.0인 애들
+		List<MyScoredListDTO> finalList = new ArrayList<>();
+		List<MovieReviewDTO> listOne = repo.getMoveReviewDtoWhereScoreIsOne(userEmail);
+		for( MovieReviewDTO movieReviewOne : listOne ) {
+			String movieId = movieReviewOne.getMovieId();
+			MovieInfoDTO movieInfoDto = movieInfoRepo.getMovieInfoById(movieId);
+			MyScoredListDTO tempDto = MyScoredListDTO.builder()
+					.movieReviewDto(movieReviewOne)
+					.movieInfoDto(movieInfoDto).build();
+			finalList.add(tempDto);
+		}
+		return finalList;
+	}
+
+	public List<MyScoredListDTO> getScoreZeroPointFive(String userEmail) {
+		List<MyScoredListDTO> finalList = new ArrayList<>();
+		List<MovieReviewDTO> listZeroPointFive = repo.getMoveReviewDtoWhereScoreIsZeroPointFive(userEmail);
+		for( MovieReviewDTO movieReviewZeroPointFive : listZeroPointFive ) {
+			String movieId = movieReviewZeroPointFive.getMovieId();
+			MovieInfoDTO movieInfoDto = movieInfoRepo.getMovieInfoById(movieId);
+			MyScoredListDTO tempDto = MyScoredListDTO.builder()
+					.movieReviewDto(movieReviewZeroPointFive)
+					.movieInfoDto(movieInfoDto).build();
+			finalList.add(tempDto);
+		}
+		return finalList;
+	}
+
+	public Map<String, List<MyScoredListDTO>> getScoredMovieListByScore(String userEmail) {
+		
+		List<MyScoredListDTO> listFive = getScoreFive(userEmail); //스코어 5.0인 애들
+		List<MyScoredListDTO> listFourPointFive = getScoreFourPointFive(userEmail); //스코어 4.5인 애들
+		List<MyScoredListDTO> listFour = getScoreFour(userEmail); //스코어 4.0인 애들
+		List<MyScoredListDTO> listThreePointFive = getScoreThreePointFive(userEmail); //스코어 3.5인 애들
+		List<MyScoredListDTO> listThree = getScoreThree(userEmail); //스코어 3.0인 애들
+		List<MyScoredListDTO> listTwoPointFive = getScoreTwoPointFive(userEmail); //스코어 2.5인 애들
+		List<MyScoredListDTO> listTwo = getScoreTwo(userEmail); //스코어 2.0인 애들
+		List<MyScoredListDTO> listOnePointFive = getScoreOnePointFive(userEmail); //스코어 1.5인 애들
+		List<MyScoredListDTO> listOne = getScoreOne(userEmail); //스코어 1.0인 애들
+		List<MyScoredListDTO> listZeroPointFive = getScoreZeroPointFive(userEmail); //스코어 0.5인 애들  143
+		
+	    Map<String, List<MyScoredListDTO>> scoreLists = new LinkedHashMap<>();
+	    
+	    scoreLists.put("listFive", listFive); //5.0
+	    scoreLists.put("listFourPointFive", listFourPointFive); //4.5
+	    scoreLists.put("listFour", listFour); //4.0
+	    scoreLists.put("listThreePointFive", listThreePointFive); //3.5
+	    scoreLists.put("listThree", listThree); //3.0
+	    scoreLists.put("listTwoPointFive", listTwoPointFive); //2.5
+	    scoreLists.put("listTwo", listTwo); //2.0
+	    scoreLists.put("listOnePointFive", listOnePointFive); //1.5
+	    scoreLists.put("listOne", listOne); //1.0
+	    scoreLists.put("listZeroPointFive", listZeroPointFive); //0.5
+	    
+	    return scoreLists;
 	}
 
 }

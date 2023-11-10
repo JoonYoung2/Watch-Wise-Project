@@ -1,4 +1,4 @@
-package com.watch.project.dto.userInfo;
+package com.watch.project.dto.memberInfo;
 
 import java.util.List;
 

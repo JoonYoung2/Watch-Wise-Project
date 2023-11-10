@@ -141,12 +141,12 @@
 	    </div>
 	    <a href="searchHistoryView" style="all:unset; cursor:pointer;">
 		    <div class="delete-record" style="font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
-		    	검색 기록 보기
+		    	검색 기록 보기 / 삭제
 		    </div>
 	    </a>
 	    <div class="save-record" style="padding:5px; display:flex; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
 	    	<div style="font-size:20px;">
-	    		검색 기록 설정
+	    		검색 기록 저장
 	    	</div>
 	    	<div id="onAndOff" style="margin-left:auto; font-size:18px;"><!-- getElementById(".onAndOff") -->
 	    		<c:if test="${ searchHistory eq 0 }">

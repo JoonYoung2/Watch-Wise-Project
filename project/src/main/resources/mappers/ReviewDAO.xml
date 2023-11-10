@@ -19,7 +19,7 @@
 	<result property="likedUserEmail" column="liked_user_email"/>
 </resultMap>
 
-<resultMap type="com.watch.project.dto.userInfo.ReviewListDTO" id="review_list">
+<resultMap type="com.watch.project.dto.memberInfo.ReviewListDTO" id="review_list">
     <result property="id" column="id" />
 	<result property="movieId" column="movie_id"/>
 	<result property="userEmail" column="user_email"/>
@@ -135,5 +135,49 @@
 	
 	<select id="chIfLikedComment" resultMap="comment_liked_user">
 		SELECT * FROM comment_liked_users WHERE comment_id=#{id} AND liked_user_email=#{userEmail}
+	</select>
+	
+<!-- 	<select id="getMoveReviewDTOWhereScoreIsNotZero" resultMap="review"> -->
+<!-- 		SELECT * FROM movie_review WHERE user_email=#{userEmail} AND review_score != 0 -->
+<!-- 	</select> -->
+
+	<select id="getMoveReviewDtoWhereScoreIsFive" resultMap="review">
+		SELECT * FROM movie_review WHERE user_email=#{userEmail} AND review_score = 5.0
+	</select>
+
+	<select id="getMoveReviewDtoWhereScoreIsFourPointFive" resultMap="review">
+		SELECT * FROM movie_review WHERE user_email=#{userEmail} AND review_score = 4.5
+	</select>
+
+	<select id="getMoveReviewDtoWhereScoreIsFour" resultMap="review">
+		SELECT * FROM movie_review WHERE user_email=#{userEmail} AND review_score = 4.0
+	</select>
+
+	<select id="getMoveReviewDtoWhereScoreIsThreePointFive" resultMap="review">
+		SELECT * FROM movie_review WHERE user_email=#{userEmail} AND review_score = 3.5
+	</select>
+
+	<select id="getMoveReviewDtoWhereScoreIsThree" resultMap="review">
+		SELECT * FROM movie_review WHERE user_email=#{userEmail} AND review_score = 3.0
+	</select>
+
+	<select id="getMoveReviewDtoWhereScoreIsTwoPointFive" resultMap="review">
+		SELECT * FROM movie_review WHERE user_email=#{userEmail} AND review_score = 2.5
+	</select>
+
+	<select id="getMoveReviewDtoWhereScoreIsTwo" resultMap="review">
+		SELECT * FROM movie_review WHERE user_email=#{userEmail} AND review_score = 2.0
+	</select>
+
+	<select id="getMoveReviewDtoWhereScoreIsOnePointFive" resultMap="review">
+		SELECT * FROM movie_review WHERE user_email=#{userEmail} AND review_score = 1.5
+	</select>
+
+	<select id="getMoveReviewDtoWhereScoreIsOne" resultMap="review">
+		SELECT * FROM movie_review WHERE user_email=#{userEmail} AND review_score = 1.0
+	</select>
+
+	<select id="getMoveReviewDtoWhereScoreIsZeroPointFive" resultMap="review">
+		SELECT * FROM movie_review WHERE user_email=#{userEmail} AND review_score = 0.5
 	</select>
 </mapper>
