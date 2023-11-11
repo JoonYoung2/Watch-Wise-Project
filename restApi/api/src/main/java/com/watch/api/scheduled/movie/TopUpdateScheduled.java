@@ -20,7 +20,7 @@ public class TopUpdateScheduled {
 		dailyUpdate.allFindAndInsert();
 		dailyUpdate.DailyMovieInsert();
 		weeklyUpdate.WeeklyMovieInsert0();
-		weeklyUpdate.WeeklyMovieInsert1();
+		weeklyUpdate.WeeklyMovieInsert1(); 
 		weeklyUpdate.WeeklyMovieInsert2();
 	}
 }

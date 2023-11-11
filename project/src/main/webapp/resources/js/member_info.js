@@ -17,26 +17,76 @@ function moveToLikedCommentList(){
 
 //모달
 var openModalButton = document.getElementById('openModalButton');
-var closeModalButton = document.getElementById('closeModalButton');
-var modal = document.getElementById('myModal');
-var body = document.getElementById('bodyForShadow');
-var headerBody = document.getElementById('header-body');
-
-
 openModalButton.addEventListener('click', function() {
+	let modal = document.getElementById('myModal');
+	let body = document.getElementById('bodyForShadow');
     modal.style.display = 'block';
     body.style.display = 'block';
  	modal.style.zIndex = '2';
  	body.style.zIndex = '1';
 });
 
+var closeModalButton = document.getElementById('closeModalButton');
 closeModalButton.addEventListener('click', function() {
+	let modal = document.getElementById('myModal');
+	let body = document.getElementById('bodyForShadow');
     modal.style.display = 'none';
     body.style.display = 'none';
     modal.style.zIndex = '-2';
     body.style.zIndex = '-2';
 });
 
+//forEach 사용할 때의 모달 ( my_comment_list )
+function openModal(movieNm, movieId, comment, cnt){
+	let num = Number(cnt);
+	let body = document.getElementById('bodyForShadow');
+	let modal = document.getElementById('modal');
+	let madalTitle = document.getElementById('modalMovieTitle');
+	let textBox = document.getElementById('movieComment');
+	let hiddenMovieId = document.getElementById('modalMovieId');
+	
+	modal.style.display = 'block';
+	body.style.display = 'block';
+	modal.style.zIndex = '2';
+	body.style.zIndex = '1';
+	madalTitle.textContent = movieNm;
+	textBox.innerHTML = comment;
+	hiddenMovieId.value=movieId;
+	//$ajax
+}
+
+function closeModal(){
+	let body = document.getElementById('bodyForShadow');
+	let modal = document.getElementById('modal');
+	modal.style.display = 'none';
+	body.style.display = 'none';
+	modal.style.zIndex = '-2';
+	body.style.zIndex = '-2';
+}
+
+function updateMovieComment(){
+	let newComment = document.getElementById('movieComment').value;
+	let movieTitle = document.getElementById('modalMovieTitle').textContent;
+	let movieId = document.getElementById('modalMovieId').value;
+	
+	$.ajax({
+		type: "POST",
+		url: "/updateMovieCommentFromMyCommentList",
+		data: {
+			movieId: movieId,
+			reviewComment: newComment
+		},
+		success: function (response){
+			let msg = response.msg;
+			alert(msg);
+			location.href="/userMyCommentList";
+		},
+		error: function (error){
+			console.error("Error occured.");
+		}
+	});
+	closeModal();
+}
 
 
 //--------------------------------------좋아요한 코멘트 리스트-----------------------------------------

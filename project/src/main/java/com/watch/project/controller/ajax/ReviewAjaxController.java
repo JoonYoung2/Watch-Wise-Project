@@ -3,9 +3,12 @@ package com.watch.project.controller.ajax;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.watch.project.dto.CommentLikedUsersDTO;
 import com.watch.project.dto.MovieReviewDTO;
@@ -27,7 +30,6 @@ public class ReviewAjaxController {
 	    MsgResponse response = new MsgResponse(msg, gradeAvg);
 	    return response;
 	}
-	
 	@Data
 	public class MsgResponse{
 		private String msg;
@@ -35,14 +37,6 @@ public class ReviewAjaxController {
 		public MsgResponse(String msg, float gradeAvg){
 			this.msg = msg;
 			this.gradeAvg = gradeAvg;
-		}
-	}
-	
-	@Data
-	public class ResultResponse{
-		private int result;
-		public ResultResponse(int result){
-			this.result = result;
 		}
 	}
 	
@@ -72,5 +66,33 @@ public class ReviewAjaxController {
 		int commentLikeCounts = service.decreaseLikeCountForComment(dto, commentDto);
 		ResultResponse response = new ResultResponse(commentLikeCounts);
 		return response;
+	}
+	@Data
+	public class ResultResponse{
+		private int result;
+		public ResultResponse(int result){
+			this.result = result;
+		}
+	}
+	
+	@PostMapping("/updateMovieCommentFromMyCommentList")
+	public MsgOnlyResponse updateMovieCommentFromMyCommentList(@RequestParam("movieId") String movieId, @RequestParam("reviewComment") String reviewComment, HttpSession session, RedirectAttributes redirectAttr) {
+		System.out.println(movieId);
+		System.out.println(reviewComment);
+		MovieReviewDTO dto = new MovieReviewDTO();
+		String id = movieId + (String)session.getAttribute("userEmail");
+		dto.setId(id);
+		dto.setMovieId(movieId);
+		dto.setReviewComment(reviewComment);
+		String msg = service.updateNewComment(dto);
+		MsgOnlyResponse response = new MsgOnlyResponse(msg);
+		return response;
+	}
+	@Data
+	public class MsgOnlyResponse{
+		private String msg;
+		public MsgOnlyResponse(String msg) {
+			this.msg = msg;
+		}
 	}
 }
