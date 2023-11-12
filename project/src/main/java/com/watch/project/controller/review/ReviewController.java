@@ -95,6 +95,89 @@ public class ReviewController {
 		return "member/member_info/my_scored_movie_list";
 	}
 	
+	@GetMapping("/viewMoviesInlistFive")
+	public String viewMoviesInlistScore(Model model, HttpSession session) {
+		String userEmail = (String)session.getAttribute("userEmail");
+		List<MyScoredListDTO> listScore = service.getScoreFive(userEmail);
+		model.addAttribute("listScore", listScore);
+		model.addAttribute("score", "listFive");
+		return "member/member_info/my_scored_movie_lists_by_score";
+	}
+	@GetMapping("/viewMoviesInlistFourPointFive")
+	public String viewMoviesInlistFourPointFive(Model model, HttpSession session) {
+		String userEmail = (String)session.getAttribute("userEmail");
+		List<MyScoredListDTO> listScore = service.getScoreFourPointFive(userEmail);
+		model.addAttribute("listScore", listScore);
+		model.addAttribute("score", "listFourPointFive");
+		return "member/member_info/my_scored_movie_lists_by_score";
+	}
+	@GetMapping("/viewMoviesInlistFour")
+	public String viewMoviesInlistFour(Model model, HttpSession session) {
+		String userEmail = (String)session.getAttribute("userEmail");
+		List<MyScoredListDTO> listScore = service.getScoreFour(userEmail);
+		model.addAttribute("listScore", listScore);
+		model.addAttribute("score", "listFour");
+		return "member/member_info/my_scored_movie_lists_by_score";
+	}
+	@GetMapping("/viewMoviesInlistThreePointFive")
+	public String viewMoviesInlistThreePointFive(Model model, HttpSession session) {
+		String userEmail = (String)session.getAttribute("userEmail");
+		List<MyScoredListDTO> listScore = service.getScoreThreePointFive(userEmail);
+		model.addAttribute("listScore", listScore);
+		model.addAttribute("score", "listThreePointFive");
+		return "member/member_info/my_scored_movie_lists_by_score";
+	}
+	@GetMapping("/viewMoviesInlistThree")
+	public String viewMoviesInlistThree(Model model, HttpSession session) {
+		String userEmail = (String)session.getAttribute("userEmail");
+		List<MyScoredListDTO> listScore = service.getScoreThree(userEmail);
+		model.addAttribute("listScore", listScore);
+		model.addAttribute("score", "listThree");
+		return "member/member_info/my_scored_movie_lists_by_score";
+	}
+	@GetMapping("/viewMoviesInlistTwoPointFive")
+	public String viewMoviesInlistTwoPointFive(Model model, HttpSession session) {
+		String userEmail = (String)session.getAttribute("userEmail");
+		List<MyScoredListDTO> listScore = service.getScoreTwoPointFive(userEmail);
+		model.addAttribute("listScore", listScore);
+		model.addAttribute("score", "listTwoPointFive");
+		return "member/member_info/my_scored_movie_lists_by_score";
+	}
+	@GetMapping("/viewMoviesInlistTwo")
+	public String viewMoviesInlistTwo(Model model, HttpSession session) {
+		String userEmail = (String)session.getAttribute("userEmail");
+		List<MyScoredListDTO> listScore = service.getScoreTwo(userEmail);
+		model.addAttribute("listScore", listScore);
+		model.addAttribute("score", "listTwo");
+		return "member/member_info/my_scored_movie_lists_by_score";
+	}
+	@GetMapping("/viewMoviesInlistOnePointFive")
+	public String viewMoviesInlistOnePointFive(Model model, HttpSession session) {
+		String userEmail = (String)session.getAttribute("userEmail");
+		List<MyScoredListDTO> listScore = service.getScoreOnePointFive(userEmail);
+		model.addAttribute("listScore", listScore);
+		model.addAttribute("score", "listOnePointFive");
+		return "member/member_info/my_scored_movie_lists_by_score";
+	}
+	@GetMapping("/viewMoviesInlistOne")
+	public String viewMoviesInlistOne(Model model, HttpSession session) {
+		String userEmail = (String)session.getAttribute("userEmail");
+		List<MyScoredListDTO> listScore = service.getScoreOne(userEmail);
+		model.addAttribute("listScore", listScore);
+		model.addAttribute("score", "listOne");
+		return "member/member_info/my_scored_movie_lists_by_score";
+	}
+	@GetMapping("/viewMoviesInlistZeroPointFive")
+	public String viewMoviesInlistZeroPointFive(Model model, HttpSession session) {
+		String userEmail = (String)session.getAttribute("userEmail");
+		List<MyScoredListDTO> listScore = service.getScoreZeroPointFive(userEmail);
+		model.addAttribute("listScore", listScore);
+		model.addAttribute("score", "listZeroPointFive");
+		return "member/member_info/my_scored_movie_lists_by_score";
+	}
+
+	
+	
 	
 	
 	

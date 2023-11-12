@@ -11,9 +11,12 @@
 <body>
 <%@ include file="/WEB-INF/views/header.jsp" %>
 <hr style="border:1px solid #ccc;">
-<br>
-<br>
+<div style="margin-left:20px;">
+	<a href="/memberInfo">
+		<img src="resources/img/back.png" style="width:20px; margin-top:20px;">
+	</a>
 	<h3 style="text-align:center">내가 좋아요한 코멘트들</h3>
+</div>
 	<br>
 	<c:set var="cntForMovie" value="0"/>
 	<c:set var="cntForComment" value="0"/>
