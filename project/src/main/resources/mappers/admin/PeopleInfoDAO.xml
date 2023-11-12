@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watch.project.repository.admin.AdminPeopleInfoRepository">
+	
+	<resultMap type="com.watch.project.dto.admin.PeopleInfoDTO" id="peopleInfo">
+		<result column="id" property="num" />
+		<result column="people_id" property="peopleId"/>
+		<result column="people_nm" property="peopleNm"/>
+		<result column="people_nm_en" property="peopleNmEn"/>
+		<result column="sex" property="sex"/>
+		<result column="movie_id" property="movieId"/>
+		<result column="movie_nm" property="movieNm"/>
+		<result column="like_num" property="likeNum"/>
+		<result column="profile_url" property="profileUrl"/>
+	</resultMap>
+	
+	<select id="getPeopleInfoListByStartAndEnd" resultMap="peopleInfo">
+		<![CDATA[SELECT * FROM 
+		(SELECT ROWNUM AS id, ${columns}
+		FROM (SELECT * FROM ${tableNm} ORDER BY ${orderByColumn} DESC))
+		WHERE id >= ${start} AND id <= ${end}]]>
+	</select>
+	
+</mapper>
+

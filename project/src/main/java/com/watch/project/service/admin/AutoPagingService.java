@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.watch.project.dto.admin.PagingConfigDTO;
+import com.watch.project.dto.admin.TableInfoDTO;
 import com.watch.project.repository.admin.AutoPagingRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AutoPagingService {
 	private final AutoPagingRepository repo;
+	
+	public TableInfoDTO getTableInfoDto(PagingConfigDTO pagingConfigDto) {
+		return repo.getTableInfoByRowNumAndTableNm(pagingConfigDto);
+	}
 	
 	public List<PagingConfigDTO> getAllPagingConfig(){
 		return repo.getAllPagingConfig();

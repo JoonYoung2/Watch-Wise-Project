@@ -12,6 +12,12 @@
 		<result column="row_num" property="rowNum" />
 	</resultMap>
 	
+	<resultMap type="com.watch.project.dto.admin.TableInfoDTO" id="tableInfo">
+		<result column="total" property="total" />
+		<result column="page_num" property="pageNum" />
+		<result column="mod_value" property="modValue" />
+	</resultMap>
+	
 	<select id="getAllPagingConfig" resultMap="pagingConfig">
 		SELECT * FROM paging_config
 	</select>
@@ -38,6 +44,14 @@
 	<update id="updateRowNumByTableNm" parameterType="com.watch.project.dto.admin.PagingConfigDTO">
 		UPDATE paging_config SET row_num=#{rowNum} WHERE table_nm=#{tableNm}
 	</update>
+	
+	<select id="getTableInfoByRowNumAndTableNm" resultMap="tableInfo" parameterType="com.watch.project.dto.admin.PagingConfigDTO">
+		SELECT 
+		COUNT(id) AS total, 
+		CEIL(COUNT(id) / ${rowNum}) AS page_num, 
+		MOD(COUNT(id), ${rowNum}) AS mod_value 
+		FROM (SELECT 1 AS id FROM ${tableNm})
+	</select>
 	
 </mapper>
 

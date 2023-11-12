@@ -22,45 +22,12 @@
 		<result column="like_num" property="likeNum" />
 	</resultMap>
 	
-	<resultMap type="com.watch.project.dto.admin.TableInfoDTO" id="tableInfo">
-		<result column="total" property="total" />
-		<result column="page_num" property="pageNum" />
-		<result column="mod_value" property="modValue" />
-	</resultMap>
-	
-	<resultMap type="com.watch.project.dto.admin.PeopleInfoDTO" id="peopleInfo">
-		<result column="id" property="num" />
-		<result column="people_id" property="peopleId"/>
-		<result column="people_nm" property="peopleNm"/>
-		<result column="people_nm_en" property="peopleNmEn"/>
-		<result column="sex" property="sex"/>
-		<result column="movie_id" property="movieId"/>
-		<result column="movie_nm" property="movieNm"/>
-		<result column="like_num" property="likeNum"/>
-		<result column="profile_url" property="profileUrl"/>
-	</resultMap>
-	
 	<select id="getMovieInfoListByStartAndEnd" resultMap="movieInfo">
 		<![CDATA[SELECT * FROM 
 		(SELECT ROWNUM AS id, ${columns}
 		FROM (SELECT * FROM ${tableNm} ORDER BY ${orderByColumn} DESC))
 		WHERE id >= ${start} AND id <= ${end}]]>
-	</select>
-	
-	<select id="getPeopleInfoListByStartAndEnd" resultMap="peopleInfo">
-		<![CDATA[SELECT * FROM 
-		(SELECT ROWNUM AS id, ${columns}
-		FROM (SELECT * FROM ${tableNm} ORDER BY ${orderByColumn} DESC))
-		WHERE id >= ${start} AND id <= ${end}]]>
-	</select>
-	
-	<select id="getTableInfoByRowNumAndTableNm" resultMap="tableInfo" parameterType="com.watch.project.dto.admin.PagingConfigDTO">
-		SELECT 
-		COUNT(id) AS total, 
-		CEIL(COUNT(id) / ${rowNum}) AS page_num, 
-		MOD(COUNT(id), ${rowNum}) AS mod_value 
-		FROM (SELECT 1 AS id FROM ${tableNm})
-	</select>
+	</select>	
 	
 </mapper>
 

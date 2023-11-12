@@ -9,22 +9,22 @@ import org.springframework.stereotype.Service;
 
 import com.watch.project.controller.admin.AutoPagingController.PagingDTO;
 import com.watch.project.controller.admin.AutoPagingController.TitleDTO;
-import com.watch.project.dto.admin.MovieInfoDTO;
 import com.watch.project.dto.admin.PagingConfigDTO;
 import com.watch.project.dto.admin.PeopleInfoDTO;
 import com.watch.project.dto.admin.TableInfoDTO;
-import com.watch.project.repository.admin.AdminMovieInfoRepository;
+import com.watch.project.repository.admin.AdminPeopleInfoRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Service("adminMovieInfoService")
+@Service("adminPeopleInfoService")
 @RequiredArgsConstructor
 @Slf4j
-public class MovieInfoService {
-	private final AdminMovieInfoRepository repo;
-
-	public List<MovieInfoDTO> getMovieInfoList(int pageNum, PagingConfigDTO pagingConfigDto) {
+public class PeopleInfoService {
+	private final AdminPeopleInfoRepository repo;
+	
+	public List<PeopleInfoDTO> getPeopleInfoList(int pageNum, PagingConfigDTO pagingConfigDto,
+			TableInfoDTO tableInfoDto) {
 		int end = getEnd(pageNum, pagingConfigDto.getRowNum());
 		int start = getStart(end, pagingConfigDto.getRowNum());
 		String tableNm = pagingConfigDto.getTableNm();
@@ -36,7 +36,7 @@ public class MovieInfoService {
 		map.put("tableNm", tableNm);
 		map.put("columns", columns);
 		map.put("orderByColumn", orderByColumn);
-		return repo.getMovieInfoListByStartAndEnd(map);
+		return repo.getPeopleInfoListByStartAndEnd(map);
 	}
 	
 	public List<TitleDTO> getTitleLList(String[] titleNm) {

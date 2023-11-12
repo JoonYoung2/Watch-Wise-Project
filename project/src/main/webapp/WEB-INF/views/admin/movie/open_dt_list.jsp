@@ -57,10 +57,33 @@
 						<c:if test="${ paging.last ne 0 }">
 							...<span style="padding:0px 10px;"><a style="all:unset; cursor:pointer; color:blue;" href="/admin/movie_list/open_dt/${ paging.last }"> ${ paging.last } </a></span>
 						</c:if>
+						<a style="all:unset; cursor:pointer;" onclick="insertForm();">등록</a>
 					</div>
 					</td>
 				</tr>
 			</table>
+			<form id="insertForm" action="insertMovieInfo" method="post" style="display:none;">
+				<input type="text" name="movieId" placeholder="영화ID (ex-12345678)" style="width:300px;"><br>
+				<input type="text" name="movieNm" placeholder="영화제목" style="width:300px;"><br>
+				<input type="text" name="movieNmEn" placeholder="영화영어제목" style="width:300px;"><br>
+				<input type="text" name="prdtYear" placeholder="제작년도(ex-1900)" style="width:300px;"><br>
+				<input type="text" name="openDt" placeholder="개봉일(ex-19001010)" style="width:300px;"><br>
+				<input type="text" name="typeNm" placeholder="종류명" style="width:300px;"><br>
+				<input type="text" name="nations" placeholder="제작국가" style="width:300px;"><br>
+				<input type="text" name="genreNm" placeholder="장르" style="width:300px;"><br>
+				<input type="text" name="posterUrl" placeholder="포스터URL" style="width:300px;"><br>
+				<input type="text" name="showTime" placeholder="상영시간" style="width:300px;"><br>
+				<input type="text" name="actors" placeholder="배우명(ex-송중기,송혜교)" style="width:300px;"><br>
+				<input type="text" name="acst" placeholder="역할명(ex-경찰1,경찰2)" style="width:300px;"><br>
+				<input type="text" name="watchGradeNm" placeholder="제한연령" style="width:300px;"><br>
+				<input type="hidden" name="docid" value="nan">
+				<input type="hidden" name="likeNum" value="0">
+				<button style="width:154px;">등록</button><button style="width:154px;" type="reset">취소</button>
+			</form>
+			<form id="updateForm" action="" method="post" style="display:none;">
+				<input type="text" name="" id="" placeholder="" style="width:300px;"><br>
+				<button style="width:154px;">수정</button><button style="width:154px;" type="reset">취소</button>
+			</form>
 		</div>
 	</div>
 	<script src="/resources/js/admin/table_common.js"></script>

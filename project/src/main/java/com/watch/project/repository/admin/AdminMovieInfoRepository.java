@@ -15,8 +15,4 @@ public interface AdminMovieInfoRepository {
 	
 	public List<MovieInfoDTO> getMovieInfoListByStartAndEnd(Map<String, String> map);
 	
-	public TableInfoDTO getTableInfoByRowNumAndTableNm(PagingConfigDTO dto);
-	
-	public List<PeopleInfoDTO> getPeopleInfoListByStartAndEnd(Map<String, String> map);
-	
 }
