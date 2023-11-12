@@ -10,12 +10,16 @@
 <body>
 <%@ include file="/WEB-INF/views/header.jsp" %>
 <hr style="border:1px solid #ccc;">
-<br>
-<br>
+
 <div class="liked-actor-list-frame">
+<div style="margin-left:20px;">
+	<a href="/memberInfo">
+		<img src="resources/img/back.png" style="width:20px; margin-top:20px;">
+	</a>
 	<div class="liked-actor-title">
 		<h3 style="text-align:center;">내가 좋아요한 배우</h3>	
 	</div>
+</div>
 	
 	<div align="center" class="liked-actor-list">
 		<table style="text-align:center">

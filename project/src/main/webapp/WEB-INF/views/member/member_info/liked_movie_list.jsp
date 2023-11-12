@@ -15,8 +15,7 @@
 <body>
 <%@ include file="/WEB-INF/views/header.jsp" %>
 <hr style="border:1px solid #ccc;">
-<br>
-<br>
+
 <style>
 .liked-movie-list-frame .liked-movie-info {
     display: flex; /* 내부 요소들을 가로로 배치하기 위해 flex 사용 */
@@ -35,9 +34,14 @@
 </style>
 
 <div class="liked-movie-list-frame">
+<div style="margin-left:20px;">
+	<a href="/memberInfo">
+		<img src="resources/img/back.png" style="width:20px; margin-top:20px;">
+	</a>
 	<div class="liked-movie-title">
 		<h3 style="text-align: center">내가 좋아요한 영화 목록</h3>
 	</div>
+</div>
 	<div class="liked-movie-list">
 	<c:set var="cnt" value="0"/>
 		<c:forEach var="list" items="${likedMovieList }">

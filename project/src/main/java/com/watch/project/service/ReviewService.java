@@ -353,6 +353,8 @@ public class ReviewService {
 		for( MovieReviewDTO movieReviewFive : listFive ) {
 			String movieId = movieReviewFive.getMovieId();
 			MovieInfoDTO movieInfoDto = movieInfoRepo.getMovieInfoById(movieId);
+			String posters[] = movieInfoDto.getPosterUrl().split("\\|");
+			movieInfoDto.setPosterUrl(posters[0]);
 			MyScoredListDTO tempDto = MyScoredListDTO.builder()
 					.movieReviewDto(movieReviewFive)
 					.movieInfoDto(movieInfoDto).build();
@@ -367,6 +369,8 @@ public class ReviewService {
 		for( MovieReviewDTO movieReviewFourPointFive : listFourPointFive ) {
 			String movieId = movieReviewFourPointFive.getMovieId();
 			MovieInfoDTO movieInfoDto = movieInfoRepo.getMovieInfoById(movieId);
+			String posters[] = movieInfoDto.getPosterUrl().split("\\|");
+			movieInfoDto.setPosterUrl(posters[0]);
 			MyScoredListDTO tempDto = MyScoredListDTO.builder()
 					.movieReviewDto(movieReviewFourPointFive)
 					.movieInfoDto(movieInfoDto).build();
@@ -381,6 +385,8 @@ public class ReviewService {
 		for( MovieReviewDTO movieReviewFour : listFour ) {
 			String movieId = movieReviewFour.getMovieId();
 			MovieInfoDTO movieInfoDto = movieInfoRepo.getMovieInfoById(movieId);
+			String posters[] = movieInfoDto.getPosterUrl().split("\\|");
+			movieInfoDto.setPosterUrl(posters[0]);
 			MyScoredListDTO tempDto = MyScoredListDTO.builder()
 					.movieReviewDto(movieReviewFour)
 					.movieInfoDto(movieInfoDto).build();
@@ -395,6 +401,8 @@ public class ReviewService {
 		for( MovieReviewDTO movieReviewThreePointFive : listThreePointFive ) {
 			String movieId = movieReviewThreePointFive.getMovieId();
 			MovieInfoDTO movieInfoDto = movieInfoRepo.getMovieInfoById(movieId);
+			String posters[] = movieInfoDto.getPosterUrl().split("\\|");
+			movieInfoDto.setPosterUrl(posters[0]);
 			MyScoredListDTO tempDto = MyScoredListDTO.builder()
 					.movieReviewDto(movieReviewThreePointFive)
 					.movieInfoDto(movieInfoDto).build();
@@ -409,6 +417,8 @@ public class ReviewService {
 		for( MovieReviewDTO movieReviewThree : listThree ) {
 			String movieId = movieReviewThree.getMovieId();
 			MovieInfoDTO movieInfoDto = movieInfoRepo.getMovieInfoById(movieId);
+			String posters[] = movieInfoDto.getPosterUrl().split("\\|");
+			movieInfoDto.setPosterUrl(posters[0]);
 			MyScoredListDTO tempDto = MyScoredListDTO.builder()
 					.movieReviewDto(movieReviewThree)
 					.movieInfoDto(movieInfoDto).build();
@@ -423,6 +433,8 @@ public class ReviewService {
 		for( MovieReviewDTO movieReviewTwoPointFive : listTwoPointFive ) {
 			String movieId = movieReviewTwoPointFive.getMovieId();
 			MovieInfoDTO movieInfoDto = movieInfoRepo.getMovieInfoById(movieId);
+			String posters[] = movieInfoDto.getPosterUrl().split("\\|");
+			movieInfoDto.setPosterUrl(posters[0]);
 			MyScoredListDTO tempDto = MyScoredListDTO.builder()
 					.movieReviewDto(movieReviewTwoPointFive)
 					.movieInfoDto(movieInfoDto).build();
@@ -437,6 +449,8 @@ public class ReviewService {
 		for( MovieReviewDTO movieReviewTwo : listTwo ) {
 			String movieId = movieReviewTwo.getMovieId();
 			MovieInfoDTO movieInfoDto = movieInfoRepo.getMovieInfoById(movieId);
+			String posters[] = movieInfoDto.getPosterUrl().split("\\|");
+			movieInfoDto.setPosterUrl(posters[0]);
 			MyScoredListDTO tempDto = MyScoredListDTO.builder()
 					.movieReviewDto(movieReviewTwo)
 					.movieInfoDto(movieInfoDto).build();
@@ -451,6 +465,8 @@ public class ReviewService {
 		for( MovieReviewDTO movieReviewOnePointFive : listOnePointFive ) {
 			String movieId = movieReviewOnePointFive.getMovieId();
 			MovieInfoDTO movieInfoDto = movieInfoRepo.getMovieInfoById(movieId);
+			String posters[] = movieInfoDto.getPosterUrl().split("\\|");
+			movieInfoDto.setPosterUrl(posters[0]);
 			MyScoredListDTO tempDto = MyScoredListDTO.builder()
 					.movieReviewDto(movieReviewOnePointFive)
 					.movieInfoDto(movieInfoDto).build();
@@ -465,6 +481,8 @@ public class ReviewService {
 		for( MovieReviewDTO movieReviewOne : listOne ) {
 			String movieId = movieReviewOne.getMovieId();
 			MovieInfoDTO movieInfoDto = movieInfoRepo.getMovieInfoById(movieId);
+			String posters[] = movieInfoDto.getPosterUrl().split("\\|");
+			movieInfoDto.setPosterUrl(posters[0]);
 			MyScoredListDTO tempDto = MyScoredListDTO.builder()
 					.movieReviewDto(movieReviewOne)
 					.movieInfoDto(movieInfoDto).build();
@@ -473,12 +491,14 @@ public class ReviewService {
 		return finalList;
 	}
 
-	public List<MyScoredListDTO> getScoreZeroPointFive(String userEmail) {
+	public List<MyScoredListDTO> getScoreZeroPointFive(String userEmail) { //스코어가 0.5인 애들
 		List<MyScoredListDTO> finalList = new ArrayList<>();
 		List<MovieReviewDTO> listZeroPointFive = repo.getMoveReviewDtoWhereScoreIsZeroPointFive(userEmail);
 		for( MovieReviewDTO movieReviewZeroPointFive : listZeroPointFive ) {
 			String movieId = movieReviewZeroPointFive.getMovieId();
 			MovieInfoDTO movieInfoDto = movieInfoRepo.getMovieInfoById(movieId);
+			String posters[] = movieInfoDto.getPosterUrl().split("\\|");
+			movieInfoDto.setPosterUrl(posters[0]);
 			MyScoredListDTO tempDto = MyScoredListDTO.builder()
 					.movieReviewDto(movieReviewZeroPointFive)
 					.movieInfoDto(movieInfoDto).build();
