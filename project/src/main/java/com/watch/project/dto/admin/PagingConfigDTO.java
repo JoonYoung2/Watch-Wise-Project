@@ -9,4 +9,5 @@ public class PagingConfigDTO {
 	private String columns;
 	private String orderByColumn;
 	private int rowNum;
+	private String conditionColumn;
 }

@@ -24,4 +24,6 @@ public interface AutoPagingRepository {
 	
 	public TableInfoDTO getTableInfoByRowNumAndTableNm(PagingConfigDTO dto);
 	
+	public TableInfoDTO getTableInfoByRowNumAndTableNmQuery(PagingConfigDTO dto);
+	
 }

@@ -5,79 +5,82 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/resources/css/home.css">
+<link rel="stylesheet" href="/resources/css/admin/auto-table.css">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <title>Insert title here</title>
 </head>
-<body>
+<body id="body">
+	<% int cnt = 0; %>
 	<%@ include file="../include/header.jsp" %>
-	<div align="center" style="width:100%">
-		<div align="center" style="width:80%">
+	<br><br><br>
+	<div align="center" class="list-page">
+		<div align="center" class="list-page-div">
 			<table>
 				<tr>
-					<td colspan="${ titleList.size() + 2 }">
-						<div style="display:flex; justify-content:space-between;">
-							<div><input type="text" placeholder="ID 또는 배우명을 입력해주세요"></div>
-							<div>Row Num : <input style="all:unset; width:100px; text-align:center; border:1px solid rgba(0, 0, 0, 0.1)" id="rowNum" type="number" value="${ pagingConfig.rowNum }" onchange="rowNumUpdate('${ pagingConfig.tableNm }')"></div>
+					<td colspan="${ autoPaging.titleList.size() + 2 }">
+						<div class="auto-table-header">
+							<div><input id="query" class="header-search" value="${ query }"  type="text" placeholder="ID 또는 배우명을 입력해주세요" onkeydown="search(event, '${ autoPaging.tableNm }', '${ autoPaging.orderByColumn }')"></div>
+							<div class="header-rownum-div">Row Num : <input class="header-rownum-config" id="rowNum" type="number" value="${ autoPaging.rowNum }" onchange="rowNumUpdate('${ autoPaging.tableNm }', '${ autoPaging.orderByColumn }')"></div>
 						</div>
 					</td>
 				</tr>
 				<tr>
-					<c:forEach var="list" items="${ titleList }">
-						<th>${ list.titleNm }</th>
+					<c:forEach var="list" items="${ autoPaging.titleList }">
+						<th>${ list }</th>
 					</c:forEach>
 					<th>수정</th>
 					<th>삭제</th>
 				</tr>
 				<c:forEach var="list" items="${ contentList }">
+					<input type="hidden" class="content-values<%= cnt %>" value="<!-- 수정수정 -->">
 					<tr>
-						<td>${ list.num }</td>
-						<td>${ list.peopleId }</td>
-						<td>${ list.peopleNm }</td>
-						<td>${ list.sex }</td>
-						<td>${ list.likeNum }</td>
-						<td>수정</td>
-						<td>삭제</td>
+						<td class="table-width-50">${ list.num }</td>
+						<td class="table-width-100">${ list.peopleId }</td>
+						<td class="table-width-250">${ list.peopleNm }</td>
+						<td class="table-width-50">${ list.sex }</td>
+						<td class="table-width-50">${ list.likeNum }</td>
+						<td class="table-width-50"><button type="button" style="all:unset; cursor:pointer;" onclick="updateForm('<%=cnt%>')">수정</button></td>
+						<td class="table-width-50">삭제</td>
 					</tr>
+					<% cnt++; %>
 				</c:forEach>
-				<!-- 각 href수정 -->
 				<tr>
-					<td colspan="${ titleList.size() + 2 }">
-						<div align="center" style="width:100%;">
-							<c:if test="${ pagingConfig.pageNum > 5 }">
-								<span style="padding:0px 10px;"><a style="all:unset; cursor:pointer; color:blue;" href="/admin/actor_list/people_id/1"> 1 </a></span>...
+					<td colspan="${ autoPaging.titleList.size() + 2 }">
+						<div align="center" class="auto-table-footer">
+							<div style="width:100px;"></div>
+							<c:if test="${ autoPaging.pageNum > 5 }">
+								<span class="footer-paging-span"><a class="footer-paging-number" href="/admin/people_info_detail/people_id/1?query=${ query }"> 1 </a></span>...
 							</c:if>
-							<c:forEach var="i" begin="${ paging.start }" end="${ paging.end }" step="1">
-								<c:if test="${ pagingConfig.pageNum ne i }">
-									<span style="padding:0px 10px;"><a style="all:unset; cursor:pointer; color:blue;" href="/admin/actor_list/people_id/${ i }"> ${ i } </a></span>
+
+							<c:forEach var="i" begin="${ autoPaging.start }" end="${ autoPaging.end }" step="1">
+								<c:if test="${ autoPaging.pageNum ne i }">
+									<span class="footer-paging-span"><a class="footer-paging-number" href="/admin/people_info_detail/people_id/${ i }?query=${ query }"> ${ i } </a></span>
 								</c:if>
-								<c:if test="${ pagingConfig.pageNum eq i }">
-									<span style="padding:0px 10px;"> ${ i } </span>
+								<c:if test="${ autoPaging.pageNum eq i }">
+									<span class="footer-paging-span"> ${ i } </span>
 								</c:if>
 							</c:forEach>
-							<c:if test="${ paging.last ne 0 }">
-								...<span style="padding:0px 10px;"><a style="all:unset; cursor:pointer; color:blue;" href="/admin/actor_list/people_id/${ paging.last }"> ${ paging.last } </a></span>
+							
+							
+							<c:if test="${ autoPaging.last ne 0 }">
+								...<span class="footer-paging-span"><a class="footer-paging-number" href="/admin/people_info_detail/people_id/${ autoPaging.last }?query=${ query }"> ${ autoPaging.last } </a></span>
 							</c:if>
-							<a style="all:unset; cursor:pointer;" onclick="insertForm();">등록</a>
+							<div class="footer-register-div">
+								<a class="footer-register-btn" onclick="insertForm();">등록</a>
+							</div>
 						</div>
 					</td>
 				</tr>
-				<!-- 각 href수정 -->
 			</table>
-			<form id="insertForm" action="" method="post" style="display:none;">
-				<input type="text" name="peopleId" placeholder="인물ID (ex-12345678)" style="width:300px;"><br>
-				<input type="text" name="peopleNm" placeholder="이름" style="width:300px;"><br>
-				<input type="text" name="peopleNmEn" placeholder="영어이름" style="width:300px;"><br>
-				<input type="text" name="sex" placeholder="성별" style="width:300px;"><br>
-				<input type="text" name="movieId" placeholder="영화ID" style="width:300px;"><br>
-				<input type="text" name="movieNm" placeholder="영화명" style="width:300px;"><br>
-				<input type="text" name="profileUrl" placeholder="프로필URL" style="width:300px;"><br>
-				<input type="hidden" name="likeNum" value="0" style="width:300px;"><br>
-				<button style="width:154px;">등록</button><button style="width:154px;" type="reset">취소</button>
+			
+			
+			<form id="insertForm" action="<!-- 수정수정 -->" method="post" style="display:none;">
+				<input type="text" class="insert-input" name="" placeholder=""><br>
+				<button class="insert-btn">등록</button><button class="insert-btn" type="button" onclick="insertClose();">닫기</button>
 			</form>
-			<form id="updateForm" action="" method="post" style="display:none;">
-				<input type="text" name="" id="" placeholder="" style="width:300px;"><br>
-				<button style="width:154px;">수정</button><button style="width:154px;" type="reset">취소</button>
+			<form id="updateForm" action="<!-- 수정수정 -->" method="post" style="display:none;">
+				<input type="text" class="update-input" name="" id=""><br>
+				<button class="update-btn">수정</button><button class="update-btn" type="button" onclick="updateClose();">닫기</button>
 			</form>
 		</div>
 	</div>

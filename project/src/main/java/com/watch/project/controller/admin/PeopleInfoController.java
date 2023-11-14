@@ -8,10 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.watch.project.controller.admin.AutoPagingController.PagingDTO;
-import com.watch.project.controller.admin.AutoPagingController.RowNumUpdateDTO;
-import com.watch.project.controller.admin.AutoPagingController.TitleDTO;
+import com.watch.project.dto.admin.AutoPagingDTO;
+import com.watch.project.dto.admin.MovieInfoDTO;
 import com.watch.project.dto.admin.PagingConfigDTO;
 import com.watch.project.dto.admin.PeopleInfoDTO;
 import com.watch.project.dto.admin.TableInfoDTO;
@@ -29,55 +29,61 @@ public class PeopleInfoController {
 	private final AutoPagingService autoPagingService;
 	private final PeopleInfoService service;
 	
-	@GetMapping("/admin/actor_list/people_id/{pageNum}")
-	public String peopleInfoListOrderBypeopleId(@PathVariable("pageNum") int pageNum, Model model) {
-		
+	@GetMapping("/admin/people_info_detail/people_id/{pageNum}")
+	public String movieInfoList(@PathVariable("pageNum") int pageNum, @RequestParam("query") String query, Model model) {
+		log.info("옴?");
 		if(adminCertification()) {
 			return "/admin/login";
 		}
-		
 		String[] titleNm = {"NUM", "ID", "배우명", "성별", "좋아요"};
+		
+		String[] conditionColumns= {"people_id", "people_nm", "people_nm_en"};
+		
+		String conditionColumn = service.getConditionColumn(conditionColumns, query);
 		
 		String tableNm = "people_info_detail";
 		String orderByColumn = "people_id";
+		
+		TableInfoDTO tableInfoDto = null;
+		List<PeopleInfoDTO> peopleInfoList = null;
+		
 		PagingConfigDTO dto = new PagingConfigDTO();
 		dto.setTableNm(tableNm);
 		dto.setOrderByColumn(orderByColumn);
+		
 		PagingConfigDTO pagingConfigDto = autoPagingService.getPagingConfigByTableNmAndOrderByColumn(dto);
+		pagingConfigDto.setConditionColumn(conditionColumn);
+		
+		if(query.equals("")) 
+			tableInfoDto = autoPagingService.getTableInfoDto(pagingConfigDto);
+		else 
+			tableInfoDto = autoPagingService.getTableInfoDtoQuery(pagingConfigDto);
 		
 		
-		TableInfoDTO tableInfoDto = autoPagingService.getTableInfoDto(pagingConfigDto);
+		AutoPagingDTO autoPagingDto = new AutoPagingDTO();
 		
-		/*
-		 * 테이블 제목
-		 */
-		List<TitleDTO> titleList = service.getTitleLList(titleNm);
+		int rowNum = pagingConfigDto.getRowNum();
+		int end = autoPagingDto.getEnd(pageNum, rowNum);
+		int start = autoPagingDto.getStart(end, rowNum);
+		List<String> titleList = service.getTitleLList(titleNm);
+		
 		
 		/*
 		 * 테이블 내용
 		 */
-		List<PeopleInfoDTO> peopleInfoList = service.getPeopleInfoList(pageNum, pagingConfigDto, tableInfoDto);
+		if(query.equals("")) {
+			peopleInfoList = service.getPeopleInfoList(start, end, pagingConfigDto);			
+		}else {
+			peopleInfoList = service.getPeopleInfoListQuery(start, end, pagingConfigDto, conditionColumn);	
+		}
 		
-		/*
-		 * 페이징 넘버
-		 */
-		PagingDTO pagingDto = service.getPagingDto(pageNum, tableInfoDto);
-		
-		/*
-		 * 행 개수 Update할 때 필요
-		 */
-		RowNumUpdateDTO rowNumUpdateDto = 
-				RowNumUpdateDTO
-				.builder()
-				.pageNum(pageNum)
-				.rowNum(pagingConfigDto.getRowNum())
-				.tableNm(tableNm)
-				.build();
-		
-		model.addAttribute("titleList", titleList);
+		autoPagingDto.setAutoPagingDto(tableNm, pageNum, rowNum, orderByColumn, titleList, tableInfoDto);
+		log.info("peopleInfoList => {}", peopleInfoList);
+		log.info("autoPagingDto => {}", autoPagingDto);
+		log.info("query => {}", query);
 		model.addAttribute("contentList", peopleInfoList);
-		model.addAttribute("paging", pagingDto);
-		model.addAttribute("pagingConfig", rowNumUpdateDto);
+		model.addAttribute("autoPaging", autoPagingDto);
+		model.addAttribute("query", query);
 		
 		return "admin/actor/people_id_list";
 	}

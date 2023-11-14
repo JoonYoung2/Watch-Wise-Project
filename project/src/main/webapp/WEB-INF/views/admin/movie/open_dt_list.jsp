@@ -5,84 +5,124 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/resources/css/home.css">
+<link rel="stylesheet" href="/resources/css/admin/auto-table.css">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <title>Insert title here</title>
 </head>
-<body>
+<body id="body">
+	<% int cnt = 0; %>
 	<%@ include file="../include/header.jsp" %>
-	<div align="center" style="width:100%">
-		<div align="center" style="width:80%">
+	<br><br><br>
+	<div align="center" class="list-page">
+		<div align="center" class="list-page-div">
 			<table>
 				<tr>
-					<td colspan="${ titleList.size() + 2 }">
-						<div style="display:flex; justify-content:space-between;">
-							<div><input type="text" placeholder="ID 또는 영화명을 입력해주세요"></div>
-							<div>Row Num : <input style="all:unset; width:100px; text-align:center; border:1px solid rgba(0, 0, 0, 0.1)" id="rowNum" type="number" value="${ pagingConfig.rowNum }" onchange="rowNumUpdate('${ pagingConfig.tableNm }')"></div>
+					<td colspan="${ autoPaging.titleList.size() + 2 }">
+						<div class="auto-table-header">
+							<div><input id="query" class="header-search" value="${ query }"  type="text" placeholder="ID 또는 영화명을 입력해주세요" onkeydown="search(event, '${ autoPaging.tableNm }', '${ autoPaging.orderByColumn }')"></div>
+							<div class="header-rownum-div">Row Num : <input class="header-rownum-config" id="rowNum" type="number" value="${ autoPaging.rowNum }" onchange="rowNumUpdate('${ autoPaging.tableNm }', '${ autoPaging.orderByColumn }')"></div>
 						</div>
 					</td>
 				</tr>
 				<tr>
-					<c:forEach var="list" items="${ titleList }">
-						<th>${ list.titleNm }</th>
+					<c:forEach var="list" items="${ autoPaging.titleList }">
+						<th>${ list }</th>
 					</c:forEach>
 					<th>수정</th>
 					<th>삭제</th>
 				</tr>
 				<c:forEach var="list" items="${ contentList }">
+					<input type="hidden" class="content-values<%= cnt %>" value="${ list.movieId }">
+					<input type="hidden" class="content-values<%= cnt %>" value="${ list.movieNm }">
+					<input type="hidden" class="content-values<%= cnt %>" value="${ list.movieNmEn }">
+					<input type="hidden" class="content-values<%= cnt %>" value="${ list.prdtYear }">
+					<input type="hidden" class="content-values<%= cnt %>" value="${ list.openDt }">
+					<input type="hidden" class="content-values<%= cnt %>" value="${ list.typeNm }">
+					<input type="hidden" class="content-values<%= cnt %>" value="${ list.nations }">
+					<input type="hidden" class="content-values<%= cnt %>" value="${ list.genreNm }">
+					<input type="hidden" class="content-values<%= cnt %>" value="${ list.posterUrl }">
+					<input type="hidden" class="content-values<%= cnt %>" value="${ list.showTime }">
+					<input type="hidden" class="content-values<%= cnt %>" value="${ list.actors }">
+					<input type="hidden" class="content-values<%= cnt %>" value="${ list.cast }">
+					<input type="hidden" class="content-values<%= cnt %>" value="${ list.watchGradeNm }">
+					<input type="hidden" class="content-values<%= cnt %>" value="${ list.docid }">
+					<input type="hidden" class="content-values<%= cnt %>" value="${ list.likeNum }">
 					<tr>
-						<td>${ list.num }</td>
-						<td>${ list.movieId }</td>
-						<td>${ list.movieNm }</td>
-						<td>${ list.openDt }</td>
-						<td>${ list.likeNum }</td>
-						<td>수정</td>
-						<td>삭제</td>
+						<td class="table-width-50">${ list.num }</td>
+						<td class="table-width-100">${ list.movieId }</td>
+						<td class="table-width-500">${ list.movieNm }</td>
+						<td class="table-width-100">${ list.openDt }</td>
+						<td class="table-width-50">${ list.likeNum }</td>
+						<td class="table-width-50"><button type="button" style="all:unset; cursor:pointer;" onclick="updateForm('<%=cnt%>')">수정</button></td>
+						<td class="table-width-50">삭제</td>
 					</tr>
+					<% cnt++; %>
 				</c:forEach>
 				<tr>
-					<td colspan="${ titleList.size() + 2 }">
-					<div align="center" style="width:100%;">
-						<c:if test="${ pagingConfig.pageNum > 5 }">
-							<span style="padding:0px 10px;"><a style="all:unset; cursor:pointer; color:blue;" href="/admin/movie_list/open_dt/1"> 1 </a></span>...
-						</c:if>
-						<c:forEach var="i" begin="${ paging.start }" end="${ paging.end }" step="1">
-							<c:if test="${ pagingConfig.pageNum ne i }">
-								<span style="padding:0px 10px;"><a style="all:unset; cursor:pointer; color:blue;" href="/admin/movie_list/open_dt/${ i }"> ${ i } </a></span>
+					<td colspan="${ autoPaging.titleList.size() + 2 }">
+						<div align="center" class="auto-table-footer">
+							<div style="width:100px;"></div>
+							<c:if test="${ autoPaging.pageNum > 5 }">
+								<span class="footer-paging-span"><a class="footer-paging-number" href="/admin/movie_info/open_dt/1?query=${ query }"> 1 </a></span>...
 							</c:if>
-							<c:if test="${ pagingConfig.pageNum eq i }">
-								<span style="padding:0px 10px;"> ${ i } </span>
+
+							<c:forEach var="i" begin="${ autoPaging.start }" end="${ autoPaging.end }" step="1">
+								<c:if test="${ autoPaging.pageNum ne i }">
+									<span class="footer-paging-span"><a class="footer-paging-number" href="/admin/movie_info/open_dt/${ i }?query=${ query }"> ${ i } </a></span>
+								</c:if>
+								<c:if test="${ autoPaging.pageNum eq i }">
+									<span class="footer-paging-span"> ${ i } </span>
+								</c:if>
+							</c:forEach>
+							
+							
+							<c:if test="${ autoPaging.last ne 0 }">
+								...<span class="footer-paging-span"><a class="footer-paging-number" href="/admin/movie_info/open_dt/${ autoPaging.last }?query=${ query }"> ${ autoPaging.last } </a></span>
 							</c:if>
-						</c:forEach>
-						<c:if test="${ paging.last ne 0 }">
-							...<span style="padding:0px 10px;"><a style="all:unset; cursor:pointer; color:blue;" href="/admin/movie_list/open_dt/${ paging.last }"> ${ paging.last } </a></span>
-						</c:if>
-						<a style="all:unset; cursor:pointer;" onclick="insertForm();">등록</a>
-					</div>
+							<div class="footer-register-div">
+								<a class="footer-register-btn" onclick="insertForm();">등록</a>
+							</div>
+						</div>
 					</td>
 				</tr>
 			</table>
+			
+			
 			<form id="insertForm" action="insertMovieInfo" method="post" style="display:none;">
-				<input type="text" name="movieId" placeholder="영화ID (ex-12345678)" style="width:300px;"><br>
-				<input type="text" name="movieNm" placeholder="영화제목" style="width:300px;"><br>
-				<input type="text" name="movieNmEn" placeholder="영화영어제목" style="width:300px;"><br>
-				<input type="text" name="prdtYear" placeholder="제작년도(ex-1900)" style="width:300px;"><br>
-				<input type="text" name="openDt" placeholder="개봉일(ex-19001010)" style="width:300px;"><br>
-				<input type="text" name="typeNm" placeholder="종류명" style="width:300px;"><br>
-				<input type="text" name="nations" placeholder="제작국가" style="width:300px;"><br>
-				<input type="text" name="genreNm" placeholder="장르" style="width:300px;"><br>
-				<input type="text" name="posterUrl" placeholder="포스터URL" style="width:300px;"><br>
-				<input type="text" name="showTime" placeholder="상영시간" style="width:300px;"><br>
-				<input type="text" name="actors" placeholder="배우명(ex-송중기,송혜교)" style="width:300px;"><br>
-				<input type="text" name="acst" placeholder="역할명(ex-경찰1,경찰2)" style="width:300px;"><br>
-				<input type="text" name="watchGradeNm" placeholder="제한연령" style="width:300px;"><br>
+				<input type="text" class="insert-input" name="movieId" placeholder="영화ID (ex-12345678)"><br>
+				<input type="text" class="insert-input" name="movieNm" placeholder="영화제목"><br>
+				<input type="text" class="insert-input" name="movieNmEn" placeholder="영화영어제목"><br>
+				<input type="text" class="insert-input" name="prdtYear" placeholder="제작년도(ex-1900)"><br>
+				<input type="text" class="insert-input" name="openDt" placeholder="개봉일(ex-19001010)"><br>
+				<input type="text" class="insert-input" name="typeNm" placeholder="종류명"><br>
+				<input type="text" class="insert-input" name="nations" placeholder="제작국가"><br>
+				<input type="text" class="insert-input" name="genreNm" placeholder="장르"><br>
+				<input type="text" class="insert-input" name="posterUrl" placeholder="포스터URL"><br>
+				<input type="text" class="insert-input" name="showTime" placeholder="상영시간"><br>
+				<input type="text" class="insert-input" name="actors" placeholder="배우명(ex-송중기,송혜교)"><br>
+				<input type="text" class="insert-input" name="cast" placeholder="역할명(ex-경찰1,경찰2)"><br>
+				<input type="text" class="insert-input" name="watchGradeNm" placeholder="제한연령"><br>
 				<input type="hidden" name="docid" value="nan">
 				<input type="hidden" name="likeNum" value="0">
-				<button style="width:154px;">등록</button><button style="width:154px;" type="reset">취소</button>
+				<button class="insert-btn">등록</button><button class="insert-btn" type="button" onclick="insertClose();">닫기</button>
 			</form>
 			<form id="updateForm" action="" method="post" style="display:none;">
-				<input type="text" name="" id="" placeholder="" style="width:300px;"><br>
-				<button style="width:154px;">수정</button><button style="width:154px;" type="reset">취소</button>
+				<input type="text" class="update-input" name="movieId" id="movieId"><br>
+				<input type="text" class="update-input" name="movieNm" id="movieNm"><br>
+				<input type="text" class="update-input" name="movieNmEn" id="movieNmEn"><br>
+				<input type="text" class="update-input" name="prdtYear" id="prdtYear"><br>
+				<input type="text" class="update-input" name="openDt" id="openDt"><br>
+				<input type="text" class="update-input" name="typeNm" id="typeNm"><br>
+				<input type="text" class="update-input" name="nations" id="nations"><br>
+				<input type="text" class="update-input" name="genreNm" id="genreNm"><br>
+				<input type="text" class="update-input" name="posterUrl" id="posterUrl"><br>
+				<input type="text" class="update-input" name="showTime" id="showTime"><br>
+				<input type="text" class="update-input" name="actors" id="actors"><br>
+				<input type="text" class="update-input" name="cast" id="cast"><br>
+				<input type="text" class="update-input" name="watchGradeNm" id="watchGradeNm"><br>
+				<input type="text" class="update-input" name="docid" id="docid"><br>
+				<input type="text" class="update-input" name="likeNum" id="likeNum"><br>
+				<button class="update-btn">수정</button><button class="update-btn" type="button" onclick="updateClose();">닫기</button>
 			</form>
 		</div>
 	</div>

@@ -15,4 +15,6 @@ public interface AdminMovieInfoRepository {
 	
 	public List<MovieInfoDTO> getMovieInfoListByStartAndEnd(Map<String, String> map);
 	
+	public List<MovieInfoDTO> getMovieInfoListByStartAndEndQuery(Map<String, String> map);
+	
 }

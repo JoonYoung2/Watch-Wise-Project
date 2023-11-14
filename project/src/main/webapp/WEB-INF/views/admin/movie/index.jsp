@@ -10,6 +10,6 @@
 </head>
 <body>
 	<%@ include file="../include/header.jsp" %>
-	<a href="/admin/movie_list/open_dt/1">개봉일 순</a> | <a href="/admin/movie_list/like_num/1">좋아요 순</a>
+	<a href="/admin/movie_info/open_dt/1?query=">개봉일 순</a> | <a href="/admin/movie_info/like_num/1?query=">좋아요 순</a>
 </body>
 </html>

@@ -23,5 +23,12 @@
 		WHERE id >= ${start} AND id <= ${end}]]>
 	</select>
 	
+	<select id="getPeopleInfoListByStartAndEndQuery" resultMap="peopleInfo">
+		<![CDATA[SELECT * FROM 
+		(SELECT ROWNUM AS id, ${columns}
+		FROM (SELECT * FROM ${tableNm} WHERE ${conditionColumn} ORDER BY ${orderByColumn} DESC))
+		WHERE id >= ${start} AND id <= ${end}]]>
+	</select>
+	
 </mapper>
 
