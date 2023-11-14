@@ -22,20 +22,16 @@ import com.watch.api.service.PeopleInfoApiService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.Headers;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class PeopleProfileUpdateScheduled {
-	private static int cnt = 14000;
+	private static int cnt = 0;
 	private final PeopleInfoApiService service;
 	
 	/*
-	 * 결과가 1개만 있을 경우 WHERE 절 삭제
+	 * 결과가 1개만 있을 경우 WHERE 절 삭제 이거 쓰지 않기.
 	 */
 //	@Scheduled(cron = "5 12 14 * * *")
 	public void peopleDetailSearchAndSave() throws UnsupportedEncodingException {
@@ -100,7 +96,7 @@ public class PeopleProfileUpdateScheduled {
 	/*
 	 * 여러 결과가 있을 경우 DAO에 WHERE profile_url='nan' 추가
 	 */
-//	@Scheduled(cron = "45 52 23 * * *")
+//	@Scheduled(cron = "50 34 20 * * *")
 	public void peopleDetailSearchAndSave2() throws UnsupportedEncodingException {
 		List<PeopleInfoDetailDTO> peopleInfoDetailList = service.getAllPeopleInfoDetail();
 		while(cnt != peopleInfoDetailList.size()) {

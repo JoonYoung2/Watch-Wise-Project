@@ -28,7 +28,7 @@ public class PeopleInfoUpdateScheduled {
 	private static int cnt = 0;
 	
 //	@Scheduled(fixedDelay = 1000)
-//	@Scheduled(cron = "35 20 17 * * *")
+//	@Scheduled(cron = "10 28 20 * * *")
 	public void peopleDetailSearchAndSave() {
 		int peopleCd = 0;
 		List<PeopleInfoDTO> list = service.getPeopleInfoAll();
@@ -127,7 +127,7 @@ public class PeopleInfoUpdateScheduled {
 	}
 	
 //	@Scheduled(fixedDelay = 1000)
-//	@Scheduled(cron = "30 43 15 * * *")
+//	@Scheduled(cron = "0 5 20 * * *")
 	public void peopleAllSearchAndSave() {
 		int cnt = 0;
 		while(cnt != 6000) {

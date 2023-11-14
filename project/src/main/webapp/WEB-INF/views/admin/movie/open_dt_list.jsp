@@ -54,7 +54,7 @@
 						<td class="table-width-100">${ list.openDt }</td>
 						<td class="table-width-50">${ list.likeNum }</td>
 						<td class="table-width-50"><button type="button" style="all:unset; cursor:pointer;" onclick="updateForm('<%=cnt%>')">수정</button></td>
-						<td class="table-width-50">삭제</td>
+						<td class="table-width-50"><button type="button" style="all:unset; cursor:pointer;" onclick="deleteBtn('${ list.movieId }','${ query }','${ autoPaging.tableNm }', '${ autoPaging.orderByColumn }')">삭제</button></td>
 					</tr>
 					<% cnt++; %>
 				</c:forEach>
