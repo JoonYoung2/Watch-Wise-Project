@@ -9,12 +9,7 @@ public class MemberDTO {
 	private String userEmail;
 	private String userPw;
 	private String userName;
-	private int userLoginType;
-	private String socialLoginId;
 	private int kakaoAgreement;
 	private int naverAgreement;
 	private int googleAgreement;
-	private String kakaoRefreshToken;
-	private String naverRefreshToken;
-	private String AccessToken;
 }
