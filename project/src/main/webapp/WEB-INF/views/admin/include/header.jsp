@@ -11,7 +11,7 @@
 <body>
 	<c:if test="${ not empty sessionScope.admin }">
 		<hr>
-		<a href="/admin/pagingConfig">PagingConfig</a> | <a href="/admin/movie_info">Movies</a> | <a href="/admin/actor_list/people_id/1">Actors</a> | <a href="#">Members</a> | <a href="/admin/logout">로그아웃</a>
+		<a href="/admin/pagingConfig">PagingConfig</a> | <a href="/admin/movie_info">Movies</a> | <a href="/admin/people_info_detail/people_id/1?query=">Actors</a> | <a href="#">Members</a> | <a href="/admin/logout">로그아웃</a>
 		<hr>
 	</c:if>
 </body>

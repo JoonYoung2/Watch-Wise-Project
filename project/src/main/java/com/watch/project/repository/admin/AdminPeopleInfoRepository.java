@@ -11,5 +11,7 @@ import com.watch.project.dto.admin.PeopleInfoDTO;
 public interface AdminPeopleInfoRepository {
 
 	public List<PeopleInfoDTO> getPeopleInfoListByStartAndEnd(Map<String, String> map);
+
+	public List<PeopleInfoDTO> getPeopleInfoListByStartAndEndQuery(Map<String, String> map);
 	
 }

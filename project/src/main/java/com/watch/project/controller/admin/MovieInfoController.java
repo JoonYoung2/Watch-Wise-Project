@@ -1,6 +1,5 @@
 package com.watch.project.controller.admin;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -9,21 +8,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.watch.project.controller.admin.AutoPagingController.PagingDTO;
-import com.watch.project.controller.admin.AutoPagingController.RowNumUpdateDTO;
-import com.watch.project.controller.admin.AutoPagingController.TitleDTO;
+import com.watch.project.dto.admin.AutoPagingDTO;
 import com.watch.project.dto.admin.MovieInfoDTO;
 import com.watch.project.dto.admin.PagingConfigDTO;
-import com.watch.project.dto.admin.PeopleInfoDTO;
 import com.watch.project.dto.admin.TableInfoDTO;
 import com.watch.project.service.admin.AutoPagingService;
 import com.watch.project.service.admin.MovieInfoService;
 
-import lombok.Builder;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,55 +38,58 @@ public class MovieInfoController {
 		return "/admin/movie/index";
 	}
 	
-	@GetMapping("/admin/movie_list/open_dt/{pageNum}")
-	public String movieInfoList(@PathVariable("pageNum") int pageNum, Model model) {
-		
+	@GetMapping("/admin/movie_info/open_dt/{pageNum}")
+	public String movieInfoList(@PathVariable("pageNum") int pageNum, @RequestParam("query") String query, Model model) {
 		if(adminCertification()) {
 			return "/admin/login";
 		}
-		
 		String[] titleNm = {"NUM", "ID", "영화명", "개봉일", "좋아요"};
+		
+		String[] conditionColumns= {"movie_id", "movie_nm"};
+		
+		String conditionColumn = service.getConditionColumn(conditionColumns, query);
 		
 		String tableNm = "movie_info";
 		String orderByColumn = "open_dt";
+		
+		TableInfoDTO tableInfoDto = null;
+		List<MovieInfoDTO> movieInfoList = null;
+		
 		PagingConfigDTO dto = new PagingConfigDTO();
 		dto.setTableNm(tableNm);
 		dto.setOrderByColumn(orderByColumn);
 		
 		PagingConfigDTO pagingConfigDto = autoPagingService.getPagingConfigByTableNmAndOrderByColumn(dto);
+		pagingConfigDto.setConditionColumn(conditionColumn);
 		
-		TableInfoDTO tableInfoDto = autoPagingService.getTableInfoDto(pagingConfigDto);
+		if(query.equals("")) 
+			tableInfoDto = autoPagingService.getTableInfoDto(pagingConfigDto);
+		else 
+			tableInfoDto = autoPagingService.getTableInfoDtoQuery(pagingConfigDto);
 		
-		/*
-		 * 테이블 제목
-		 */
-		List<TitleDTO> titleList = service.getTitleLList(titleNm);
+		
+		AutoPagingDTO autoPagingDto = new AutoPagingDTO();
+		
+		int rowNum = pagingConfigDto.getRowNum();
+		int end = autoPagingDto.getEnd(pageNum, rowNum);
+		int start = autoPagingDto.getStart(end, rowNum);
+		List<String> titleList = service.getTitleLList(titleNm);
+		
 		
 		/*
 		 * 테이블 내용
 		 */
-		List<MovieInfoDTO> movieInfoList = service.getMovieInfoList(pageNum, pagingConfigDto);
+		if(query.equals("")) {
+			movieInfoList = service.getMovieInfoList(start, end, pagingConfigDto);			
+		}else {
+			movieInfoList = service.getMovieInfoListQuery(start, end, pagingConfigDto, conditionColumn);	
+		}
 		
-		/*
-		 * 페이징 넘버
-		 */
-		PagingDTO pagingDto = service.getPagingDto(pageNum, tableInfoDto);
+		autoPagingDto.setAutoPagingDto(tableNm, pageNum, rowNum, orderByColumn, titleList, tableInfoDto);
 		
-		/*
-		 * 행 개수 Update할 때 필요
-		 */
-		RowNumUpdateDTO rowNumUpdateDto = 
-				RowNumUpdateDTO
-				.builder()
-				.pageNum(pageNum)
-				.rowNum(pagingConfigDto.getRowNum())
-				.tableNm(tableNm)
-				.build();
-		
-		model.addAttribute("titleList", titleList);
 		model.addAttribute("contentList", movieInfoList);
-		model.addAttribute("paging", pagingDto);
-		model.addAttribute("pagingConfig", rowNumUpdateDto);
+		model.addAttribute("autoPaging", autoPagingDto);
+		model.addAttribute("query", query);
 		
 		return "admin/movie/open_dt_list";
 	}

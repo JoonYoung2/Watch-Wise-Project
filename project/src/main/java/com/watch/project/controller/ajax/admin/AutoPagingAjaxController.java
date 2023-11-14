@@ -16,10 +16,13 @@ import lombok.extern.slf4j.Slf4j;
 public class AutoPagingAjaxController {
 	private final AutoPagingService service;
 	@GetMapping("/updateRowNum")
-	public void updateRowNum(@RequestParam("rowNum") int rowNum, @RequestParam("tableNm") String tableNm) {
+	public void updateRowNum(@RequestParam("rowNum") int rowNum, @RequestParam("tableNm") String tableNm, @RequestParam("orderByColumn") String orderByColumn) {
 		PagingConfigDTO dto = new PagingConfigDTO();
+		
 		dto.setRowNum(rowNum);
 		dto.setTableNm(tableNm);
+		dto.setOrderByColumn(orderByColumn);
+		
 		service.updateRowNumByTableNm(dto);
 	}
 }

@@ -82,30 +82,4 @@ public class AutoPagingController {
 		}
 		return check;
 	}
-	
-	@Data
-	public static class PagingDTO{
-		private int start;
-		private int end;
-		private int last;
-	}
-	
-	@Data
-	public static class TitleDTO{
-		private String titleNm;
-	}
-	
-	@Data
-	public static class RowNumUpdateDTO{
-		private String tableNm;
-		private int rowNum;
-		private int pageNum;
-		
-		@Builder
-		public RowNumUpdateDTO(String tableNm, int rowNum, int pageNum){
-			this.tableNm = tableNm;
-			this.rowNum = rowNum;
-			this.pageNum = pageNum;
-		}
-	}
 }

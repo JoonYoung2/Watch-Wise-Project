@@ -1,0 +1,180 @@
+#body{
+	background-color:;
+}
+
+.list-page{
+	width:100%;
+}
+
+.list-page-div{
+	width:80%; 
+	position:relative;
+}
+
+.auto-table-header{
+	display:flex; 
+	justify-content:space-between;
+}
+
+.header-search{
+	all:unset; 
+	width:300px; 
+	height:30px; 
+	font-size:20px; 
+	border:solid 1px rgba(0, 0, 0, 0.1);
+	padding-left:20px;
+}
+
+.header-rownum-div{
+	font-size:20px;
+}
+
+.header-rownum-config{
+	all:unset; 
+	width:100px; 
+	height:30px; 
+	text-align:center; 
+	border:1px solid rgba(0, 0, 0, 0.1);
+}
+
+.auto-table-footer{
+	width:100%; 
+	display:flex; 
+	justify-content:space-between;
+}
+
+.footer-paging-span{
+	padding:0px 10px;
+}
+
+.footer-paging-number{
+	all:unset; 
+	cursor:pointer; 
+	color:blue;
+}
+
+.footer-register-div{
+	width:50px; 
+	text-align:center;
+}
+
+.footer-register-btn{
+	all:unset; 
+	cursor:pointer;
+}
+
+#insertForm{
+	position:absolute; 
+	top:100px; 
+	left:600px;
+}
+
+.insert-input{
+	width:300px; 
+	height:30px; 
+	font-size:20px;
+}
+
+.insert-btn{
+	width:154px; 
+	height:30px; 
+	font-size:20px;
+}
+
+#updateForm{
+	position:absolute; 
+	top:100px; 
+	left:600px;
+}
+
+.update-input{
+	width:300px; 
+	height:30px; 
+	font-size:20px;
+}
+
+.update-btn{
+	width:154px; 
+	height:30px; 
+	font-size:20px;
+}
+
+.table-width-50{
+	width:50px; text-align:center;
+}
+
+.table-width-100{
+	width:100px; text-align:center;
+}
+
+.table-width-150{
+	width:150px; text-align:center;
+}
+
+.table-width-200{
+	width:200px; text-align:center;
+}
+
+.table-width-250{
+	width:250px; text-align:center;
+}
+
+.table-width-300{
+	width:300px; text-align:center;
+}
+
+.table-width-350{
+	width:350px; text-align:center;
+}
+
+.table-width-400{
+	width:400px; text-align:center;
+}
+
+.table-width-450{
+	width:450px; text-align:center;
+}
+
+.table-width-500{
+	width:500px; text-align:center;
+}
+
+.table-width-550{
+	width:550px; text-align:center;
+}
+
+.table-width-600{
+	width:600px; text-align:center;
+}
+
+.table-width-650{
+	width:650px; text-align:center;
+}
+
+.table-width-700{
+	width:700px; text-align:center;
+}
+
+.table-width-750{
+	width:750px; text-align:center;
+}
+
+.table-width-800{
+	width:800px; text-align:center;
+}
+
+.table-width-850{
+	width:850px; text-align:center;
+}
+
+.table-width-900{
+	width:900px; text-align:center;
+}
+
+.table-width-950{
+	width:950px; text-align:center;
+}
+
+.table-width-1000{
+	width:1000px; text-align:center;
+}

@@ -21,6 +21,10 @@ public class AutoPagingService {
 		return repo.getTableInfoByRowNumAndTableNm(pagingConfigDto);
 	}
 	
+	public TableInfoDTO getTableInfoDtoQuery(PagingConfigDTO pagingConfigDto) {
+		return repo.getTableInfoByRowNumAndTableNmQuery(pagingConfigDto);
+	}
+	
 	public List<PagingConfigDTO> getAllPagingConfig(){
 		return repo.getAllPagingConfig();
 	}
@@ -43,5 +47,13 @@ public class AutoPagingService {
 	
 	public void updateRowNumByTableNm(PagingConfigDTO dto) {
 		repo.updateRowNumByTableNm(dto);
+	}
+	
+	public int getStart(int end, int rowNum) {
+		return end - rowNum + 1;
+	}
+
+	public int getEnd(int pageNum, int rowNum) {
+		return pageNum * rowNum;
 	}
 }

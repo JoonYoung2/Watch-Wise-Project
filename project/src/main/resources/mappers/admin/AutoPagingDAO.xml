@@ -42,7 +42,7 @@
 	</delete>
 	
 	<update id="updateRowNumByTableNm" parameterType="com.watch.project.dto.admin.PagingConfigDTO">
-		UPDATE paging_config SET row_num=#{rowNum} WHERE table_nm=#{tableNm}
+		UPDATE paging_config SET row_num=#{rowNum} WHERE table_nm=#{tableNm} AND order_by_column=#{orderByColumn}
 	</update>
 	
 	<select id="getTableInfoByRowNumAndTableNm" resultMap="tableInfo" parameterType="com.watch.project.dto.admin.PagingConfigDTO">
@@ -51,6 +51,14 @@
 		CEIL(COUNT(id) / ${rowNum}) AS page_num, 
 		MOD(COUNT(id), ${rowNum}) AS mod_value 
 		FROM (SELECT 1 AS id FROM ${tableNm})
+	</select>
+	
+	<select id="getTableInfoByRowNumAndTableNmQuery" resultMap="tableInfo" parameterType="com.watch.project.dto.admin.PagingConfigDTO">
+		SELECT 
+		COUNT(id) AS total, 
+		CEIL(COUNT(id) / ${rowNum}) AS page_num, 
+		MOD(COUNT(id), ${rowNum}) AS mod_value 
+		FROM (SELECT 1 AS id FROM ${tableNm} WHERE ${conditionColumn})
 	</select>
 	
 </mapper>
