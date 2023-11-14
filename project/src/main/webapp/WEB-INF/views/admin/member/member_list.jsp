@@ -9,10 +9,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<c:if test="${ not empty sessionScope.admin }">
-		<hr>
-		<a href="/admin/pagingConfig">PagingConfig</a> | <a href="/admin/movie_info">Movies</a> | <a href="/admin/actor_list/people_id/1">Actors</a> | <a href="/admin/memer_list">Members</a> | <a href="/admin/logout">로그아웃</a>
-		<hr>
-	</c:if>
+	<%@ include file="../include/header.jsp" %>
+	
+	member_list_page
 </body>
 </html>

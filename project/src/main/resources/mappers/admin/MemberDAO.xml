@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watch.project.repository.admin.AdminMemberRepository">
+	<resultMap type="com.watch.project.dto.admin.MemberDTO" id="member">
+		<result column="num" property="num" />
+		<result column="id" property="id" />
+		<result column="user_mail" property="userEmail" />
+		<result column="userPw" property="userPw" />
+		<result column="userName" property="userName" />
+		<result column="userLoginType" property="userLoginType" />
+		<result column="socialLoginId" property="socialLoginId" />
+		<result column="kakaoAgreement" property="kakaoAgreement" />
+		<result column="genre_nm" property="naverAgreement" />
+		<result column="googleAgreement" property="googleAgreement" />
+		<result column="kakaoRefreshToken" property="kakaoRefreshToken" />
+		<result column="naverRefreshToken" property="naverRefreshToken" />
+		<result column="AccessToken" property="AccessToken" />
+	</resultMap>
+	
+	<select id="getMovieInfoListByStartAndEnd" resultMap="member">
+		<![CDATA[SELECT * FROM 
+		(SELECT ROWNUM AS num, ${columns}
+		FROM (SELECT * FROM ${tableNm} ORDER BY ${orderByColumn} DESC))
+		WHERE num >= ${start} AND num <= ${end}]]>
+	</select>
+</mapper>

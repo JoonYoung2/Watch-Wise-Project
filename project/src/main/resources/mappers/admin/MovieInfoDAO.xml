@@ -27,7 +27,7 @@
 		(SELECT ROWNUM AS id, ${columns}
 		FROM (SELECT * FROM ${tableNm} ORDER BY ${orderByColumn} DESC))
 		WHERE id >= ${start} AND id <= ${end}]]>
-	</select>	
+	</select>
 	
 </mapper>
 
