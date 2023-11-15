@@ -64,4 +64,13 @@ public class MemberService {
 		}
 		return conditionColumn;
 	}
+
+	public String deleteMemberByEmail(String userEmail) {
+		String msg = "삭제되었습니다.";
+		int result = repo.deleteMember(userEmail);
+		if(result != 1) {
+			msg = "오류가 발생했습니다.";
+		}
+		return msg;
+	}
 }

@@ -428,16 +428,20 @@
         	<img src="resources/img/likeColor.png" style="width:20px; vertical-align:-5px;">
         	<span> x </span>
         	<span class="comment_like_count" style="vertical-align:-1px;">${dto.reviewCommentLikes }</span>
-        	
+        	<span style=" margin-top:10px;">
+	        	<a href="/reportComment?userEmail=${sessionScope.userEmail }&author=${dto.userEmail }&comment=${dto.reviewComment}">
+	        		<img src="resources/img/alert.png" style="cursor:pointer; margin-left:10px; width:25px; vertical-align:-3px;">
+	        	</a>
+        	</span>
        	</span>
         <br><br>
         <span class="comment">
         <c:choose>
         <c:when test="${dto.isLiked eq 0 }">
-        	<img class="likeButton" src="resources/img/like.png" style="width:30px;margin-left:15px;" onclick="increaseLikeCount('${dto.userEmail}', '${movieInfo.movieId}', '${ cnt }');">
+        	<img class="likeButton" src="resources/img/like.png" style="width:25px;margin-left:50px;" onclick="increaseLikeCount('${dto.userEmail}', '${movieInfo.movieId}', '${ cnt }');">
         </c:when>
         <c:otherwise>
-           <img class="likeButton" src="resources/img/likeColor.png" style="width:30px; margin-left:15px;" onclick="decreaseLikeCount('${dto.userEmail}', '${movieInfo.movieId}', '${ cnt }');">
+           <img class="likeButton" src="resources/img/likeColor.png" style="width:25px; margin-left:50px;" onclick="decreaseLikeCount('${dto.userEmail}', '${movieInfo.movieId}', '${ cnt }');">
         </c:otherwise>
         </c:choose>
 

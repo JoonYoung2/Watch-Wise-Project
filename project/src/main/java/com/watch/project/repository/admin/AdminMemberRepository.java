@@ -13,5 +13,7 @@ public interface AdminMemberRepository {
 	public List<MemberDTO> getMemberInfoListByStartAndEnd(Map<String, String> map);
 	
 	public List<MemberDTO> getMemberInfoListByStartAndEndQuery(Map<String, String> map);
+
+	public int deleteMember(String userEmail);
 	
 }

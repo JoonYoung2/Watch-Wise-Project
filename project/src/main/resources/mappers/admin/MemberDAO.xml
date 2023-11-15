@@ -27,4 +27,8 @@
 		FROM (SELECT * FROM ${tableNm} WHERE ${conditionColumn} ORDER BY ${orderByColumn} DESC))
 		WHERE num >= ${start} AND num <= ${end}]]>
 	</select>	
+	
+	<delete id="deleteMember" parameterType="String">
+		DELETE FROM member_info WHERE user_email =#{userEmail}
+	</delete>
 </mapper>
