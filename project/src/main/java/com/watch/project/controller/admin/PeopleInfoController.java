@@ -31,7 +31,6 @@ public class PeopleInfoController {
 	
 	@GetMapping("/admin/people_info_detail/people_id/{pageNum}")
 	public String movieInfoList(@PathVariable("pageNum") int pageNum, @RequestParam("query") String query, Model model) {
-		log.info("옴?");
 		if(adminCertification()) {
 			return "/admin/login";
 		}
@@ -67,7 +66,6 @@ public class PeopleInfoController {
 		int start = autoPagingDto.getStart(end, rowNum);
 		List<String> titleList = service.getTitleLList(titleNm);
 		
-		
 		/*
 		 * 테이블 내용
 		 */
@@ -78,9 +76,7 @@ public class PeopleInfoController {
 		}
 		
 		autoPagingDto.setAutoPagingDto(tableNm, pageNum, rowNum, orderByColumn, titleList, tableInfoDto);
-		log.info("peopleInfoList => {}", peopleInfoList);
-		log.info("autoPagingDto => {}", autoPagingDto);
-		log.info("query => {}", query);
+		
 		model.addAttribute("contentList", peopleInfoList);
 		model.addAttribute("autoPaging", autoPagingDto);
 		model.addAttribute("query", query);

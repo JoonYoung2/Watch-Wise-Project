@@ -23,7 +23,7 @@ public class LiveSearchService {
 		String date = getDate();
 		int hour = Integer.parseInt(date.substring(11, 13));
 		int liveSize = 10;
-		
+		 
 		/*
 		 * 00시~1시59분까지는 update 중단
 		 */

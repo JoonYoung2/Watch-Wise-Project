@@ -444,46 +444,67 @@ public class SearchService {
 		 * ㄱ
 		 */
 		if(c == '교' || c=='꾜') {
+			c = '교';
 			content = content.substring(0, content.length()-1) + "[" + c + "-깋]";
 		}else if(c == '겨' || c=='껴') {
+			c = '겨';
 			content = content.substring(0, content.length()-1) + "[" + c + "-깋]";
 		}else if(c == '갸' || c=='꺄') {
+			c = '갸';
 			content = content.substring(0, content.length()-1) + "[" + c + "-깋]";
 		}else if(c == '개' || c=='깨') {
+			c = '개';
 			content = content.substring(0, content.length()-1) + "[" + c + "-깋]";
 		}else if(c == '걔' || c=='꺠') {
+			c = '걔';
 			content = content.substring(0, content.length()-1) + "[" + c + "-깋]";
 		}else if(c == '게' || c=='께') {
+			c = '게';
 			content = content.substring(0, content.length()-1) + "[" + c + "-깋]";
 		}else if(c == '계' || c=='꼐') {
+			c = '계';
 			content = content.substring(0, content.length()-1) + "[" + c + "-깋]";
 		}else if(c == '고' || c=='꼬') {
+			c = '고';
 			content = content.substring(0, content.length()-1) + "[" + c + "-깋]";
 		}else if(c == '거' || c=='꺼') {
+			c = '거';
 			content = content.substring(0, content.length()-1) + "[" + c + "-깋]";
 		}else if(c == '가' || c=='까') {
+			c = '가';
 			content = content.substring(0, content.length()-1) + "[" + c + "-깋]";
 		}else if(c == '기' || c=='끼') {
+			c = '기';
 			content = content.substring(0, content.length()-1) + "[" + c + "-깋]";
 		}else if(c == '규' || c=='뀨') {
+			c = '규';
 			content = content.substring(0, content.length()-1) + "[" + c + "-깋]";
 		}else if(c == '구' || c=='꾸') {
+			c = '구';
 			content = content.substring(0, content.length()-1) + "[" + c + "-깋]";
 		}else if(c == '그' || c=='끄') {
+			c = '그';
 			content = content.substring(0, content.length()-1) + "[" + c + "-깋]";
 		}else if(c == '괘' || c=='꽤') {
+			c = '괘';
 			content = content.substring(0, content.length()-1) + "[" + c + "-깋]";
 		}else if(c == '괴' || c=='꾀') {
+			c = '괴';
 			content = content.substring(0, content.length()-1) + "[" + c + "-깋]";
 		}else if(c == '과' || c=='꽈') {
+			c = '과';
 			content = content.substring(0, content.length()-1) + "[" + c + "-깋]";
 		}else if(c == '궈' || c=='꿔') {
+			c = '궈';
 			content = content.substring(0, content.length()-1) + "[" + c + "-깋]";
 		}else if(c == '귀' || c=='뀌') {
+			c = '귀';
 			content = content.substring(0, content.length()-1) + "[" + c + "-깋]";
 		}else if(c == '궤' || c=='꿰') {
+			c = '궤';
 			content = content.substring(0, content.length()-1) + "[" + c + "-깋]";
 		}else if(c == '긔' || c=='끠') {
+			c = '긔';
 			content = content.substring(0, content.length()-1) + "[" + c + "-깋]";
 		}
 		

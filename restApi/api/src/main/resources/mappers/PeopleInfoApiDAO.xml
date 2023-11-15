@@ -29,7 +29,7 @@
 	</insert>
 	
 	<select id="getPeopleInfoAll" resultMap="peopleInfo">
-		SELECT * FROM people_info
+		SELECT * FROM people_info ORDER BY people_id DESC
 	</select>
 	
 	<insert id="savePeopleInfoDetail" parameterType="com.watch.api.dto.PeopleInfoDetailDTO">
@@ -41,7 +41,7 @@
 	</update>
 	
 	<select id="getAllPeopleInfoDetail" resultMap="peopleInfoDetail">
-		SELECT * FROM people_info_detail WHERE profile_url='nan'
+		SELECT * FROM people_info_detail WHERE profile_url='nan' ORDER BY people_id DESC
 	</select>
 	
 	<select id="checkMovieExsist" resultType="Integer">
