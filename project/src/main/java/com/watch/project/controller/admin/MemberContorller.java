@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.watch.project.dto.admin.AutoPagingDTO;
 import com.watch.project.dto.admin.MemberDTO;
@@ -27,7 +28,7 @@ public class MemberContorller {
 	@Autowired
 	private AutoPagingService autoPagingService;
 	
-	
+	//---------------------------------------------------------------------------------------------------------------------
 	@GetMapping("/admin/member_info/id/{pageNum}")
 	public String memberInfoList(@PathVariable("pageNum") int pageNum, @RequestParam("query") String query, Model model) {
 		if(adminCertification()) {
@@ -93,4 +94,19 @@ public class MemberContorller {
 		}
 		return check;
 	} 
+	
+	//-----------------------------------------------------------------------------------------------------------------
+	@GetMapping("/reportComment")
+	public String reportComment(@RequestParam("author") String authorEmail, @RequestParam("comment") String comment, @RequestParam("movieId") String movieId, RedirectAttributes redirectAttr) {
+		String msg = service.saveReport(authorEmail, comment, movieId);
+		redirectAttr.addFlashAttribute("msg", msg);
+		return "redirect:/movieInfo?movieId="+ movieId;
+	}
+	
+	@GetMapping("/deleteMember")
+	public String deleteMember(@RequestParam("userEmail") String userEmail, @RequestParam("pageNum") String pageNum, RedirectAttributes redirectAttr) {
+		String msg = service.deleteMemberByEmail(userEmail);
+		redirectAttr.addFlashAttribute("msg", msg);
+		return "redirect:/admin/member_info/id/" + pageNum + "?query=";
+	}
 }

@@ -10,6 +10,11 @@
 <title>Insert title here</title>
 </head>
 <body id="body">
+<c:if test="${not empty msg }">
+	<script>
+		alert('${msg}');
+	</script>
+</c:if>
 	<% int cnt = 0; %>
 	<%@ include file="../include/header.jsp" %>
 	<br><br><br>
@@ -62,7 +67,7 @@
 							O
 							</c:if>
 						</td>
-						<td class="table-width-50">삭제</td>
+						<td class="table-width-50"><a href="/deleteMember?userEmail=${ list.userEmail }&pageNum=${autoPaging.pageNum}">삭제</a></td>
 					</tr>
 					<% cnt++; %>
 				</c:forEach>
