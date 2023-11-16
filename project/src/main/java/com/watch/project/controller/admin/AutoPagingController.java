@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -23,6 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class AutoPagingController {
+	private final MovieInfoController movieInfoController;
+	private final PeopleInfoController peopleInfoController;
+	private final MemberController memberController;
 	private final AutoPagingService service;
 	private final HttpSession session;
 	
@@ -73,6 +77,25 @@ public class AutoPagingController {
 		}
 		attr.addFlashAttribute("msg", msg);
 		return "redirect:/admin/pagingConfig";
+	}
+	
+	@GetMapping("/admin/{listNm}/{tableNm}/{orderByColumn}/{pageNum}")
+	public String movieInfoList(
+			@PathVariable("listNm") String listNm,
+			@PathVariable("tableNm") String tableNm, 
+			@PathVariable("orderByColumn") String orderByColumn,
+			@PathVariable("pageNum") int pageNum,
+			@RequestParam("query") String query, 
+			Model model) {
+		String view = "";
+		if(listNm.equals("movie_list")) {
+			view = movieInfoController.movieInfoList(listNm, tableNm, orderByColumn, pageNum, query, model);
+		}else if(listNm.equals("actor_list")) {
+			view = peopleInfoController.peopleInfoList(listNm, tableNm, orderByColumn, pageNum, query, model);
+		}else if(listNm.equals("member_list")) {
+			view = memberController.memberInfoList(listNm, tableNm, orderByColumn, pageNum, query, model);
+		}
+		return view;
 	}
 	
 	private boolean adminCertification() {

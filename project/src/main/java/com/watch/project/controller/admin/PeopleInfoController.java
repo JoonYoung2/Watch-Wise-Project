@@ -29,13 +29,12 @@ public class PeopleInfoController {
 	private final AutoPagingService autoPagingService;
 	private final PeopleInfoService service;
 	
-	@GetMapping("/admin/{listNm}/{tableNm}/{orderByColumn}/{pageNum}")
-	public String movieInfoList(
-			@PathVariable("listNm") String listNm,
-			@PathVariable("tableNm") String tableNm, 
-			@PathVariable("orderByColumn") String orderByColumn,
-			@PathVariable("pageNum") int pageNum,
-			@RequestParam("query") String query, 
+	public String peopleInfoList(
+			String listNm,
+			String tableNm, 
+			String orderByColumn,
+			int pageNum,
+			String query, 
 			Model model) {
 		if(adminCertification()) {
 			return "/admin/login";

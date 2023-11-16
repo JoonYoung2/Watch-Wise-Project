@@ -24,7 +24,7 @@
 				<tr>
 					<td colspan="${ autoPaging.titleList.size() + 1 }">
 						<div class="auto-table-header">
-							<div><input id="query" class="header-search" value="${ query }"  type="text" placeholder="********* 입력해주세요" onkeydown="search(event, '${ autoPaging.tableNm }', '${ autoPaging.orderByColumn }')"></div>
+							<div><input id="query" class="header-search" value="${ query }"  type="text" placeholder="********* 입력해주세요" onkeydown="search(event,'${ autoPaging.listNm }', '${ autoPaging.tableNm }', '${ autoPaging.orderByColumn }')"></div>
 							<div class="header-rownum-div">Row Num : <input class="header-rownum-config" id="rowNum" type="number" value="${ autoPaging.rowNum }" onchange="rowNumUpdate('${ autoPaging.tableNm }', '${ autoPaging.orderByColumn }')"></div>
 						</div>
 					</td>
@@ -78,18 +78,18 @@
 							<div style="width:100px;"></div>
 							
 							<c:if test="${ autoPaging.pageNum > 5 }">
-								<span class="footer-paging-span"><a class="footer-paging-number" href="/admin/member_info/id/1?query=${ query }"> 1 </a></span>...
+								<span class="footer-paging-span"><a class="footer-paging-number" href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/1?query=${ query }"> 1 </a></span>...
 							</c:if>
 							<c:forEach var="i" begin="${ autoPaging.start }" end="${ autoPaging.end }" step="1">
 								<c:if test="${ autoPaging.pageNum ne i }">
-									<span class="footer-paging-span"><a class="footer-paging-number" href="/admin/member_info/id/${ i }?query=${ query }"> ${ i } </a></span>
+									<span class="footer-paging-span"><a class="footer-paging-number" href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/${ i }?query=${ query }"> ${ i } </a></span>
 								</c:if>
 								<c:if test="${ autoPaging.pageNum eq i }">
 									<span class="footer-paging-span"> ${ i } </span>
 								</c:if>
 							</c:forEach>
 							<c:if test="${ autoPaging.last ne 0 }">
-								...<span class="footer-paging-span"><a class="footer-paging-number" href="/admin/member_info/id/${ autoPaging.last }?query=${ query }"> ${ autoPaging.last } </a></span>
+								...<span class="footer-paging-span"><a class="footer-paging-number" href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/${ autoPaging.last }?query=${ query }"> ${ autoPaging.last } </a></span>
 							</c:if>
 							
 							<div style="width:100px;"></div>

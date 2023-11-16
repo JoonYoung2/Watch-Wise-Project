@@ -20,7 +20,7 @@ import com.watch.project.service.admin.AutoPagingService;
 import com.watch.project.service.admin.MemberService;
 
 @Controller
-public class MemberContorller {
+public class MemberController {
 	@Autowired 
 	private MemberService service;
 	@Autowired
@@ -29,8 +29,9 @@ public class MemberContorller {
 	private AutoPagingService autoPagingService;
 	
 	//---------------------------------------------------------------------------------------------------------------------
-	@GetMapping("/admin/member_info/id/{pageNum}")
-	public String memberInfoList(@PathVariable("pageNum") int pageNum, @RequestParam("query") String query, Model model) {
+	
+	public String memberInfoList(String listNm, String tableNm, String orderByColumn, int pageNum, String query, Model model) {
+		
 		if(adminCertification()) {
 			return "/admin/login";
 		}
@@ -42,9 +43,6 @@ public class MemberContorller {
 		String[] conditionColumns= {"id" ,"user_email", "user_name"};
 		
 		String conditionColumn = service.getConditionColumn(conditionColumns, query);
-		
-		String tableNm = "member_info";
-		String orderByColumn = "id";
 		
 		TableInfoDTO tableInfoDto = null;
 		List<MemberDTO> memberInfoList = null;
@@ -78,8 +76,8 @@ public class MemberContorller {
 		}else {
 			memberInfoList = service.getMemberInfoListQuery(start, end, pagingConfigDto, conditionColumn);	
 		}
-		
-		autoPagingDto.setAutoPagingDto(tableNm, pageNum, rowNum, orderByColumn, titleList, tableInfoDto);
+		 
+		autoPagingDto.setAutoPagingDto("member_list", tableNm, pageNum, rowNum, orderByColumn, titleList, tableInfoDto);
 		
 		model.addAttribute("contentList", memberInfoList);
 		model.addAttribute("autoPaging", autoPagingDto);
