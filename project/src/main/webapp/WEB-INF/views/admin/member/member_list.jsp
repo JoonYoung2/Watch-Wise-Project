@@ -20,6 +20,8 @@
 	<br><br><br>
 	<div align="center" class="list-page">
 		<div align="center" class="list-page-div">
+			<a href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/id/1?query=">ID 순</a> | <a href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/user_email/1?query=">EMAIL 순</a> | <a href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/user_name/1?query=">이름 순</a>
+			<br><br><br>
 			<table>
 				<tr>
 					<td colspan="${ autoPaging.titleList.size() + 1 }">

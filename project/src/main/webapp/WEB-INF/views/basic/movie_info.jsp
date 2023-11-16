@@ -10,7 +10,7 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
-<body>
+<body style=" height: 100%; margin: 0; ">
 <%@ include file="/WEB-INF/views/header.jsp" %>
 <c:set var="gradeNum" value="${ gradeInfo.gradeAvg } + ''"/>
 <input type="hidden" id="reviewScore" value="${ ifWroteComment.reviewScore }">
@@ -353,6 +353,8 @@
    
    <!------------------------------------- 코멘트 START  -------------------------------------------------->
    
+
+   
    <c:if test="${not empty msg }">
       <script>
          alert('${msg}');
@@ -406,6 +408,7 @@
    </c:if>
    <c:set var="cnt" value="0"/>
    <hr>
+   <div style=" z-index: 0;"><!-- 추가한 부분! -->
    <h4>이 영화에 대한 모든 코멘트</h4>
    <c:forEach var="dto" items="${comments}">
    <c:if test="${dto.reviewComment != 'nan' }">
@@ -429,9 +432,9 @@
         	<span> x </span>
         	<span class="comment_like_count" style="vertical-align:-1px;">${dto.reviewCommentLikes }</span>
         	<span style=" margin-top:10px;">
-	        	<a href="/reportComment?author=${dto.userEmail }&comment=${dto.reviewComment}&movieId=${movieInfo.movieId}">
-	        		<img src="resources/img/alert.png" style="cursor:pointer; margin-left:10px; width:25px; vertical-align:-3px;">
-	        	</a>
+<!-- 	        	<a href="/reportComment?author=${dto.userEmail }&comment=${dto.reviewComment}&movieId=${movieInfo.movieId}"> -->
+	        		<img src="resources/img/alert.png" onclick="openModalForReport();" style="cursor:pointer; margin-left:10px; width:25px; vertical-align:-3px;">
+<!-- 	        	</a> -->
         	</span>
        	</span>
         <br><br>
@@ -444,16 +447,41 @@
            <img class="likeButton" src="resources/img/likeColor.png" style="width:25px; margin-left:50px;" onclick="decreaseLikeCount('${dto.userEmail}', '${movieInfo.movieId}', '${ cnt }');">
         </c:otherwise>
         </c:choose>
-
-        
         </span>
         </span>
         <c:set var="cnt" value="${ cnt+1 }"/>
+
     </div>   
+
     </c:if>
    </c:forEach>
-    <!-- Add more comment cards here -->
+   </div>
+ 
+   <!--  modal  -->
+ 
+ <div id="modal" style="position: fixed; top:50%; left:50%; transform:translate(-50%, -50%); width:400px; height:400px;background-color:white; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); border:1px solid #ccc;border-radius:4px; z-index:-2; display:none;">
+    <div class="modal-content" style="background-color:white; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:350px; height:350px; border-radius:5px;">
+ 		<div class="top" style="display:flex; width: 100%; height:60px; top: 5%;"><!-- top  -->
+			<span id="modalMovieTitle" style="font-size:15px; font-weight:bold;"></span>
+			<span class="closeModalButton" onclick="closeModalForReport();" style="margin-left:auto; font-size:20px; cursor:pointer;">&times;</span>
+	    </div>
+ 	</div>
+ </div>
+ 
+ <div id="bodyForShadow" class="bodyForShadow" style="content: '';
+    position:fixed;  z-index:-2;  display:none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;">
+</div>
 
+
+
+ 
+ 
  <style> 
    .comment-card {
     display: flex;
@@ -533,5 +561,7 @@
 <script src="/resources/js/common.js"></script>
 <script src="/resources/js/movie_info.js"></script>
 <script src="/resources/js/search_common.js"></script>
+<script src="/resources/js/admin/black_list.js"></script>
+
 </body>
 </html>
