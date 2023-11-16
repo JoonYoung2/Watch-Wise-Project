@@ -14,6 +14,14 @@
 		<result column="google_agreement" property="googleAgreement" />
 	</resultMap>
 	
+	<resultMap type="com.watch.project.dto.admin.BlackListDTO" id="blackList">
+		<id property="id" column="id"/>
+		<result property="reportedComment" column="reported_comment"/>
+		<result property="authorEmail" column="author_email"/>
+		<result property="reporterEmail" column="reporter_email"/>
+		<result property="reportedDate" column="reported_date"/>
+	</resultMap>
+	
 	<select id="getMemberInfoListByStartAndEnd" resultMap="member">
 		<![CDATA[SELECT * FROM 
 		(SELECT ROWNUM AS num, ${columns}
@@ -31,4 +39,8 @@
 	<delete id="deleteMember" parameterType="String">
 		DELETE FROM member_info WHERE user_email =#{userEmail}
 	</delete>
+	
+	<insert id="saveReportDatas" parameterType="com.watch.project.dto.admin.BlackListDTO">
+		INSERT INTO black_list VALUES(#{id}, #{reportedComment}, #{authorEmail}, #{reporterEmail}, #{reportedDate})
+	</insert>
 </mapper>

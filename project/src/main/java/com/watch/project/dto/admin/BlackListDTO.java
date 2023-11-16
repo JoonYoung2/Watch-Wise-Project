@@ -1,11 +1,14 @@
 package com.watch.project.dto.admin;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 
-@Data
+@Builder
+@Getter
 public class BlackListDTO {
-	private String reporterEmail;
+	private String id;
+	private String reportedComment;
 	private String authorEmail;
-	private String comment;
+	private String reporterEmail;
 	private String reportedDate;
 }

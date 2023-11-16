@@ -429,7 +429,7 @@
         	<span> x </span>
         	<span class="comment_like_count" style="vertical-align:-1px;">${dto.reviewCommentLikes }</span>
         	<span style=" margin-top:10px;">
-	        	<a href="/reportComment?userEmail=${sessionScope.userEmail }&author=${dto.userEmail }&comment=${dto.reviewComment}">
+	        	<a href="/reportComment?author=${dto.userEmail }&comment=${dto.reviewComment}&movieId=${movieInfo.movieId}">
 	        		<img src="resources/img/alert.png" style="cursor:pointer; margin-left:10px; width:25px; vertical-align:-3px;">
 	        	</a>
         	</span>

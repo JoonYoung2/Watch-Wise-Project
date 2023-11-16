@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.watch.project.dto.admin.BlackListDTO;
 import com.watch.project.dto.admin.MemberDTO;
 
 @Mapper
@@ -15,5 +16,7 @@ public interface AdminMemberRepository {
 	public List<MemberDTO> getMemberInfoListByStartAndEndQuery(Map<String, String> map);
 
 	public int deleteMember(String userEmail);
+
+	public int saveReportDatas(BlackListDTO dto);
 	
 }
