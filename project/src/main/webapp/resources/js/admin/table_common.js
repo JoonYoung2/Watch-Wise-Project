@@ -53,11 +53,15 @@ const updateClose = () => {
 	bodyId.style.backgroundColor = "";
 }
 
-const search = (event, tableNm, orderByColumn) => {
+const search = (event, listNm, tableNm, orderByColumn) => {
 	let queryId = document.getElementById("query").value;
 	if (event.key === "Enter") {
         queryId = queryId.replaceAll("'", "''");
-        location.href = "/admin/"+tableNm+"/"+orderByColumn+"/1?query=" + queryId;
+        location.href = "/admin/"+listNm+"/"+tableNm+"/"+orderByColumn+"/1?query=" + queryId;
         return;
     }
+}
+
+const deleteClick = (id, query, tableNm, orderByColumn) => {
+
 }

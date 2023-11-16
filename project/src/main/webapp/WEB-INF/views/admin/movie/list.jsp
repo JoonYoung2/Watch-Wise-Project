@@ -15,11 +15,15 @@
 	<br><br><br>
 	<div align="center" class="list-page">
 		<div align="center" class="list-page-div">
+		
+			<a href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/movie_id/1?query=">ID 순</a> | <a href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/movie_nm/1?query=">영화명 순</a> | <a href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/open_dt/1?query=">개봉일 순</a> | <a href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/like_num/1?query=">좋아요 순</a>
+			<br><br><br>
+			
 			<table>
 				<tr>
 					<td colspan="${ autoPaging.titleList.size() + 2 }">
 						<div class="auto-table-header">
-							<div><input id="query" class="header-search" value="${ query }"  type="text" placeholder="ID 또는 영화명을 입력해주세요" onkeydown="search(event, '${ autoPaging.tableNm }', '${ autoPaging.orderByColumn }')"></div>
+							<div><input id="query" class="header-search" value="${ query }"  type="text" placeholder="ID 또는 영화명을 입력해주세요" onkeydown="search(event,'${ autoPaging.listNm }', '${ autoPaging.tableNm }', '${ autoPaging.orderByColumn }')"></div>
 							<div class="header-rownum-div">Row Num : <input class="header-rownum-config" id="rowNum" type="number" value="${ autoPaging.rowNum }" onchange="rowNumUpdate('${ autoPaging.tableNm }', '${ autoPaging.orderByColumn }')"></div>
 						</div>
 					</td>
@@ -63,12 +67,12 @@
 						<div align="center" class="auto-table-footer">
 							<div style="width:100px;"></div>
 							<c:if test="${ autoPaging.pageNum > 5 }">
-								<span class="footer-paging-span"><a class="footer-paging-number" href="/admin/movie_info/open_dt/1?query=${ query }"> 1 </a></span>...
+								<span class="footer-paging-span"><a class="footer-paging-number" href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/1?query=${ query }"> 1 </a></span>...
 							</c:if>
 
 							<c:forEach var="i" begin="${ autoPaging.start }" end="${ autoPaging.end }" step="1">
 								<c:if test="${ autoPaging.pageNum ne i }">
-									<span class="footer-paging-span"><a class="footer-paging-number" href="/admin/movie_info/open_dt/${ i }?query=${ query }"> ${ i } </a></span>
+									<span class="footer-paging-span"><a class="footer-paging-number" href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/${ i }?query=${ query }"> ${ i } </a></span>
 								</c:if>
 								<c:if test="${ autoPaging.pageNum eq i }">
 									<span class="footer-paging-span"> ${ i } </span>
@@ -77,7 +81,7 @@
 							
 							
 							<c:if test="${ autoPaging.last ne 0 }">
-								...<span class="footer-paging-span"><a class="footer-paging-number" href="/admin/movie_info/open_dt/${ autoPaging.last }?query=${ query }"> ${ autoPaging.last } </a></span>
+								...<span class="footer-paging-span"><a class="footer-paging-number" href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/${ autoPaging.last }?query=${ query }"> ${ autoPaging.last } </a></span>
 							</c:if>
 							<div class="footer-register-div">
 								<a class="footer-register-btn" onclick="insertForm();">등록</a>

@@ -171,6 +171,7 @@
 	
 	<select id="searchingStep2" resultMap="movieInfo">
 		<![CDATA[
+		SELECT * FROM (
 		SELECT * FROM movie_info 
 		WHERE (movie_nm LIKE '%${query}%' OR movie_nm_en LIKE '%${query}%') 
 		AND NOT genre_nm LIKE '%에로%' AND 
@@ -185,6 +186,7 @@
 		WHERE (REGEXP_LIKE(movie_nm, '^${ content2 }') OR REGEXP_LIKE(movie_nm_en, '^${ content2 }'))
 		AND NOT genre_nm LIKE '%에로%' AND 
 		rownum <= 50
+		)WHERE ROWNUM <= 100
 		]]>
 	</select>
 	
@@ -197,6 +199,8 @@
 	
 	<select id="searchingStep4" resultMap="peopleInfoDetail">
 		<![CDATA[
+		SELECT * FROM(
+		
 		SELECT * FROM(
 		SELECT * FROM people_info_detail 
 		WHERE people_nm LIKE '%${query}%' AND 
@@ -216,7 +220,7 @@
 		WHERE REGEXP_LIKE(people_nm, '^${ content2 }') OR REGEXP_LIKE(people_nm_en, '^${ content2 }') AND 
 		ROWNUM <= 50
 		ORDER BY LENGTH(movie_id) DESC)
-		
+		) WHERE ROWNUM <= 100
 		]]>
 	</select>
 	

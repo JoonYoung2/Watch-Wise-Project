@@ -38,8 +38,14 @@ public class MovieInfoController {
 		return "/admin/movie/index";
 	}
 	
-	@GetMapping("/admin/movie_info/open_dt/{pageNum}")
-	public String movieInfoList(@PathVariable("pageNum") int pageNum, @RequestParam("query") String query, Model model) {
+	@GetMapping("/admin/{listNm}/{tableNm}/{orderByColumn}/{pageNum}")
+	public String movieInfoList(
+			@PathVariable("listNm") String listNm,
+			@PathVariable("tableNm") String tableNm, 
+			@PathVariable("orderByColumn") String orderByColumn,
+			@PathVariable("pageNum") int pageNum,
+			@RequestParam("query") String query, 
+			Model model) {
 		if(adminCertification()) {
 			return "/admin/login";
 		}
@@ -48,9 +54,6 @@ public class MovieInfoController {
 		String[] conditionColumns= {"movie_id", "movie_nm"};
 		
 		String conditionColumn = service.getConditionColumn(conditionColumns, query);
-		
-		String tableNm = "movie_info";
-		String orderByColumn = "open_dt";
 		
 		TableInfoDTO tableInfoDto = null;
 		List<MovieInfoDTO> movieInfoList = null;
@@ -85,13 +88,15 @@ public class MovieInfoController {
 			movieInfoList = service.getMovieInfoListQuery(start, end, pagingConfigDto, conditionColumn);	
 		}
 		
-		autoPagingDto.setAutoPagingDto(tableNm, pageNum, rowNum, orderByColumn, titleList, tableInfoDto);
+		autoPagingDto.setAutoPagingDto(listNm, tableNm, pageNum, rowNum, orderByColumn, titleList, tableInfoDto);
+		
+		query = query.replaceAll("''", "'");
 		
 		model.addAttribute("contentList", movieInfoList);
 		model.addAttribute("autoPaging", autoPagingDto);
 		model.addAttribute("query", query);
 		
-		return "admin/movie/open_dt_list";
+		return "admin/movie/list";
 	}
 	
 	private boolean adminCertification() {

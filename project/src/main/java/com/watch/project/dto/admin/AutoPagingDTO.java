@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 public class AutoPagingDTO {
 	private List<String> titleList;
+	private String listNm;
 	private String tableNm;
 	private String orderByColumn;
 	private int start;
@@ -49,7 +50,8 @@ public class AutoPagingDTO {
 		}
 	}
 
-	public void setAutoPagingDto(String tableNm, int pageNum, int rowNum, String column, List<String> titleList, TableInfoDTO tableInfoDto) {
+	public void setAutoPagingDto(String listNm, String tableNm, int pageNum, int rowNum, String column, List<String> titleList, TableInfoDTO tableInfoDto) {
+		setListNm(listNm);
 		setTableNm(tableNm);
 		setPageNum(pageNum);
 		setRowNum(rowNum);

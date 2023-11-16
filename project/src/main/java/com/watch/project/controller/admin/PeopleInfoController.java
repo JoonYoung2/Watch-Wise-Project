@@ -29,8 +29,14 @@ public class PeopleInfoController {
 	private final AutoPagingService autoPagingService;
 	private final PeopleInfoService service;
 	
-	@GetMapping("/admin/people_info_detail/people_id/{pageNum}")
-	public String movieInfoList(@PathVariable("pageNum") int pageNum, @RequestParam("query") String query, Model model) {
+	@GetMapping("/admin/{listNm}/{tableNm}/{orderByColumn}/{pageNum}")
+	public String movieInfoList(
+			@PathVariable("listNm") String listNm,
+			@PathVariable("tableNm") String tableNm, 
+			@PathVariable("orderByColumn") String orderByColumn,
+			@PathVariable("pageNum") int pageNum,
+			@RequestParam("query") String query, 
+			Model model) {
 		if(adminCertification()) {
 			return "/admin/login";
 		}
@@ -39,9 +45,6 @@ public class PeopleInfoController {
 		String[] conditionColumns= {"people_id", "people_nm", "people_nm_en"};
 		
 		String conditionColumn = service.getConditionColumn(conditionColumns, query);
-		
-		String tableNm = "people_info_detail";
-		String orderByColumn = "people_id";
 		
 		TableInfoDTO tableInfoDto = null;
 		List<PeopleInfoDTO> peopleInfoList = null;
@@ -75,13 +78,15 @@ public class PeopleInfoController {
 			peopleInfoList = service.getPeopleInfoListQuery(start, end, pagingConfigDto, conditionColumn);	
 		}
 		
-		autoPagingDto.setAutoPagingDto(tableNm, pageNum, rowNum, orderByColumn, titleList, tableInfoDto);
+		autoPagingDto.setAutoPagingDto(listNm, tableNm, pageNum, rowNum, orderByColumn, titleList, tableInfoDto);
+		
+		query = query.replaceAll("''", "'");
 		
 		model.addAttribute("contentList", peopleInfoList);
 		model.addAttribute("autoPaging", autoPagingDto);
 		model.addAttribute("query", query);
 		
-		return "admin/actor/people_id_list";
+		return "admin/actor/list";
 	}
 	
 	private boolean adminCertification() {

@@ -559,46 +559,67 @@ public class SearchService {
 		 * ㄷ
 		 */
 		else if(c == '됴' || c=='뚀') {
+			c = '됴';
 			content = content.substring(0, content.length()-1) + "[" + c + "-딯]";
 		}else if(c == '뎌' || c=='뗘') {
+			c = '뎌';
 			content = content.substring(0, content.length()-1) + "[" + c + "-딯]";
 		}else if(c == '댜' || c=='땨') {
+			c = '댜';
 			content = content.substring(0, content.length()-1) + "[" + c + "-딯]";
 		}else if(c == '대' || c=='때') {
+			c = '대';
 			content = content.substring(0, content.length()-1) + "[" + c + "-딯]";
 		}else if(c == '댸' || c=='떄') {
+			c = '댸';
 			content = content.substring(0, content.length()-1) + "[" + c + "-딯]";
 		}else if(c == '데' || c=='떼') {
+			c = '데';
 			content = content.substring(0, content.length()-1) + "[" + c + "-딯]";
 		}else if(c == '뎨' || c=='뗴') {
+			c = '뎨';
 			content = content.substring(0, content.length()-1) + "[" + c + "-딯]";
 		}else if(c == '도' || c=='또') {
+			c = '도';
 			content = content.substring(0, content.length()-1) + "[" + c + "-딯]";
 		}else if(c == '더' || c=='떠') {
+			c = '더';
 			content = content.substring(0, content.length()-1) + "[" + c + "-딯]";
 		}else if(c == '다' || c=='따') {
+			c = '다';
 			content = content.substring(0, content.length()-1) + "[" + c + "-딯]";
 		}else if(c == '디' || c=='띠') {
+			c = '디';
 			content = content.substring(0, content.length()-1) + "[" + c + "-딯]";
 		}else if(c == '듀' || c=='뜌') {
+			c = '듀';
 			content = content.substring(0, content.length()-1) + "[" + c + "-딯]";
 		}else if(c == '두' || c=='뚜') {
+			c = '두';
 			content = content.substring(0, content.length()-1) + "[" + c + "-딯]";
 		}else if(c == '드' || c=='뜨') {
+			c = '드';
 			content = content.substring(0, content.length()-1) + "[" + c + "-딯]";
 		}else if(c == '돼' || c=='뙈') {
+			c = '돼';
 			content = content.substring(0, content.length()-1) + "[" + c + "-딯]";
 		}else if(c == '되' || c=='뙤') {
+			c = '되';
 			content = content.substring(0, content.length()-1) + "[" + c + "-딯]";
 		}else if(c == '돠' || c=='똬') {
+			c = '돠';
 			content = content.substring(0, content.length()-1) + "[" + c + "-딯]";
 		}else if(c == '둬' || c=='뚸') {
+			c = '둬';
 			content = content.substring(0, content.length()-1) + "[" + c + "-딯]";
 		}else if(c == '뒤' || c=='뛰') {
+			c = '뒤';
 			content = content.substring(0, content.length()-1) + "[" + c + "-딯]";
 		}else if(c == '뒈' || c=='뛔') {
+			c = '뒈';
 			content = content.substring(0, content.length()-1) + "[" + c + "-딯]";
 		}else if(c == '듸' || c=='띄') {
+			c = '듸';
 			content = content.substring(0, content.length()-1) + "[" + c + "-딯]";
 		}
 		
@@ -700,46 +721,67 @@ public class SearchService {
 		 * ㅂ
 		 */
 		else if(c == '뵤' || c=='뾰') {
+			c = '뵤';
 			content = content.substring(0, content.length()-1) + "[" + c + "-빟]";
 		}else if(c == '벼' || c=='뼈') {
+			c = '벼';
 			content = content.substring(0, content.length()-1) + "[" + c + "-빟]";
 		}else if(c == '뱌' || c=='뺘') {
+			c = '뱌';
 			content = content.substring(0, content.length()-1) + "[" + c + "-빟]";
 		}else if(c == '배' || c=='빼') {
+			c = '배';
 			content = content.substring(0, content.length()-1) + "[" + c + "-빟]";
 		}else if(c == '뱨' || c=='뺴') {
+			c = '뱨';
 			content = content.substring(0, content.length()-1) + "[" + c + "-빟]";
 		}else if(c == '베' || c=='뻬') {
+			c = '베';
 			content = content.substring(0, content.length()-1) + "[" + c + "-빟]";
 		}else if(c == '볘' || c=='뼤') {
+			c = '볘';
 			content = content.substring(0, content.length()-1) + "[" + c + "-빟]";
 		}else if(c == '보' || c=='뽀') {
+			c = '보';
 			content = content.substring(0, content.length()-1) + "[" + c + "-빟]";
 		}else if(c == '버' || c=='뻐') {
+			c = '버';
 			content = content.substring(0, content.length()-1) + "[" + c + "-빟]";
 		}else if(c == '바' || c=='빠') {
+			c = '바';
 			content = content.substring(0, content.length()-1) + "[" + c + "-빟]";
 		}else if(c == '비' || c=='삐') {
+			c = '비';
 			content = content.substring(0, content.length()-1) + "[" + c + "-빟]";
 		}else if(c == '뷰' || c=='쀼') {
+			c = '뷰';
 			content = content.substring(0, content.length()-1) + "[" + c + "-빟]";
 		}else if(c == '부' || c=='뿌') {
+			c = '부';
 			content = content.substring(0, content.length()-1) + "[" + c + "-빟]";
 		}else if(c == '브' || c=='쁘') {
+			c = '브';
 			content = content.substring(0, content.length()-1) + "[" + c + "-빟]";
 		}else if(c == '봬' || c=='뽸') {
+			c = '봬';
 			content = content.substring(0, content.length()-1) + "[" + c + "-빟]";
 		}else if(c == '뵈' || c=='뾔') {
+			c = '뵈';
 			content = content.substring(0, content.length()-1) + "[" + c + "-빟]";
 		}else if(c == '봐' || c=='뽜') {
+			c = '봐';
 			content = content.substring(0, content.length()-1) + "[" + c + "-빟]";
 		}else if(c == '붜' || c=='뿨') {
+			c = '붜';
 			content = content.substring(0, content.length()-1) + "[" + c + "-빟]";
 		}else if(c == '뷔' || c=='쀠') {
+			c = '뷔';
 			content = content.substring(0, content.length()-1) + "[" + c + "-빟]";
 		}else if(c == '붸' || c=='쀄') {
+			c = '붸';
 			content = content.substring(0, content.length()-1) + "[" + c + "-빟]";
 		}else if(c == '븨' || c=='쁴') {
+			c = '븨';
 			content = content.substring(0, content.length()-1) + "[" + c + "-빟]";
 		}
 		
@@ -747,46 +789,67 @@ public class SearchService {
 		 * ㅅ
 		 */
 		else if(c == '쇼' || c=='쑈') {
+			c = '쇼';
 			content = content.substring(0, content.length()-1) + "[" + c + "-싷]";
 		}else if(c == '셔' || c=='쎠') {
+			c = '셔';
 			content = content.substring(0, content.length()-1) + "[" + c + "-싷]";
 		}else if(c == '샤' || c=='쌰') {
+			c = '샤';
 			content = content.substring(0, content.length()-1) + "[" + c + "-싷]";
 		}else if(c == '새' || c=='쌔') {
+			c = '새';
 			content = content.substring(0, content.length()-1) + "[" + c + "-싷]";
 		}else if(c == '섀' || c=='썌') {
+			c = '섀';
 			content = content.substring(0, content.length()-1) + "[" + c + "-싷]";
 		}else if(c == '세' || c=='쎄') {
+			c = '세';
 			content = content.substring(0, content.length()-1) + "[" + c + "-싷]";
 		}else if(c == '셰' || c=='쎼') {
+			c = '셰';
 			content = content.substring(0, content.length()-1) + "[" + c + "-싷]";
 		}else if(c == '소' || c=='쏘') {
+			c = '소';
 			content = content.substring(0, content.length()-1) + "[" + c + "-싷]";
 		}else if(c == '서' || c=='써') {
+			c = '서';
 			content = content.substring(0, content.length()-1) + "[" + c + "-싷]";
 		}else if(c == '사' || c=='싸') {
+			c = '사';
 			content = content.substring(0, content.length()-1) + "[" + c + "-싷]";
 		}else if(c == '시' || c=='씨') {
+			c = '시';
 			content = content.substring(0, content.length()-1) + "[" + c + "-싷]";
 		}else if(c == '슈' || c=='쓔') {
+			c = '슈';
 			content = content.substring(0, content.length()-1) + "[" + c + "-싷]";
 		}else if(c == '수' || c=='쑤') {
+			c = '수';
 			content = content.substring(0, content.length()-1) + "[" + c + "-싷]";
 		}else if(c == '스' || c=='쓰') {
+			c = '스';
 			content = content.substring(0, content.length()-1) + "[" + c + "-싷]";
 		}else if(c == '쇄' || c=='쐐') {
+			c = '쇄';
 			content = content.substring(0, content.length()-1) + "[" + c + "-싷]";
 		}else if(c == '쇠' || c=='쐬') {
+			c = '쇠';
 			content = content.substring(0, content.length()-1) + "[" + c + "-싷]";
 		}else if(c == '솨' || c=='쏴') {
+			c = '솨';
 			content = content.substring(0, content.length()-1) + "[" + c + "-싷]";
 		}else if(c == '숴' || c=='쒀') {
+			c = '숴';
 			content = content.substring(0, content.length()-1) + "[" + c + "-싷]";
 		}else if(c == '쉬' || c=='쒸') {
+			c = '쉬';
 			content = content.substring(0, content.length()-1) + "[" + c + "-싷]";
 		}else if(c == '쉐' || c=='쒜') {
+			c = '쉐';
 			content = content.substring(0, content.length()-1) + "[" + c + "-싷]";
 		}else if(c == '싀' || c=='씌') {
+			c = '싀';
 			content = content.substring(0, content.length()-1) + "[" + c + "-싷]";
 		}
 		
@@ -841,46 +904,67 @@ public class SearchService {
 		 * ㅈ
 		 */
 		else if(c == '죠' || c=='쬬') {
+			c = '죠';
 			content = content.substring(0, content.length()-1) + "[" + c + "-짛]";
 		}else if(c == '져' || c=='쪄') {
+			c = '져';
 			content = content.substring(0, content.length()-1) + "[" + c + "-짛]";
 		}else if(c == '쟈' || c=='쨔') {
+			c = '쟈';
 			content = content.substring(0, content.length()-1) + "[" + c + "-짛]";
 		}else if(c == '재' || c=='째') {
+			c = '재';
 			content = content.substring(0, content.length()-1) + "[" + c + "-짛]";
 		}else if(c == '쟤' || c=='쨰') {
+			c = '쟤';
 			content = content.substring(0, content.length()-1) + "[" + c + "-짛]";
 		}else if(c == '제' || c=='쩨') {
+			c = '제';
 			content = content.substring(0, content.length()-1) + "[" + c + "-짛]";
 		}else if(c == '졔' || c=='쪠') {
+			c = '졔';
 			content = content.substring(0, content.length()-1) + "[" + c + "-짛]";
 		}else if(c == '조' || c=='쪼') {
+			c = '조';
 			content = content.substring(0, content.length()-1) + "[" + c + "-짛]";
 		}else if(c == '저' || c=='쩌') {
+			c = '저';
 			content = content.substring(0, content.length()-1) + "[" + c + "-짛]";
 		}else if(c == '자' || c=='짜') {
+			c = '자';
 			content = content.substring(0, content.length()-1) + "[" + c + "-짛]";
 		}else if(c == '지' || c=='찌') {
+			c = '지';
 			content = content.substring(0, content.length()-1) + "[" + c + "-짛]";
 		}else if(c == '쥬' || c=='쮸') {
+			c = '쥬';
 			content = content.substring(0, content.length()-1) + "[" + c + "-짛]";
 		}else if(c == '주' || c=='쭈') {
+			c = '주';
 			content = content.substring(0, content.length()-1) + "[" + c + "-짛]";
 		}else if(c == '즈' || c=='쯔') {
+			c = '즈';
 			content = content.substring(0, content.length()-1) + "[" + c + "-짛]";
 		}else if(c == '좨' || c=='쫴') {
+			c = '좨';
 			content = content.substring(0, content.length()-1) + "[" + c + "-짛]";
 		}else if(c == '죄' || c=='쬐') {
+			c = '죄';
 			content = content.substring(0, content.length()-1) + "[" + c + "-짛]";
 		}else if(c == '좌' || c=='쫘') {
+			c = '좌';
 			content = content.substring(0, content.length()-1) + "[" + c + "-짛]";
 		}else if(c == '줘' || c=='쭤') {
+			c = '줘';
 			content = content.substring(0, content.length()-1) + "[" + c + "-짛]";
 		}else if(c == '쥐' || c=='쮜') {
+			c = '쥐';
 			content = content.substring(0, content.length()-1) + "[" + c + "-짛]";
 		}else if(c == '줴' || c=='쮀') {
+			c = '줴';
 			content = content.substring(0, content.length()-1) + "[" + c + "-짛]";
 		}else if(c == '즤' || c=='쯰') {
+			c = '즤';
 			content = content.substring(0, content.length()-1) + "[" + c + "-짛]";
 		}
 		
