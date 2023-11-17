@@ -83,31 +83,68 @@ public class MemberService {
 		return msg;
 	}
 
-	public String saveReport(String authorEmail, String comment, String movieId) {
+	public String saveReport(String authorEmail, String comment, String movieId, String reason) {
 		String msg = "해당 댓글이 신고되었습니다.";
 		int result = 0;
 		String email = (String) session.getAttribute("userEmail");
 		String id = movieId + authorEmail + email;
-		
+		System.out.println("service 단 id: "+id);
+		System.out.println("service 단 reason : "+reason);
         // 날짜 데이터
 		Date currentDate = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formattedDate = sdf.format(currentDate);
-        
+        // reason for report setting
+
 		BlackListDTO dto = BlackListDTO.builder()
 				.id(id)
 				.reportedComment(comment)
 				.authorEmail(authorEmail)
 				.reporterEmail(email)
+				.reasonForReport(reason)
 				.reportedDate(formattedDate).build();
-		try {
-			result = repo.saveReportDatas(dto);			
-		}catch(Exception e) {
-			msg="이미 신고한 댓글입니다.";
-		}
+		 try {
+		        BlackListDTO db = repo.checkIfExist(dto);
+		        if (db != null) {
+		            // 이미 저장된 데이터가 있는 경우 업데이트
+		            result = repo.updateReportDatas(dto);
+		        } else {
+		            // 저장된 데이터가 없는 경우 새로운 데이터 저장
+		            result = repo.saveReportDatas(dto);
+		        }
+		    } catch (NullPointerException e) {
+		        // checkIfExist 메서드에서 예외 발생 시, 저장된 데이터가 없다고 간주하고 새로운 데이터 저장
+		        result = repo.saveReportDatas(dto);
+		    }
+
 		if(result != 1) {
-			msg = "이미 신고한 댓글입니다.";
+			msg = "오류가 발생했습니다. 다시 시도해주세요.";
 		}
+		return msg;
+	}
+
+	public String deleteReportedDatas(String movieId, String author) {
+		int result = 0;
+		String msg ="신고가 취소되었습니다.";
+		String email = (String) session.getAttribute("userEmail");
+		String id = movieId + author + email;
+		
+		BlackListDTO dto = BlackListDTO.builder()
+				.id(id).build();
+		
+		 try {
+		        BlackListDTO db = repo.checkIfExist(dto);
+		        if (db != null) {
+		            // 이미 저장된 데이터가 있는 경우 삭제
+		            result = repo.deleteReportedDatas(dto);
+		        } else {
+		            // 저장된 데이터가 없는 경우
+		            msg = "아직 신고하지 않은 댓글입니다.";
+		        }
+		    } catch (NullPointerException e) {
+		        // checkIfExist 메서드에서 예외 발생 시, 저장된 데이터가 없다고 간주
+	            msg = "아직 신고하지 않은 댓글입니다.";
+		    }
 		return msg;
 	}
 }

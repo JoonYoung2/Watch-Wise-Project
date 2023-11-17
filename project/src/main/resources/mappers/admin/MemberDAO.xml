@@ -19,6 +19,7 @@
 		<result property="reportedComment" column="reported_comment"/>
 		<result property="authorEmail" column="author_email"/>
 		<result property="reporterEmail" column="reporter_email"/>
+		<result property="reasonForReport" column="reason_for_report"/>
 		<result property="reportedDate" column="reported_date"/>
 	</resultMap>
 	
@@ -40,7 +41,20 @@
 		DELETE FROM member_info WHERE user_email =#{userEmail}
 	</delete>
 	
+	<select id="checkIfExist" resultMap="blackList">
+		SELECT * FROM black_list WHERE id=#{id}
+	</select>
+	
 	<insert id="saveReportDatas" parameterType="com.watch.project.dto.admin.BlackListDTO">
-		INSERT INTO black_list VALUES(#{id}, #{reportedComment}, #{authorEmail}, #{reporterEmail}, #{reportedDate})
+		INSERT INTO black_list VALUES(#{id}, #{reportedComment}, #{authorEmail}, #{reporterEmail}, #{reasonForReport}, #{reportedDate})
 	</insert>
+	
+	<update id="updateReportDatas" parameterType="com.watch.project.dto.admin.BlackListDTO">
+		UPDATE black_list SET reason_for_report =#{reasonForReport}, reported_date =#{reportedDate} WHERE id=#{id}
+	</update>
+	
+	<delete id="deleteReportedDatas" parameterType="com.watch.project.dto.admin.BlackListDTO">
+		DELETE FROM black_list WHERE id =#{id}
+	</delete>
+	
 </mapper>
