@@ -36,6 +36,8 @@ closeModalButton.addEventListener('click', function() {
     body.style.zIndex = '-2';
 });
 
+//--------------------------------------my comment 페이지-----------------------------------------
+
 //forEach 사용할 때의 모달 ( my_comment_list )
 function openModal(movieNm, movieId, comment, cnt){
 	let num = Number(cnt);

@@ -127,7 +127,7 @@
 	</div>
 </div>
 
-
+<!--  ************************************** Modal *************************************************** -->
 <div id="myModal" class="modal" style=" position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:400px; height:600px;background-color:white; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); border:1px solid #ccc;border-radius:4px; z-index:-2; display:none;">
     <div class="modal-content" style="background-color:white; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:350px; height:520px; border-radius:5px;">
     	
