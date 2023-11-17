@@ -15,7 +15,10 @@
 	<br><br><br>
 	<div align="center" class="list-page">
 		<div align="center" class="list-page-div">
-		
+			
+			<c:if test="${ not empty msg }">
+				<span style="color:red;">${ msg }</span><br><br><br>
+			</c:if>
 			<a href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/movie_id/1?query=">ID 순</a> | <a href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/movie_nm/1?query=">영화명 순</a> | <a href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/open_dt/1?query=">개봉일 순</a> | <a href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/like_num/1?query=">좋아요 순</a>
 			<br><br><br>
 			
@@ -58,7 +61,14 @@
 						<td class="table-width-100">${ list.openDt }</td>
 						<td class="table-width-50">${ list.likeNum }</td>
 						<td class="table-width-50"><button type="button" style="all:unset; cursor:pointer;" onclick="updateForm('<%=cnt%>')">수정</button></td>
-						<td class="table-width-50"><button type="button" style="all:unset; cursor:pointer;" onclick="deleteBtn('${ list.movieId }','${ query }','${ autoPaging.tableNm }', '${ autoPaging.orderByColumn }')">삭제</button></td>
+						<td class="table-width-50">
+							<c:if test="${ not empty query }">
+								<a href="/delete/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/${ autoPaging.pageNum }/${query}?movieId=${list.movieId}" style="all:unset; cursor:pointer;">삭제</a>
+							</c:if>
+							<c:if test="${ empty query }">
+								<a href="/delete/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/${ autoPaging.pageNum }/nan?movieId=${list.movieId}" style="all:unset; cursor:pointer;">삭제</a>
+							</c:if>
+						</td>
 					</tr>
 					<% cnt++; %>
 				</c:forEach>
@@ -66,7 +76,7 @@
 					<td colspan="${ autoPaging.titleList.size() + 2 }">
 						<div align="center" class="auto-table-footer">
 							<div style="width:100px;"></div>
-							<c:if test="${ autoPaging.pageNum > 5 }">
+							<c:if test="${ autoPaging.pageNum > 5 && autoPaging.end > 10 }">
 								<span class="footer-paging-span"><a class="footer-paging-number" href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/1?query=${ query }"> 1 </a></span>...
 							</c:if>
 
@@ -91,18 +101,22 @@
 				</tr>
 			</table>
 			
-			
-			<form id="insertForm" action="insertMovieInfo" method="post" style="display:none;">
+			<c:if test="${ not empty query }">
+				<form id="insertForm" action="/insert/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/${ autoPaging.pageNum }/${query}" method="post" style="display:none;">
+			</c:if>
+			<c:if test="${ empty query }">
+				<form id="insertForm" action="/insert/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/${ autoPaging.pageNum }/nan" method="post" style="display:none;">
+			</c:if>
 				<input type="text" class="insert-input" name="movieId" placeholder="영화ID (ex-12345678)"><br>
 				<input type="text" class="insert-input" name="movieNm" placeholder="영화제목"><br>
 				<input type="text" class="insert-input" name="movieNmEn" placeholder="영화영어제목"><br>
-				<input type="text" class="insert-input" name="prdtYear" placeholder="제작년도(ex-1900)"><br>
-				<input type="text" class="insert-input" name="openDt" placeholder="개봉일(ex-19001010)"><br>
+				<input type="number" class="insert-input" name="prdtYear" placeholder="제작년도(ex-1900)"><br>
+				<input type="number" class="insert-input" name="openDt" placeholder="개봉일(ex-19001010)"><br>
 				<input type="text" class="insert-input" name="typeNm" placeholder="종류명"><br>
 				<input type="text" class="insert-input" name="nations" placeholder="제작국가"><br>
 				<input type="text" class="insert-input" name="genreNm" placeholder="장르"><br>
 				<input type="text" class="insert-input" name="posterUrl" placeholder="포스터URL"><br>
-				<input type="text" class="insert-input" name="showTime" placeholder="상영시간"><br>
+				<input type="number" class="insert-input" name="showTime" placeholder="상영시간" value="0"><br>
 				<input type="text" class="insert-input" name="actors" placeholder="배우명(ex-송중기,송혜교)"><br>
 				<input type="text" class="insert-input" name="cast" placeholder="역할명(ex-경찰1,경찰2)"><br>
 				<input type="text" class="insert-input" name="watchGradeNm" placeholder="제한연령"><br>
@@ -110,22 +124,27 @@
 				<input type="hidden" name="likeNum" value="0">
 				<button class="insert-btn">등록</button><button class="insert-btn" type="button" onclick="insertClose();">닫기</button>
 			</form>
-			<form id="updateForm" action="" method="post" style="display:none;">
-				<input type="text" class="update-input" name="movieId" id="movieId"><br>
-				<input type="text" class="update-input" name="movieNm" id="movieNm"><br>
-				<input type="text" class="update-input" name="movieNmEn" id="movieNmEn"><br>
-				<input type="text" class="update-input" name="prdtYear" id="prdtYear"><br>
-				<input type="text" class="update-input" name="openDt" id="openDt"><br>
-				<input type="text" class="update-input" name="typeNm" id="typeNm"><br>
-				<input type="text" class="update-input" name="nations" id="nations"><br>
-				<input type="text" class="update-input" name="genreNm" id="genreNm"><br>
-				<input type="text" class="update-input" name="posterUrl" id="posterUrl"><br>
-				<input type="text" class="update-input" name="showTime" id="showTime"><br>
-				<input type="text" class="update-input" name="actors" id="actors"><br>
-				<input type="text" class="update-input" name="cast" id="cast"><br>
-				<input type="text" class="update-input" name="watchGradeNm" id="watchGradeNm"><br>
-				<input type="text" class="update-input" name="docid" id="docid"><br>
-				<input type="text" class="update-input" name="likeNum" id="likeNum"><br>
+			<c:if test="${ not empty query }">
+				<form id="updateForm" action="/update/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/${ autoPaging.pageNum }/${query}" method="post" style="display:none;">
+			</c:if>
+			<c:if test="${ empty query }">
+				<form id="updateForm" action="/update/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/${ autoPaging.pageNum }/nan" method="post" style="display:none;">
+			</c:if>
+				<input type="text" class="update-input" name="movieId" id="movieId" placeholder="영화ID (ex-12345678)" style="background-color:#eee;" readonly><br>
+				<input type="text" class="update-input" name="movieNm" id="movieNm" placeholder="영화제목"><br>
+				<input type="text" class="update-input" name="movieNmEn" id="movieNmEn" placeholder="영화영어제목"><br>
+				<input type="text" class="update-input" name="prdtYear" id="prdtYear" placeholder="제작년도(ex-1900)"><br>
+				<input type="text" class="update-input" name="openDt" id="openDt" placeholder="개봉일(ex-19001010)"><br>
+				<input type="text" class="update-input" name="typeNm" id="typeNm" placeholder="종류명"><br>
+				<input type="text" class="update-input" name="nations" id="nations" placeholder="제작국가"><br>
+				<input type="text" class="update-input" name="genreNm" id="genreNm" placeholder="장르"><br>
+				<input type="text" class="update-input" name="posterUrl" id="posterUrl" placeholder="포스터URL"><br>
+				<input type="number" class="update-input" name="showTime" id="showTime" placeholder="상영시간"><br>
+				<input type="text" class="update-input" name="actors" id="actors" placeholder="배우명(ex-송중기,송혜교)"><br>
+				<input type="text" class="update-input" name="cast" id="cast" placeholder="역할명(ex-경찰1,경찰2)"><br>
+				<input type="text" class="update-input" name="watchGradeNm" id="watchGradeNm" placeholder="제한연령"><br>
+				<input type="text" class="update-input" name="docid" id="docid" placeholder="docid"><br>
+				<input type="text" class="update-input" name="likeNum" id="likeNum" placeholder="좋아요 수"><br>
 				<button class="update-btn">수정</button><button class="update-btn" type="button" onclick="updateClose();">닫기</button>
 			</form>
 		</div>

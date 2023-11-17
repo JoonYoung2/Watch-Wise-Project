@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class PeopleInfoDTO {
 	private int num;
+	// DB Entity
 	private int peopleId;
 	private String peopleNm;
 	private String peopleNmEn;

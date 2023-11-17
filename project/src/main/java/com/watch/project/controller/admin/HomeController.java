@@ -1,5 +1,7 @@
 package com.watch.project.controller.admin;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.watch.project.dto.admin.LiveSearchDTO;
+import com.watch.project.service.admin.HomeService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,17 +22,26 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class HomeController {
 	private final HttpSession session;
+	private final HomeService service;
 	
 	@GetMapping("/admin")
-	public String index() {
+	public String index(Model model) {
 		if(adminCertification()) {
 			return "admin/login";
 		}
+		
+		List<LiveSearchDTO> liveSearchList = service.getLiveSearchDataList();
+
+		model.addAttribute("liveSearch", liveSearchList);
+		
 		return "admin/index";
 	}
 	
 	@GetMapping("/admin/login")
 	public String login() {
+		if(!adminCertification()) {
+			return "redirect:/admin";
+		}
 		return "admin/login";
 	}
 	

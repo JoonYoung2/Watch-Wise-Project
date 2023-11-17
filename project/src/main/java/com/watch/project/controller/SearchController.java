@@ -82,9 +82,14 @@ public class SearchController {
 		query = query.replaceAll("''", "'");
 		
 		/*
-		 * 검색어 저장
+		 * 검색 결과가 있을 경우에만 저장
 		 */
-		service.queryInsert(query);
+		if(movieInfoSearchViewList.size() != 0 || peopleInfoSearchViewList.size() != 0) {
+			/*
+			 * 검색어 저장
+			 */
+			service.queryInsert(query);
+		}
 		
 		/*
 		 * 최근 검색어
@@ -144,6 +149,9 @@ public class SearchController {
 		return "basic/search_info";
 	}
 	
+	/*
+	 * 유저가 검색했던 검색어
+	 */
 	@GetMapping("/searchHistoryView")
 	public String searchHistoryView(Model model) {
 		List<ContentSearchingDTO> contentSearchList = service.getContentSearchByUserEmail();
@@ -162,6 +170,9 @@ public class SearchController {
 		return "member/member_info/search_history_list";
 	}
 	
+	/*
+	 * 사용자의 최근 검색어 삭제
+	 */
 	@GetMapping("/deleteAllSearchHistory")
 	public String deleteAllSearchHistory(Model model) {
 		service.deleteAllSearchHistory();
@@ -172,6 +183,9 @@ public class SearchController {
 		return "alert_and_view";
 	}
 	
+	/*
+	 * 사용자의 검색어 목록 삭제
+	 */
 	@GetMapping("/deleteSearchHistory")
 	public String deleteAllSearchHistory(@RequestParam("ids") String ids) {
 		service.deleteSearchHistory(ids);
@@ -244,7 +258,12 @@ public class SearchController {
 		model.addAttribute("query", query);
 		return "basic/search_info";
 	}
-
+	
+	/*
+	 * 인물 좋아요 체크
+	 * 유저가 좋아요 눌렀으면 1
+	 * 아니면 0
+	 */
 	private int[] setLikeCheck(List<PeopleInfoSearchViewDTO> peopleInfoSearchViewList) {
 		int[] likeCheck = new int[peopleInfoSearchViewList.size()];
 		String userEmail = (String)session.getAttribute("userEmail");

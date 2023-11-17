@@ -1,0 +1,55 @@
+.index-page{
+	width:100%;
+}
+
+.page-width{
+	width:80%;
+}
+
+.live-search-page{
+	position:relative;
+}
+
+.live-search-left-btn{
+	position:absolute; 
+	cursor: pointer; 
+	font-size: 20px; 
+	width: 40px; 
+	height: 40px; 
+	border: 1px solid rgba(0, 0, 0, 0.2); 
+	border-radius: 50px; 
+	background-color:white; 
+	z-index:1; display:none; 
+	justify-content:center; 
+	align-items:center; 
+	top:120px; 
+	left:-30px;
+}
+
+.live-search-div{
+	border:1px solid rgba(0, 0, 0, 0.1); 
+	height:309px; 
+	width:464px;
+}
+
+.live-search-contents{
+	font-size:18px;
+}
+
+.live-search-right-btn{
+	position:absolute; 
+	cursor: pointer; 
+	font-size: 20px; 
+	width: 40px; 
+	height: 40px; 
+	border: 1px solid rgba(0, 0, 0, 0.2); 
+	border-radius: 50px; 
+	background-color:white; 
+	z-index:1; 
+	display:flex; 
+	justify-content:center; 
+	align-items:center; 
+	top:120px; 
+	left:450px;
+}
+

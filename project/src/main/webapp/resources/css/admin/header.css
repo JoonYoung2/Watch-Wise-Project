@@ -1,0 +1,54 @@
+.header-page{
+	width:100%;
+}
+
+.header-div{
+	width:80%; 
+	display:flex; 
+	justify-content:space-between;
+}
+
+.header-logo-div{
+	width:20%;
+}
+
+.header-logo-img{
+	width:200px;
+}
+
+.header-view-div{
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	width:80%;
+}
+
+.header-view-div a{
+	all:unset;
+	cursor:pointer;
+	margin-right:10px;
+	margin-left:10px;
+	font-size:20px;
+	font-weight:bold;
+}
+
+.header-view-div a:hover{
+	color:red;
+}
+
+.header-logout-div{
+	display:flex; 
+	justify-content:center;
+	align-items:center;
+	width:20%;
+}
+
+.header-logout{
+	all:unset; 
+	cursor:pointer;
+	font-size:20px;
+}
+
+.header-logout:hover{
+	color:red;
+}

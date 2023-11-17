@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.watch.project.dto.admin.MovieInfoDTO;
 import com.watch.project.dto.admin.PagingConfigDTO;
+import com.watch.project.dto.admin.PeopleInfoDTO;
 import com.watch.project.service.admin.AutoPagingService;
 
 import lombok.Builder;
@@ -79,8 +81,31 @@ public class AutoPagingController {
 		return "redirect:/admin/pagingConfig";
 	}
 	
+	@PostMapping("/insert/{listNm}/{tableNm}/{orderByColumn}/{pageNum}/{query}")
+	public String insertInfo(
+			@PathVariable("listNm") String listNm,
+			@PathVariable("tableNm") String tableNm, 
+			@PathVariable("orderByColumn") String orderByColumn,
+			@PathVariable("pageNum") int pageNum,
+			@PathVariable("query") String query,
+			MovieInfoDTO movieInfoDto,
+			PeopleInfoDTO peopleInfoDto,
+			RedirectAttributes attr) {
+		
+		String view = "";
+		
+		if(listNm.equals("movie_list")) {
+			view = movieInfoController.insertMovieInfo(listNm, tableNm, orderByColumn, pageNum, query, movieInfoDto, attr);
+		}else if(listNm.equals("actor_list")) {
+			view = peopleInfoController.insertPeopleInfo(listNm, tableNm, orderByColumn, pageNum, query, peopleInfoDto, attr);
+		}
+		
+		return view;
+		
+	}
+	
 	@GetMapping("/admin/{listNm}/{tableNm}/{orderByColumn}/{pageNum}")
-	public String movieInfoList(
+	public String viewInfoList(
 			@PathVariable("listNm") String listNm,
 			@PathVariable("tableNm") String tableNm, 
 			@PathVariable("orderByColumn") String orderByColumn,
@@ -98,11 +123,59 @@ public class AutoPagingController {
 		return view;
 	}
 	
+	@PostMapping("/update/{listNm}/{tableNm}/{orderByColumn}/{pageNum}/{query}")
+	public String updateInfo(
+			@PathVariable("listNm") String listNm,
+			@PathVariable("tableNm") String tableNm, 
+			@PathVariable("orderByColumn") String orderByColumn,
+			@PathVariable("pageNum") int pageNum,
+			@PathVariable("query") String query,
+			PeopleInfoDTO peopleInfoDto,
+			MovieInfoDTO movieInfoDto,
+			RedirectAttributes attr) {
+		
+		String view = "";
+		
+		if(listNm.equals("movie_list")) {
+			view = movieInfoController.updateMovieInfo(listNm, tableNm, orderByColumn, pageNum, query, movieInfoDto, attr);
+		}else if(listNm.equals("actor_list")) {
+			view = peopleInfoController.updatePeopleInfo(listNm, tableNm, orderByColumn, pageNum, query, peopleInfoDto, attr);
+		}
+		return view;
+	}
+	
+	@GetMapping("/delete/{listNm}/{tableNm}/{orderByColumn}/{pageNum}/{query}")
+	public String deleteInfo(
+			@PathVariable("listNm") String listNm,
+			@PathVariable("tableNm") String tableNm, 
+			@PathVariable("orderByColumn") String orderByColumn,
+			@PathVariable("pageNum") int pageNum,
+			@PathVariable("query") String query,
+			DeleteInfoDto deleteInfoDto,
+			RedirectAttributes attr) {
+		log.info("gd");
+		String view = "";
+		
+		if(listNm.equals("movie_list")) {
+			view = movieInfoController.deleteMovieInfo(listNm, tableNm, orderByColumn, pageNum, query, deleteInfoDto.getMovieId(), attr);
+		}else if(listNm.equals("actor_list")) {
+			view = peopleInfoController.deletePeopleInfo(listNm, tableNm, orderByColumn, pageNum, query, deleteInfoDto.getPeopleId(), attr);
+		}
+		return view;
+	
+	}
+	
 	private boolean adminCertification() {
 		boolean check = false;
 		if(session.getAttribute("admin") == null) {
 			check = true;
 		}
 		return check;
+	}
+	
+	@Data
+	static class DeleteInfoDto{
+		private String movieId;
+		private int peopleId;
 	}
 }

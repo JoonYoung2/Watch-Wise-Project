@@ -16,5 +16,11 @@ public interface AdminMovieInfoRepository {
 	public List<MovieInfoDTO> getMovieInfoListByStartAndEnd(Map<String, String> map);
 	
 	public List<MovieInfoDTO> getMovieInfoListByStartAndEndQuery(Map<String, String> map);
+
+	public void insertMovieInfo(MovieInfoDTO movieInfoDto);
+
+	public void updateMovieInfo(MovieInfoDTO movieInfoDto);
+
+	public void deleteMovieInfoByMovieId(String movieId);
 	
 }

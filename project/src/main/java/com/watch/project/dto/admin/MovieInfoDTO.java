@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class MovieInfoDTO {
-	// DB Entity
 	private int num;
+	// DB Entity
 	private String movieId;
 	private String movieNm;
 	private String movieNmEn;

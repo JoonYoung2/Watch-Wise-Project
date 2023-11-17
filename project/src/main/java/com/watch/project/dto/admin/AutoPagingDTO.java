@@ -25,28 +25,23 @@ public class AutoPagingDTO {
 	}
 	
 	public void setPagingInfo(int pageNum, TableInfoDTO tableInfoDto) {
-		if(pageNum > 5 && pageNum < tableInfoDto.getPageNum() - 5) {
+		int lastPage = tableInfoDto.getPageNum();
+		if(lastPage <= 10) {
+			setStart(1);
+			setEnd(lastPage);
+			setLast(0);
+		}else if(pageNum > 5 && pageNum < lastPage - 5) {
 			setStart(pageNum-4);
 			setEnd(pageNum+5);
-			setLast(tableInfoDto.getPageNum());
-			if(tableInfoDto.getPageNum() < 10) {
-				setEnd(tableInfoDto.getPageNum());
-				setLast(0);
-			}
+			setLast(lastPage);
 		}else if(pageNum <= 5) {
 			setStart(1);
 			setEnd(10);
-			setLast(tableInfoDto.getPageNum());
-			if(tableInfoDto.getPageNum() < 10) {
-				setEnd(tableInfoDto.getPageNum());
-				setLast(0);
-			}
+			setLast(lastPage);
 		}else {
-			setStart(tableInfoDto.getPageNum() - 9);
-			setEnd(tableInfoDto.getPageNum());
-			if(tableInfoDto.getPageNum() < 10) {
-				setEnd(tableInfoDto.getPageNum());
-			}
+			setStart(lastPage - 9);
+			setEnd(lastPage);
+			setLast(0);
 		}
 	}
 

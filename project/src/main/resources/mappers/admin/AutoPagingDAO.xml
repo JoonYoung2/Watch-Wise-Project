@@ -19,7 +19,7 @@
 	</resultMap>
 	
 	<select id="getAllPagingConfig" resultMap="pagingConfig">
-		SELECT * FROM paging_config
+		SELECT * FROM paging_config ORDER BY table_nm ASC
 	</select>
 	
 	<select id="getPagingConfigByTableNmAndOrderByColumn" resultMap="pagingConfig">
