@@ -34,7 +34,28 @@
 		(SELECT ROWNUM AS id, ${columns}
 		FROM (SELECT * FROM ${tableNm} WHERE ${conditionColumn} ORDER BY ${orderByColumn} DESC))
 		WHERE id >= ${start} AND id <= ${end}]]>
-	</select>	
+	</select>
+	
+	<insert id="insertMovieInfo" parameterType="com.watch.project.dto.admin.MovieInfoDTO">
+		INSERT INTO movie_info VALUES(
+		#{movieId}, #{movieNm}, #{movieNmEn}, #{prdtYear}, #{openDt}, 
+		#{typeNm}, #{nations}, #{genreNm}, #{posterUrl}, #{showTime}, 
+		#{actors}, #{cast}, #{watchGradeNm}, #{docid}, #{likeNum})
+	</insert>
+	
+	<update id="updateMovieInfo" parameterType="com.watch.project.dto.admin.MovieInfoDTO">
+		UPDATE movie_info 
+		SET 
+		movie_nm=#{movieNm}, movie_nm_en=#{movieNmEn}, prdt_year=#{prdtYear}, open_dt=#{openDt}, 
+		type_nm=#{typeNm}, nations=#{nations}, genre_nm=#{genreNm}, poster_url=#{posterUrl},
+		show_time=#{showTime}, actors=#{actors}, cast=#{cast}, watch_grade_nm=#{watchGradeNm},
+		docid=#{docid}, like_num=#{likeNum}
+		WHERE movie_id=#{movieId}
+	</update>
+	
+	<delete id="deleteMovieInfoByMovieId" parameterType="String">
+		DELETE FROM movie_info WHERE movie_id=#{movieId}
+	</delete>
 	
 </mapper>
 

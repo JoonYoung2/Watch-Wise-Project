@@ -79,7 +79,7 @@
 						
 							<div style="width:100px;"></div>
 							
-							<c:if test="${ autoPaging.pageNum > 5 }">
+							<c:if test="${ autoPaging.pageNum > 5 && autoPaging.end > 10 }">
 								<span class="footer-paging-span"><a class="footer-paging-number" href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/1?query=${ query }"> 1 </a></span>...
 							</c:if>
 							<c:forEach var="i" begin="${ autoPaging.start }" end="${ autoPaging.end }" step="1">

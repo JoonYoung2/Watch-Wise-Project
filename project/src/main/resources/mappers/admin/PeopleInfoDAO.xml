@@ -30,5 +30,23 @@
 		WHERE id >= ${start} AND id <= ${end}]]>
 	</select>
 	
+	<insert id="insertPeopleInfo" parameterType="com.watch.project.dto.admin.PeopleInfoDTO">
+		INSERT INTO people_info_detail VALUES(
+		#{peopleId}, #{peopleNm}, #{peopleNmEn}, #{sex}, 
+		#{movieId}, #{movieNm}, #{likeNum}, #{profileUrl})
+	</insert>
+	
+	<update id="updatePeopleInfo" parameterType="com.watch.project.dto.admin.PeopleInfoDTO">
+		UPDATE people_info_detail 
+		SET 
+		people_nm=#{peopleNm}, people_nm_en=#{peopleNmEn}, sex=#{sex}, movie_id=#{movieId}, 
+		movie_nm=#{movieNm}, like_num=#{likeNum}, profile_url=#{profileUrl}
+		WHERE people_id=#{peopleId}
+	</update>
+	
+	<delete id="deletePeopleInfoByPeopleId" parameterType="Integer">
+		DELETE FROM people_info_detail WHERE people_id=#{peopleId}
+	</delete>
+	
 </mapper>
 

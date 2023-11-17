@@ -1,6 +1,10 @@
 package com.watch.project.service.admin;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
@@ -16,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AutoPagingService {
 	private final AutoPagingRepository repo;
+	private final HttpSession session;
 	
 	public TableInfoDTO getTableInfoDto(PagingConfigDTO pagingConfigDto) {
 		return repo.getTableInfoByRowNumAndTableNm(pagingConfigDto);
@@ -55,5 +60,39 @@ public class AutoPagingService {
 
 	public int getEnd(int pageNum, int rowNum) {
 		return pageNum * rowNum;
+	}
+	
+	/*
+	 * 생성, 업데이트, 삭제 후 경로
+	 */
+	public String getCreateAndUpdateAndDeleteView(String listNm, String tableNm, String orderByColumn, int pageNum, String query) {
+		return "redirect:/admin/" + listNm + "/" + tableNm + "/" + orderByColumn + "/" + pageNum + "?query=" + query;
+	}
+	
+	/*
+	 * 검색 유무
+	 */
+	public String getQuery(String query) {
+		if(query.equals("nan")) {
+			query = "";
+		}
+		
+		try {
+			query = URLEncoder.encode(query, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return query;
+	}
+	
+	/*
+	 * admin계정 로그인 확인
+	 */
+	public boolean adminCertification() {
+		boolean check = false;
+		if(session.getAttribute("admin") == null) {
+			check = true;
+		}
+		return check;
 	}
 }

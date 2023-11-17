@@ -5,19 +5,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/resources/css/home.css">
+<link rel="stylesheet" href="/resources/css/admin/login.css">
 <title>Insert title here</title>
 </head>
 <body>
 	<%@ include file="./include/header.jsp" %>
-	
-	<div align="center" style="width:100%;">
-		<div align="center" style="width:80%;">
-			${ msg }
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	<div align="center" class="login-page">
+		<div align="center" class="login-page-size">
+			<span class="msg">${ msg }</span>
 			<form action="/admin/login" method="post">
-				<input name="id" type="text" placeholder="ID" style="width:300px;"><br>
-				<input name="pw" type="password" placeholder="PASSWORD" style="width:300px;"><br>
-				<button style="width:150px;">로그인</button><button style="width:150px;" type="reset">취소</button>
+				<input name="id" type="text" placeholder="ID" class="input-id"><br>
+				<input name="pw" type="password" placeholder="PASSWORD" class="input-password"><br>
+				<button class="login-button">로그인</button>
 			</form>
 		</div>
 	</div>

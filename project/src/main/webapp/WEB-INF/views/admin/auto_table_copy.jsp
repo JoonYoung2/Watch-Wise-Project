@@ -16,11 +16,18 @@
 	<div align="center" class="list-page">
 		<div align="center" class="list-page-div">
 			
+			<c:if test="${ not empty msg }">
+				<span style="color:red;">${ msg }</span><br><br><br>
+			</c:if>
+			<!-- order by href 수정 -->
+			<a href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/<!-- orderByColumn -->/1?query=">ID 순</a>
+			<br><br><br>
+			
 			<table>
 				<tr>
 					<td colspan="${ autoPaging.titleList.size() + 2 }">
 						<div class="auto-table-header">
-							<div><input id="query" class="header-search" value="${ query }"  type="text" placeholder="알아서수정 을 입력해주세요" onkeydown="search(event,'${ autoPaging.listNm }', '${ autoPaging.tableNm }', '${ autoPaging.orderByColumn }')"></div>
+							<div><input id="query" class="header-search" value="${ query }"  type="text" placeholder="~~~~~~~~~~~~을 입력해주세요" onkeydown="search(event,'${ autoPaging.listNm }', '${ autoPaging.tableNm }', '${ autoPaging.orderByColumn }')"></div>
 							<div class="header-rownum-div">Row Num : <input class="header-rownum-config" id="rowNum" type="number" value="${ autoPaging.rowNum }" onchange="rowNumUpdate('${ autoPaging.tableNm }', '${ autoPaging.orderByColumn }')"></div>
 						</div>
 					</td>
@@ -33,12 +40,22 @@
 					<th>삭제</th>
 				</tr>
 				<c:forEach var="list" items="${ contentList }">
-					<!-- 수정을 위한 정보 -->
-					<input type="hidden" class="content-values<%= cnt %>" value="">
+					<!-- update를 위한 값 설정 -->
+					<input type="hidden" class="content-values<%= cnt %>" value="<!-- 맞게 수정 -->">
 					<tr>
-						<!-- 본인에게 맞게끔 수정 -->
+						<!-- list 맞게 수정 -->
+						<td class="table-width-50"><!-- 수정 위치 --></td>
 						<td class="table-width-50"><button type="button" style="all:unset; cursor:pointer;" onclick="updateForm('<%=cnt%>')">수정</button></td>
-						<td class="table-width-50"><button type="button" style="all:unset; cursor:pointer;" onclick="deleteBtn(<!-- 맞게 수정 -->)">삭제</button></td>
+						<td class="table-width-50">
+							<!-- 파라미터 수정 -->
+							<c:if test="${ not empty query }">
+								<a href="/delete/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/${ autoPaging.pageNum }/${query}?movieId=${list.movieId}" style="all:unset; cursor:pointer;">삭제</a>
+							</c:if>
+							<c:if test="${ empty query }">
+								<a href="/delete/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/${ autoPaging.pageNum }/nan?movieId=${list.movieId}" style="all:unset; cursor:pointer;">삭제</a>
+							</c:if>
+							<!-- 파라미터 수정 -->
+						</td>
 					</tr>
 					<% cnt++; %>
 				</c:forEach>
@@ -46,7 +63,7 @@
 					<td colspan="${ autoPaging.titleList.size() + 2 }">
 						<div align="center" class="auto-table-footer">
 							<div style="width:100px;"></div>
-							<c:if test="${ autoPaging.pageNum > 5 }">
+							<c:if test="${ autoPaging.pageNum > 5 && autoPaging.end > 10 }">
 								<span class="footer-paging-span"><a class="footer-paging-number" href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/1?query=${ query }"> 1 </a></span>...
 							</c:if>
 
@@ -71,13 +88,22 @@
 				</tr>
 			</table>
 			
-			<!-- action 페이지에 맞게끔 수정 -->
-			<form id="insertForm" action="" method="post" style="display:none;">
+			<c:if test="${ not empty query }">
+				<form id="insertForm" action="/insert/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/${ autoPaging.pageNum }/${query}" method="post" style="display:none;">
+			</c:if>
+			<c:if test="${ empty query }">
+				<form id="insertForm" action="/insert/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/${ autoPaging.pageNum }/nan" method="post" style="display:none;">
+			</c:if>
 				<input type="text" class="insert-input" name="" placeholder=""><br>
 				<button class="insert-btn">등록</button><button class="insert-btn" type="button" onclick="insertClose();">닫기</button>
 			</form>
-			<form id="updateForm" action="" method="post" style="display:none;">
-				<input type="text" class="update-input" name="" id=""><br>
+			<c:if test="${ not empty query }">
+				<form id="updateForm" action="/update/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/${ autoPaging.pageNum }/${query}" method="post" style="display:none;">
+			</c:if>
+			<c:if test="${ empty query }">
+				<form id="updateForm" action="/update/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/${ autoPaging.pageNum }/nan" method="post" style="display:none;">
+			</c:if>
+				<input type="text" class="update-input" name="" id="" placeholder=""><br>
 				<button class="update-btn">수정</button><button class="update-btn" type="button" onclick="updateClose();">닫기</button>
 			</form>
 		</div>

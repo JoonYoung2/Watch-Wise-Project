@@ -7,12 +7,12 @@
 	border: 1px solid rgba(0, 0, 0, 0.2);
 	border-radius: 50px;
 	position: absolute;
-	top: 190px;
-	left: -35px;
 	background-color:white;
-	color: rgba(0, 0, 0, 0.2);
 	z-index:1;
 	display: none;
+	top: 190px;
+	left: -35px;
+	color: rgba(0, 0, 0, 0.2);
 }
 
 .leftBtn:hover{

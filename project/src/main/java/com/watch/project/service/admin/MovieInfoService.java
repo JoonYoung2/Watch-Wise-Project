@@ -68,5 +68,77 @@ public class MovieInfoService {
 		return conditionColumn;
 	}
 
+	public String insertMovieInfo(MovieInfoDTO movieInfoDto) {
+		String msg = "";
+		
+		msg = verification(movieInfoDto);
+		
+		if(msg.equals("완료")) {
+			repo.insertMovieInfo(movieInfoDto);
+		}
+		
+		return msg;
+	}
+	public String updateMovieInfo(MovieInfoDTO movieInfoDto) {
+		String msg = "";
+		
+		msg = verification(movieInfoDto);
+		
+		if(msg.equals("완료")) {
+			repo.updateMovieInfo(movieInfoDto);
+		}
+		
+		return msg;
+	}
+	
+	public void deleteMovieInfo(String movieId) {
+		repo.deleteMovieInfoByMovieId(movieId);
+	}
+
+	private String verification(MovieInfoDTO movieInfoDto) {
+		String msg = "완료";
+		
+		if(movieInfoDto.getMovieId().length() < 8) {
+			msg = "아이디의 길이는 8이상이어야 합니다.";
+		}else if(movieInfoDto.getMovieNm().equals("")) {
+			msg = "영화명은 필수입니다.";
+		}
+		if(movieInfoDto.getMovieNmEn().equals("") || movieInfoDto.getMovieNmEn() == null) {
+			movieInfoDto.setMovieNmEn("nan");
+		}
+		if(movieInfoDto.getPrdtYear().equals("") || movieInfoDto.getPrdtYear() == null) {
+			movieInfoDto.setPrdtYear("nan");
+		}
+		if(movieInfoDto.getOpenDt().equals("") || movieInfoDto.getOpenDt() == null) {
+			movieInfoDto.setOpenDt("nan");
+		}
+		if(movieInfoDto.getTypeNm().equals("") || movieInfoDto.getTypeNm() == null) {
+			movieInfoDto.setTypeNm("nan");
+		}
+		if(movieInfoDto.getNations().equals("") || movieInfoDto.getNations() == null) {
+			movieInfoDto.setNations("nan");
+		}
+		if(movieInfoDto.getGenreNm().equals("") || movieInfoDto.getGenreNm() == null) {
+			movieInfoDto.setGenreNm("nan");
+		}
+		if(movieInfoDto.getPosterUrl().equals("") || movieInfoDto.getPosterUrl() == null) {
+			movieInfoDto.setPosterUrl("nan");
+		}
+		if(movieInfoDto.getActors().equals("") || movieInfoDto.getActors() == null) {
+			movieInfoDto.setActors("nan");
+		}
+		if(movieInfoDto.getCast().equals("") || movieInfoDto.getCast() == null) {
+			movieInfoDto.setCast("nan");
+		}
+		if(movieInfoDto.getWatchGradeNm().equals("") || movieInfoDto.getWatchGradeNm() == null) {
+			movieInfoDto.setWatchGradeNm("nan");
+		}
+		return msg;
+	}
+
+	
+
+	
+
 	
 }
