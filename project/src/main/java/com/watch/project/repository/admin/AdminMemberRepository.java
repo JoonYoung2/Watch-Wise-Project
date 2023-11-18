@@ -18,5 +18,12 @@ public interface AdminMemberRepository {
 	public int deleteMember(String userEmail);
 
 	public int saveReportDatas(BlackListDTO dto);
+
+	public BlackListDTO checkIfExist(BlackListDTO dto);
+
+	public int updateReportDatas(BlackListDTO dto);
+
+	public int deleteReportedDatas(BlackListDTO dto);
+	
 	
 }

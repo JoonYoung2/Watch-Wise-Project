@@ -94,12 +94,12 @@ public class MemberController {
 	} 
 	
 	//-----------------------------------------------------------------------------------------------------------------
-	@GetMapping("/reportComment")
-	public String reportComment(@RequestParam("author") String authorEmail, @RequestParam("comment") String comment, @RequestParam("movieId") String movieId, RedirectAttributes redirectAttr) {
-		String msg = service.saveReport(authorEmail, comment, movieId);
-		redirectAttr.addFlashAttribute("msg", msg);
-		return "redirect:/movieInfo?movieId="+ movieId;
-	}
+//	@GetMapping("/reportComment")
+//	public String reportComment(@RequestParam("author") String authorEmail, @RequestParam("comment") String comment, @RequestParam("movieId") String movieId, RedirectAttributes redirectAttr) {
+//		String msg = service.saveReport(authorEmail, comment, movieId);
+//		redirectAttr.addFlashAttribute("msg", msg);
+//		return "redirect:/movieInfo?movieId="+ movieId;
+//	}
 	
 	@GetMapping("/deleteMember")
 	public String deleteMember(@RequestParam("userEmail") String userEmail, @RequestParam("pageNum") String pageNum, RedirectAttributes redirectAttr) {

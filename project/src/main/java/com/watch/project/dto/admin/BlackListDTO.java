@@ -10,5 +10,6 @@ public class BlackListDTO {
 	private String reportedComment;
 	private String authorEmail;
 	private String reporterEmail;
+	private String reasonForReport;
 	private String reportedDate;
 }

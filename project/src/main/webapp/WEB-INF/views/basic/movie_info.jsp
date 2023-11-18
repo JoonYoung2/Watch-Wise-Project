@@ -355,27 +355,27 @@
    
 
    
-   <c:if test="${not empty msg }">
+   	<c:if test="${not empty msg }">
       <script>
          alert('${msg}');
       </script>
-   </c:if>
+   	</c:if>
    
        <hr>
    
-   <c:if test="${not empty sessionScope.userEmail }">
-   <c:choose>
+   	<c:if test="${not empty sessionScope.userEmail }">
+   	<c:choose>
     <c:when test="${ifWroteComment.reviewComment eq 'nan' || ifWroteComment.reviewComment eq null}">
-   <div class="comment-writing-card">
-   <h4 style="text-align: center">나의 코멘트 작성하기</h4>
-      <div align="center" class="comment-writing-content">
-      <form action="/saveComment" method="post">
-         <textarea rows="10" cols="100" name="reviewComment"></textarea><br>
-         <input type="hidden" value="${movieInfo.movieId }" name="movieId">
-         <input type="submit" value="저장">
-      </form>
-      </div>
-   </div>   
+   	<div style="text-align:center;" class="comment-writing-card">
+   		<h4 style="text-align: center">나의 코멘트 작성하기</h4>
+      	<div align="center" class="comment-writing-content">
+      		<form action="/saveComment" method="post">
+	         	<textarea rows="10" cols="100" name="reviewComment"></textarea><br>
+	         	<input type="hidden" value="${movieInfo.movieId }" name="movieId">
+	         	<input type="submit" value="저장">
+      		</form>
+      	</div>
+   	</div>   
     </c:when>
     <c:otherwise>
     
@@ -409,7 +409,7 @@
    <c:set var="cnt" value="0"/>
    <hr>
    <div style=" z-index: 0;"><!-- 추가한 부분! -->
-   <h4>이 영화에 대한 모든 코멘트</h4>
+   <h4 style="text-align:center;">이 영화에 대한 모든 코멘트</h4>
    <c:forEach var="dto" items="${comments}">
    <c:if test="${dto.reviewComment != 'nan' }">
     <div class="comment-card">
@@ -433,7 +433,7 @@
         	<span class="comment_like_count" style="vertical-align:-1px;">${dto.reviewCommentLikes }</span>
         	<span style=" margin-top:10px;">
 <!-- 	        	<a href="/reportComment?author=${dto.userEmail }&comment=${dto.reviewComment}&movieId=${movieInfo.movieId}"> -->
-	        		<img src="resources/img/alert.png" onclick="openModalForReport();" style="cursor:pointer; margin-left:10px; width:25px; vertical-align:-3px;">
+	        		<img src="resources/img/activatedAlert.png" onclick="openModalForReport('${dto.userEmail }', '${dto.reviewComment}', '${movieInfo.movieId }');" style="cursor:pointer; margin-left:10px; width:30px; vertical-align:-3px;">
 <!-- 	        	</a> -->
         	</span>
        	</span>
@@ -462,8 +462,35 @@
  <div id="modal" style="position: fixed; top:50%; left:50%; transform:translate(-50%, -50%); width:400px; height:400px;background-color:white; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); border:1px solid #ccc;border-radius:4px; z-index:-2; display:none;">
     <div class="modal-content" style="background-color:white; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:350px; height:350px; border-radius:5px;">
  		<div class="top" style="display:flex; width: 100%; height:60px; top: 5%;"><!-- top  -->
-			<span id="modalMovieTitle" style="font-size:15px; font-weight:bold;"></span>
+			<span id="modalMovieTitle" style="font-size:25px; margin-left:8px; margin-top:5px; font-weight:bold;">신고사유</span>
 			<span class="closeModalButton" onclick="closeModalForReport();" style="margin-left:auto; font-size:20px; cursor:pointer;">&times;</span>
+	    </div>
+		<div>&nbsp 
+			<input type="hidden" id="storage-for-author" />
+			<input type="hidden" id="storage-for-comment" />
+			<input type="hidden" id="storage-for-movieId" />
+		</div>
+		<div>
+		    <div id="bad-words" onclick="reportForBadWord();" style="cursor:pointer; font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-top:1px solid rgb(0,0,0); border-bottom: 1px solid rgb(0,0,0);">
+		    	욕설 또는 비속어
+		    </div>
+		    <div id="spam" onclick="reportForSpam();" style="cursor:pointer; font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
+		    	도배 및 스팸
+		    </div>
+		    <div id="false-fact" onclick="reportForFalseFact();" style="cursor:pointer; font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
+		    	허위 정보
+		    </div>
+		    <div id="racism" onclick="reportForRacism();" style="cursor:pointer; font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
+		    	차별 / 혐오 발언
+		    </div>
+		    <div id="spoiler" onclick="reportForSpoiler();" style="cursor:pointer; font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
+		    	스포일러
+		    </div>
+	    </div>
+	    <div align="center" style="margin-top:20px;">
+	    	<button class="cancel-button" onclick="cancelReport('${movieInfo.movieId }', '${dto.userEmail }')" style="border: 2px solid #666; background-color: transparent; border-radius: 8px; padding: 10px 20px; cursor: pointer;">
+	    		신고 취소하기
+	    	</button>
 	    </div>
  	</div>
  </div>
@@ -491,18 +518,19 @@
     margin: 10px;
     padding: 10px;
     width: 50%; /* 너비를 50%로 설정 */
+    margin: 10px auto; /* 좌우 중앙 정렬을 위해 auto 사용 */
+    
     
 }
 
-     .comment-writing-card { 
-     background-color: #f0f0f0; 
-     border: 1px solid #ccc; 
-     border-radius: 5px; 
-     margin: 10px; 
-     padding: 10px; 
-     width: 50%; /* 너비를 50%로 설정 */
-     
- } 
+    .comment-writing-card {
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin: 10px auto; /* 좌우 중앙 정렬을 위해 auto 사용 */
+      padding: 10px;
+      width: 50%;
+    }
 
 
 /* Comment content styles */
