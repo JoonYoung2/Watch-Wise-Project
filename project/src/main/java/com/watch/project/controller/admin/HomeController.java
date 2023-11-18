@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.watch.project.dto.admin.LiveSearchDTO;
+import com.watch.project.dto.admin.chart.ActorChartDTO;
+import com.watch.project.dto.admin.chart.LiveSearchDTO;
+import com.watch.project.dto.admin.chart.MovieChartDTO;
 import com.watch.project.service.admin.HomeService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,9 +32,28 @@ public class HomeController {
 			return "admin/login";
 		}
 		
+		/*
+		 * 실시간 인기 검색어
+		 */
 		List<LiveSearchDTO> liveSearchList = service.getLiveSearchDataList();
-
+		
+		/*
+		 * 회원 동향
+		 */
+		
+		/*
+		 * 인기 영화
+		 */
+		List<MovieChartDTO> movieChartList = service.getPopularMovieList();
+		
+		/*
+		 * 인기 배우
+		 */
+		List<ActorChartDTO> actorChartList = service.getPopularActorList();
+		
 		model.addAttribute("liveSearch", liveSearchList);
+		model.addAttribute("movieChart", movieChartList);
+		model.addAttribute("actorChart", actorChartList);
 		
 		return "admin/index";
 	}

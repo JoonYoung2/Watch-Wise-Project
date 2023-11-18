@@ -2,8 +2,32 @@
 	width:100%;
 }
 
+.page-menu{
+	display:flex; 
+	justify-content:space-around; 
+	width:80%;
+}
+
+.menus{
+	display:flex; 
+	border:1px solid rgba(0, 0, 0, 0.1); 
+	width:25%; 
+	height:40px; 
+	justify-content:center; 
+	align-items:center;
+	cursor:pointer;
+	background-color:;
+	font-weight:;
+}
+
 .page-width{
 	width:80%;
+	display:flex; 
+	justify-content:center; 
+	height:700px; 
+	align-items:center; 
+	border:1px solid rgba(0, 0, 0, 0.1);
+	display:none;
 }
 
 .live-search-page{
@@ -19,11 +43,80 @@
 	border: 1px solid rgba(0, 0, 0, 0.2); 
 	border-radius: 50px; 
 	background-color:white; 
-	z-index:1; display:none; 
+	z-index:1; 
+	display:none; 
 	justify-content:center; 
 	align-items:center; 
-	top:120px; 
-	left:-30px;
+	top:130px; 
+	left:-25px;
+}
+
+.movie-left-btn{
+	position:absolute; 
+	cursor: pointer; 
+	font-size: 40px; 
+	width: 100px; 
+	height: 100px; 
+	border: 1px solid rgba(0, 0, 0, 0.2); 
+	border-radius: 50px; 
+	background-color:white; 
+	z-index:1; 
+	display: none; 
+	justify-content:center; 
+	align-items:center; 
+	top:300px; 
+	left:-200px;
+}
+
+.movie-right-btn{
+	position:absolute; 
+	cursor: pointer; 
+	font-size: 40px; 
+	width: 100px; 
+	height: 100px; 
+	border: 1px solid rgba(0, 0, 0, 0.2); 
+	border-radius: 50px; 
+	background-color:white; 
+	z-index:1; 
+	display: none; 
+	justify-content:center; 
+	align-items:center; 
+	top:300px; 
+	left:1100px;
+}
+
+.actor-left-btn{
+	position:absolute; 
+	cursor: pointer; 
+	font-size: 40px; 
+	width: 100px; 
+	height: 100px; 
+	border: 1px solid rgba(0, 0, 0, 0.2); 
+	border-radius: 50px; 
+	background-color:white; 
+	z-index:1; 
+	display: none; 
+	justify-content:center; 
+	align-items:center; 
+	top:300px; 
+	left:-200px;
+}
+
+.actor-right-btn{
+	position:absolute; 
+	cursor: pointer; 
+	font-size: 40px; 
+	width: 100px; 
+	height: 100px; 
+	border: 1px solid rgba(0, 0, 0, 0.2); 
+	border-radius: 50px; 
+	background-color:white; 
+	z-index:1; 
+	display: none; 
+	justify-content:center; 
+	align-items:center; 
+	top:300px; 
+	left:1100px;
 }
 
 .live-search-div{
@@ -49,7 +142,7 @@
 	display:flex; 
 	justify-content:center; 
 	align-items:center; 
-	top:120px; 
-	left:450px;
+	top:130px; 
+	left:445px;
 }
 
