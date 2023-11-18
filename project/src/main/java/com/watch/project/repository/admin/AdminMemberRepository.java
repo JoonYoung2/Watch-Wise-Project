@@ -24,6 +24,8 @@ public interface AdminMemberRepository {
 	public int updateReportDatas(BlackListDTO dto);
 
 	public int deleteReportedDatas(BlackListDTO dto);
+
+	public BlackListDTO checkIfReported(String commentIdPlusUserEmail);
 	
 	
 }

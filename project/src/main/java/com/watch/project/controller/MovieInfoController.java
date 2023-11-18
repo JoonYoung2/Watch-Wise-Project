@@ -17,6 +17,7 @@ import com.watch.project.dto.movieInfoView.PeopleInfoDTO;
 import com.watch.project.service.MovieInfoService;
 import com.watch.project.service.ReviewService;
 import com.watch.project.service.SearchService;
+import com.watch.project.service.admin.MemberService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

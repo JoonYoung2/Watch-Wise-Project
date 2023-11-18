@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.watch.project.dto.admin.AutoPagingDTO;
+import com.watch.project.dto.admin.BlackListDTO;
 import com.watch.project.dto.admin.MemberDTO;
 import com.watch.project.dto.admin.PagingConfigDTO;
 import com.watch.project.dto.admin.TableInfoDTO;
@@ -106,5 +107,31 @@ public class MemberController {
 		String msg = service.deleteMemberByEmail(userEmail);
 		redirectAttr.addFlashAttribute("msg", msg);
 		return "redirect:/admin/member_info/id/" + pageNum + "?query=";
+	}
+	
+	/*
+	 * 	// http://localhost:8090/lprod/list?currentPage=1
+	// defaultValue : 해당 요청 파라미터를 지정하지 않을 경우
+	// defaultValue 속성에 지정한 문자열을 값으로 이용하게 됨
+	@RequestMapping("/list")
+	public String list(Model model, @RequestParam(defaultValue="1") int currentPage) {
+		List<LprodVO> list = this.lprodService.list();
+		logger.info("list.size() : " + list.size());
+		// 상품 분류별 거래처 목록 행의 수
+		int total = this.lprodService.listCount();
+		logger.info("total : " + total);
+		
+		model.addAttribute("list", new ArticlePage(total, currentPage, 7, 5, list));
+		
+		model.addAttribute("total", total);
+		
+		// forward
+		return "lprod/list";
+	}
+	 */
+	@GetMapping("/admin/black_list_waiting")
+	public String blackListWaiting(Model model, @RequestParam(defaultValue="1") int currentPage) {
+		List<BlackListDTO> list = service.getBlackListWaiting();
+		return "admin/member/black_list_waiting";
 	}
 }

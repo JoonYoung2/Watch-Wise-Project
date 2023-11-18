@@ -37,7 +37,7 @@ public class MemberAjaxController {
 	}	
 	
 	@GetMapping("/cancelReport")
-	public MsgOnlyResponse cancelReport(@RequestParam("movieId") String movieId, @RequestParam("author") String author) {
+	public MsgOnlyResponse cancelReport(@RequestParam("movieId") String movieId, @RequestParam("userEmail") String author) {
 		log.info("movieId => {}", movieId);
 		log.info("author => {}", author);
 		String msg = memberService.deleteReportedDatas(movieId, author);

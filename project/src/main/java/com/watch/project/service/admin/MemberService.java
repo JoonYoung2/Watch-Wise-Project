@@ -19,8 +19,9 @@ import com.watch.project.dto.admin.MovieInfoDTO;
 import com.watch.project.dto.admin.PagingConfigDTO;
 import com.watch.project.repository.admin.AdminMemberRepository;
 
+import lombok.extern.slf4j.Slf4j;
 import oracle.jdbc.OracleDatabaseException;
-
+@Slf4j
 @Service
 public class MemberService {
 	@Autowired private AdminMemberRepository repo;
@@ -124,13 +125,17 @@ public class MemberService {
 	}
 
 	public String deleteReportedDatas(String movieId, String author) {
+		
 		int result = 0;
 		String msg ="신고가 취소되었습니다.";
 		String email = (String) session.getAttribute("userEmail");
 		String id = movieId + author + email;
-		
+		log.info("여기야1 author===>{}", author); //얘가 값이 없어.
+		log.info("여기야2 email===>{}", email);
+
 		BlackListDTO dto = BlackListDTO.builder()
 				.id(id).build();
+		log.info("여기야3 ===>{}", dto.getId());
 		
 		 try {
 		        BlackListDTO db = repo.checkIfExist(dto);
@@ -139,12 +144,19 @@ public class MemberService {
 		            result = repo.deleteReportedDatas(dto);
 		        } else {
 		            // 저장된 데이터가 없는 경우
-		            msg = "아직 신고하지 않은 댓글입니다.";
+		            msg = "아직 신고하지 않은 댓글1111111입니다.";///////
 		        }
 		    } catch (NullPointerException e) {
 		        // checkIfExist 메서드에서 예외 발생 시, 저장된 데이터가 없다고 간주
-	            msg = "아직 신고하지 않은 댓글입니다.";
+	            msg = "아직 신고하지 않은 댓글22222222입니다.";
 		    }
 		return msg;
 	}
+
+	public List<BlackListDTO> getBlackListWaiting() {
+//		List<BlackListDTO> result = repo.getBlackListDTO 여기부터 하면 된다아아아
+		return null;
+	}
+
+
 }

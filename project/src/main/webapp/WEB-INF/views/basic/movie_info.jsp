@@ -431,10 +431,15 @@
         	<img src="resources/img/likeColor.png" style="width:20px; vertical-align:-5px;">
         	<span> x </span>
         	<span class="comment_like_count" style="vertical-align:-1px;">${dto.reviewCommentLikes }</span>
-        	<span style=" margin-top:10px;">
-<!-- 	        	<a href="/reportComment?author=${dto.userEmail }&comment=${dto.reviewComment}&movieId=${movieInfo.movieId}"> -->
-	        		<img src="resources/img/activatedAlert.png" onclick="openModalForReport('${dto.userEmail }', '${dto.reviewComment}', '${movieInfo.movieId }');" style="cursor:pointer; margin-left:10px; width:30px; vertical-align:-3px;">
-<!-- 	        	</a> -->
+        	<span class="forAlertImg" style=" margin-top:10px;">
+		        <c:choose>
+		        <c:when test="${dto.isReported eq 0 }">
+	        		<img src="resources/img/alert.png" onclick="openModalForReport('${dto.userEmail }', '${dto.reviewComment}', '${movieInfo.movieId }', '${cnt }');" style="cursor:pointer; margin-left:10px; width:30px; vertical-align:-3px;">
+		        </c:when>
+		        <c:otherwise>
+	        		<img src="resources/img/activatedAlert.png" onclick="cancelReportCheck('${dto.userEmail }', '${dto.reviewComment}', '${movieInfo.movieId }', '${cnt}');" style="cursor:pointer; margin-left:10px; width:30px; vertical-align:-3px;">
+		        </c:otherwise>
+		        </c:choose>
         	</span>
        	</span>
         <br><br>
@@ -469,6 +474,7 @@
 			<input type="hidden" id="storage-for-author" />
 			<input type="hidden" id="storage-for-comment" />
 			<input type="hidden" id="storage-for-movieId" />
+			<input type="hidden" id="storage-for-cnt"/>
 		</div>
 		<div>
 		    <div id="bad-words" onclick="reportForBadWord();" style="cursor:pointer; font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-top:1px solid rgb(0,0,0); border-bottom: 1px solid rgb(0,0,0);">
@@ -486,11 +492,6 @@
 		    <div id="spoiler" onclick="reportForSpoiler();" style="cursor:pointer; font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
 		    	스포일러
 		    </div>
-	    </div>
-	    <div align="center" style="margin-top:20px;">
-	    	<button class="cancel-button" onclick="cancelReport('${movieInfo.movieId }', '${dto.userEmail }')" style="border: 2px solid #666; background-color: transparent; border-radius: 8px; padding: 10px 20px; cursor: pointer;">
-	    		신고 취소하기
-	    	</button>
 	    </div>
  	</div>
  </div>
