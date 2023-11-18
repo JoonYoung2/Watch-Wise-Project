@@ -17,7 +17,6 @@ import com.watch.project.dto.admin.PagingConfigDTO;
 import com.watch.project.dto.admin.PeopleInfoDTO;
 import com.watch.project.service.admin.AutoPagingService;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -112,7 +111,9 @@ public class AutoPagingController {
 			@PathVariable("pageNum") int pageNum,
 			@RequestParam("query") String query, 
 			Model model) {
+		
 		String view = "";
+		
 		if(listNm.equals("movie_list")) {
 			view = movieInfoController.movieInfoList(listNm, tableNm, orderByColumn, pageNum, query, model);
 		}else if(listNm.equals("actor_list")) {
@@ -153,7 +154,7 @@ public class AutoPagingController {
 			@PathVariable("query") String query,
 			DeleteInfoDto deleteInfoDto,
 			RedirectAttributes attr) {
-		log.info("gd");
+		
 		String view = "";
 		
 		if(listNm.equals("movie_list")) {

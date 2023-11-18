@@ -3,15 +3,132 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.watch.project.repository.admin.AdminHomeRepository">
-	<select id="getLiveSearchDataList" resultType="com.watch.project.dto.admin.LiveSearchDTO">
+	
+	<resultMap type="com.watch.project.dto.admin.chart.ActorChartDTO" id="actor">
+		<result column="num" property="num" />
+		<result column="people_id" property="peopleId" />
+		<result column="people_nm" property="peopleNm" />
+		<result column="profile_url" property="profileUrl" />
+		<result column="like_num" property="likeNum" />
+	</resultMap>
+	
+	<resultMap type="com.watch.project.dto.admin.chart.MovieChartDTO" id="movie">
+		<result column="num" property="num" />
+		<result column="movie_id" property="movieId" />
+		<result column="movie_nm" property="movieNm" />
+		<result column="poster_url" property="posterUrl" />
+		<result column="like_num" property="likeNum" />
+	</resultMap>
+
+	<select id="getLiveSearchDataList" resultType="com.watch.project.dto.admin.chart.LiveSearchDTO">
 		<![CDATA[
-		SELECT ROWNUM AS num, cnt, content FROM
-		(SELECT * FROM
-		(SELECT COUNT(content) AS cnt, content from 
-		(SELECT * FROM content_searching WHERE search_date >= '${date}') 
-		GROUP BY content) 
-		ORDER BY cnt DESC)
+			SELECT ROWNUM AS num, cnt, content FROM
+			(SELECT * FROM
+			(SELECT COUNT(content) AS cnt, content from 
+			(SELECT * FROM content_searching WHERE search_date >= '${date}') 
+			GROUP BY content) 
+			ORDER BY cnt DESC)
 		]]>
 	</select>
+	
+	<select id="getLiveSearchDataPeriodList" resultType="com.watch.project.dto.admin.chart.LiveSearchDTO">
+		<![CDATA[
+			SELECT ROWNUM AS num, cnt, content FROM
+			(SELECT * FROM
+			(SELECT COUNT(content) AS cnt, content from 
+			(SELECT * FROM content_searching WHERE search_date <= '${toDate}' AND search_date >= '${fromDate}') 
+			GROUP BY content) 
+			ORDER BY cnt DESC)
+		]]>
+	</select>
+	
+	<select id="getPopularMovieList" resultMap="movie">
+		<![CDATA[
+			SELECT * FROM(
+			SELECT 
+			  ROWNUM AS num, m.movie_id, m.movie_nm, m.poster_url, ml.like_num
+			FROM 
+			  movie_info m
+			JOIN (
+			  SELECT 
+			    movie_id, COUNT(movie_id) AS like_num
+			  FROM 
+			    movie_like
+			  WHERE 
+			    like_date <= '${date}'
+			  GROUP BY movie_id
+			  ORDER BY like_num DESC
+			) ml ON m.movie_id = ml.movie_id)
+			WHERE 
+			  ROWNUM <= 50
+		]]>
+	</select>
+	
+	<select id="getPopularMoviePeriodList" resultMap="movie">
+		<![CDATA[
+			SELECT * FROM(
+			SELECT 
+			  ROWNUM AS num, m.movie_id, m.movie_nm, m.poster_url, ml.like_num
+			FROM 
+			  movie_info m
+			JOIN (
+			  SELECT 
+			    movie_id, COUNT(movie_id) AS like_num
+			  FROM 
+			    movie_like
+			  WHERE 
+			    like_date <= '${toDate}' AND like_date >= '${fromDate}'
+			  GROUP BY movie_id
+			  ORDER BY like_num DESC
+			) ml ON m.movie_id = ml.movie_id)
+			WHERE 
+			  ROWNUM <= 50
+		]]>
+	</select>
+	
+	<select id="getPopularActorList" resultMap="actor">
+		<![CDATA[
+			SELECT * FROM(
+			SELECT 
+			  ROWNUM AS num, p.people_id, p.people_nm, p.profile_url, pl.like_num
+			FROM 
+			  people_info_detail p
+			JOIN (
+			  SELECT 
+			    people_id, COUNT(people_id) AS like_num
+			  FROM 
+			    people_like 
+			  WHERE 
+			    like_date <= '${date}'
+			  GROUP BY people_id
+			  ORDER BY like_num DESC
+			) pl ON p.people_id = pl.people_id)
+			WHERE
+			  ROWNUM <= 50
+		]]>
+	</select>
+	
+	<select id="getPopularActorPeriodList" resultMap="actor">
+		<![CDATA[
+			SELECT * FROM(
+			SELECT 
+			  ROWNUM AS num, p.people_id, p.people_nm, p.profile_url, pl.like_num
+			FROM 
+			  people_info_detail p
+			JOIN (
+			  SELECT 
+			    people_id, COUNT(people_id) AS like_num
+			  FROM 
+			    people_like 
+			  WHERE 
+			    like_date <= '${toDate}' AND like_date >= '${fromDate}'
+			  GROUP BY people_id
+			  ORDER BY like_num DESC
+			) pl ON p.people_id = pl.people_id)
+			WHERE
+			  ROWNUM <= 50
+		]]>
+	</select>
+	
 </mapper>
 

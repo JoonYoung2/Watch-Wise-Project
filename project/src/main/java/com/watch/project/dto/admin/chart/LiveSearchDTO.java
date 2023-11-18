@@ -1,4 +1,4 @@
-package com.watch.project.dto.admin;
+package com.watch.project.dto.admin.chart;
 
 import lombok.Data;
 

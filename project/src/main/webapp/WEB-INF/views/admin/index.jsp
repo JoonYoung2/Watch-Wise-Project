@@ -7,14 +7,92 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/resources/css/admin/auto-table.css">
 <link rel="stylesheet" href="/resources/css/admin/index.css">
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
+	
 	<%@ include file="./include/header.jsp" %>
+	
 	<% int liveCnt = 0; %>
+	
 	<div align="center" class="index-page">
-		<div class="page-width" style="display:flex;">
+		<br><br>
+		<div class="page-menu">
+			<div class="menus" onclick="menuClick(0)">
+				인기 영화 순위
+			</div>
+			<div class="menus" onclick="menuClick(1)">
+				인기 배우 순위
+			</div>
+			<div class="menus" onclick="menuClick(2)">
+				실시간 인기 검색어
+			</div>
+			<div class="menus" onclick="menuClick(3)">
+				회원 동향
+			</div>
+		</div>
+		
+		<% int movieCnt = 1; %>
+		<!-- 인기 영화 -->
+		<div class="page-width">
+			<div style="position:relative;">
+				<div id="movie-left-btn" class="movie-left-btn">◁</div>
+				<div id="movie-right-btn" class="movie-right-btn">▷</div>
+				<div style="display:flex; justify-content:space-around;">
+					<c:forEach var="list" items="${ movieChart }">
+						<input type="hidden" class="movie-like-num" value="${ list.likeNum }">
+						<input type="hidden" class="movie-nm" value="${ list.movieNm }">
+						<div class="movie-poster" style="position:relative; display:none;">
+							<a href="movieInfo?movieId=${ list.movieId }">
+								<div>						
+									<img style="width:100px; height:146px;" src="${ list.posterUrl }">
+								</div>
+							</a>
+							<div style="position:absolute; width:20px; height:20px; border:1px solid rgba(0, 0, 0, 1); background-color: gray; color:white; top:0;">
+								<%= movieCnt++ %>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+				<div style="width:1000px">
+					<canvas id="bar-chart-movie"></canvas>
+				</div>
+			</div>
+		</div>
+		<!-- 인기 영화 -->
+		
+		<% int actorCnt = 1; %>
+		<!-- 인기 배우 -->
+		<div class="page-width">
+			<div style="position:relative;">
+				<div id="actor-left-btn" class="actor-left-btn">◁</div>
+				<div id="actor-right-btn" class="actor-right-btn">▷</div>
+				<div style="display:flex; justify-content:space-around;">
+					<c:forEach var="list" items="${ actorChart }">
+						<input type="hidden" class="actor-like-num" value="${ list.likeNum }">
+						<input type="hidden" class="actor-nm" value="${ list.peopleNm }">
+						<div class="actor-profile" style="position:relative; display:none;">
+							<a href="peopleInfo?peopleId=${ list.peopleId }">
+								<div>						
+									<img style="width:100px; height:146px;" src="${ list.profileUrl }">
+								</div>
+							</a>
+							<div style="position:absolute; width:20px; height:20px; border:1px solid rgba(0, 0, 0, 1); background-color: gray; color:white; top:0;">
+								<%= actorCnt++ %>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+				<div style="width:1000px;">
+					<canvas id="bar-chart-actor"></canvas>
+				</div>
+			</div>
+		</div>
+		<!-- 인기 배우 -->
+		
+		<!-- 실시간 인기 검색어 -->
+		<div class="page-width">
 			<div align="left" class="live-search-page">
 				<div onclick="liveSearchLeftBtn();" id="live-search-left-btn" class="live-search-left-btn">◁</div>
 				<div class="live-search-div">
@@ -33,6 +111,8 @@
 							</tr>
 						</c:if>
 						<c:forEach var="list" items="${ liveSearch }">
+							<input type="hidden" class="chart-live-search-content" value="${ list.content }">
+							<input type="hidden" class="chart-live-search-cnt" value="${ list.cnt }">
 							<tr class="live-search-content" style="display:none;">
 								<td class="table-width-75 live-search-contents">${ list.num }</td>
 								<td class="table-width-75 live-search-contents">${ list.cnt }</td>
@@ -46,10 +126,20 @@
 					<div onclick="liveSearchRightBtn();" id="live-search-right-btn" class="live-search-right-btn">▷</div>
 				<% } %>
 			</div>
-
+			<div style="width:600px; padding-left:100px;">
+				<canvas id="bar-chart-live-search"></canvas>
+			</div>
 		</div>
+		<!-- 실시간 인기 검색어 -->
+		
+		<!-- 회원 동향 -->
+		<div class="page-width">
+			
+		</div>
+		<!-- 회원 동향 -->
+		
+		
 	</div>
-
 	<script src="/resources/js/admin/index.js"></script>
 </body>
 </html>
