@@ -434,10 +434,10 @@
         	<span class="forAlertImg" style=" margin-top:10px;">
 		        <c:choose>
 		        <c:when test="${dto.isReported eq 0 }">
-	        		<img src="resources/img/alert.png" onclick="openModalForReport('${dto.userEmail }', '${dto.reviewComment}', '${movieInfo.movieId }', '${cnt }');" style="cursor:pointer; margin-left:10px; width:30px; vertical-align:-3px;">
+	        		<img src="resources/img/alert.png" onclick="openModalForReport('${dto.userEmail }', '${dto.reviewComment}', '${dto.id}', '${movieInfo.movieId }', '${cnt }');" style="cursor:pointer; margin-left:10px; width:30px; vertical-align:-3px;">
 		        </c:when>
 		        <c:otherwise>
-	        		<img src="resources/img/activatedAlert.png" onclick="cancelReportCheck('${dto.userEmail }', '${dto.reviewComment}', '${movieInfo.movieId }', '${cnt}');" style="cursor:pointer; margin-left:10px; width:30px; vertical-align:-3px;">
+	        		<img src="resources/img/activatedAlert.png" onclick="cancelReportCheck('${dto.userEmail }', '${dto.reviewComment}', '${dto.id}', '${movieInfo.movieId }', '${cnt}');" style="cursor:pointer; margin-left:10px; width:30px; vertical-align:-3px;">
 		        </c:otherwise>
 		        </c:choose>
         	</span>
@@ -473,6 +473,7 @@
 		<div>&nbsp 
 			<input type="hidden" id="storage-for-author" />
 			<input type="hidden" id="storage-for-comment" />
+			<input type="hidden" id="storage-for-comment-id" />
 			<input type="hidden" id="storage-for-movieId" />
 			<input type="hidden" id="storage-for-cnt"/>
 		</div>

@@ -14,8 +14,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.watch.project.dto.admin.AutoPagingDTO;
 import com.watch.project.dto.admin.BlackListDTO;
+import com.watch.project.dto.admin.BlackListWaitingDTO;
 import com.watch.project.dto.admin.MemberDTO;
 import com.watch.project.dto.admin.PagingConfigDTO;
+import com.watch.project.dto.admin.PagingDTO;
 import com.watch.project.dto.admin.TableInfoDTO;
 import com.watch.project.service.admin.AutoPagingService;
 import com.watch.project.service.admin.MemberService;
@@ -116,11 +118,11 @@ public class MemberController {
 	@RequestMapping("/list")
 	public String list(Model model, @RequestParam(defaultValue="1") int currentPage) {
 		List<LprodVO> list = this.lprodService.list();
-		logger.info("list.size() : " + list.size());
+
 		// 상품 분류별 거래처 목록 행의 수
 		int total = this.lprodService.listCount();
-		logger.info("total : " + total);
 		
+ 전체글 개수, 현재페이지, 한 화면에 출력해 줄 글 개수, 한 화면에 보여주는 페이징 숫자 개수, 전체글 리스트
 		model.addAttribute("list", new ArticlePage(total, currentPage, 7, 5, list));
 		
 		model.addAttribute("total", total);
@@ -131,7 +133,11 @@ public class MemberController {
 	 */
 	@GetMapping("/admin/black_list_waiting")
 	public String blackListWaiting(Model model, @RequestParam(defaultValue="1") int currentPage) {
-		List<BlackListDTO> list = service.getBlackListWaiting();
+		List<BlackListWaitingDTO> list = service.getBlackListWaiting();
+		int total = list.size();
+		model.addAttribute("list", new PagingDTO(total, currentPage, 10, 5, list));
+		model.addAttribute("total", total);
+		model.addAttribute("contentList", list);
 		return "admin/member/black_list_waiting";
 	}
 }

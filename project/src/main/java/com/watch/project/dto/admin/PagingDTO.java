@@ -21,11 +21,11 @@ public class PagingDTO {
 	// 페이징의 개수
 	private int pagingCount;
 	// 게시글 데이터
-	private List<BlackListDTO> content;
+	private List<BlackListWaitingDTO> content;
 	
 	// 생성자
 	// size : 한 화면에 보여질 행의 수
-	public PagingDTO(int total, int currentPage, int size, int pagingCount, List<BlackListDTO> content) {
+	public PagingDTO(int total, int currentPage, int size, int pagingCount, List<BlackListWaitingDTO> content) {
 		this.total = total;
 		this.currentPage = currentPage;
 		this.content = content;
@@ -91,7 +91,7 @@ public class PagingDTO {
 	}
 	
 	// 데이터 VO List 리턴
-	public List<BlackListDTO> getContent(){
+	public List<BlackListWaitingDTO> getContent(){
 		return this.content;
 	}
 	

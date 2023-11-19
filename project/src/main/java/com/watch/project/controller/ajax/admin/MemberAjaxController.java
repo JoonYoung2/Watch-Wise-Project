@@ -29,8 +29,8 @@ public class MemberAjaxController {
 	}
 	
 	@PostMapping("/reportComment")
-	public MsgOnlyResponse reportComment(@RequestParam("author") String authorEmail, @RequestParam("comment") String comment, @RequestParam("movieId") String movieId,@RequestParam("reason") String reason, RedirectAttributes redirectAttr) {
-		String msg = memberService.saveReport(authorEmail, comment, movieId, reason);
+	public MsgOnlyResponse reportComment(@RequestParam("author") String authorEmail, @RequestParam("comment") String comment, @RequestParam("commentId") String commentId, @RequestParam("movieId") String movieId,@RequestParam("reason") String reason, RedirectAttributes redirectAttr) {
+		String msg = memberService.saveReport(authorEmail, comment, commentId, movieId, reason);
 		redirectAttr.addFlashAttribute("msg", msg);
 		MsgOnlyResponse response = new MsgOnlyResponse(msg);
 		return response;

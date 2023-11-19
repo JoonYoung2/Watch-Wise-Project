@@ -6,7 +6,6 @@ import lombok.Getter;
 @Builder
 @Getter
 public class BlackListWaitingDTO {
-	private int num;
-	private String userEmail;
-	private int reportedCommentAmount;
+    private String authorEmail;
+    private int reportedCommentAmount;
 }

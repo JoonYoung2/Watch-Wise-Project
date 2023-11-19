@@ -1,6 +1,5 @@
 package com.watch.project.service.admin;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,13 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.watch.project.dto.admin.BlackListDTO;
+import com.watch.project.dto.admin.BlackListWaitingDTO;
 import com.watch.project.dto.admin.MemberDTO;
-import com.watch.project.dto.admin.MovieInfoDTO;
 import com.watch.project.dto.admin.PagingConfigDTO;
 import com.watch.project.repository.admin.AdminMemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
-import oracle.jdbc.OracleDatabaseException;
 @Slf4j
 @Service
 public class MemberService {
@@ -84,7 +82,7 @@ public class MemberService {
 		return msg;
 	}
 
-	public String saveReport(String authorEmail, String comment, String movieId, String reason) {
+	public String saveReport(String authorEmail, String comment, String commentId, String movieId, String reason) {
 		String msg = "해당 댓글이 신고되었습니다.";
 		int result = 0;
 		String email = (String) session.getAttribute("userEmail");
@@ -100,6 +98,7 @@ public class MemberService {
 		BlackListDTO dto = BlackListDTO.builder()
 				.id(id)
 				.reportedComment(comment)
+				.reportedCommentId(commentId)
 				.authorEmail(authorEmail)
 				.reporterEmail(email)
 				.reasonForReport(reason)
@@ -153,9 +152,9 @@ public class MemberService {
 		return msg;
 	}
 
-	public List<BlackListDTO> getBlackListWaiting() {
-//		List<BlackListDTO> result = repo.getBlackListDTO 여기부터 하면 된다아아아
-		return null;
+	public List<BlackListWaitingDTO> getBlackListWaiting() {
+		List<BlackListWaitingDTO> result = repo.getBlackListDTO();
+		return result;
 	}
 
 

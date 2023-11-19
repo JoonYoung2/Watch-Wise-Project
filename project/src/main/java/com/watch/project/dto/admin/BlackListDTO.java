@@ -8,6 +8,7 @@ import lombok.Getter;
 public class BlackListDTO {
 	private String id;
 	private String reportedComment;
+	private String reportedCommentId;
 	private String authorEmail;
 	private String reporterEmail;
 	private String reasonForReport;
