@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import com.watch.project.dto.ContentSearchingDTO;
 import com.watch.project.dto.LiveSearchDTO;
-import com.watch.project.dto.MemberConfigDTO;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.PeopleInfoDetailDTO;
 import com.watch.project.dto.movieInfoView.GradeInfoDTO;
@@ -75,7 +74,7 @@ public class SearchService {
 			queryMap.put("query", query);
 			queryMap.put("content", content);
 			queryMap.put("content2", content2);
-			log.info("query => {} content => {} content2 => {}", query, content, content2);
+			
 			movieInfoList = repo.searchingStep2(queryMap);
 			
 			for(int i = 0; i < movieInfoList.size(); ++i) {

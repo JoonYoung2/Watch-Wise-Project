@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.watch.project.dto.ContentSearchingDTO;
 import com.watch.project.dto.LiveSearchDTO;
 import com.watch.project.dto.MovieInfoDTO;
-import com.watch.project.dto.PeopleInfoDetailDTO;
 import com.watch.project.dto.searchView.MovieInfoSearchViewDTO;
 import com.watch.project.dto.searchView.PeopleInfoSearchViewDTO;
 import com.watch.project.service.PeopleInfoService;
