@@ -10,7 +10,7 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
-<body style=" height: 100%; margin: 0; ">
+<body>
 <%@ include file="/WEB-INF/views/header.jsp" %>
 <c:set var="gradeNum" value="${ gradeInfo.gradeAvg } + ''"/>
 <input type="hidden" id="reviewScore" value="${ ifWroteComment.reviewScore }">

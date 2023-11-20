@@ -2,6 +2,8 @@ package com.watch.project.controller.member;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.watch.project.dto.LiveSearchDTO;
 import com.watch.project.dto.MemberDTO;
+import com.watch.project.service.SearchService;
 import com.watch.project.service.member.CommonMemberService;
 import com.watch.project.service.member.LocalMemberService;
 
@@ -23,30 +27,33 @@ import lombok.RequiredArgsConstructor;
 public class LocalMemberController {
 	private final LocalMemberService service;
 	private final CommonMemberService common;
+	private final SearchService searchService;
 	
 
 	@GetMapping("/checkEmail")
 	public String checkEmail(Model model) {
+		searchService.searchModel(model);
 		model.addAttribute("msg", "이메일 인증 과정이 필요합니다. 본인의 이메일 주소를 입력해주세요.");
 		return "member/local_member/email_form";
 	}
 	@GetMapping("/signUp")
-	public String signUp() {
+	public String signUp(Model model) {
+		
+		searchService.searchModel(model);
 		return "member/local_member/sign_up";
 	}
 	
 	@PostMapping("/signUpDo")
 	public String SignUpDo(MemberDTO dto, @RequestParam("pwCh") String pwCh, HttpServletResponse res, Model model) throws IOException {
-		System.out.println("dkdkdkdkd"+dto.getUserEmail());
-		System.out.println("dkdkdkdkd"+dto.getUserPw());
-		System.out.println("dkdkdkdkd"+dto.getUserName());
 		String msg = service.SignUpDo(dto, pwCh);
+		
 		if(msg.equals("회원가입이 완료되었습니다.")) {
 			String script = service.getAlertLocation(msg, "/signIn");  
 			res.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = res.getWriter();
 			out.print(script); 
 		}else {
+			searchService.searchModel(model);
 			model.addAttribute("dto", dto);
 			model.addAttribute("msg", msg);
 			return "member/local_member/sign_up";			
@@ -60,6 +67,7 @@ public class LocalMemberController {
 	public String signInCheck(MemberDTO dto, HttpServletResponse res, HttpSession session, RedirectAttributes attr, Model model) throws IOException {
 		String msg = service.signInCheck(dto);
 		if(msg !="환영합니다.") { //로그인시 입력한 정보가 올바르지 않을 경우
+			searchService.searchModel(model);
 			model.addAttribute("msg", msg);
 			model.addAttribute("dto", dto);
 			return "member/sign_in";
@@ -80,7 +88,8 @@ public class LocalMemberController {
 	
 	
 	@GetMapping("/unregister")
-	public String unregister() {
+	public String unregister(Model model) {
+		searchService.searchModel(model);
 		return "member/local_member/unregister_form";
 	}
 	
@@ -88,6 +97,7 @@ public class LocalMemberController {
 	public String passwordCh(MemberDTO dto, Model model, HttpSession session, RedirectAttributes redirectAttr) throws IOException {
 		String msg = service.pwCh(dto);
 		if(msg != "회원탈퇴가 완료되었습니다.") {//탈퇴과정에 문제가 있으면
+			searchService.searchModel(model);
 			model.addAttribute("msg", msg);
 			return "member/local_member/unregister_form";
 		}else { //탈퇴 성공시
@@ -97,15 +107,9 @@ public class LocalMemberController {
 		}
 	}
 	
-//	@GetMapping("/localMemberInfo")
-//	public String localMemberInfo(HttpSession session, Model model) {
-//		MemberDTO memberInfo = common.getMemberInfoByEmail((String)session.getAttribute("userEmail"));
-//		model.addAttribute("dto", memberInfo);
-//		return "member/local_member/member_info";
-//	}
-	
 	@GetMapping("/pwCheck")
-	public String pwCheck() {
+	public String pwCheck(Model model) {
+		searchService.searchModel(model);
 		return "member/local_member/pw_check";
 	}
 	
@@ -113,6 +117,7 @@ public class LocalMemberController {
 	public String verifyPw(MemberDTO dto, Model model, RedirectAttributes redirectAttr) {
 		String msg = service.getMsgAndCompare(dto);
 		if(msg != "인증되었습니다.") {
+			searchService.searchModel(model);
 			model.addAttribute("msg", msg);
 			return "member/local_member/pw_check";
 		}else {
@@ -124,6 +129,8 @@ public class LocalMemberController {
 	@GetMapping("/localMemberInfoModify")
 	public String localMemberInfoModify(HttpSession session, Model model) {
 		MemberDTO memberInfo = common.getMemberInfoByEmail((String)session.getAttribute("userEmail"));
+		
+		searchService.searchModel(model);
 		model.addAttribute("dto", memberInfo);
 		return "member/local_member/member_info_modify";
 	}
@@ -133,6 +140,7 @@ public class LocalMemberController {
 		if(!(dto.getUserPw()==null||dto.getUserPw().equals(""))) {//비밀번호도 수정란에 입력한 경우
 			String msg = service.getMsgAndUpdate(dto, pwCh);
 			if(msg != "정보 수정이 완료되었습니다.") {
+				searchService.searchModel(model);
 				model.addAttribute("msg", msg);
 				model.addAttribute("dto", dto);
 				return "member/local_member/member_info_modify"; 
@@ -145,6 +153,7 @@ public class LocalMemberController {
 				redirectAttr.addFlashAttribute("msg", msg);
 				return "redirect:/memberInfo";			
 			} else {
+				searchService.searchModel(model);
 				model.addAttribute("msg", msg);
 				return "member/local_member/member_info_modify";
 			}

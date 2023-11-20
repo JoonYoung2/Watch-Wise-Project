@@ -12,9 +12,9 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/header.jsp" %>
+<br><br>
 <c:set var="imgWidth" value="300"/>
 <c:set var="imgHeight" value="428.16"/>
-<br><br>
 <div align="center" style="width:100%;">
 	<div align="center" style="width:80%;">
 <!-- 		<div align="left" style="width:100%; padding-bottom:10px;"><span style="font-size:30px; font-weight:bold;">프로필</span></div> -->

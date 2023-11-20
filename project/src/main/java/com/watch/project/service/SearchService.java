@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.binding.BindingException;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.watch.project.dto.ContentSearchingDTO;
 import com.watch.project.dto.LiveSearchDTO;
@@ -316,6 +317,42 @@ public class SearchService {
 	 */
 	public void deleteSearchHistory(String ids) {
 		repo.deleteSearchHistory(ids);
+	}
+	
+	/*
+	 * 검색어 관련 Model
+	 */
+	public void searchModel(Model model) {
+		/*
+		 * 최근 검색어
+		 */
+		String[] recentSearches = recentSearchesByUserEmail();
+		
+		/*
+		 * 최근 6개월 간 인기 검색어
+		 */
+		String[] popularSearches = popularSearches();
+		
+		/*
+		 * 실시간 검색어
+		 */
+		List<LiveSearchDTO> liveSearchList = getLiveSearchList();
+		
+		/*
+		 * 최근 검색어 + 인기 검색어 크기
+		 */
+		int recentSearchesSize = -1;
+		
+		try {
+			recentSearchesSize = recentSearches.length;			
+		}catch(NullPointerException e) {
+			
+		}
+		
+		model.addAttribute("recentSearches", recentSearches);
+		model.addAttribute("popularSearches", popularSearches);
+		model.addAttribute("liveSearch", liveSearchList);
+		model.addAttribute("recentSearchesSize", recentSearchesSize);
 	}
 	
 	/*

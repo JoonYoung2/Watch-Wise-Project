@@ -19,8 +19,10 @@
 			<c:if test="${ not empty msg }">
 				<span style="color:red;">${ msg }</span><br><br><br>
 			</c:if>
-			<!-- order by href 수정 -->
-			<a href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/<!-- orderByColumn -->/1?query=">ID 순</a>
+			<!-- order by href 수정 및 추가 -->
+			<div class="auto-table-menu-header">
+				<a class="auto-table-menu" href="추가"><div class="auto-table-menu-div">추가</div></a>
+			</div>
 			<br><br><br>
 			
 			<table>

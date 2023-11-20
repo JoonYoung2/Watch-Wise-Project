@@ -19,8 +19,11 @@
 			<c:if test="${ not empty msg }">
 				<span style="color:red;">${ msg }</span><br><br><br>
 			</c:if>
-			
-			<a href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/people_id/1?query=">ID순</a> | <a href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/people_nm/1?query=">이름 순</a> | <a href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/like_num/1?query=">좋아요 순</a>
+			<div class="auto-table-menu-header">
+				<a class="auto-table-menu" href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/people_id/1?query="><div class="auto-table-menu-div">ID</div></a>
+				<a class="auto-table-menu" href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/people_nm/1?query="><div class="auto-table-menu-div">이름</div></a>
+				<a class="auto-table-menu" href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/like_num/1?query="><div class="auto-table-menu-div">좋아요</div></a>			
+			</div>
 			<br><br><br>
 			
 			<table>

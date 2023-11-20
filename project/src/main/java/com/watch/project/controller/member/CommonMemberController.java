@@ -1,6 +1,7 @@
 package com.watch.project.controller.member;
 
 import java.security.Provider.Service;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.watch.project.dto.LiveSearchDTO;
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.repository.SearchRepository;
 import com.watch.project.service.SearchService;
@@ -40,6 +42,9 @@ public class CommonMemberController {
 	public String selectSignUpType(Model model, HttpSession session) {
         String naverUrl = naverService.getAuthorizationUrl(session);
         String googleUrl = googleService.getAuthorizationUrl(session);
+        
+		
+        searchService.searchModel(model);
         model.addAttribute("naverLoginUrl", naverUrl);
         model.addAttribute("googleLoginUrl", googleUrl);
 		return "member/select_sign_up_type";
@@ -49,6 +54,8 @@ public class CommonMemberController {
 	public String SignIn(Model model, HttpSession session) {
         String naverUrl = naverService.getAuthorizationUrl(session);
         String googleUrl = googleService.getAuthorizationUrl(session);
+		
+        searchService.searchModel(model);
         model.addAttribute("naverLoginUrl", naverUrl);
         model.addAttribute("googleLoginUrl", googleUrl);
 		return "member/sign_in";
@@ -67,27 +74,19 @@ public class CommonMemberController {
 		}catch(BindingException e) {
 		}
 		
-		/*
-		 * 최근 검색어
-		 */
-		String[] recentSearches = searchService.recentSearchesByUserEmail();
-		
-		/*
-		 * 최근 6개월 간 인기 검색어
-		 */
-		String[] popularSearches = searchService.popularSearches();
-		
-		model.addAttribute("recentSearches", recentSearches);
-		model.addAttribute("popularSearches", popularSearches);
+		searchService.searchModel(model);
 		model.addAttribute("dto", memberInfo);
 		model.addAttribute("map", numbers);
 		model.addAttribute("searchHistory", searchHistory);
+		
 		return "member/member_info/member_info";
 	}
 	
 	@GetMapping("/socialMemberInfoModify")
 	public String MemberInfoModify(HttpSession session, Model model) {
 		MemberDTO memberInfo = common.getMemberInfoByEmail((String)session.getAttribute("userEmail"));
+		
+		searchService.searchModel(model);
 		model.addAttribute("dto", memberInfo);
 		return "member/social_member/member_info_modify";
 	}
@@ -99,6 +98,7 @@ public class CommonMemberController {
 			redirectAttr.addFlashAttribute("msg", msg);
 			return "redirect:/memberInfo";			
 		} else {
+			searchService.searchModel(model);
 			model.addAttribute("msg", msg);
 			return "member/social_member/member_info_modify";
 		}

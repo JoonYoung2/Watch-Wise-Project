@@ -47,40 +47,14 @@ public class HomeController {
 		 */
 		List<MovieInfoDTO> recentlyReleasedForeignMovies = service.recentlyReleasedForeignMovies();
 		
-		/*
-		 * 최근 검색어
-		 */
-		String[] recentSearches = searchService.recentSearchesByUserEmail();
 		
-		/*
-		 * 최근 6개월 간 인기 검색어
-		 */
-		String[] popularSearches = searchService.popularSearches();
-		
-		/*
-		 * 실시간 검색어
-		 */
-		List<LiveSearchDTO> liveSearchList = searchService.getLiveSearchList();
-		
-		/*
-		 * 최근 검색어 크기
-		 */
-		int recentSearchesSize = -1;
-		
-		try {
-			recentSearchesSize = recentSearches.length;			
-		}catch(NullPointerException e) {
-			
-		}
 		
 		movieInfoMap.put("upcoming", upcomingMovies);
 		movieInfoMap.put("recentlyKorea", recentlyReleasedKoreanMovies);
 		movieInfoMap.put("recentlyForeign", recentlyReleasedForeignMovies);
-		model.addAttribute("liveSearch", liveSearchList);
+		
+		searchService.searchModel(model);
 		model.addAttribute("movieInfoMap", movieInfoMap);
-		model.addAttribute("recentSearches", recentSearches);
-		model.addAttribute("popularSearches", popularSearches);
-		model.addAttribute("recentSearchesSize", recentSearchesSize);
 		
 		return "basic/home"; 
 	}

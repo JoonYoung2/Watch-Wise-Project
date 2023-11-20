@@ -8,15 +8,6 @@
 <title>Insert title here</title>
 <script src="/resources/js/common.js"></script>
 <script src="/resources/js/search_common.js"></script>
-<!-- <script type="text/javascript">
- function confirmUnregister(){
- 	var confirmation = confirm("Á¤¸» Å»ÅðÇÏ½Ã°Ú½À´Ï±î?");
- 	if(confirmation){
- 		document.getElementById('unregisterForm').submit();
- 	}
- 	return confirmation;
- }
-</script> -->
 </head>
 <body>
 <%@ include file="/WEB-INF/views/header.jsp" %>
