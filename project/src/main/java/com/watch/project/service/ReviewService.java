@@ -19,10 +19,13 @@ import com.watch.project.dto.memberInfo.MyScoredListDTO;
 import com.watch.project.dto.CommentLikedUsersDTO;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.MovieReviewDTO;
+import com.watch.project.dto.admin.BlackListDTO;
 import com.watch.project.dto.memberInfo.LikedCommentListDTO;
 import com.watch.project.dto.memberInfo.ReviewListDTO;
 import com.watch.project.repository.MovieInfoRepository;
 import com.watch.project.repository.ReviewRepository;
+import com.watch.project.repository.admin.AdminMemberRepository;
+import com.watch.project.service.admin.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -34,6 +37,9 @@ public class ReviewService {
 	private HttpSession session;
 	@Autowired
 	private MovieInfoRepository movieInfoRepo;
+	@Autowired 
+	private AdminMemberRepository adminMemberRepo;
+
 
 	public String insertOrUpdateScore(String movieId, float rating) {
 		String msg = "";
@@ -149,14 +155,20 @@ public class ReviewService {
 	public List<MovieReviewDTO> getEveryCommentForThisMovie(String movieId) {
 		List<MovieReviewDTO> comments = repo.selectComments(movieId);
 		for(MovieReviewDTO comment : comments) {
-			String CommentLikedUsersDtoId = comment.getId() + (String)session.getAttribute("userEmail");
+			String CommentIdPlusUserEmail = comment.getId() + (String)session.getAttribute("userEmail");
 			
-			CommentLikedUsersDTO likedComment = repo.selectLikedComment(CommentLikedUsersDtoId);
-		
+			CommentLikedUsersDTO likedComment = repo.selectLikedComment(CommentIdPlusUserEmail);
 			if(likedComment != null) {
-				comment.setIsLiked(1);
+				comment.setIsLiked(1); //좋아한 코멘트
 			}else {
-				comment.setIsLiked(0);
+				comment.setIsLiked(0); //좋아하지 않은 코멘트
+			}
+			
+			BlackListDTO blackListDto = adminMemberRepo.checkIfReported(CommentIdPlusUserEmail);
+			if(blackListDto != null) {
+				comment.setIsReported(1); //신고한 코멘트
+			}else {
+				comment.setIsReported(0); //신고하지 않은 코멘트
 			}
 		}
 		return comments;

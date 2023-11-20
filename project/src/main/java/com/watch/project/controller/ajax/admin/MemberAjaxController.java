@@ -29,15 +29,15 @@ public class MemberAjaxController {
 	}
 	
 	@PostMapping("/reportComment")
-	public MsgOnlyResponse reportComment(@RequestParam("author") String authorEmail, @RequestParam("comment") String comment, @RequestParam("movieId") String movieId,@RequestParam("reason") String reason, RedirectAttributes redirectAttr) {
-		String msg = memberService.saveReport(authorEmail, comment, movieId, reason);
+	public MsgOnlyResponse reportComment(@RequestParam("author") String authorEmail, @RequestParam("comment") String comment, @RequestParam("commentId") String commentId, @RequestParam("movieId") String movieId,@RequestParam("reason") String reason, RedirectAttributes redirectAttr) {
+		String msg = memberService.saveReport(authorEmail, comment, commentId, movieId, reason);
 		redirectAttr.addFlashAttribute("msg", msg);
 		MsgOnlyResponse response = new MsgOnlyResponse(msg);
 		return response;
 	}	
 	
 	@GetMapping("/cancelReport")
-	public MsgOnlyResponse cancelReport(@RequestParam("movieId") String movieId, @RequestParam("author") String author) {
+	public MsgOnlyResponse cancelReport(@RequestParam("movieId") String movieId, @RequestParam("userEmail") String author) {
 		log.info("movieId => {}", movieId);
 		log.info("author => {}", author);
 		String msg = memberService.deleteReportedDatas(movieId, author);

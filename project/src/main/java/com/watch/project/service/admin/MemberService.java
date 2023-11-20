@@ -1,6 +1,5 @@
 package com.watch.project.service.admin;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,13 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.watch.project.dto.admin.BlackListDTO;
+import com.watch.project.dto.admin.BlackListWaitingDTO;
 import com.watch.project.dto.admin.MemberDTO;
-import com.watch.project.dto.admin.MovieInfoDTO;
 import com.watch.project.dto.admin.PagingConfigDTO;
 import com.watch.project.repository.admin.AdminMemberRepository;
 
-import oracle.jdbc.OracleDatabaseException;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Service
 public class MemberService {
 	@Autowired private AdminMemberRepository repo;
@@ -83,7 +82,7 @@ public class MemberService {
 		return msg;
 	}
 
-	public String saveReport(String authorEmail, String comment, String movieId, String reason) {
+	public String saveReport(String authorEmail, String comment, String commentId, String movieId, String reason) {
 		String msg = "해당 댓글이 신고되었습니다.";
 		int result = 0;
 		String email = (String) session.getAttribute("userEmail");
@@ -99,6 +98,7 @@ public class MemberService {
 		BlackListDTO dto = BlackListDTO.builder()
 				.id(id)
 				.reportedComment(comment)
+				.reportedCommentId(commentId)
 				.authorEmail(authorEmail)
 				.reporterEmail(email)
 				.reasonForReport(reason)
@@ -124,13 +124,17 @@ public class MemberService {
 	}
 
 	public String deleteReportedDatas(String movieId, String author) {
+		
 		int result = 0;
 		String msg ="신고가 취소되었습니다.";
 		String email = (String) session.getAttribute("userEmail");
 		String id = movieId + author + email;
-		
+		log.info("여기야1 author===>{}", author); //얘가 값이 없어.
+		log.info("여기야2 email===>{}", email);
+
 		BlackListDTO dto = BlackListDTO.builder()
 				.id(id).build();
+		log.info("여기야3 ===>{}", dto.getId());
 		
 		 try {
 		        BlackListDTO db = repo.checkIfExist(dto);
@@ -139,12 +143,19 @@ public class MemberService {
 		            result = repo.deleteReportedDatas(dto);
 		        } else {
 		            // 저장된 데이터가 없는 경우
-		            msg = "아직 신고하지 않은 댓글입니다.";
+		            msg = "아직 신고하지 않은 댓글1111111입니다.";///////
 		        }
 		    } catch (NullPointerException e) {
 		        // checkIfExist 메서드에서 예외 발생 시, 저장된 데이터가 없다고 간주
-	            msg = "아직 신고하지 않은 댓글입니다.";
+	            msg = "아직 신고하지 않은 댓글22222222입니다.";
 		    }
 		return msg;
 	}
+
+	public List<BlackListWaitingDTO> getBlackListWaiting() {
+		List<BlackListWaitingDTO> result = repo.getBlackListDTO();
+		return result;
+	}
+
+
 }
