@@ -12,11 +12,11 @@
 <%@ include file="../include/header.jsp" %>
 <hr style="border:1px solid #ccc;">
 
-<div style="margin-left:20px;">
+<div style="">
 	<a href="/admin/black_list_waiting?currentPage=${pageNum}">
 		<img src="resources/img/back.png" style="width:20px; margin-top:20px;">
 	</a>
-	<div style="width:390px; margin: 0 auto;">
+	<div style="margin: 0 auto; text-align:center; background-color:grey;">
 		<h3>${email }이 작성한 코멘트들</h3>
 		<br>
 	</div>
@@ -24,17 +24,11 @@
 
 <div style=" z-index: 0;">
 	<c:set var="cntForComment" value="0"/>
-	<c:forEach var="list" items="${reviewList}">
-   <c:if test="${list.reviewComment != 'nan' }">
+	<c:forEach var="list" items="${commentList}">
 	<div class="movie-card">
 		<div class="movie-info">
 			<span style="margin-left: 10px;cursor: pointer;" onclick="moveToMovieInfo('${list.movieId }');">
-				<img style="width:60px; height:auto;" src="${list.posterUrl }">
-			</span>
-			<span style="margin-left: 10px;cursor: pointer;" onclick="moveToMovieInfo('${list.movieId }');">
 				<b style="font-size:17px;">${list.movieNm }</b><br>
-				${list.movieNmEn}<br>
-				${list.genreNm }
 			</span>
 			<span style="margin-left:auto;">
 				<img class="openModalButton" onclick="openModal('${list.movieNm }', '${list.movieId}', '${list.reviewComment}', '${cntForComment}');" src="resources/img/thinPencil.png" style="cursor:pointer; width:20px;"/>
@@ -53,12 +47,12 @@
 			        </c:if>
 		        </span>
 		           <span class="date">${list.userEmail } </span><br>
-		            <b>${list.reviewComment}</b> <br>
-		            <span class="date">${list.reviewCommentDate} </span>
+		            <b>${list.reportedComment}</b> <br>
+		            <span class="date">${list.commentWrittenDate} </span>
 	        </span>
 	        <span style="margin-right:14px;">
 		        <span>
-			        <img style="width:20px; vertical-align:-5px;" src="resources/img/likeColor.png"> 
+			        <img style="width:20px; vertical-align:-5px;" src="resources/img/activatedAlert.png"> 
 			        <span> x </span>
 			        <span class="comment_like_count" style="vertical-align:-1px;">${list.reviewCommentLikes }</span>
 	        	</span>
@@ -77,7 +71,6 @@
 	    </div>   
 	</div>
         <c:set var="cntForComment" value="${ cntForComment+1 }"/>
-	    </c:if>
 	</c:forEach>
 </div>
 

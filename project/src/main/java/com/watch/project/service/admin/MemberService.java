@@ -82,6 +82,7 @@ public class MemberService {
 		return msg;
 	}
 
+	
 	public String saveReport(String authorEmail, String comment, String commentId, String movieId, String reason) {
 		String msg = "해당 댓글이 신고되었습니다.";
 		int result = 0;
@@ -93,16 +94,28 @@ public class MemberService {
 		Date currentDate = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formattedDate = sdf.format(currentDate);
-        // reason for report setting
-
-		BlackListDTO dto = BlackListDTO.builder()
+        // movie_nm 가져오기
+        String movieNm = repo.getMovieNmByMovieId(movieId);
+        //comment_written_date 가져오기
+        String commentDate = repo.getCommentDateByCommentId(commentId);
+        System.out.println("commentDate ==>:"+commentDate);
+        //review_score 가져오기
+        float score = repo.getReviewScore(commentId);
+        
+		BlackListDTO dto =
+				BlackListDTO.builder()
 				.id(id)
 				.reportedComment(comment)
 				.reportedCommentId(commentId)
 				.authorEmail(authorEmail)
 				.reporterEmail(email)
 				.reasonForReport(reason)
-				.reportedDate(formattedDate).build();
+				.reportedDate(formattedDate)
+				.movieNm(movieNm)
+				.commentWrittenDate(commentDate)
+				.movieId(movieId)
+				.reviewScore(result)
+				.build();
 		 try {
 		        BlackListDTO db = repo.checkIfExist(dto);
 		        if (db != null) {
@@ -129,10 +142,11 @@ public class MemberService {
 		String msg ="신고가 취소되었습니다.";
 		String email = (String) session.getAttribute("userEmail");
 		String id = movieId + author + email;
-		log.info("여기야1 author===>{}", author); //얘가 값이 없어.
+		log.info("여기야1 author===>{}", author);
 		log.info("여기야2 email===>{}", email);
 
-		BlackListDTO dto = BlackListDTO.builder()
+		BlackListDTO dto = 
+				BlackListDTO.builder()
 				.id(id).build();
 		log.info("여기야3 ===>{}", dto.getId());
 		
@@ -174,6 +188,19 @@ public class MemberService {
 			System.out.println("list ==>"+log.getRowNum());
 		}
 		return result;
+	}
+
+	public List<BlackListDTO> getReportedComments(String email) {
+		List<BlackListDTO> finalList = new ArrayList<>();
+		List<String> commentIds = repo.getReportedCommentIds(email);
+		for(String commentId : commentIds) {
+			log.info("id => {}", commentId);
+			List<BlackListDTO> result = repo.getReportedCommentDatas(commentId); 
+			//movie_nm, reported_comment, comment_written_date, reported_amount
+			log.info("id2 => {}", commentId);
+//			finalList.add(result);
+		}
+		return finalList;
 	}
 
 
