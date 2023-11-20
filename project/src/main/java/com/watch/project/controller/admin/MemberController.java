@@ -132,12 +132,23 @@ public class MemberController {
 	}
 	 */
 	@GetMapping("/admin/black_list_waiting")
-	public String blackListWaiting(Model model, @RequestParam(defaultValue="1") int currentPage) {
+	public String blackListWaiting(Model model, @RequestParam("currentPage") int currentPage) {
+		System.out.println("controller로 옴. crrentPage --> "+currentPage);
 		List<BlackListWaitingDTO> list = service.getBlackListWaiting();
 		int total = list.size();
-		model.addAttribute("list", new PagingDTO(total, currentPage, 10, 5, list));
+		List<BlackListWaitingDTO> currentPageList = service.getCurrentPageList(currentPage, total);
+		model.addAttribute("list", new PagingDTO(total, currentPage, 15, 10, list));
 		model.addAttribute("total", total);
 		model.addAttribute("contentList", list);
+		model.addAttribute("showDatas", currentPageList);
+		model.addAttribute("pageNum", currentPage);
 		return "admin/member/black_list_waiting";
+	}
+	
+	@GetMapping("/admin/showReportedComments")
+	public String showReportedComments(@RequestParam("authorEmail") String email, @RequestParam("pageNum") int pageNum, Model model) {
+		model.addAttribute("email", email);
+		model.addAttribute("pageNum", pageNum);
+		return "admin/member/reported_comments";
 	}
 }

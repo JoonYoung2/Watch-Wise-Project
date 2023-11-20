@@ -18,7 +18,7 @@
 				</div>
 				<div class="header-view-div">
 					<a href="/admin/pagingConfig">PagingConfig</a><a href="/admin/movie_list/movie_info/movie_id/1?query=">Movies</a><a href="/admin/actor_list/people_info_detail/people_id/1?query=">Actors</a>
-					<a href="/admin/member_list/member_info/id/1?query=">Members</a><a href="/admin/black_list_waiting">Suspected for Blacklisting</a>
+					<a href="/admin/member_list/member_info/id/1?query=">Members</a><a href="/admin/black_list_waiting?currentPage=1">Suspected for Blacklisting</a>
 				</div>
 				<div class="header-logout-div" >
 					<a href="/admin/logout" class="header-logout">로그아웃</a>

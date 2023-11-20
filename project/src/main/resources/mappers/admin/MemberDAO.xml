@@ -25,6 +25,7 @@
 	</resultMap>
 	
 	<resultMap type="com.watch.project.dto.admin.BlackListWaitingDTO" id="blackListWaiting">
+		<result property="rowNum" column="row_num"/>
 		<result property="authorEmail" column="author_email"/>
 		<result property="reportedCommentAmount" column="reported_comment_amount"/>
 	</resultMap>
@@ -69,5 +70,15 @@
 	
 	<select id="getBlackListDTO" resultMap="blackListWaiting">
 		SELECT author_email, COUNT(reported_comment_id) AS reported_comment_amount FROM black_list GROUP BY author_email
+	</select>
+	
+	<select id="getCurrentPageList" resultMap="blackListWaiting">
+		SELECT row_num, author_email, reported_comment_amount
+			FROM (
+    			SELECT author_email, COUNT(reported_comment_id) AS reported_comment_amount, ROW_NUMBER() OVER (ORDER BY COUNT(reported_comment_id) DESC) AS row_num
+    				FROM black_list GROUP BY author_email
+			)
+			WHERE row_num BETWEEN #{startRow} AND #{endRow} AND row_num &lt;= #{totalRows}
+
 	</select>
 </mapper>

@@ -7,33 +7,54 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/resources/css/home.css">
 <title>Insert title here</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
-	<%@ include file="../include/header.jsp" %>
-	
-	<div>
-		<h3 style="text-align:center;">블랙리스트 대기 명단</h3>
-	</div>
-	<div>
-<!-- 		${contentList } -->
-	</div>
+<%@ include file="../include/header.jsp" %>
+<hr style="border:1px solid #ccc;">
 
-<div class="col-sm-12 col-md-7">
-	<div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
-		<ul class="pagination">
-			<!-- Previous 시작 -->
-			<li class="paginate_button page-item previous <c:if test='${list.startPage<6 }'>disabled</c:if>" id="dataTable_previous"><a href="/admin/black_list_waiting?currentPage=${list.startPage-5 }" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
-			<!-- Previous 끝 -->
-			<!-- Page번호 시작 -->
-			<c:forEach var="pNo" begin="${list.startPage }" end="${list.endPage }" step="1">
-				<li class="paginate_button page-item  <c:if test='${param.currentPage eq pNo }'>active</c:if>"><a href="/admin/black_list_waiting?currentPage=${pNo }" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">${pNo }</a></li>
-			</c:forEach>
-			<!-- Page번호 끝 -->
-			<!-- Next 시작 -->
-			<li class="paginate_button page-item next <c:if test='${list.endPage>=list.totalPages }'>disabled</c:if>" id="dataTable_next"><a href="/admin/black_list_waiting?currentPage=${list.startPage+5 }" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
-			<!-- Next 끝 -->
-		</ul>
+	<div>
+		<h4 style="text-align:center;">블랙리스트 대기 명단</h4>
 	</div>
+	<br>
+	<div style="width:600px; height:500px;margin: 0 auto;">
+		<table border="1" style="width:100%; text-align:center;">
+			<tr style="background-color:lightgrey;">
+				<th style="width:50px;">No.</th><th style="width:300px;">유저 이메일 주소</th><th>신고된 댓글</th><th>블랙리스트 적용</th>
+			</tr>
+			<c:forEach var="show" items="${showDatas}">
+				<tr onmouseover="this.style.backgroundColor='lightgrey'" onmouseout="this.style.backgroundColor='transparent'">
+					<td>${show.rowNum }</td>
+					<td>${show.authorEmail }</td>
+					<td><a href="/admin/showReportedComments?authorEmail=${show.authorEmail }&pageNum=${pageNum}">${show.reportedCommentAmount }</a></td>
+					<td style="text-align:center;"> <button style="width:60px; height:25px; cursor:pointer; font-size:12px;">적용</button> </td>
+				</tr>
+			</c:forEach>
+		</table>
+
+	</div>
+<div style="width:300px; height:50px; text-align:center; margin-left:41%;">
+<div class="container">	
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item previous">
+                <a class="page-link" href="/admin/black_list_waiting?currentPage=${list.startPage-15}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <c:forEach var="pNo" begin="${list.startPage}" end="${list.endPage}" step="1">
+                <li class="page-item <c:if test='${param.currentPage eq pNo}'>active</c:if>">
+                    <a class="page-link" href="/admin/black_list_waiting?currentPage=${pNo}">${pNo}</a>
+                </li>
+            </c:forEach>
+            <li class="page-item next">
+                <a class="page-link" href="/admin/black_list_waiting?currentPage=${list.startPage+15}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
 </div>
 </body>
 </html>

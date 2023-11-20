@@ -157,5 +157,24 @@ public class MemberService {
 		return result;
 	}
 
+	public List<BlackListWaitingDTO> getCurrentPageList(int currentPage, int total) {
+		int startRow = (15*currentPage)-14;
+		int endRow = startRow + 14;
+		int totalRows = total;
+		
+		Map<String, Integer> map = new HashMap<>();
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		map.put("totalRows", totalRows);
+		
+		List<BlackListWaitingDTO> result = repo.getCurrentPageList(map);
+		
+		for(BlackListWaitingDTO log : result) {
+			System.out.println("list ==>"+log.getAuthorEmail());
+			System.out.println("list ==>"+log.getRowNum());
+		}
+		return result;
+	}
+
 
 }
