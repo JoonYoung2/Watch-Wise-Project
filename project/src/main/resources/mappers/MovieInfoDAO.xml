@@ -32,6 +32,15 @@
 		<result column="like_date" property="likeDate"/>
 	</resultMap>
 	
+	<resultMap type="com.watch.project.dto.movieInfoView.ChartMovieScoreDTO" id="chartMovie">
+		<result column="review_score" property="reviewScore"/>
+		<result column="cnt" property="cnt"/>
+	</resultMap>
+	
+	<select id="getChartMovieScoreByMovieId" resultMap="chartMovie">
+		SELECT review_score, COUNT(review_score) AS cnt FROM (SELECT * FROM movie_review WHERE movie_id=#{movieId} AND NOT review_score = 0) GROUP BY review_score
+	</select>
+	
 	<select id="getMovieInfoById" resultMap="movieInfo">
 		SELECT * FROM movie_info WHERE movie_id=#{movieId}
 	</select>

@@ -3,6 +3,7 @@ package com.watch.project.service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.binding.BindingException;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.MovieLikeDTO;
 import com.watch.project.dto.PeopleLikeDTO;
+import com.watch.project.dto.movieInfoView.ChartMovieScoreDTO;
 import com.watch.project.dto.movieInfoView.GradeInfoDTO;
 import com.watch.project.dto.movieInfoView.MovieInfoViewDTO;
 import com.watch.project.dto.movieInfoView.PeopleInfoDTO;
@@ -26,6 +28,47 @@ import lombok.extern.slf4j.Slf4j;
 public class MovieInfoService {
 	private final MovieInfoRepository repo;
 	private final HomeRepository homeRepository;
+	
+	/*
+	 * 영화 평점에 대한 차트 정보
+	 */
+	public Map<String, String> getChartMovieScoreByMovieId(String movieId){
+		Map<String, String> chartMovieScoreMap = new HashMap<>();
+		List<ChartMovieScoreDTO> chartMovieScoreList = repo.getChartMovieScoreByMovieId(movieId);
+
+		chartMovieScoreMap = getChartMovieScoreMap(chartMovieScoreMap, chartMovieScoreList);
+		
+		return chartMovieScoreMap;
+	}
+
+	private Map<String, String> getChartMovieScoreMap(Map<String, String> chartMovieScoreMap,
+			List<ChartMovieScoreDTO> chartMovieScoreList) {
+		chartMovieScoreMap.put("0.5", "nan");
+		chartMovieScoreMap.put("1", "nan");
+		chartMovieScoreMap.put("1.5", "nan");
+		chartMovieScoreMap.put("2", "nan");
+		chartMovieScoreMap.put("2.5", "nan");
+		chartMovieScoreMap.put("3", "nan");
+		chartMovieScoreMap.put("3.5", "nan");
+		chartMovieScoreMap.put("4", "nan");
+		chartMovieScoreMap.put("4.5", "nan");
+		chartMovieScoreMap.put("5", "nan");
+		
+		int total = 0;
+		for(ChartMovieScoreDTO dto : chartMovieScoreList) {
+			total += Integer.parseInt(dto.getCnt());
+		}
+		
+		for(ChartMovieScoreDTO dto : chartMovieScoreList) {
+			if(dto.getReviewScore().equals("0")) {
+				continue;
+			}
+			String score = String.valueOf(((Integer.parseInt(dto.getCnt()) * 100) / total));
+			chartMovieScoreMap.put(dto.getReviewScore(), score);
+		}
+			
+		return chartMovieScoreMap;
+	}
 
 	/*
 	 *영화 좋아요

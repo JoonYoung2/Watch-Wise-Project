@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.MovieLikeDTO;
+import com.watch.project.dto.movieInfoView.ChartMovieScoreDTO;
 
 @Mapper
 public interface MovieInfoRepository {
@@ -27,6 +28,7 @@ public interface MovieInfoRepository {
 
 	public MovieLikeDTO getMovieLikeById(String id);
 	
+	public List<ChartMovieScoreDTO> getChartMovieScoreByMovieId(String movieId);
 	
 	//------------ 수아's ---------------------------------
 	public List<String> getLikedMovieIdByEmail(String userEmail);

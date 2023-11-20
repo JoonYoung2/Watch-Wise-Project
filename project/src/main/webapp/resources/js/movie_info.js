@@ -29,6 +29,54 @@ window.onload = () => {
 			msg.innerHTML = "최고예요";
 		}
 	}
+
+	// chart movie
+	let chartMovieValue = document.getElementById("chartMovie").value;
+	let tmp = chartMovieValue.replaceAll("{", "").replaceAll("}", "").replaceAll(" ", "").split(",").sort();
+	for(var i = 1; i < 10; i++){
+		if(tmp[i][0] == tmp[i-1][0]){
+			let swap = tmp[i];
+			tmp[i] = tmp[i-1];
+			tmp[i-1] = swap;
+		}
+	}
+
+	let chartCnt = [];
+	let maxScore = 0;
+	let reviewCnt = 0;
+	for(var i = 0; i < tmp.length; i++){
+		chartCnt[i] = tmp[i].split('=')[1];
+		if(maxScore < chartCnt[i]){
+			maxScore = Number(chartCnt[i]);
+		}
+		if(chartCnt[i] != "nan"){
+			//평가가 존재할 시 그래프 나오게하기
+			let graphTableDivId = document.getElementById("graph-table-div");
+			graphTableDivId.style.display="";
+			//평가가 존재할 시 그래프 나오게하기
+			reviewCnt++;
+		}
+	}
+	
+	let graphBarCntClass = document.querySelectorAll(".graph-bar-cnt");
+	let graphBarContentClass = document.querySelectorAll(".graph-bar-content");
+	graphBarContentClass[0].style.display="";
+	graphBarContentClass[9].style.display="";
+	for(var i = 0; i < graphBarCntClass.length; i++){
+		if(reviewCnt != 0){
+			if(chartCnt[i] == "nan"){
+				chartCnt[i] = 3;
+			}
+		}else{
+			chartCnt[i] = 0;
+		}
+		graphBarCntClass[i].style.height=""+chartCnt[i]+"px";
+		if(maxScore == chartCnt[i]){
+			graphBarContentClass[i].style.display="";
+			graphBarCntClass[i].style.backgroundColor="rgba(255, 10, 10, 0.8)";
+		}
+	}
+	// chart movie
 }
 
 let postersLeftBtnId = document.getElementById("postersLeftBtn");
