@@ -29,6 +29,8 @@ public interface AdminMemberRepository {
 	public BlackListDTO checkIfReported(String commentIdPlusUserEmail);
 
 	public List<BlackListWaitingDTO> getBlackListDTO();
+
+	public List<BlackListWaitingDTO> getCurrentPageList(Map<String, Integer> map);
 	
 	
 }
