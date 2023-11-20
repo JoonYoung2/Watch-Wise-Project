@@ -11,6 +11,31 @@
 	position:relative;
 }
 
+.auto-table-menu-header{
+	display:flex;
+	justify-content: center;
+	
+}
+
+.auto-table-menu{
+	all: unset; 
+	cursor: pointer;
+}
+
+.auto-table-menu-div{
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	width: 120px;
+	height:30px;
+	font-size:20px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.auto-table-menu-div:hover{
+	background-color:rgba(0, 0, 0, 0.1);
+}
+
 .auto-table-header{
 	display:flex; 
 	justify-content:space-between;

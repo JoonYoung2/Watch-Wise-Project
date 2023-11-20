@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.watch.project.dto.LiveSearchDTO;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.MovieReviewDTO;
 import com.watch.project.dto.movieInfoView.GradeInfoDTO;
@@ -71,35 +72,13 @@ public class MovieInfoController {
 		 */
 		movieLikedCheck = service.getMovieLikeCheck(movieId, userEmailStr);
 		
-		/*
-		 * 최근 검색어
-		 */
-		String[] recentSearches = searchService.recentSearchesByUserEmail();
-		
-		/*
-		 * 최근 6개월 간 인기 검색어
-		 */
-		String[] popularSearches = searchService.popularSearches();
-		
-		/*
-		 * 최근 검색어 + 인기 검색어 크기
-		 */
-		int recentSearchesSize = -1;
-		try {
-			recentSearchesSize = recentSearches.length;			
-		}catch(NullPointerException e) {
-			
-		}
-		
+		searchService.searchModel(model);
 		model.addAttribute("peopleInfo", peopleInfoDto);
 		model.addAttribute("movieLikedCheck", movieLikedCheck);
 		model.addAttribute("comments", comments);
 		model.addAttribute("ifWroteComment", ifWroteComment);
 		model.addAttribute("movieInfo", movieInfoViewDto);
 		model.addAttribute("gradeInfo", gradeInfoDto);
-		model.addAttribute("recentSearches", recentSearches);
-		model.addAttribute("popularSearches", popularSearches);
-		model.addAttribute("recentSearchesSize", recentSearchesSize);
 		
 		return "basic/movie_info";
 	}

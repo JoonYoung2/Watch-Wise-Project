@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.watch.project.dto.LiveSearchDTO;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.MovieReviewDTO;
 import com.watch.project.dto.memberInfo.LikedCommentListDTO;
 import com.watch.project.dto.memberInfo.MyScoredListDTO;
 import com.watch.project.dto.memberInfo.ReviewListDTO;
 import com.watch.project.service.ReviewService;
+import com.watch.project.service.SearchService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 public class ReviewController {
 	@Autowired
 	private ReviewService service;
+	@Autowired
+	private SearchService searchService;
 
 	@PostMapping("/saveComment")
 	public String saveComment(MovieReviewDTO dto, RedirectAttributes redirectAttr) {//movieId, reviewComment
@@ -56,41 +60,53 @@ public class ReviewController {
 		return "redirect:/movieInfo?movieId="+dto.getMovieId();
 	}
 	
-//	@GetMapping("/userReviewList")
-//	public String userReviewList(Model model, HttpSession session) {
-//		List<ReviewListDTO> reviewList = service.getReviewList((String)session.getAttribute("userEmail")); 
-//		model.addAttribute("reviewList", reviewList);
-//		return "member/member_info/review_list";
-//	}
-	
 	@GetMapping("/userMyCommentList")
 	public String userMyCommentList(Model model, HttpSession session) {
 		List<ReviewListDTO> reviewList = service.getReviewList((String)session.getAttribute("userEmail"));
-		log.info("reviewList => {}", reviewList);
+		/*
+		 * 최근 검색어
+		 */
+		String[] recentSearches = searchService.recentSearchesByUserEmail();
+		
+		/*
+		 * 최근 6개월 간 인기 검색어
+		 */
+		String[] popularSearches = searchService.popularSearches();
+		
+		/*
+		 * 실시간 검색어
+		 */
+		List<LiveSearchDTO> liveSearchList = searchService.getLiveSearchList();
+		
+		model.addAttribute("recentSearches", recentSearches);
+		model.addAttribute("popularSearches", popularSearches);
+		model.addAttribute("liveSearch", liveSearchList);
 		model.addAttribute("reviewList", reviewList);
 		return "member/member_info/my_comment_list";
 	}
-	
-//	@GetMapping("/userMyScoredMovieList")
-//	public String userMyScoredMovieList(Model model, HttpSession session) {
-//		List<ReviewListDTO> reviewList = service.getReviewList((String)session.getAttribute("userEmail"));
-//		model.addAttribute("reviewList", reviewList);
-//		return "member/member_info/my_scored_movie_list";
-//	}
+
 	@GetMapping("/userMyScoredMovieList")
 	public String userMyScoredMovieList(Model model, HttpSession session) {
 		String userEmail = (String)session.getAttribute("userEmail");
 		Map<String, List<MyScoredListDTO>> lists = service.getScoredMovieListByScore(userEmail);
-//		List<MyScoredListDTO> listFive = service.getScoreFive(userEmail); //스코어 5.0인 애들
-//		List<MyScoredListDTO> listFourPointFive = service.getScoreFourPointFive(userEmail); //스코어 4.5인 애들
-//		List<MyScoredListDTO> listFour = service.getScoreFour(userEmail); //스코어 4.0인 애들
-//		List<MyScoredListDTO> listThreePointFive = service.getScoreThreePointFive(userEmail); //스코어 3.5인 애들
-//		List<MyScoredListDTO> listThree = service.getScoreThree(userEmail); //스코어 3.0인 애들
-//		List<MyScoredListDTO> listTwoPointFive = service.getScoreTwoPointFive(userEmail); //스코어 2.5인 애들
-//		List<MyScoredListDTO> listTwo = service.getScoreTwo(userEmail); //스코어 2.0인 애들
-//		List<MyScoredListDTO> listOnePointFive = service.getScoreOnePointFive(userEmail); //스코어 1.5인 애들
-//		List<MyScoredListDTO> listOne = service.getScoreOne(userEmail); //스코어 1.0인 애들
-//		List<MyScoredListDTO> listZeroPointFive = service.getScoreZeroPointFive(userEmail); //스코어 0.5인 애들
+		/*
+		 * 최근 검색어
+		 */
+		String[] recentSearches = searchService.recentSearchesByUserEmail();
+		
+		/*
+		 * 최근 6개월 간 인기 검색어
+		 */
+		String[] popularSearches = searchService.popularSearches();
+		
+		/*
+		 * 실시간 검색어
+		 */
+		List<LiveSearchDTO> liveSearchList = searchService.getLiveSearchList();
+		
+		model.addAttribute("recentSearches", recentSearches);
+		model.addAttribute("popularSearches", popularSearches);
+		model.addAttribute("liveSearch", liveSearchList);
 		model.addAttribute("lists", lists);
 		return "member/member_info/my_scored_movie_list";
 	}
@@ -99,6 +115,24 @@ public class ReviewController {
 	public String viewMoviesInlistScore(Model model, HttpSession session) {
 		String userEmail = (String)session.getAttribute("userEmail");
 		List<MyScoredListDTO> listScore = service.getScoreFive(userEmail);
+		/*
+		 * 최근 검색어
+		 */
+		String[] recentSearches = searchService.recentSearchesByUserEmail();
+		
+		/*
+		 * 최근 6개월 간 인기 검색어
+		 */
+		String[] popularSearches = searchService.popularSearches();
+		
+		/*
+		 * 실시간 검색어
+		 */
+		List<LiveSearchDTO> liveSearchList = searchService.getLiveSearchList();
+		
+		model.addAttribute("recentSearches", recentSearches);
+		model.addAttribute("popularSearches", popularSearches);
+		model.addAttribute("liveSearch", liveSearchList);
 		model.addAttribute("listScore", listScore);
 		model.addAttribute("score", "listFive");
 		return "member/member_info/my_scored_movie_lists_by_score";
@@ -107,6 +141,24 @@ public class ReviewController {
 	public String viewMoviesInlistFourPointFive(Model model, HttpSession session) {
 		String userEmail = (String)session.getAttribute("userEmail");
 		List<MyScoredListDTO> listScore = service.getScoreFourPointFive(userEmail);
+		/*
+		 * 최근 검색어
+		 */
+		String[] recentSearches = searchService.recentSearchesByUserEmail();
+		
+		/*
+		 * 최근 6개월 간 인기 검색어
+		 */
+		String[] popularSearches = searchService.popularSearches();
+		
+		/*
+		 * 실시간 검색어
+		 */
+		List<LiveSearchDTO> liveSearchList = searchService.getLiveSearchList();
+		
+		model.addAttribute("recentSearches", recentSearches);
+		model.addAttribute("popularSearches", popularSearches);
+		model.addAttribute("liveSearch", liveSearchList);
 		model.addAttribute("listScore", listScore);
 		model.addAttribute("score", "listFourPointFive");
 		return "member/member_info/my_scored_movie_lists_by_score";
@@ -115,6 +167,24 @@ public class ReviewController {
 	public String viewMoviesInlistFour(Model model, HttpSession session) {
 		String userEmail = (String)session.getAttribute("userEmail");
 		List<MyScoredListDTO> listScore = service.getScoreFour(userEmail);
+		/*
+		 * 최근 검색어
+		 */
+		String[] recentSearches = searchService.recentSearchesByUserEmail();
+		
+		/*
+		 * 최근 6개월 간 인기 검색어
+		 */
+		String[] popularSearches = searchService.popularSearches();
+		
+		/*
+		 * 실시간 검색어
+		 */
+		List<LiveSearchDTO> liveSearchList = searchService.getLiveSearchList();
+		
+		model.addAttribute("recentSearches", recentSearches);
+		model.addAttribute("popularSearches", popularSearches);
+		model.addAttribute("liveSearch", liveSearchList);
 		model.addAttribute("listScore", listScore);
 		model.addAttribute("score", "listFour");
 		return "member/member_info/my_scored_movie_lists_by_score";
@@ -123,6 +193,24 @@ public class ReviewController {
 	public String viewMoviesInlistThreePointFive(Model model, HttpSession session) {
 		String userEmail = (String)session.getAttribute("userEmail");
 		List<MyScoredListDTO> listScore = service.getScoreThreePointFive(userEmail);
+		/*
+		 * 최근 검색어
+		 */
+		String[] recentSearches = searchService.recentSearchesByUserEmail();
+		
+		/*
+		 * 최근 6개월 간 인기 검색어
+		 */
+		String[] popularSearches = searchService.popularSearches();
+		
+		/*
+		 * 실시간 검색어
+		 */
+		List<LiveSearchDTO> liveSearchList = searchService.getLiveSearchList();
+		
+		model.addAttribute("recentSearches", recentSearches);
+		model.addAttribute("popularSearches", popularSearches);
+		model.addAttribute("liveSearch", liveSearchList);
 		model.addAttribute("listScore", listScore);
 		model.addAttribute("score", "listThreePointFive");
 		return "member/member_info/my_scored_movie_lists_by_score";
@@ -131,6 +219,24 @@ public class ReviewController {
 	public String viewMoviesInlistThree(Model model, HttpSession session) {
 		String userEmail = (String)session.getAttribute("userEmail");
 		List<MyScoredListDTO> listScore = service.getScoreThree(userEmail);
+		/*
+		 * 최근 검색어
+		 */
+		String[] recentSearches = searchService.recentSearchesByUserEmail();
+		
+		/*
+		 * 최근 6개월 간 인기 검색어
+		 */
+		String[] popularSearches = searchService.popularSearches();
+		
+		/*
+		 * 실시간 검색어
+		 */
+		List<LiveSearchDTO> liveSearchList = searchService.getLiveSearchList();
+		
+		model.addAttribute("recentSearches", recentSearches);
+		model.addAttribute("popularSearches", popularSearches);
+		model.addAttribute("liveSearch", liveSearchList);
 		model.addAttribute("listScore", listScore);
 		model.addAttribute("score", "listThree");
 		return "member/member_info/my_scored_movie_lists_by_score";
@@ -139,6 +245,24 @@ public class ReviewController {
 	public String viewMoviesInlistTwoPointFive(Model model, HttpSession session) {
 		String userEmail = (String)session.getAttribute("userEmail");
 		List<MyScoredListDTO> listScore = service.getScoreTwoPointFive(userEmail);
+		/*
+		 * 최근 검색어
+		 */
+		String[] recentSearches = searchService.recentSearchesByUserEmail();
+		
+		/*
+		 * 최근 6개월 간 인기 검색어
+		 */
+		String[] popularSearches = searchService.popularSearches();
+		
+		/*
+		 * 실시간 검색어
+		 */
+		List<LiveSearchDTO> liveSearchList = searchService.getLiveSearchList();
+		
+		model.addAttribute("recentSearches", recentSearches);
+		model.addAttribute("popularSearches", popularSearches);
+		model.addAttribute("liveSearch", liveSearchList);
 		model.addAttribute("listScore", listScore);
 		model.addAttribute("score", "listTwoPointFive");
 		return "member/member_info/my_scored_movie_lists_by_score";
@@ -147,6 +271,24 @@ public class ReviewController {
 	public String viewMoviesInlistTwo(Model model, HttpSession session) {
 		String userEmail = (String)session.getAttribute("userEmail");
 		List<MyScoredListDTO> listScore = service.getScoreTwo(userEmail);
+		/*
+		 * 최근 검색어
+		 */
+		String[] recentSearches = searchService.recentSearchesByUserEmail();
+		
+		/*
+		 * 최근 6개월 간 인기 검색어
+		 */
+		String[] popularSearches = searchService.popularSearches();
+		
+		/*
+		 * 실시간 검색어
+		 */
+		List<LiveSearchDTO> liveSearchList = searchService.getLiveSearchList();
+		
+		model.addAttribute("recentSearches", recentSearches);
+		model.addAttribute("popularSearches", popularSearches);
+		model.addAttribute("liveSearch", liveSearchList);
 		model.addAttribute("listScore", listScore);
 		model.addAttribute("score", "listTwo");
 		return "member/member_info/my_scored_movie_lists_by_score";
@@ -155,6 +297,24 @@ public class ReviewController {
 	public String viewMoviesInlistOnePointFive(Model model, HttpSession session) {
 		String userEmail = (String)session.getAttribute("userEmail");
 		List<MyScoredListDTO> listScore = service.getScoreOnePointFive(userEmail);
+		/*
+		 * 최근 검색어
+		 */
+		String[] recentSearches = searchService.recentSearchesByUserEmail();
+		
+		/*
+		 * 최근 6개월 간 인기 검색어
+		 */
+		String[] popularSearches = searchService.popularSearches();
+		
+		/*
+		 * 실시간 검색어
+		 */
+		List<LiveSearchDTO> liveSearchList = searchService.getLiveSearchList();
+		
+		model.addAttribute("recentSearches", recentSearches);
+		model.addAttribute("popularSearches", popularSearches);
+		model.addAttribute("liveSearch", liveSearchList);
 		model.addAttribute("listScore", listScore);
 		model.addAttribute("score", "listOnePointFive");
 		return "member/member_info/my_scored_movie_lists_by_score";
@@ -163,6 +323,24 @@ public class ReviewController {
 	public String viewMoviesInlistOne(Model model, HttpSession session) {
 		String userEmail = (String)session.getAttribute("userEmail");
 		List<MyScoredListDTO> listScore = service.getScoreOne(userEmail);
+		/*
+		 * 최근 검색어
+		 */
+		String[] recentSearches = searchService.recentSearchesByUserEmail();
+		
+		/*
+		 * 최근 6개월 간 인기 검색어
+		 */
+		String[] popularSearches = searchService.popularSearches();
+		
+		/*
+		 * 실시간 검색어
+		 */
+		List<LiveSearchDTO> liveSearchList = searchService.getLiveSearchList();
+		
+		model.addAttribute("recentSearches", recentSearches);
+		model.addAttribute("popularSearches", popularSearches);
+		model.addAttribute("liveSearch", liveSearchList);
 		model.addAttribute("listScore", listScore);
 		model.addAttribute("score", "listOne");
 		return "member/member_info/my_scored_movie_lists_by_score";
@@ -171,19 +349,50 @@ public class ReviewController {
 	public String viewMoviesInlistZeroPointFive(Model model, HttpSession session) {
 		String userEmail = (String)session.getAttribute("userEmail");
 		List<MyScoredListDTO> listScore = service.getScoreZeroPointFive(userEmail);
+		/*
+		 * 최근 검색어
+		 */
+		String[] recentSearches = searchService.recentSearchesByUserEmail();
+		
+		/*
+		 * 최근 6개월 간 인기 검색어
+		 */
+		String[] popularSearches = searchService.popularSearches();
+		
+		/*
+		 * 실시간 검색어
+		 */
+		List<LiveSearchDTO> liveSearchList = searchService.getLiveSearchList();
+		
+		model.addAttribute("recentSearches", recentSearches);
+		model.addAttribute("popularSearches", popularSearches);
+		model.addAttribute("liveSearch", liveSearchList);
 		model.addAttribute("listScore", listScore);
 		model.addAttribute("score", "listZeroPointFive");
 		return "member/member_info/my_scored_movie_lists_by_score";
 	}
 
-	
-	
-	
-	
-	
 	@GetMapping("/userLikedCommentList")
 	public String userLikedCommentList(Model model, HttpSession session) {
 		List<LikedCommentListDTO> likedCommentList = service.getLikedCommentList((String)session.getAttribute("userEmail"));
+		/*
+		 * 최근 검색어
+		 */
+		String[] recentSearches = searchService.recentSearchesByUserEmail();
+		
+		/*
+		 * 최근 6개월 간 인기 검색어
+		 */
+		String[] popularSearches = searchService.popularSearches();
+		
+		/*
+		 * 실시간 검색어
+		 */
+		List<LiveSearchDTO> liveSearchList = searchService.getLiveSearchList();
+		
+		model.addAttribute("recentSearches", recentSearches);
+		model.addAttribute("popularSearches", popularSearches);
+		model.addAttribute("liveSearch", liveSearchList);
 		model.addAttribute("likedCommentList", likedCommentList);
 		return "member/member_info/liked_comment_list";
 	}

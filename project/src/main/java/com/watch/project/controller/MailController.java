@@ -16,33 +16,28 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.service.MailService;
+import com.watch.project.service.SearchService;
 import com.watch.project.service.member.KakaoMemberService;
 
 @Controller
 public class MailController {
-	@Autowired MailService mailservice;
-	@Autowired KakaoMemberService kakaoMemberService;
-
-//	@GetMapping("/logout")
-//	public String logout(HttpSession session) {
-//		session.invalidate();
-//		return "redirect:auth";
-//	}
+	@Autowired 
+	private MailService mailservice;
+	@Autowired 
+	private KakaoMemberService kakaoMemberService;
+	@Autowired 
+	private SearchService searchService;
 	
 	@PostMapping("/sendEmailforAuth")
-	public String authCheck(@RequestParam("userEmail") String email,  HttpServletResponse res) throws IOException {
+	public String authCheck(@RequestParam("userEmail") String email,  HttpServletResponse res, Model model) throws IOException {
 		String msg = mailservice.issueCh(email);
 		if(msg!=null) {
 			res.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = res.getWriter();
 			out.print(msg);
 		}else {
-//			String[] e = email.split("@");
-//			System.out.println(e[0]);
-//			System.out.println(e[1]);
-			
 			mailservice.send3(email);//session이 꼭 있어야 하나..?
-			
+			searchService.searchModel(model);
 			return "member/local_member/email_auth";
 		}
 		return null;
@@ -53,29 +48,27 @@ public class MailController {
 		//setAttribute("authKey", authKey)
 		String sessionKey = (String)session.getAttribute("authKey");
 		if(sessionKey.equals(authKey)) {
-			System.out.println("일치하는 authkey임"+session.getAttribute("userEmail"));
 			model.addAttribute("userEmail", session.getAttribute("userEmail"));
+			searchService.searchModel(model);
 			return "member/local_member/sign_up";
 		}else {
 			model.addAttribute("msg", "인증코드가 불일치합니다. 다시시도해주세요.");
-			System.out.println("일치하지 않는 authkey임");
+			searchService.searchModel(model);
 			return "member/local_member/email_auth";			
 		}
 	}
 	
 	@PostMapping("/kakaoEmailVerification") //다른 정보를 먼저 소셜로 받고, email 인증하는 것.
 	public String Kakaocheck(@RequestParam String authKey,MemberDTO dto, HttpSession session, Model model, RedirectAttributes redirectAttr) {
-		//setAttribute("authKey", authKey)
 		String sessionKey = (String)session.getAttribute("authKey");
 		if(sessionKey.equals(authKey)) {
-			System.out.println("일치하는 authkey임"+session.getAttribute("userEmail"));
 			dto.setUserEmail((String)session.getAttribute("userEmail"));
 			kakaoMemberService.register(dto);
 			redirectAttr.addFlashAttribute("msg", "인증과 회원가입이 완료되었습니다.");
 			return "redirect:/";
 		}else {
 			model.addAttribute("msg", "인증코드가 불일치합니다. 다시시도해주세요.");
-			System.out.println("일치하지 않는 authkey임");
+			searchService.searchModel(model);
 			return "member/social_member/email_auth";			
 		}
 	}

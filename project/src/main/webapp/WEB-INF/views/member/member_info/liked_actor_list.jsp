@@ -63,6 +63,5 @@
 </div>
 <script src="/resources/js/common.js"></script>
 <script src="/resources/js/search_common.js"></script>
-<script src="/resources/js/member_info.js"></script>
 </body>
 </html>

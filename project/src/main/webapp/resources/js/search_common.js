@@ -49,6 +49,7 @@ const searchesKeyup = (event) => {
             return;
         }
         query = query.replaceAll("'", "''");
+        query = encodeURIComponent(query)
         location.href = "search?query=" + query;
         return;
     }

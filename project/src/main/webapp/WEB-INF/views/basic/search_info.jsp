@@ -35,10 +35,7 @@
 			
 		</div>
 	</div>
-	
-	<!-- Header JS -->
-	<script src="/resources/js/common.js"></script>
-	<script src="/resources/js/search_common.js"></script>
+
 	<!-- Present page JS -->
 	<script src="/resources/js/search_info.js"></script>
 </body>
