@@ -22,6 +22,12 @@
 		<result property="reporterEmail" column="reporter_email"/>
 		<result property="reasonForReport" column="reason_for_report"/>
 		<result property="reportedDate" column="reported_date"/>
+		<result property="movieNm" column="movie_nm"/>
+		<result property="commentWrittenDate" column="comment_written_date"/>
+		<result property="isBlack" column="is_black"/>
+		<result property="movieId" column="movie_id"/>
+		<result property="reviewScore" column="review_score"/>
+		<result property="reportedAmount" column="reported_amount"/>
 	</resultMap>
 	
 	<resultMap type="com.watch.project.dto.admin.BlackListWaitingDTO" id="blackListWaiting">
@@ -52,8 +58,19 @@
 		SELECT * FROM black_list WHERE id=#{id}
 	</select>
 	
+	<select id="getMovieNmByMovieId" resultType="String">
+		SELECT movie_nm FROM movie_info WHERE movie_id=#{movieId}
+	</select>
+	
+	<select id="getCommentDateByCommentId" resultType="String">
+		SELECT review_comment_date FROM movie_review WHERE id=#{commentId}
+	</select>
+	
+	<select id="getReviewScore" resultType="Float">
+		SELECT review_score FROM movie_review WHERE id=#{commentId}
+	</select>
 	<insert id="saveReportDatas" parameterType="com.watch.project.dto.admin.BlackListDTO">
-		INSERT INTO black_list VALUES(#{id}, #{reportedCommentId}, #{reportedComment}, #{authorEmail}, #{reporterEmail}, #{reasonForReport}, #{reportedDate})
+		INSERT INTO black_list VALUES(#{id}, #{reportedCommentId}, #{reportedComment}, #{authorEmail}, #{reporterEmail}, #{reasonForReport}, #{reportedDate}, #{movieNm}, #{commentWrittenDate}, 0, #{movieId}, #{reviewScore})
 	</insert>
 	
 	<update id="updateReportDatas" parameterType="com.watch.project.dto.admin.BlackListDTO">
@@ -74,11 +91,25 @@
 	
 	<select id="getCurrentPageList" resultMap="blackListWaiting">
 		SELECT row_num, author_email, reported_comment_amount
-			FROM (
-    			SELECT author_email, COUNT(reported_comment_id) AS reported_comment_amount, ROW_NUMBER() OVER (ORDER BY COUNT(reported_comment_id) DESC) AS row_num
-    				FROM black_list GROUP BY author_email
-			)
-			WHERE row_num BETWEEN #{startRow} AND #{endRow} AND row_num &lt;= #{totalRows}
-
+		FROM (
+   			SELECT author_email, COUNT(reported_comment_id) AS reported_comment_amount, ROW_NUMBER() OVER (ORDER BY COUNT(reported_comment_id) DESC) AS row_num
+   			FROM black_list GROUP BY author_email
+		)
+		WHERE row_num BETWEEN #{startRow} AND #{endRow} AND row_num &lt;= #{totalRows}
 	</select>
+	
+	<select id="getReportedCommentIds" resultType="String">
+		SELECT reported_comment_id FROM black_list WHERE author_email=#{email} group by reported_comment_id
+	</select>
+	
+	<select id="getReportedCommentDatas" resultMap="blackList">
+		SELECT movie_nm, reported_comment, comment_written_date, reported_amount
+		FROM (
+    		SELECT movie_nm, reported_comment, comment_written_date, COUNT(reported_comment_id) AS reported_amount
+    		FROM black_list 
+    		WHERE reported_comment_id =#{commentId}
+    		GROUP BY reported_comment_id, movie_nm, reported_comment, comment_written_date
+		)
+	</select>
+	
 </mapper>

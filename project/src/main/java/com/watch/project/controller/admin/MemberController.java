@@ -147,6 +147,8 @@ public class MemberController {
 	
 	@GetMapping("/admin/showReportedComments")
 	public String showReportedComments(@RequestParam("authorEmail") String email, @RequestParam("pageNum") int pageNum, Model model) {
+		List<BlackListDTO> result = service.getReportedComments(email);
+		model.addAttribute("commentList", result);
 		model.addAttribute("email", email);
 		model.addAttribute("pageNum", pageNum);
 		return "admin/member/reported_comments";

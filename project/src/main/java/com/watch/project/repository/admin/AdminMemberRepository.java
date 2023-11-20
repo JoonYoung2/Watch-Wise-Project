@@ -31,6 +31,16 @@ public interface AdminMemberRepository {
 	public List<BlackListWaitingDTO> getBlackListDTO();
 
 	public List<BlackListWaitingDTO> getCurrentPageList(Map<String, Integer> map);
+
+	public String getMovieNmByMovieId(String movieId);
+
+	public String getCommentDateByCommentId(String commentId);
+
+	public List<String> getReportedCommentIds(String email);
+
+	public float getReviewScore(String commentId);
+
+	public List<BlackListDTO> getReportedCommentDatas(String commentId);
 	
 	
 }
