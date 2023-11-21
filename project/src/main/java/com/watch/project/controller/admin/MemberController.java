@@ -18,6 +18,7 @@ import com.watch.project.dto.admin.BlackListWaitingDTO;
 import com.watch.project.dto.admin.MemberDTO;
 import com.watch.project.dto.admin.PagingConfigDTO;
 import com.watch.project.dto.admin.PagingDTO;
+import com.watch.project.dto.admin.ReportedCommentsDTO;
 import com.watch.project.dto.admin.TableInfoDTO;
 import com.watch.project.service.admin.AutoPagingService;
 import com.watch.project.service.admin.MemberService;
@@ -147,7 +148,7 @@ public class MemberController {
 	
 	@GetMapping("/admin/showReportedComments")
 	public String showReportedComments(@RequestParam("authorEmail") String email, @RequestParam("pageNum") int pageNum, Model model) {
-		List<BlackListDTO> result = service.getReportedComments(email);
+		List<ReportedCommentsDTO> result = service.getReportedComments(email);
 		model.addAttribute("commentList", result);
 		model.addAttribute("email", email);
 		model.addAttribute("pageNum", pageNum);

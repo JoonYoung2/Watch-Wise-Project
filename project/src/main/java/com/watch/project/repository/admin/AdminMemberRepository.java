@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.watch.project.dto.admin.BlackListDTO;
 import com.watch.project.dto.admin.BlackListWaitingDTO;
 import com.watch.project.dto.admin.MemberDTO;
+import com.watch.project.dto.admin.ReportedCommentsDTO;
 
 @Mapper
 public interface AdminMemberRepository {
@@ -40,7 +41,7 @@ public interface AdminMemberRepository {
 
 	public float getReviewScore(String commentId);
 
-	public List<BlackListDTO> getReportedCommentDatas(String commentId);
+	public ReportedCommentsDTO getReportedCommentDatas(String commentId);
 	
 	
 }

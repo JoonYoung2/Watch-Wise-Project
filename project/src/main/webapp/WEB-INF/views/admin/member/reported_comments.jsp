@@ -14,10 +14,10 @@
 
 <div style="">
 	<a href="/admin/black_list_waiting?currentPage=${pageNum}">
-		<img src="resources/img/back.png" style="width:20px; margin-top:20px;">
+		<img src="/resources/img/back.png" style="width:20px; margin-top:20px;">
 	</a>
-	<div style="margin: 0 auto; text-align:center; background-color:grey;">
-		<h3>${email }이 작성한 코멘트들</h3>
+	<div style="margin: 0 auto; text-align:center;">
+		<h3>${email }이 작성한 신고된 코멘트들	</h3>
 		<br>
 	</div>
 </div>
@@ -31,8 +31,8 @@
 				<b style="font-size:17px;">${list.movieNm }</b><br>
 			</span>
 			<span style="margin-left:auto;">
-				<img class="openModalButton" onclick="openModal('${list.movieNm }', '${list.movieId}', '${list.reviewComment}', '${cntForComment}');" src="resources/img/thinPencil.png" style="cursor:pointer; width:20px;"/>
-				<img src="resources/img/bin.png" onclick="location.href='/deleteCommentFromMyCommentList?id=${list.id }&movieId=${list.movieId }'" style="padding-left:8px; cursor:pointer; width:20px;"/>
+				<img class="openModalButton" onclick="openModal('${list.movieNm }', '${list.movieId}', '${list.reportedComment}', '${cntForComment}');" src="/resources/img/thinPencil.png" style="cursor:pointer; width:20px;"/>
+				<img src="/resources/img/bin.png" onclick="location.href='/deleteCommentFromMyCommentList?id=${list.commentId }&movieId=${list.movieId }'" style="padding-left:8px; cursor:pointer; width:20px;"/>
 			</span>
 		</div>
 			
@@ -46,27 +46,17 @@
 			           <span>평점 기록 없음</span><br>
 			        </c:if>
 		        </span>
-		           <span class="date">${list.userEmail } </span><br>
+
 		            <b>${list.reportedComment}</b> <br>
 		            <span class="date">${list.commentWrittenDate} </span>
 	        </span>
 	        <span style="margin-right:14px;">
 		        <span>
-			        <img style="width:20px; vertical-align:-5px;" src="resources/img/activatedAlert.png"> 
+			        <img style="width:20px; vertical-align:-5px;" src="/resources/img/activatedAlert.png"> 
 			        <span> x </span>
-			        <span class="comment_like_count" style="vertical-align:-1px;">${list.reviewCommentLikes }</span>
+			        <span class="comment_like_count" style="vertical-align:-1px;">${list.reportedAmount }</span>
 	        	</span>
 	        <br><br>
-		        <span class="comment">
-			        <c:choose>
-				        <c:when test="${list.liked eq 1 }">
-				        	<img class="likeButton" src="resources/img/likeColor.png" style="width:30px; margin-left:15px;" onclick="decreaseLikeCount('${list.userEmail}', '${list.movieId}', '${ cntForComment }');">
-				        </c:when>
-				        <c:otherwise>
-				           <img class="likeButton" src="resources/img/like.png" style="width:30px;margin-left:15px;" onclick="increaseLikeCount('${list.userEmail}', '${list.movieId}', '${ cntForComment }');">
-				        </c:otherwise>
-			        </c:choose>
-		        </span>
 	        </span>
 	    </div>   
 	</div>

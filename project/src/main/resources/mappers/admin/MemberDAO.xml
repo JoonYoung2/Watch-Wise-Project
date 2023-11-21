@@ -30,6 +30,15 @@
 		<result property="reportedAmount" column="reported_amount"/>
 	</resultMap>
 	
+	<resultMap type="com.watch.project.dto.admin.ReportedCommentsDTO" id="reportedComments">
+		<result property="reportedComment" column="reported_comment"/>
+		<result property="movieNm" column="movie_nm"/>
+		<result property="commentWrittenDate" column="comment_written_date"/>
+		<result property="reviewScore" column="review_score"/>
+		<result property="movieId" column="movie_id"/>
+		<result property="reportedAmount" column="reported_amount"/>
+	</resultMap>
+	
 	<resultMap type="com.watch.project.dto.admin.BlackListWaitingDTO" id="blackListWaiting">
 		<result property="rowNum" column="row_num"/>
 		<result property="authorEmail" column="author_email"/>
@@ -102,14 +111,15 @@
 		SELECT reported_comment_id FROM black_list WHERE author_email=#{email} group by reported_comment_id
 	</select>
 	
-	<select id="getReportedCommentDatas" resultMap="blackList">
-		SELECT movie_nm, reported_comment, comment_written_date, reported_amount
+	<select id="getReportedCommentDatas" resultMap="reportedComments">
+		SELECT movie_nm, reported_comment, comment_written_date, review_score, movie_id, reported_amount
 		FROM (
-    		SELECT movie_nm, reported_comment, comment_written_date, COUNT(reported_comment_id) AS reported_amount
+    		SELECT movie_nm, reported_comment, comment_written_date, review_score, movie_id, COUNT(reported_comment_id) AS reported_amount
     		FROM black_list 
     		WHERE reported_comment_id =#{commentId}
-    		GROUP BY reported_comment_id, movie_nm, reported_comment, comment_written_date
+    		GROUP BY reported_comment_id, movie_nm, reported_comment, comment_written_date, review_score, movie_id
 		)
 	</select>
+
 	
 </mapper>

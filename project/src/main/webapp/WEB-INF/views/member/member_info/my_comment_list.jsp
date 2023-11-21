@@ -17,7 +17,7 @@
 </c:if>
 <div style="margin-left:20px;">
 	<a href="/memberInfo">
-		<img src="resources/img/back.png" style="width:20px; margin-top:20px;">
+		<img src="/resources/img/back.png" style="width:20px; margin-top:20px;">
 	</a>
 	<div align="center">
 		<h3>내가 작성한 코멘트들</h3>

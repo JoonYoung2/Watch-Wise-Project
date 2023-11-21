@@ -16,6 +16,7 @@ import com.watch.project.dto.admin.BlackListDTO;
 import com.watch.project.dto.admin.BlackListWaitingDTO;
 import com.watch.project.dto.admin.MemberDTO;
 import com.watch.project.dto.admin.PagingConfigDTO;
+import com.watch.project.dto.admin.ReportedCommentsDTO;
 import com.watch.project.repository.admin.AdminMemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -190,15 +191,16 @@ public class MemberService {
 		return result;
 	}
 
-	public List<BlackListDTO> getReportedComments(String email) {
-		List<BlackListDTO> finalList = new ArrayList<>();
+	public List<ReportedCommentsDTO> getReportedComments(String email) {
+		List<ReportedCommentsDTO> finalList = new ArrayList<>();
 		List<String> commentIds = repo.getReportedCommentIds(email);
 		for(String commentId : commentIds) {
 			log.info("id => {}", commentId);
-			List<BlackListDTO> result = repo.getReportedCommentDatas(commentId); 
+			ReportedCommentsDTO result = repo.getReportedCommentDatas(commentId); 
+			result.setCommentId(commentId);
 			//movie_nm, reported_comment, comment_written_date, reported_amount
 			log.info("id2 => {}", commentId);
-//			finalList.add(result);
+			finalList.add(result);
 		}
 		return finalList;
 	}
