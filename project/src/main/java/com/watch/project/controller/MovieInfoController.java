@@ -1,6 +1,7 @@
 package com.watch.project.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -72,7 +73,13 @@ public class MovieInfoController {
 		 */
 		movieLikedCheck = service.getMovieLikeCheck(movieId, userEmailStr);
 		
+		/*
+		 * 영화 평점 그래프 값
+		 */
+		Map<String, String> chartMovieScoreMap = service.getChartMovieScoreByMovieId(movieId);
+		
 		searchService.searchModel(model);
+		model.addAttribute("chartMovie", chartMovieScoreMap);
 		model.addAttribute("peopleInfo", peopleInfoDto);
 		model.addAttribute("movieLikedCheck", movieLikedCheck);
 		model.addAttribute("comments", comments);

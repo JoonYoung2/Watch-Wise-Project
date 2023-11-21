@@ -1,0 +1,59 @@
+.paging-config-page{
+	width:100%;
+}
+
+.paging-config-div{
+	width:80%;
+}
+
+.register-input{
+	align-items:center;
+	width:300px;
+	height:30px;
+	font-size:20px;
+}
+
+.update-input{
+	align-items:center;
+	width:300px;
+	height:30px;
+	font-size:20px;
+}
+
+.register-btn{
+	width:154px;
+}
+
+.register-close-btn{
+	width:154px;
+}
+
+.update-btn{
+	width:154px;
+}
+
+.update-close-btn{
+	width:154px;
+}
+
+.table-update-btn{
+	all:unset;
+	cursor:pointer;
+}
+
+.table-update-btn:hover{
+	color:red;
+}
+
+.table-delete-btn{
+	all:unset;
+	cursor:pointer;
+}
+
+.table-delete-btn:hover{
+	color:red;
+}
+
+.table-tr td{
+	text-align:center;
+}

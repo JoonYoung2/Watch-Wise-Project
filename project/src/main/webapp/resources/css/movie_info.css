@@ -5,3 +5,25 @@
 .likeCancel{
 	color:red; cursor:pointer;
 }
+
+.graph-bar-div{
+	display:flex;
+	justify-content:center;
+	align-items:end;
+	height:100px;
+}
+
+.graph-bar-cnt{
+	width:30px;
+	height:3px;
+	background-color:rgba(255, 10, 10, 0.5);
+	position:relative;
+	border-radius:10px 10px 0px 0px;
+}
+
+.graph-bar-content{
+	position:absolute;
+	width:30px;
+	text-align:center;
+	top: -20px;
+}

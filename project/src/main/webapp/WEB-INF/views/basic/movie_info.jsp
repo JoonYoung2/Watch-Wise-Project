@@ -9,13 +9,16 @@
 <link rel="stylesheet" href="/resources/css/movie_info.css">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
 <%@ include file="/WEB-INF/views/header.jsp" %>
 <c:set var="gradeNum" value="${ gradeInfo.gradeAvg } + ''"/>
+<input type="hidden" id="chartMovie" value="${ chartMovie }">
 <input type="hidden" id="reviewScore" value="${ ifWroteComment.reviewScore }">
 <input type="hidden" id="gradeCnt" value="${ gradeInfo.gradeCnt }">
 	<br><br><br><br>
+	
    <div align="center" style="width:100%;">
       <div align="center" style="width:80%; display:flex;">
          <div align="left" style="width:100%;">
@@ -35,16 +38,40 @@
 				         <div style="display:flex; align-items:center; width:100%;">
 				         	<div style="display:flex; justify-content: center; align-items:center; width:100%;">
 				         		<div>
-					            	<span style="">
-					            		<c:if test="${ ifWroteComment.reviewScore eq 0.0 || empty ifWroteComment.reviewScore }">
-					            			<b> <span id="allGradeAvg" style="color:red; font-size:25px;">★ ${ gradeNum.substring(0, 3) }</span></b><span> / 5.0</span> <div align="center">평균 별점 <span id="gradeCount">(${ gradeInfo.gradeCnt }명)</span></div>
-					            			<input type="hidden" id="gradeCheck" value="0">
-					            		</c:if>
-					            		<c:if test="${ ifWroteComment.reviewScore ne 0.0 && not empty ifWroteComment.reviewScore }">
-					            			<b> <span id="allGradeAvg" style="color:red; font-size:25px;">★ ${ gradeNum.substring(0, 3) }</span></b> / 5.0 <br> <div align="center">평균 별점 <span id="gradeCount">(${ gradeInfo.gradeCnt }명)</span></div>
-					            			<input type="hidden" id="gradeCheck" value="1">
-					            		</c:if> 
-					            	</span>
+				         			<div align="center">
+						            	<span>
+						            		<c:if test="${ ifWroteComment.reviewScore eq 0.0 || empty ifWroteComment.reviewScore }">
+						            			<b> <span id="allGradeAvg" style="color:red; font-size:25px;">★ ${ gradeNum.substring(0, 3) }</span></b><span> / 5.0</span> <div align="center">평균 별점 <span id="gradeCount">(${ gradeInfo.gradeCnt }명)</span></div>
+						            			<input type="hidden" id="gradeCheck" value="0">
+						            		</c:if>
+						            		<c:if test="${ ifWroteComment.reviewScore ne 0.0 && not empty ifWroteComment.reviewScore }">
+						            			<b> <span id="allGradeAvg" style="color:red; font-size:25px;">★ ${ gradeNum.substring(0, 3) }</span></b> / 5.0 <br> <div align="center">평균 별점 <span id="gradeCount">(${ gradeInfo.gradeCnt }명)</span></div>
+						            			<input type="hidden" id="gradeCheck" value="1">
+						            		</c:if> 
+						            	</span>
+					            	</div>
+					            	
+					            	<!-- 영화 평점 그래프 -->
+					            	<c:if test="${ ifWroteComment.reviewScore ne 0.0 && not empty ifWroteComment.reviewScore }">
+										<div id="graph-table-div" style="display:none;">
+											<table>
+												<tr>
+													<td><div class="graph-bar-div"><div class="graph-bar-cnt"><div class="graph-bar-content" style="display:none;">0.5</div></div></div></td>
+													<td><div class="graph-bar-div"><div class="graph-bar-cnt"><div class="graph-bar-content" style="display:none;">1</div></div></div></td>
+													<td><div class="graph-bar-div"><div class="graph-bar-cnt"><div class="graph-bar-content" style="display:none;">1.5</div></div></div></td>
+													<td><div class="graph-bar-div"><div class="graph-bar-cnt"><div class="graph-bar-content" style="display:none;">2</div></div></div></td>
+													<td><div class="graph-bar-div"><div class="graph-bar-cnt"><div class="graph-bar-content" style="display:none;">2.5</div></div></div></td>
+													<td><div class="graph-bar-div"><div class="graph-bar-cnt"><div class="graph-bar-content" style="display:none;">3</div></div></div></td>
+													<td><div class="graph-bar-div"><div class="graph-bar-cnt"><div class="graph-bar-content" style="display:none;">3.5</div></div></div></td>
+													<td><div class="graph-bar-div"><div class="graph-bar-cnt"><div class="graph-bar-content" style="display:none;">4</div></div></div></td>
+													<td><div class="graph-bar-div"><div class="graph-bar-cnt"><div class="graph-bar-content" style="display:none;">4.5</div></div></div></td>
+													<td><div class="graph-bar-div"><div class="graph-bar-cnt"><div class="graph-bar-content" style="display:none;">5</div></div></div></td>
+												</tr>
+											</table>
+										</div>
+									</c:if>
+									<!-- 영화 평점 그래프 -->
+									
 				            	</div>
 			            	</div>
             			</div>

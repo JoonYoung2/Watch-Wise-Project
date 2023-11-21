@@ -61,7 +61,3 @@ const search = (event, listNm, tableNm, orderByColumn) => {
         return;
     }
 }
-
-const deleteClick = (id, query, tableNm, orderByColumn) => {
-
-}

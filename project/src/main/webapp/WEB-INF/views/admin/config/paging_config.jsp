@@ -6,12 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/resources/css/home.css">
+<link rel="stylesheet" href="/resources/css/admin/paging_config.css">
 <title>Insert title here</title>
 </head>
 <body>
 	<%@ include file="../include/header.jsp" %>
-	<div align="center" style="width:100%;">
-		<div align="center" style="width:80%;">
+	<br><br>
+	<div align="center" class="paging-config-page">
+		<div align="center" class="paging-config-div">
 			${ msg }		
 			<table>
 				<tr>
@@ -29,13 +31,13 @@
 				</c:if>
 				<c:if test="${ not empty pagingConfig }">
 					<c:forEach var="list" items="${ pagingConfig }">
-						<tr>
+						<tr class="table-tr">
 							<td>${ list.tableNm }</td>
 							<td>${ list.columns }</td>
 							<td>${ list.orderByColumn }</td>
 							<td>${ list.rowNum }</td>
-							<td><button type="button" onclick="updateClick('${ list.id }','${ list.tableNm }','${ list.columns }','${ list.orderByColumn }','${ list.rowNum }');">수정</button></td>
-							<td><a href="/admin/deletePagingConfig?id=${ list.id }">삭제</a></td>
+							<td><button class="table-update-btn" type="button" onclick="updateClick('${ list.id }','${ list.tableNm }','${ list.columns }','${ list.orderByColumn }','${ list.rowNum }');">수정</button></td>
+							<td><a class="table-delete-btn" href="/admin/deletePagingConfig?id=${ list.id }">삭제</a></td>
 						</tr>
 					</c:forEach>
 				</c:if>
@@ -44,20 +46,20 @@
 				</tr>
 			</table>
 			
-			<form style="display:none;" id="registerForm" action="/admin/insertPagingConfig" method="post">
-				<input type="text" name="tableNm" style="width:300px;" placeholder="테이블명"><br>
-				<input type="text" name="columns" style="width:300px;" placeholder="컬럼명"><br>
-				<input type="text" name="orderByColumn" style="width:300px;" placeholder="컬럼정렬명"><br>
-				<input type="text" name="rowNum" style="width:300px;" placeholder="행개수"><br>
-				<button style="width:150px;">등록</button><button style="width:150px;" type="reset">취소</button>
+			<form id="registerForm" class="register-form" style="display:none;" action="/admin/insertPagingConfig" method="post">
+				<input type="text" name="tableNm" class="register-input" placeholder="테이블명"><br>
+				<input type="text" name="columns" class="register-input" placeholder="컬럼명"><br>
+				<input type="text" name="orderByColumn" class="register-input" placeholder="컬럼정렬명"><br>
+				<input type="text" name="rowNum" class="register-input" placeholder="행개수"><br>
+				<button class="register-btn">등록</button><button class="register-close-btn" type="button" onclick="registerClose();">닫기</button>
 			</form>
-			<form style="display:none;" id="updateForm" action="/admin/updatePagingConfig" method="post">
+			<form id="updateForm" class="update-form" style="display:none;" action="/admin/updatePagingConfig" method="post">
 				<input id="id" name="id" type="hidden">
-				<input id="tableNm" type="text" name="tableNm" style="width:300px;" placeholder="테이블명"><br>
-				<input id="columns" type="text" name="columns" style="width:300px;" placeholder="컬럼명"><br>
-				<input id="orderByColumn" type="text" name="orderByColumn" style="width:300px;" placeholder="컬럼정렬명"><br>
-				<input id="rowNum" type="text" name="rowNum" style="width:300px;" placeholder="행개수"><br>
-				<button style="width:150px;">수정</button><button style="width:150px;" type="reset">취소</button>
+				<input id="tableNm" type="text" name="tableNm" class="update-input" placeholder="테이블명"><br>
+				<input id="columns" type="text" name="columns" class="update-input" placeholder="컬럼명"><br>
+				<input id="orderByColumn" type="text" name="orderByColumn" class="update-input" placeholder="컬럼정렬명"><br>
+				<input id="rowNum" type="text" name="rowNum" class="update-input" placeholder="행개수"><br>
+				<button class="update-btn">수정</button><button class="update-close-btn" type="button" onclick="updateClose();">닫기</button>
 			</form>
 		</div>
 	</div>

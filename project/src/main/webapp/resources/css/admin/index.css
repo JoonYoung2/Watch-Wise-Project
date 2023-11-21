@@ -30,6 +30,72 @@
 	display:none;
 }
 
+.popular-movie{
+	position:relative;
+}
+
+.popular-movie-div{
+	display:flex; 
+	justify-content:space-around;
+}
+
+.movie-poster{
+	position:relative; 
+	display:none;
+}
+
+.movie-poster-img{
+	width:100px; 
+	height:146px; 
+}
+
+.movie-poster-rank{
+	position:absolute; 
+	width:20px; 
+	height:20px; 
+	border:1px solid rgba(0, 0, 0, 1); 
+	background-color: gray; 
+	color:white; 
+	top:0;
+}
+
+.bar-chart-movie{
+	width:1000px;
+}
+
+.popular-actor{
+	position:relative;
+}
+
+.popular-actor-div{
+	display:flex; 
+	justify-content:space-around;
+}
+
+.actor-profile{
+	position:relative; 
+	display:none;
+}
+
+.actor-profile-img{
+	width:100px; 
+	height:146px;
+}
+
+.actor-profile-rank{
+	position:absolute; 
+	width:20px; 
+	height:20px; 
+	border:1px solid rgba(0, 0, 0, 1); 
+	background-color: gray; 
+	color:white; 
+	top:0;
+}
+
+.bar-chart-actor{
+	width:1000px;
+}
+
 .live-search-page{
 	position:relative;
 }
@@ -144,5 +210,10 @@
 	align-items:center; 
 	top:130px; 
 	left:445px;
+}
+
+.bar-chart-search{
+	width:600px; 
+	padding-left:100px;
 }
 
