@@ -163,7 +163,7 @@ public class ReviewService {
 			}else {
 				comment.setIsLiked(0); //좋아하지 않은 코멘트
 			}
-			
+			System.out.println("CommentIdPlusUserEmail=========>"+CommentIdPlusUserEmail);
 			BlackListDTO blackListDto = adminMemberRepo.checkIfReported(CommentIdPlusUserEmail);
 			if(blackListDto != null) {
 				comment.setIsReported(1); //신고한 코멘트
