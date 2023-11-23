@@ -261,3 +261,38 @@ function cancelReport(userEmail, reviewComment, commentId, movieId, cnt){
 
     closeModalForReport();
 }
+
+//------------------------------reported_comments.jsp-----------------------
+function checkForDelete(commentId, email, pageNum){
+	if (confirm("해당 데이터를 삭제하시겠습니까?")) {
+		location.href="/admin/deleteReportedData?commentId=" + commentId + "&email=" + email + "&pageNum=" + pageNum;
+	}
+}
+
+function openModalForReportersList(blackListDto, cnt){
+	let num = Number(cnt);
+	let body = document.getElementById('bodyForShadow');
+	let modalClass = document.querySelectorAll('.modal');
+//	let madalTitle = document.getElementById('modalMovieTitle');
+//	let textBox = document.getElementById('movieComment');
+//	let hiddenMovieId = document.getElementById('modalMovieId');
+	
+	modalClass[num].style.display = 'block';
+	body.style.display = 'block';
+	modalClass[num].style.zIndex = '2';
+	body.style.zIndex = '1';
+//	madalTitle.textContent = movieNm;
+//	textBox.innerHTML = comment;
+//	hiddenMovieId.value=movieId;
+	//$ajax
+}
+
+function closeModalForReportersList(cnt){
+	let num = Number(cnt);
+	let body = document.getElementById('bodyForShadow');
+	let modalClass = document.querySelectorAll('.modal');
+	modalClass[num].style.display = 'none';
+	body.style.display = 'none';
+	modalClass[num].style.zIndex = '-2';
+	body.style.zIndex = '-2';
+}

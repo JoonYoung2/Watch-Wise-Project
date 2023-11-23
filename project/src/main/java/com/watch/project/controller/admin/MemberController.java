@@ -112,6 +112,45 @@ public class MemberController {
 		return "redirect:/admin/member_info/id/" + pageNum + "?query=";
 	}
 	
+
+	@GetMapping("/admin/black_list_waiting")
+	public String blackListWaiting(Model model, @RequestParam("currentPage") int currentPage) {
+		System.out.println("controller로 옴. crrentPage --> "+currentPage);
+		List<BlackListWaitingDTO> list = service.getBlackListWaiting();
+		int total = list.size();
+		List<BlackListWaitingDTO> currentPageList = service.getCurrentPageList(currentPage, total, 0);
+		model.addAttribute("list", new PagingDTO(total, currentPage, 15, 10, list));
+		model.addAttribute("total", total);
+		model.addAttribute("contentList", list);
+		model.addAttribute("showDatas", currentPageList);
+		model.addAttribute("pageNum", currentPage);
+		return "admin/member/black_list_waiting";
+	}
+	
+	@GetMapping("/admin/showReportedComments")
+	public String showReportedComments(@RequestParam("authorEmail") String email, @RequestParam("pageNum") int pageNum, Model model) {
+		List<ReportedCommentsDTO> result = service.getReportedComments(email);
+		model.addAttribute("commentList", result);
+		model.addAttribute("email", email);
+		model.addAttribute("pageNum", pageNum);
+		return "admin/member/reported_comments";
+	}
+	
+	@GetMapping("/admin/deleteReportedData")
+	public String deleteReportedData(@RequestParam("commentId") String commentId, @RequestParam("email") String email, @RequestParam("pageNum") int pageNum, RedirectAttributes redirectAttr) {
+		System.out.println("########################"+commentId);
+		String msg = service.deleteReportedCommentDataFormAdmin(commentId);
+		redirectAttr.addFlashAttribute("msg", msg);
+		return "redirect:/admin/showReportedComments?authorEmail="+email+"&pageNum="+pageNum;
+	}
+	
+	@GetMapping("/admin/addToBlackList")
+	public String addToBlackList (@RequestParam("author") String authorEmail, @RequestParam("currentPage") int currentPage, RedirectAttributes redirectAttr) {
+		String msg = service.updateToBlack(authorEmail);
+		redirectAttr.addFlashAttribute("msg", msg);
+		return "redirect:/admin/black_list_waiting?currentPage="+currentPage;
+	}
+		
 	/*
 	 * 	// http://localhost:8090/lprod/list?currentPage=1
 	// defaultValue : 해당 요청 파라미터를 지정하지 않을 경우
@@ -132,26 +171,23 @@ public class MemberController {
 		return "lprod/list";
 	}
 	 */
-	@GetMapping("/admin/black_list_waiting")
-	public String blackListWaiting(Model model, @RequestParam("currentPage") int currentPage) {
-		System.out.println("controller로 옴. crrentPage --> "+currentPage);
-		List<BlackListWaitingDTO> list = service.getBlackListWaiting();
+	@GetMapping("/admin/black_list")
+	public String blackList(@RequestParam("currentPage") int pageNum, Model model) {
+		List<BlackListWaitingDTO> list = service.getBlackList();
 		int total = list.size();
-		List<BlackListWaitingDTO> currentPageList = service.getCurrentPageList(currentPage, total);
-		model.addAttribute("list", new PagingDTO(total, currentPage, 15, 10, list));
+		List<BlackListWaitingDTO> currentPageList = service.getCurrentPageList(pageNum, total, 1);
+		model.addAttribute("list", new PagingDTO(total, pageNum, 15, 10, list));
 		model.addAttribute("total", total);
 		model.addAttribute("contentList", list);
 		model.addAttribute("showDatas", currentPageList);
-		model.addAttribute("pageNum", currentPage);
-		return "admin/member/black_list_waiting";
+		model.addAttribute("pageNum", pageNum);
+		return "admin/member/black_list";
 	}
 	
-	@GetMapping("/admin/showReportedComments")
-	public String showReportedComments(@RequestParam("authorEmail") String email, @RequestParam("pageNum") int pageNum, Model model) {
-		List<ReportedCommentsDTO> result = service.getReportedComments(email);
-		model.addAttribute("commentList", result);
-		model.addAttribute("email", email);
-		model.addAttribute("pageNum", pageNum);
-		return "admin/member/reported_comments";
+	@GetMapping("/admin/deleteFromBlackList")
+	public String deleteFromBlackList(@RequestParam("author") String userEmail, @RequestParam("currentPage") int pageNum, RedirectAttributes redirectAttr) {
+		String msg = service.deleteFromBlackList(userEmail);
+		redirectAttr.addFlashAttribute("msg", msg);
+		return "redirect:/admin/black_list?currentPage="+pageNum;
 	}
 }

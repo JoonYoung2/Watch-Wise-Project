@@ -58,5 +58,6 @@
 		</c:forEach>
 	</div>
 </div>
+<script src="/resources/js/member_info.js"></script>
 </body>
 </html>

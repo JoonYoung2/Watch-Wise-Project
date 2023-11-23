@@ -8,8 +8,8 @@ import lombok.Getter;
 @Builder
 public class BlackListDTO {
 	private String id;
-	private String reportedComment;
 	private String reportedCommentId;
+	private String reportedComment;
 	private String authorEmail;
 	private String reporterEmail;
 	private String reasonForReport;
@@ -20,7 +20,7 @@ public class BlackListDTO {
 	private String movieId;
 	private float reviewScore;
 	//-----------DB 별도---------------
-	private int reportedAmount;
+//	private int reportedAmount;
 	
 	
 }

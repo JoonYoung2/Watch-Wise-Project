@@ -12,12 +12,18 @@
 <%@ include file="../include/header.jsp" %>
 <hr style="border:1px solid #ccc;">
 
-<div style="">
+<c:if test="${not empty msg}">
+	<script>
+		alert('${msg}');
+	</script>
+</c:if>
+
+<div>
 	<a href="/admin/black_list_waiting?currentPage=${pageNum}">
 		<img src="/resources/img/back.png" style="width:20px; margin-top:20px;">
 	</a>
 	<div style="margin: 0 auto; text-align:center;">
-		<h3>${email }이 작성한 신고된 코멘트들	</h3>
+		<h3>${email }이 작성한 신고된 코멘트들</h3><h4> (신고 당시의 데이터)	</h4>
 		<br>
 	</div>
 </div>
@@ -27,12 +33,13 @@
 	<c:forEach var="list" items="${commentList}">
 	<div class="movie-card">
 		<div class="movie-info">
-			<span style="margin-left: 10px;cursor: pointer;" onclick="moveToMovieInfo('${list.movieId }');">
-				<b style="font-size:17px;">${list.movieNm }</b><br>
+			<span style="margin-left: 10px;cursor: pointer;">
+				<a href="/movieInfo?movieId=${list.movieId}"><b style="font-size:17px;">${list.movieNm }</b></a>
+				
+				<br>
 			</span>
 			<span style="margin-left:auto;">
-				<img class="openModalButton" onclick="openModal('${list.movieNm }', '${list.movieId}', '${list.reportedComment}', '${cntForComment}');" src="/resources/img/thinPencil.png" style="cursor:pointer; width:20px;"/>
-				<img src="/resources/img/bin.png" onclick="location.href='/deleteCommentFromMyCommentList?id=${list.commentId }&movieId=${list.movieId }'" style="padding-left:8px; cursor:pointer; width:20px;"/>
+				<a style="padding-left:8px; cursor:pointer; color:darkblue; text-decoration:underline" onclick="checkForDelete('${list.commentId }', '${email}', '${pageNum}');" >정상 댓글 (신고 데이터에서 제외)</a>
 			</span>
 		</div>
 			
@@ -52,7 +59,7 @@
 	        </span>
 	        <span style="margin-right:14px;">
 		        <span>
-			        <img style="width:20px; vertical-align:-5px;" src="/resources/img/activatedAlert.png"> 
+			        <img style="width:20px; vertical-align:-5px; cursor:pointer;" src="/resources/img/activatedAlert.png" onclick="openModalForReportersList('${list.blackListDto}', '${cntForComment}');"> 
 			        <span> x </span>
 			        <span class="comment_like_count" style="vertical-align:-1px;">${list.reportedAmount }</span>
 	        	</span>
@@ -60,26 +67,36 @@
 	        </span>
 	    </div>   
 	</div>
-        <c:set var="cntForComment" value="${ cntForComment+1 }"/>
+
+        <div id="modal" class="modal" style=" position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:600px; height:600px;background-color:white; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); border:1px solid #ccc;border-radius:4px; z-index:-2; display:none;">
+		    <div class="modal-content" style="background-color:white; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:500px; height:550px; border-radius:5px;">
+		    	<div class="top" style="display:flex; width: 100%; height:10px; top: 0%;"><!-- top  -->
+					<span class="closeModalButton" onclick="closeModalForReportersList('${cntForComment}');" style="margin-left:auto; font-size:20px; cursor:pointer;">&times;</span>
+			    </div>
+			    <div>
+			    	<h4 style="text-align:center">신고자 리스트</h4>
+			    	<div class="table-area" style="width:500px; height:480px;overflow: auto;">
+				    	<table border="1" >
+				    		<tr>
+				    			<th>신고자</th><th>신고사유</th><th>신고날짜</th>
+				    		</tr>
+				    		<c:forEach var="listModal" items="${ list.blackListDto }">
+					    		<tr>
+					    			<td style="padding:5px;">${listModal.reporterEmail }</td>
+					    			<td style="padding:5px;">${listModal.reasonForReport }</td>
+					    			<td style="padding:5px;">${listModal.reportedDate }</td>
+					    		</tr>
+				    		</c:forEach>
+				    	</table>
+			    	</div>			   		
+			   	</div>
+		  	</div>
+		</div>
+		<c:set var="cntForComment" value="${ cntForComment+1 }"/>
 	</c:forEach>
 </div>
 
-<div id="modal" style=" position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:400px; height:400px;background-color:white; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); border:1px solid #ccc;border-radius:4px; z-index:-2; display:none;">
-    <div class="modal-content" style="background-color:white; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:350px; height:350px; border-radius:5px;">
-    	<div class="top" style="display:flex; width: 100%; height:60px; top: 5%;"><!-- top  -->
-			<span id="modalMovieTitle" style="font-size:15px; font-weight:bold;"></span>
-			<span class="closeModalButton" onclick="closeModal();" style="margin-left:auto; font-size:20px; cursor:pointer;">&times;</span>
-	    </div>
-	    <div>
-	   		<textarea style="width:340px; height:250px;"id="movieComment"></textarea>
-	   		<input type="hidden" id="modalMovieId" />
-	   		
-	   	</div>
-	   	<div>
-	   		<button style="margin-top:10px; margin-left:40%" onclick="updateMovieComment();">수정하기</button>
-	   	</div>
-  	</div>
-</div>
+
 
 <div id="bodyForShadow" class="bodyForShadow" style="content: '';
     position:fixed;  z-index:-2;  display:none;
@@ -140,7 +157,8 @@
 </style>
 
 <script src="/resources/js/common.js"></script>
-<script src="/resources/js/member_info.js"></script>
+<script src="/resources/js/admin/black_list.js"></script>
+<script src="/resources/js/search_common.js"></script>
 <script src="/resources/js/search_common.js"></script>
 </body>
 </html>

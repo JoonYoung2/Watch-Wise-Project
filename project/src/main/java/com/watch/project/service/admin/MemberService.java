@@ -89,8 +89,6 @@ public class MemberService {
 		int result = 0;
 		String email = (String) session.getAttribute("userEmail");
 		String id = movieId + authorEmail + email;
-		System.out.println("service 단 id: "+id);
-		System.out.println("service 단 reason : "+reason);
         // 날짜 데이터
 		Date currentDate = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -99,7 +97,6 @@ public class MemberService {
         String movieNm = repo.getMovieNmByMovieId(movieId);
         //comment_written_date 가져오기
         String commentDate = repo.getCommentDateByCommentId(commentId);
-        System.out.println("commentDate ==>:"+commentDate);
         //review_score 가져오기
         float score = repo.getReviewScore(commentId);
         
@@ -143,13 +140,10 @@ public class MemberService {
 		String msg ="신고가 취소되었습니다.";
 		String email = (String) session.getAttribute("userEmail");
 		String id = movieId + author + email;
-		log.info("여기야1 author===>{}", author);
-		log.info("여기야2 email===>{}", email);
 
 		BlackListDTO dto = 
 				BlackListDTO.builder()
 				.id(id).build();
-		log.info("여기야3 ===>{}", dto.getId());
 		
 		 try {
 		        BlackListDTO db = repo.checkIfExist(dto);
@@ -172,7 +166,7 @@ public class MemberService {
 		return result;
 	}
 
-	public List<BlackListWaitingDTO> getCurrentPageList(int currentPage, int total) {
+	public List<BlackListWaitingDTO> getCurrentPageList(int currentPage, int total, int isBlack) {
 		int startRow = (15*currentPage)-14;
 		int endRow = startRow + 14;
 		int totalRows = total;
@@ -181,28 +175,62 @@ public class MemberService {
 		map.put("startRow", startRow);
 		map.put("endRow", endRow);
 		map.put("totalRows", totalRows);
+		map.put("isBlack", isBlack);
 		
 		List<BlackListWaitingDTO> result = repo.getCurrentPageList(map);
-		
-		for(BlackListWaitingDTO log : result) {
-			System.out.println("list ==>"+log.getAuthorEmail());
-			System.out.println("list ==>"+log.getRowNum());
-		}
+
 		return result;
 	}
 
 	public List<ReportedCommentsDTO> getReportedComments(String email) {
 		List<ReportedCommentsDTO> finalList = new ArrayList<>();
 		List<String> commentIds = repo.getReportedCommentIds(email);
+		//movie_nm, reported_comment, comment_written_date, reported_amount
 		for(String commentId : commentIds) {
 			log.info("id => {}", commentId);
 			ReportedCommentsDTO result = repo.getReportedCommentDatas(commentId); 
 			result.setCommentId(commentId);
-			//movie_nm, reported_comment, comment_written_date, reported_amount
-			log.info("id2 => {}", commentId);
+			result.setBlackListDto(repo.getBlackListDtoForModal(commentId));
+			for(BlackListDTO list : result.getBlackListDto()) {
+				log.info("here is where I shoud See => {}", list.getReasonForReport());				
+			}
 			finalList.add(result);
 		}
 		return finalList;
+	}
+
+	public String deleteReportedCommentDataFormAdmin(String commentId) {
+		String msg = "해당 데이터가 삭제되었습니다";
+		int result = repo.deleteReportedCommentDataFormAdmin(commentId);
+		if(result != 1) {
+			msg = "오류가 발생했습니다. 다시 시도해주세요.";
+		}
+		return msg;
+	}
+
+	public String updateToBlack(String email) {
+		String msg=email+"님이 블랙리스트로 등록되었습니다";
+		int resultOfBlackList = repo.updateToBlack4BlackList(email);
+		int resultOfMovieReview = repo.updateToBlack4MovieReview(email);
+		if(resultOfBlackList==0 && resultOfMovieReview==0) {
+			msg="오류가 발생했습니다. 다시 시도해주세요.";
+		}
+		return msg;
+	}
+
+	public List<BlackListWaitingDTO> getBlackList() {
+		List<BlackListWaitingDTO> result = repo.getBlackList();
+		return result;
+	}
+
+	public String deleteFromBlackList(String email) {
+		String msg=email+"님이 블랙리스트에서 해제되었습니다";
+		int result4BlackList = repo.updateToWait4BlackList(email);
+		int result4MovieReview = repo.updateToWait4MovieReview(email);
+		if(result4BlackList == 0 && result4MovieReview == 0) {
+			msg="오류가 발생했습니다. 다시 시도해주세요.";
+		}
+		return msg;
 	}
 
 

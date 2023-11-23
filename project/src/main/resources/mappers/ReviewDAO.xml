@@ -59,7 +59,7 @@
 	</insert>
 	
 	<select id="selectComments" resultMap="review">
-		SELECT * FROM movie_review WHERE movie_id=#{movieId}
+		SELECT * FROM movie_review WHERE movie_id=#{movieId} AND is_black=0
 	</select>
 	
 	<select id="getComment" resultMap="review">

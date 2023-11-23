@@ -51,6 +51,10 @@ public class HomeController {
 		 */
 		List<ActorChartDTO> actorChartList = service.getPopularActorList();
 		
+		log.info("{}", liveSearchList.size());
+		log.info("{}", movieChartList.size());
+		log.info("{}", actorChartList.size());
+		
 		model.addAttribute("liveSearch", liveSearchList);
 		model.addAttribute("movieChart", movieChartList);
 		model.addAttribute("actorChart", actorChartList);
