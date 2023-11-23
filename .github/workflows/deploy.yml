@@ -3,13 +3,13 @@ name: Deploy to Amazon EC2
 on:
   push:
     branches:
-      - jun-aws
+      - master
 
 env:
   AWS_REGION: ap-northeast-2
-  S3_BUCKET_NAME: watch-buket
-  CODE_DEPLOY_APPLICATION_NAME: watch-codedeploy-app
-  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: watch-group
+  S3_BUCKET_NAME: spring-github-actions-s3-bucket
+  CODE_DEPLOY_APPLICATION_NAME: my-codedeploy-app
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: my-codedeploy-deployment-group
 
 permissions:
   contents: read
