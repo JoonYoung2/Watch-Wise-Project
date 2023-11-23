@@ -30,9 +30,14 @@ jobs:
     - name: Run chmod to make Api gradlew executable
       run: chmod +x ./restApi/api/gradlew
     
-    - name: Gradle Build
+    - name: Watch Gradle Build
       run: |
         cd project
+        ./gradlew clean build
+
+    - name: Api Gradle Build
+      run: |
+        cd restApi/api
         ./gradlew clean build
 
     - name: Set up JDK 11
@@ -40,6 +45,11 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '11'
+
+    - name: Watch Build with Gradle
+      uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+      with:
+        arguments: clean build -x test
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
