@@ -95,16 +95,19 @@
 	</select>
 	
 	<select id="getBlackListDTO" resultMap="blackListWaiting">
-		SELECT author_email, COUNT(reported_comment_id) AS reported_comment_amount FROM black_list GROUP BY author_email
+		SELECT author_email, COUNT(reported_comment_id) AS reported_comment_amount FROM black_list WHERE is_black=0 GROUP BY author_email
 	</select>
 	
 	<select id="getCurrentPageList" resultMap="blackListWaiting">
 		SELECT row_num, author_email, reported_comment_amount
 		FROM (
    			SELECT author_email, COUNT(reported_comment_id) AS reported_comment_amount, ROW_NUMBER() OVER (ORDER BY COUNT(reported_comment_id) DESC) AS row_num
-   			FROM black_list GROUP BY author_email
+   			FROM black_list WHERE is_black=#{isBlack} GROUP BY author_email
 		)
-		WHERE row_num BETWEEN #{startRow} AND #{endRow} AND row_num &lt;= #{totalRows}
+		WHERE 
+		row_num BETWEEN #{startRow} AND #{endRow} 
+		AND
+		row_num &lt;= #{totalRows}
 	</select>
 	
 	<select id="getReportedCommentIds" resultType="String">
@@ -112,7 +115,7 @@
 	</select>
 	
 	<select id="getReportedCommentDatas" resultMap="reportedComments">
-		SELECT movie_nm, reported_comment, comment_written_date, review_score, movie_id, reported_amount
+		SELECT reported_comment, movie_nm, comment_written_date, review_score, movie_id, reported_amount
 		FROM (
     		SELECT movie_nm, reported_comment, comment_written_date, review_score, movie_id, COUNT(reported_comment_id) AS reported_amount
     		FROM black_list 
@@ -120,6 +123,45 @@
     		GROUP BY reported_comment_id, movie_nm, reported_comment, comment_written_date, review_score, movie_id
 		)
 	</select>
-
 	
+	<select id="getBlackListDtoForModal" resultMap="blackList">
+		SELECT * FROM black_list WHERE reported_comment_id=#{commentId}
+	</select>
+	
+	<delete id="deleteReportedCommentDataFormAdmin" parameterType="String">
+		DELETE FROM black_list WHERE reported_comment_id=#{commentId}
+	</delete>
+	
+	<update id="updateToBlack4BlackList" parameterType="String">
+		UPDATE black_list SET is_black = 1 WHERE author_email=#{email}
+	</update>
+	
+	<update id="updateToBlack4MovieReview" parameterType="String">
+		UPDATE movie_review SET is_black = 1 WHERE user_email=#{email}
+	</update>
+	
+	<select id="getBlackList" resultMap="blackListWaiting">
+		SELECT author_email, COUNT(reported_comment_id) AS reported_comment_amount FROM black_list WHERE is_black=1 GROUP BY author_email
+	</select>
+	
+	<select id="getCurrentPageList4Black" resultMap="blackListWaiting">
+		SELECT row_num, author_email, reported_comment_amount
+		FROM (
+   			SELECT author_email, COUNT(reported_comment_id) AS reported_comment_amount, ROW_NUMBER() OVER (ORDER BY COUNT(reported_comment_id) DESC) AS row_num
+   			FROM black_list WHERE is_black=1 GROUP BY author_email
+		)
+		WHERE 
+		row_num BETWEEN #{startRow} AND #{endRow} 
+		AND
+		row_num &lt;= #{totalRows}
+	</select>
+	
+	<update id="updateToWait4BlackList" parameterType="String">
+		UPDATE black_list SET is_black = 0 WHERE author_email=#{email}
+	</update>
+	
+	<update id="updateToWait4MovieReview" parameterType="String">
+		UPDATE movie_review SET is_black = 0 WHERE user_email=#{email}
+	</update>
+
 </mapper>

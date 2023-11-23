@@ -42,6 +42,21 @@ public interface AdminMemberRepository {
 	public float getReviewScore(String commentId);
 
 	public ReportedCommentsDTO getReportedCommentDatas(String commentId);
+
+	public int deleteReportedCommentDataFormAdmin(String commentId);
+
+	public List<BlackListDTO> getBlackListDtoForModal(String commentId);
+
+	public int updateToBlack4BlackList(String email);
+
+	public int updateToBlack4MovieReview(String email);
+
+	public List<BlackListWaitingDTO> getBlackList();
+
+	public int updateToWait4BlackList(String email);
+
+	public int updateToWait4MovieReview(String email);
+	
 	
 	
 }

@@ -44,7 +44,6 @@ let actorColor = [];
 // 회원 동향 관련
 
 window.onload = () => {
-
     pageWidthClass[0].style.display="flex";
     menusClass[0].style.backgroundColor="rgba(0, 0, 0, 0.1)";
     menusClass[0].style.fontWeight="bold";
