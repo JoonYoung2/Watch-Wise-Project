@@ -7,7 +7,7 @@ on:
 
 env:
   AWS_REGION: ap-northeast-2 
-  S3_BUCKET_NAME: watch-bucket
+  S3_BUCKET_NAME: watch-buket
   CODE_DEPLOY_APPLICATION_NAME: watch-codedeploy-app
   CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: watch-group
 
