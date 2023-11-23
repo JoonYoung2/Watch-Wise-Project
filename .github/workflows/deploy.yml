@@ -24,8 +24,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Run chmod to make gradlew executable
-      run: chmod +x ./gradlew
+    - name: Run chmod to make Watch gradlew executable
+      run: chmod +x ./project/gradlew
 
     - name: Gradle Build
       run: ./gradlew clean build
