@@ -7,12 +7,13 @@
 		SELECT num, cnt, content, '0' as state FROM live_search_data order by num asc
 	</select>
 	<select id="getNewLiveSearchDataList" resultType="com.watch.api.dto.LiveSearchDTO">
-		<![CDATA[SELECT ROWNUM AS num, cnt, content, '0' AS state FROM
-		(SELECT * FROM
-		(SELECT COUNT(content) AS cnt, content from 
-		(SELECT * FROM content_searching WHERE search_date >= '${date}') 
-		GROUP BY content) 
-		ORDER BY cnt DESC)]]>
+		<![CDATA[
+			SELECT ROW_NUMBER() OVER () AS num, cnt, content, '0' AS state FROM
+			(SELECT COUNT(content) AS cnt, content FROM
+			(SELECT * FROM content_searching WHERE search_date >= '${date}')
+			GROUP BY content
+			ORDER BY cnt DESC) AS ranked
+		]]>
 	</select>
 	<delete id="deleteLiveSearchData">
 		DELETE FROM live_search_data

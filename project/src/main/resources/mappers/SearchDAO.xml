@@ -42,202 +42,239 @@
 		<result column="content" property="content"/>
 		<result column="search_type" property="searchType"/>
 	</resultMap>
-	
+
 	<!-- 실시간 검색어 -->
 	<select id="getLiveSearchList" resultType="com.watch.project.dto.LiveSearchDTO">
 		SELECT * FROM live_search ORDER BY num ASC
 	</select>
-	<!-- 실시간 검색어 -->
 	<!-- 검색 기록 설정 관련 -->
 	<select id="getContentSearchByUserEmail" resultMap="contentSearch">
 		SELECT * FROM content_searching WHERE user_email=#{userEmail} AND NOT search_use=2 ORDER BY search_date DESC
 	</select>
-	
+
 	<select id="getSearchHistoryByUserEmail" resultType="Integer">
 		SELECT search_history FROM member_config WHERE user_email=#{userEmail}
 	</select>
-	
+
 	<update id="searchOff" parameterType="String">
 		UPDATE member_config SET search_history=1 WHERE user_email=#{userEmail}
 	</update>
-	
+
 	<update id="searchOn" parameterType="String">
 		UPDATE member_config SET search_history=0 WHERE user_email=#{userEmail}
 	</update>
-	
+
 	<insert id="insertMemberConfig" parameterType="String">
 		INSERT INTO member_config VALUES(#{userEmail}, 1)
 	</insert>
 	<!-- 검색 기록 설정 관련 -->
-	
+
 	<!-- 검색 기록 관련 -->
 	<update id="deleteAllSearchHistory" parameterType="String">
 		UPDATE content_searching SET search_use = 2 WHERE user_email=#{userEmail}
 	</update>
-	
+
 	<update id="deleteSearchHistory" parameterType="String">
-		UPDATE content_searching SET search_use = 2 WHERE id in (${ids})
+		UPDATE content_searching SET search_use = 2 WHERE id IN (${ids})
 	</update>
-	
+
 	<select id="getSearchingCheckByUserEmailAndContent" resultType="Integer">
 		SELECT COUNT(id) FROM content_searching WHERE user_email=#{userEmail} AND content=#{content}
 	</select>
-	
+
 	<insert id="contentInsert" parameterType="com.watch.project.dto.ContentSearchingDTO">
 		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
-			SELECT NVL(MAX(id), 0)+1 FROM content_searching
+			SELECT COALESCE(MAX(id), 0) + 1 FROM content_searching
 		</selectKey>
-		INSERT INTO content_searching values(#{id}, #{userEmail}, #{content}, #{searchDate}, #{searchUse})
+		INSERT INTO content_searching VALUES(#{id}, #{userEmail}, #{content}, #{searchDate}, #{searchUse})
 	</insert>
-	
+
 	<update id="recentSearchesAllRemoveUpdateByUserEmail" parameterType="String">
 		UPDATE content_searching SET search_use = 0 WHERE user_email=#{userEmail} AND search_use = 1
 	</update>
-	
+
 	<update id="recentSearchesAddUpdateByUserEmailAndContent" parameterType="Map">
 		UPDATE content_searching SET search_use = 1, search_date=#{searchDate} WHERE user_email=#{userEmail} AND content=#{content}
 	</update>
-	
+
 	<update id="recentSearchesAddUpdateByUserEmailAndContent2" parameterType="Map">
 		UPDATE content_searching SET search_use = 2, search_date=#{searchDate} WHERE user_email=#{userEmail} AND content=#{content}
 	</update>
-	
+
 	<select id="recentSearchesByUserEmail" resultType="String">
-		<![CDATA[SELECT content FROM 
-		(SELECT * FROM content_searching WHERE user_email=#{userEmail} AND search_use = 1 ORDER BY search_date DESC)
-		where ROWNUM <= 3]]>
+		<![CDATA[
+    SELECT content FROM (
+        SELECT * FROM content_searching WHERE user_email=#{userEmail} AND search_use = 1 ORDER BY search_date DESC LIMIT 3
+    ) AS Temp
+    ]]>
 	</select>
-	
+
 	<select id="popularSearches" resultType="String">
-		<![CDATA[SELECT content FROM
-		(SELECT content, count(content) AS count FROM 
-		(SELECT * FROM content_searching WHERE search_date >= #{sixMonthAgo} ORDER BY search_date DESC) 
-		GROUP BY content ORDER BY count DESC) 
-		WHERE ROWNUM <= 5]]>
+		<![CDATA[
+    SELECT content FROM (
+        SELECT content, COUNT(content) AS count FROM (
+            SELECT * FROM content_searching WHERE search_date >= #{sixMonthAgo} ORDER BY search_date DESC
+        ) AS Temp GROUP BY content ORDER BY count DESC LIMIT 5
+    ) AS Temp2
+    ]]>
 	</select>
-	
+
 	<select id="getRelatedSearchByContentAndUserEmail" resultMap="relatedSearch">
 		<![CDATA[
-		-- 사용자 연관 검색어 쿼리
-		SELECT * FROM (
-		SELECT content, 1 AS search_type  FROM content_searching 
-		WHERE REGEXP_LIKE(content, '^${ content }') AND user_email = '${ userEmail }' AND NOT search_use = 2)
-		WHERE rownum <= 10
-		UNION ALL
-		
-		-- 토탈 사용자 검색어 
-		SELECT * FROM (
-		SELECT content, 2 AS search_type  FROM content_searching WHERE REGEXP_LIKE(content, '^${ content }') AND NOT user_email = '${ userEmail }' 
-		MINUS
-		SELECT content, 2 AS search_type  FROM content_searching WHERE REGEXP_LIKE(content, '^${ content }') AND user_email = '${ userEmail }'
-		AND NOT search_use = 2
-		) WHERE 
-		ROWNUM <= 10
-		UNION ALL
-		
-		-- 관련 영화 연관 검색어 쿼리
-		SELECT movie_nm AS content, 3 AS search_type FROM 
-		(SELECT movie_nm FROM 
-		(SELECT * FROM movie_info WHERE NOT genre_nm LIKE '%에로%') WHERE REGEXP_LIKE(movie_nm, '^${ content }') AND NOT genre_nm LIKE '%에로%'
-		ORDER BY like_num DESC) 
-		WHERE 
-		ROWNUM <= 10
-		UNION ALL
-		
-		-- 영화 영어명 연관 검색 쿼리
-		SELECT movie_nm_en AS content, 3 AS search_type FROM 
-		(SELECT movie_nm_en FROM 
-		(SELECT * FROM movie_info WHERE NOT genre_nm LIKE '%에로%') 
-		WHERE REGEXP_LIKE(movie_nm_en, '^${ content }') AND NOT genre_nm LIKE '%에로%' ORDER BY like_num DESC) 
-		WHERE 
-		ROWNUM <= 10
-		UNION ALL
-		
-		-- 배우 연관 검색 쿼리
-		SELECT people_nm AS content, 4 AS search_type FROM 
-		(SELECT * FROM people_info_detail WHERE REGEXP_LIKE(people_nm, '^${ content }') ORDER BY like_num DESC) 
-		WHERE 
-		ROWNUM <= 10
-		]]>
+    SELECT * FROM (
+        -- 사용자 연관 검색어 쿼리
+        SELECT content, 1 AS search_type  FROM content_searching
+        WHERE REGEXP_LIKE(content, '^${ content }') AND user_email = '${ userEmail }' AND NOT search_use = 2
+        LIMIT 10
+        UNION ALL
+        -- 토탈 사용자 검색어
+        SELECT content, 2 AS search_type  FROM content_searching
+        WHERE REGEXP_LIKE(content, '^${ content }') AND NOT user_email = '${ userEmail }'
+        MINUS
+        SELECT content, 2 AS search_type  FROM content_searching
+        WHERE REGEXP_LIKE(content, '^${ content }') AND user_email = '${ userEmail }' AND NOT search_use = 2
+        LIMIT 10
+        UNION ALL
+        -- 관련 영화 연관 검색어 쿼리
+        SELECT movie_nm AS content, 3 AS search_type FROM (
+            SELECT movie_nm FROM (
+                SELECT * FROM movie_info WHERE NOT genre_nm LIKE '%에로%'
+            ) WHERE REGEXP_LIKE(movie_nm, '^${ content }') AND NOT genre_nm LIKE '%에로%'
+            ORDER BY like_num DESC LIMIT 10
+        ) AS Temp
+        UNION ALL
+        -- 영화 영어명 연관 검색 쿼리
+        SELECT movie_nm_en AS content, 3 AS search_type FROM (
+            SELECT movie_nm_en FROM (
+                SELECT * FROM movie_info WHERE NOT genre_nm LIKE '%에로%'
+            ) WHERE REGEXP_LIKE(movie_nm_en, '^${ content }') AND NOT genre_nm LIKE '%에로%'
+            ORDER BY like_num DESC LIMIT 10
+        ) AS Temp2
+        UNION ALL
+        -- 배우 연관 검색 쿼리
+        SELECT people_nm AS content, 4 AS search_type FROM (
+            SELECT * FROM people_info_detail WHERE REGEXP_LIKE(people_nm, '^${ content }') ORDER BY like_num DESC LIMIT 10
+        ) AS Temp3
+    ) AS Temp4
+    ]]>
 	</select>
 	<!-- 검색 기록 관련 -->
-	
+
+	<!-- searchingStep1 -->
 	<select id="searchingStep1" resultMap="movieInfo">
-		<![CDATA[SELECT * FROM movie_info 
-		WHERE (movie_nm LIKE '${query}' OR movie_nm_en LIKE '${query}') 
-		AND NOT genre_nm LIKE '%에로%' AND 
-		rownum <= 50]]>
+		<![CDATA[
+    SELECT * FROM movie_info
+    WHERE (movie_nm LIKE CONCAT('%', #{query}, '%') OR movie_nm_en LIKE CONCAT('%', #{query}, '%'))
+    AND NOT genre_nm LIKE '%에로%'
+    LIMIT 50
+    ]]>
 	</select>
-	
+
+	<!-- searchingStep2 -->
 	<select id="searchingStep2" resultMap="movieInfo">
 		<![CDATA[
-		SELECT * FROM (
-		SELECT * FROM movie_info 
-		WHERE (movie_nm LIKE '%${query}%' OR movie_nm_en LIKE '%${query}%') 
-		AND NOT genre_nm LIKE '%에로%' AND 
-		ROWNUM <= 50
-		UNION ALL
-		SELECT * FROM movie_info
-		WHERE (REGEXP_LIKE(movie_nm, '^${ content }') OR REGEXP_LIKE(movie_nm_en, '^${ content }'))
-		AND NOT genre_nm LIKE '%에로%' AND 
-		rownum <= 50
-		UNION ALL
-		SELECT * FROM movie_info
-		WHERE (REGEXP_LIKE(movie_nm, '^${ content2 }') OR REGEXP_LIKE(movie_nm_en, '^${ content2 }'))
-		AND NOT genre_nm LIKE '%에로%' AND 
-		rownum <= 50
-		)WHERE ROWNUM <= 100
-		]]>
+    SELECT * FROM (
+        SELECT * FROM movie_info
+        WHERE (movie_nm LIKE CONCAT('%', #{query}, '%') OR movie_nm_en LIKE CONCAT('%', #{query}, '%'))
+        AND NOT genre_nm LIKE '%에로%'
+        LIMIT 50
+        UNION ALL
+        SELECT * FROM movie_info
+        WHERE (REGEXP_LIKE(movie_nm, '^${content}') OR REGEXP_LIKE(movie_nm_en, '^${content}'))
+        AND NOT genre_nm LIKE '%에로%'
+        LIMIT 50
+        UNION ALL
+        SELECT * FROM movie_info
+        WHERE (REGEXP_LIKE(movie_nm, '^${content2}') OR REGEXP_LIKE(movie_nm_en, '^${content2}'))
+        AND NOT genre_nm LIKE '%에로%'
+        LIMIT 50
+    ) AS Temp
+    LIMIT 100
+    ]]>
 	</select>
-	
+
+	<!-- searchingStep3 -->
 	<select id="searchingStep3" resultMap="peopleInfoDetail">
-		<![CDATA[SELECT * FROM people_info_detail 
-		WHERE people_nm LIKE '${query}' AND 
-		ROWNUM <= 50 
-		ORDER BY LENGTH(movie_id) DESC]]>
+		<![CDATA[
+    SELECT * FROM people_info_detail
+    WHERE people_nm LIKE CONCAT('%', #{query}, '%')
+    LIMIT 50
+    ORDER BY LENGTH(movie_id) DESC
+    ]]>
 	</select>
-	
+
+	<!-- searchingStep4 -->
 	<select id="searchingStep4" resultMap="peopleInfoDetail">
 		<![CDATA[
-		SELECT * FROM(
-		
-		SELECT * FROM(
-		SELECT * FROM people_info_detail 
-		WHERE people_nm LIKE '%${query}%' AND 
-		ROWNUM <= 50 
-		ORDER BY LENGTH(movie_id) DESC)
-		UNION ALL
-		
-		SELECT * FROM(
-		SELECT * FROM people_info_detail 
-		WHERE REGEXP_LIKE(people_nm, '^${ content }') OR REGEXP_LIKE(people_nm_en, '^${ content }') AND 
-		ROWNUM <= 50 
-		ORDER BY LENGTH(movie_id) DESC)
-		UNION ALL
-		
-		SELECT * FROM(
-		SELECT * FROM people_info_detail 
-		WHERE REGEXP_LIKE(people_nm, '^${ content2 }') OR REGEXP_LIKE(people_nm_en, '^${ content2 }') AND 
-		ROWNUM <= 50
-		ORDER BY LENGTH(movie_id) DESC)
-		) WHERE ROWNUM <= 100
-		]]>
+    SELECT * FROM (
+        SELECT * FROM (
+            SELECT * FROM people_info_detail
+            WHERE people_nm LIKE CONCAT('%', #{query}, '%')
+            LIMIT 50
+            ORDER BY LENGTH(movie_id) DESC
+        ) AS Temp1
+        UNION ALL
+        SELECT * FROM (
+            SELECT * FROM people_info_detail
+            WHERE REGEXP_LIKE(people_nm, '^${content}') OR REGEXP_LIKE(people_nm_en, '^${content}')
+            LIMIT 50
+            ORDER BY LENGTH(movie_id) DESC
+        ) AS Temp2
+        UNION ALL
+        SELECT * FROM (
+            SELECT * FROM people_info_detail
+            WHERE REGEXP_LIKE(people_nm, '^${content2}') OR REGEXP_LIKE(people_nm_en, '^${content2}')
+            LIMIT 50
+            ORDER BY LENGTH(movie_id) DESC
+        ) AS Temp3
+    ) AS Temp
+    LIMIT 100
+    ]]>
 	</select>
-	
+
+	<!-- searchingStep20 -->
 	<select id="searchingStep20" resultMap="movieInfo">
-		<![CDATA[SELECT * FROM movie_info WHERE (movie_nm LIKE '${query}' OR movie_nm_en LIKE '${query}' OR nations LIKE '${query}' OR genre_nm LIKE '${query}' OR actors LIKE '${query}' OR cast LIKE '${query}' OR prdt_year = '${query}') AND NOT genre_nm LIKE '%에로%' AND rownum <= 50]]>
+		<![CDATA[
+    SELECT * FROM movie_info
+    WHERE (
+        movie_nm LIKE CONCAT('%', #{query}, '%') OR
+        movie_nm_en LIKE CONCAT('%', #{query}, '%') OR
+        nations LIKE CONCAT('%', #{query}, '%') OR
+        genre_nm LIKE CONCAT('%', #{query}, '%') OR
+        actors LIKE CONCAT('%', #{query}, '%') OR
+        cast LIKE CONCAT('%', #{query}, '%') OR
+        prdt_year = #{query}
+    )
+    AND NOT genre_nm LIKE '%에로%'
+    LIMIT 50
+    ]]>
 	</select>
-	
+
+	<!-- searchingStep21 -->
 	<select id="searchingStep21" resultMap="movieInfo">
-		<![CDATA[SELECT * FROM movie_info WHERE (movie_nm LIKE '%${query}%' OR movie_nm_en LIKE '%${query}%' OR nations LIKE '%${query}%' OR genre_nm LIKE '%${query}%' OR actors LIKE '%${query}%' OR cast LIKE '%${query}%') AND NOT genre_nm LIKE '%에로%' AND rownum <= 50]]>
+		<![CDATA[
+    SELECT * FROM movie_info
+    WHERE (
+        movie_nm LIKE CONCAT('%', #{query}, '%') OR
+        movie_nm_en LIKE CONCAT('%', #{query}, '%') OR
+        nations LIKE CONCAT('%', #{query}, '%') OR
+        genre_nm LIKE CONCAT('%', #{query}, '%') OR
+        actors LIKE CONCAT('%', #{query}, '%') OR
+        cast LIKE CONCAT('%', #{query}, '%')
+    )
+    AND NOT genre_nm LIKE '%에로%'
+    LIMIT 50
+    ]]>
 	</select>
-	
+
+	<!-- getMovieInfoByMovieIds -->
 	<select id="getMovieInfoByMovieIds" resultMap="movieInfo">
 		SELECT * FROM movie_info WHERE movie_id IN (${movieIds}) ORDER BY open_dt DESC
 	</select>
-	
+
+	<!-- getPeopleIdByPeopleNmAndMovieNm -->
 	<select id="getPeopleIdByPeopleNmAndMovieNm" resultType="Integer" parameterType="Map">
-		SELECT people_id FROM people_info_detail WHERE people_nm=#{peopleNm} AND movie_nm LIKE '%${movieNm}%'
+		SELECT people_id FROM people_info_detail WHERE people_nm=#{peopleNm} AND movie_nm LIKE CONCAT('%', #{movieNm}, '%')
 	</select>
 	
 </mapper>

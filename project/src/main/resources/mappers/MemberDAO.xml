@@ -17,47 +17,56 @@
 	<result property="naverRefreshToken" column="naver_refresh_token"/>
 </resultMap>
 
+	<!-- getUserInfoByEmail -->
 	<select id="getUserInfoByEmail" resultMap="member">
 		SELECT * FROM member_info WHERE user_email=#{userEmail}
 	</select>
-	
+
+	<!-- saveMemberInfo -->
 	<insert id="saveMemberInfo" parameterType="com.watch.project.dto.MemberDTO">
 		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
-			SELECT nvl(max(id),0)+1
-			FROM member_info
+			SELECT COALESCE(MAX(id), 0) + 1 FROM member_info
 		</selectKey>
-		INSERT INTO member_info
-		VALUES(#{id}, #{userEmail}, #{userPw}, #{userName}, #{userLoginType}, #{socialLoginId}, 0, 0, 0, '0', '0')
-	</insert>	
-	
+		INSERT INTO member_info (id, user_email, user_pw, user_name, user_login_type, social_login_id, kakao_agreement, naver_agreement, google_agreement, kakao_refresh_token, naver_refresh_token)
+		VALUES (#{id}, #{userEmail}, #{userPw}, #{userName}, #{userLoginType}, #{socialLoginId}, 0, 0, 0, '0', '0')
+	</insert>
+
+	<!-- deleteMemberInfo -->
 	<delete id="deleteMemberInfo" parameterType="String">
 		DELETE FROM member_info WHERE user_email=#{userEmail}
 	</delete>
-	 
+
+	<!-- updateMemberName -->
 	<update id="updateMemberName" parameterType="com.watch.project.dto.MemberDTO">
-		UPDATE member_info SET user_name =#{userName} WHERE user_email=#{userEmail}
+		UPDATE member_info SET user_name = #{userName} WHERE user_email=#{userEmail}
 	</update>
-	
+
+	<!-- updateMemberInfo -->
 	<update id="updateMemberInfo" parameterType="com.watch.project.dto.MemberDTO">
 		UPDATE member_info SET user_name=#{userName}, user_pw=#{userPw} WHERE user_email=#{userEmail}
 	</update>
-	
+
+	<!-- updateKakaoAgreement -->
 	<update id="updateKakaoAgreement" parameterType="com.watch.project.dto.MemberDTO">
 		UPDATE member_info SET kakao_agreement=1 WHERE user_email=#{userEmail}
 	</update>
-	
+
+	<!-- updateNaverAgreement -->
 	<update id="updateNaverAgreement" parameterType="com.watch.project.dto.MemberDTO">
 		UPDATE member_info SET naver_agreement=1 WHERE user_email=#{userEmail}
 	</update>
-	
+
+	<!-- updateGoogleAgreement -->
 	<update id="updateGoogleAgreement" parameterType="com.watch.project.dto.MemberDTO">
 		UPDATE member_info SET google_agreement=1 WHERE user_email=#{userEmail}
 	</update>
-	
+
+	<!-- updateKakaoRefreshToken -->
 	<update id="updateKakaoRefreshToken" parameterType="com.watch.project.dto.MemberDTO">
 		UPDATE member_info SET kakao_refresh_token=#{kakaoRefreshToken} WHERE user_email=#{userEmail}
 	</update>
 
+	<!-- updateNaverRefreshToken -->
 	<update id="updateNaverRefreshToken" parameterType="com.watch.project.dto.MemberDTO">
 		UPDATE member_info SET naver_refresh_token=#{naverRefreshToken} WHERE user_email=#{userEmail}
 	</update>

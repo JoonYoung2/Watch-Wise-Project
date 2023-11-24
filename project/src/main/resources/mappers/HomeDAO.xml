@@ -28,35 +28,46 @@
 		<result column="id" property="id"/>
 		<result column="movie_ids" property="movieIds"/>
 	</resultMap>
-	
+
+	<!-- getMovieTopInfo -->
 	<select id="getMovieTopInfo" resultMap="movieTopInfo">
 		SELECT * FROM daily_top_info WHERE id = (SELECT max(id) FROM daily_top_info) UNION ALL
 		SELECT * FROM weekly_top_info WHERE id >= #{id}
 	</select>
-	
+
+	<!-- getMovieInfoListByIds -->
 	<select id="getMovieInfoListByIds" resultMap="movieInfo">
-		SELECT * FROM movie_info WHERE movie_id in (${ids})
-		ORDER BY instr(${ids2}, movie_id)
+		SELECT * FROM movie_info WHERE movie_id IN (${ids})
+		ORDER BY FIND_IN_SET(movie_id, #{ids2})
 	</select>
-	
+
+	<!-- upcomingMovies -->
 	<select id="upcomingMovies" resultMap="movieInfo">
 		SELECT * FROM movie_info WHERE open_dt > #{openDt} AND NOT open_dt = 'nan' AND NOT poster_url = 'nan' ORDER BY open_dt ASC
 	</select>
-	
+
+	<!-- recentlyReleasedKoreanMovies -->
 	<select id="recentlyReleasedKoreanMovies" resultMap="movieInfo">
-		<![CDATA[SELECT * FROM (SELECT * FROM movie_info WHERE open_dt <= '${date}' AND NOT poster_url = 'nan' AND nations LIKE '한국' ORDER BY open_dt DESC) WHERE ROWNUM <= 100]]>
+		<![CDATA[
+    SELECT * FROM movie_info WHERE open_dt <= '${date}' AND NOT poster_url = 'nan' AND nations LIKE '한국' ORDER BY open_dt DESC LIMIT 100
+    ]]>
 	</select>
-	
+
+	<!-- recentlyReleasedForeignMovies -->
 	<select id="recentlyReleasedForeignMovies" resultMap="movieInfo">
-		<![CDATA[SELECT * FROM (SELECT * FROM movie_info WHERE open_dt <= '${date}' AND NOT poster_url = 'nan' AND NOT nations LIKE '한국' ORDER BY open_dt DESC) WHERE ROWNUM <= 100]]>
+		<![CDATA[
+    SELECT * FROM movie_info WHERE open_dt <= '${date}' AND NOT poster_url = 'nan' AND NOT nations LIKE '한국' ORDER BY open_dt DESC LIMIT 100
+    ]]>
 	</select>
-	
+
+	<!-- getMovieGradeAvgByMovieId -->
 	<select id="getMovieGradeAvgByMovieId" resultMap="gradeInfo">
 		SELECT AVG(review_score) AS grade_avg, COUNT(review_score) AS grade_cnt FROM movie_review WHERE movie_id=#{movieId} AND NOT review_score=0 GROUP BY movie_id
-	</select> 
-	
+	</select>
+
+	<!-- getGradeCheckById -->
 	<select id="getGradeCheckById" resultType="Integer">
-		SELECT COUNT(id) from movie_review where id=#{id} AND NOT review_score=0
+		SELECT COUNT(id) FROM movie_review WHERE id=#{id} AND NOT review_score=0
 	</select>
 	
 </mapper>

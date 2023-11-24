@@ -118,7 +118,7 @@ public class MovieDailyUpdateScheduled {
 //	@Scheduled(fixedDelay = 1000)
 //	@Scheduled(cron = "25 0 10 * * *")
 	public void allFindAndInsert() {
-		while(cnt <= 127) {
+		while(cnt <= 3) {
 			MovieInfoDTO dto = new MovieInfoDTO();
 
 	    	String movieId = "";
