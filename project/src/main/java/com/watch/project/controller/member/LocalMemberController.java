@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.watch.project.dto.LiveSearchDTO;
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.service.SearchService;
+import com.watch.project.service.admin.MemberService;
 import com.watch.project.service.member.CommonMemberService;
 import com.watch.project.service.member.LocalMemberService;
 
@@ -28,6 +29,7 @@ public class LocalMemberController {
 	private final LocalMemberService service;
 	private final CommonMemberService common;
 	private final SearchService searchService;
+	private final MemberService adminMemberService;
 	
 
 	@GetMapping("/checkEmail")
@@ -72,9 +74,15 @@ public class LocalMemberController {
 			model.addAttribute("dto", dto);
 			return "member/sign_in";
 		}else { //로그인 입력 정보가 올바른 경우
+			int isBlack = adminMemberService.checkIfBlack(dto.getUserEmail());
+			int isNewNoti = adminMemberService.checkIfNewNoti(dto.getUserEmail());
+			session.setAttribute("isBlack", isBlack);			
 			session.setAttribute("userEmail", dto.getUserEmail());
 			session.setAttribute("userLoginType", dto.getUserLoginType());//// 이 부분 다시 고려해보기.
+			session.setAttribute("newNoti", isNewNoti);
 			attr.addFlashAttribute("msg", msg);
+			System.out.println("isBlack=============>"+isBlack);
+			System.out.println("isNewNoti=============>"+isNewNoti);
 			return "redirect:/";
 		}
 	}

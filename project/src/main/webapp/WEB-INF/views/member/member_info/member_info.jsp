@@ -73,6 +73,11 @@
 				<span style="font-size:18px;">코멘트</span><br>
 				<span>${map['comment']}</span>
 			</a>
+			<div style="background-color: rgb(232, 232, 239); width: 1px; height: 60px;"></div>
+			<a href="/movieWishList" style="flex: 1; text-align: center; text-decoration:none; color:inherit; margin-top:10px;">
+				<span style="font-size:18px;">보고싶어요</span><br>
+				<span>${map['wishList']}</span>
+			</a>
 		</div>
 	</div>
 	

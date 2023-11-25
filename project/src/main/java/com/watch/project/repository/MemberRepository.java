@@ -31,5 +31,7 @@ public interface MemberRepository {
 
 	void updateNaverRefreshToken(MemberDTO dtoForRefreshToken);
 
+	String getUserNmByEmail(String authorEmail);
+
 
 }

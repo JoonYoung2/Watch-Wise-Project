@@ -28,6 +28,7 @@ import com.watch.project.dto.LiveSearchDTO;
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.repository.MemberRepository;
 import com.watch.project.service.SearchService;
+import com.watch.project.service.admin.MemberService;
 import com.watch.project.service.member.CommonMemberService;
 import com.watch.project.service.member.NaverMemberService;
 
@@ -41,6 +42,7 @@ public class NaverMemberController {
 	private final NaverMemberService service;
 	private final MemberRepository repo;
 	private final SearchService searchService;
+	private final MemberService adminMemberService;
 
 	
 	@GetMapping("/naverSignOut")
@@ -94,7 +96,14 @@ public class NaverMemberController {
     	MemberDTO dtoForRefreshToken = repo.getUserInfoByEmail(mail);
     	dtoForRefreshToken.setNaverRefreshToken(refresh_token);
     	repo.updateNaverRefreshToken(dtoForRefreshToken);
-    	
+    	int isBlack = adminMemberService.checkIfBlack(mail);
+		System.out.println("isBlack=============>"+isBlack);
+		int isNewNoti = adminMemberService.checkIfNewNoti(mail);
+		System.out.println("isNewNoti=============>"+isNewNoti);
+
+
+		session.setAttribute("isBlack", isBlack);	
+		session.setAttribute("newNoti", isNewNoti);
         session.setAttribute("userEmail", mail);
         session.setAttribute("userLoginType", 3); 
         session.setAttribute("accessToken", str_result);

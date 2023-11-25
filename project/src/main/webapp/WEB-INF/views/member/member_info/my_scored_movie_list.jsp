@@ -94,15 +94,15 @@
 				<c:set var="cnt" value="0"/>
 				<c:forEach var="item" items="${entry.value}">
 				<c:if test="${cnt < 10 }">
-					<td style="width:160px;">
-						<div style="dispaly:flex;">
+					<td style="width:160px; height:250px;">
+						<div style="dispaly:flex; text-align:center;">
 							<div>
 								<a href="/movieInfo?movieId=${item.movieInfoDto.movieId }">
-									<img style="width:auto; height:200px;" src="${item.movieInfoDto.posterUrl}">
+									<img style="width:133.33px; height:200px;" src="${item.movieInfoDto.posterUrl}">
 								</a>
 							</div>
-							<div>
-								${item.movieInfoDto.movieNm}
+							<div align="center" style="width:150px; overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+								<b>${item.movieInfoDto.movieNm}</b>
 							</div>
 						</div>
 					</td>

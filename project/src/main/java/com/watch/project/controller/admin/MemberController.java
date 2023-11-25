@@ -98,12 +98,7 @@ public class MemberController {
 	} 
 	
 	//-----------------------------------------------------------------------------------------------------------------
-//	@GetMapping("/reportComment")
-//	public String reportComment(@RequestParam("author") String authorEmail, @RequestParam("comment") String comment, @RequestParam("movieId") String movieId, RedirectAttributes redirectAttr) {
-//		String msg = service.saveReport(authorEmail, comment, movieId);
-//		redirectAttr.addFlashAttribute("msg", msg);
-//		return "redirect:/movieInfo?movieId="+ movieId;
-//	}
+
 	
 	@GetMapping("/deleteMember")
 	public String deleteMember(@RequestParam("userEmail") String userEmail, @RequestParam("pageNum") String pageNum, RedirectAttributes redirectAttr) {
@@ -147,30 +142,11 @@ public class MemberController {
 	@GetMapping("/admin/addToBlackList")
 	public String addToBlackList (@RequestParam("author") String authorEmail, @RequestParam("currentPage") int currentPage, RedirectAttributes redirectAttr) {
 		String msg = service.updateToBlack(authorEmail);
+		service.giveNotificationToUser(authorEmail, "부적절한 댓글 기능 사용으로 신고가 접수되었으며, 관리자 판단 결과, 더 이상 댓글 기능을 이용할 수 없음을 알립니다.");
 		redirectAttr.addFlashAttribute("msg", msg);
 		return "redirect:/admin/black_list_waiting?currentPage="+currentPage;
 	}
 		
-	/*
-	 * 	// http://localhost:8090/lprod/list?currentPage=1
-	// defaultValue : 해당 요청 파라미터를 지정하지 않을 경우
-	// defaultValue 속성에 지정한 문자열을 값으로 이용하게 됨
-	@RequestMapping("/list")
-	public String list(Model model, @RequestParam(defaultValue="1") int currentPage) {
-		List<LprodVO> list = this.lprodService.list();
-
-		// 상품 분류별 거래처 목록 행의 수
-		int total = this.lprodService.listCount();
-		
- 전체글 개수, 현재페이지, 한 화면에 출력해 줄 글 개수, 한 화면에 보여주는 페이징 숫자 개수, 전체글 리스트
-		model.addAttribute("list", new ArticlePage(total, currentPage, 7, 5, list));
-		
-		model.addAttribute("total", total);
-		
-		// forward
-		return "lprod/list";
-	}
-	 */
 	@GetMapping("/admin/black_list")
 	public String blackList(@RequestParam("currentPage") int pageNum, Model model) {
 		List<BlackListWaitingDTO> list = service.getBlackList();
@@ -190,4 +166,9 @@ public class MemberController {
 		redirectAttr.addFlashAttribute("msg", msg);
 		return "redirect:/admin/black_list?currentPage="+pageNum;
 	}
+	
+//	@GetMapping("/showNotifyList")
+//	public String showNotifyList() {
+//		return 
+//	}
 }

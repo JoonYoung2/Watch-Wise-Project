@@ -75,6 +75,16 @@ public class ReviewAjaxController {
 		}
 	}
 	
+	@PostMapping("/saveMovieCommentFromMovieInfo")
+	public MsgOnlyResponse saveMovieCommentFormMovieInfo(@RequestParam("movieId") String movieId, @RequestParam("reviewComment") String comment) {
+		MovieReviewDTO dto = new MovieReviewDTO();
+		dto.setMovieId(movieId);
+		dto.setReviewComment(comment);
+		String msg = service.insertComment(dto);//코멘트 저장
+		MsgOnlyResponse response = new MsgOnlyResponse(msg);
+		return response;
+	}
+	
 	@PostMapping("/updateMovieCommentFromMyCommentList")
 	public MsgOnlyResponse updateMovieCommentFromMyCommentList(@RequestParam("movieId") String movieId, @RequestParam("reviewComment") String reviewComment, HttpSession session, RedirectAttributes redirectAttr) {
 		System.out.println(movieId);
