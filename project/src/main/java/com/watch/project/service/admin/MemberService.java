@@ -17,6 +17,8 @@ import com.watch.project.dto.admin.BlackListWaitingDTO;
 import com.watch.project.dto.admin.MemberDTO;
 import com.watch.project.dto.admin.PagingConfigDTO;
 import com.watch.project.dto.admin.ReportedCommentsDTO;
+import com.watch.project.dto.admin.UserNotificationDTO;
+import com.watch.project.repository.MemberRepository;
 import com.watch.project.repository.admin.AdminMemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberService {
 	@Autowired private AdminMemberRepository repo;
 	@Autowired private HttpSession session;
+	@Autowired private MemberRepository memberRepo;
 	
 	public List<MemberDTO> getMemberInfoList(int start, int end, PagingConfigDTO pagingConfigDto) {
 		String tableNm = pagingConfigDto.getTableNm();
@@ -212,7 +215,8 @@ public class MemberService {
 		String msg=email+"님이 블랙리스트로 등록되었습니다";
 		int resultOfBlackList = repo.updateToBlack4BlackList(email);
 		int resultOfMovieReview = repo.updateToBlack4MovieReview(email);
-		if(resultOfBlackList==0 && resultOfMovieReview==0) {
+		int resultOfMemberInfo = repo.updateToBlack4MemberInfo(email);
+		if(resultOfBlackList==0 || resultOfMovieReview==0 ||resultOfMemberInfo==0) {
 			msg="오류가 발생했습니다. 다시 시도해주세요.";
 		}
 		return msg;
@@ -227,10 +231,66 @@ public class MemberService {
 		String msg=email+"님이 블랙리스트에서 해제되었습니다";
 		int result4BlackList = repo.updateToWait4BlackList(email);
 		int result4MovieReview = repo.updateToWait4MovieReview(email);
-		if(result4BlackList == 0 && result4MovieReview == 0) {
+		int result4MemberInfo = repo.updateToWait4MemberInfo(email);
+		if(result4BlackList == 0 || result4MovieReview == 0 || result4MemberInfo ==0) {
 			msg="오류가 발생했습니다. 다시 시도해주세요.";
 		}
 		return msg;
+	}
+
+	public int checkIfBlack(String email) {
+		int isBlack = repo.checkIfBlack(email);
+		return isBlack;
+	}
+
+	/*
+	 * 
+	 * 	reciever_email varchar2(255),
+    	reciever_name varchar2(255),
+	sender_email varchar2(255),
+   	sender_name varchar2(255),
+	notification_content varchar2(1000),
+	inserted_date  TIMESTAMP(6),
+	is_seen number default 0
+	 */
+	public void giveNotificationToUser(String authorEmail, String content) {
+		UserNotificationDTO noti = new UserNotificationDTO();
+		//유저이름 가져오기
+		String userNm = memberRepo.getUserNmByEmail(authorEmail);
+		
+		//날짜데이터 생성
+		Date currentDate = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = sdf.format(currentDate);
+        
+        noti.setRecieverEmail(authorEmail);
+        noti.setRecieverName(userNm);
+        noti.setSenderEmail("WatchWise");
+        noti.setSenderName("WatchWise");
+        noti.setNotificationContent(content);
+		noti.setInsertedDate(formattedDate);
+		noti.setIsSeen(0);
+		
+		int result = repo.insertNotification(noti);
+		System.out.println("result ===>"+result);
+	}
+
+	public int checkIfNewNoti(String userEmail) {
+		int result = 0;
+		try {
+			UserNotificationDTO dto = repo.getUserNotificationDtoByEmail(userEmail);
+			if(dto != null) { 
+				System.out.println("dto가 널이 아님");
+				result = 1;
+			}else {
+				System.out.println("dto가 널임");
+				result = 0;
+			}
+		}catch(NullPointerException e) {
+			System.out.println("exception에 걸림");
+			result = 0;
+		}
+		return result;
 	}
 
 

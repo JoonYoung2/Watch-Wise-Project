@@ -15,6 +15,7 @@
 	<result property="googleAgreement" column="google_agreement"/>
 	<result property="kakaoRefreshToken" column="kakao_refresh_token"/>
 	<result property="naverRefreshToken" column="naver_refresh_token"/>
+	<result property="isBlack" column="is_black"/>
 </resultMap>
 
 	<select id="getUserInfoByEmail" resultMap="member">
@@ -62,4 +63,7 @@
 		UPDATE member_info SET naver_refresh_token=#{naverRefreshToken} WHERE user_email=#{userEmail}
 	</update>
 
+	<select id="getUserNmByEmail" resultType="String">
+		SELECT user_name FROM member_info WHERE user_email=#{authorEmail}
+	</select>
 </mapper>

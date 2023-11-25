@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.watch.project.dto.LiveSearchDTO;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.MovieReviewDTO;
+import com.watch.project.dto.WishListDTO;
 import com.watch.project.dto.movieInfoView.GradeInfoDTO;
 import com.watch.project.dto.movieInfoView.MovieInfoViewDTO;
 import com.watch.project.dto.movieInfoView.PeopleInfoDTO;
@@ -20,6 +21,7 @@ import com.watch.project.service.MovieInfoService;
 import com.watch.project.service.ReviewService;
 import com.watch.project.service.SearchService;
 import com.watch.project.service.admin.MemberService;
+import com.watch.project.service.member.MemberInfoService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,9 +33,10 @@ public class MovieInfoController {
 	private final MovieInfoService service;
 	private final ReviewService reviewService;
 	private final SearchService searchService;
+	private final MemberInfoService memberInfoService;
 	private final HttpSession session;
 	
-	@GetMapping("movieInfo")
+	@GetMapping("/movieInfo")
 	public String movieInfo(@RequestParam String movieId, Model model) {
 		
 		int movieLikedCheck = 0;
@@ -49,6 +52,8 @@ public class MovieInfoController {
 		 * 로그인한 사용자가 작성한 코멘트
 		 */
 		MovieReviewDTO ifWroteComment = reviewService.getComment(movieId);
+		
+		int isWished = memberInfoService.checkWished(movieId); //1 = wished / 0 = not wished
 		
 		/*
 		 * 영화 정보 
@@ -84,8 +89,10 @@ public class MovieInfoController {
 		model.addAttribute("movieLikedCheck", movieLikedCheck);
 		model.addAttribute("comments", comments);
 		model.addAttribute("ifWroteComment", ifWroteComment);
+		model.addAttribute("isWished", isWished);
 		model.addAttribute("movieInfo", movieInfoViewDto);
 		model.addAttribute("gradeInfo", gradeInfoDto);
+		
 		
 		return "basic/movie_info";
 	}

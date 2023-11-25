@@ -18,6 +18,7 @@ public class MemberDTO {
 	private int googleAgreement;
 	private String kakaoRefreshToken;
 	private String naverRefreshToken;
-	private String AccessToken;
+	private int isBlack;
+	private String AccessToken;//얘는 테이블에 없는애. 순서 바뀜.
 	
 }

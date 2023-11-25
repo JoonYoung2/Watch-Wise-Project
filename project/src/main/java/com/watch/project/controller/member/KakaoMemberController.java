@@ -19,6 +19,7 @@ import com.watch.project.dto.LiveSearchDTO;
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.repository.MemberRepository;
 import com.watch.project.service.SearchService;
+import com.watch.project.service.admin.MemberService;
 import com.watch.project.service.member.CommonMemberService;
 import com.watch.project.service.member.KakaoMemberService;
 
@@ -35,6 +36,9 @@ public class KakaoMemberController {
 	
 	@Autowired
 	private SearchService searchService;
+	
+	@Autowired
+	private MemberService adminMemberService;
 	
 	@RequestMapping(value = "/signIn/kakao")
 	public ModelAndView login(@RequestParam("code") String code, HttpSession session, RedirectAttributes re) {
@@ -58,6 +62,10 @@ public class KakaoMemberController {
 			}
 			userInfo.setKakaoRefreshToken((String)session.getAttribute("refreshToken"));
 			repo.updateKakaoRefreshToken(userInfo);
+			int isBlack = adminMemberService.checkIfBlack(userInfo.getUserEmail());
+			System.out.println("isBlack=============>"+isBlack);
+
+			session.setAttribute("isBlack", isBlack);	
 			session.setAttribute("userEmail", userInfo.getUserEmail());
 			session.setAttribute("accessToken", accessToken);
 			session.setAttribute("userLoginType", 2);

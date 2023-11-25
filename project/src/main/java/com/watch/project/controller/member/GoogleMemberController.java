@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.watch.project.dto.LiveSearchDTO;
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.service.SearchService;
+import com.watch.project.service.admin.MemberService;
 import com.watch.project.service.member.GoogleMemberService;
 
 @Controller
@@ -25,6 +26,8 @@ public class GoogleMemberController {
 	private GoogleMemberService service;
 	@Autowired
 	private SearchService searchService;
+	@Autowired
+	private MemberService adminMemberService;
 	
 	@GetMapping("/google/login")
 	public String redirected(@RequestParam("code") String authCode, HttpServletResponse res, HttpSession session, Model model, RedirectAttributes redirectAttr) throws IOException {
@@ -36,6 +39,10 @@ public class GoogleMemberController {
 			searchService.searchModel(model);
 			return "member/select_sign_up_type";
 		}//정상적 처리일 경우
+		int isBlack = adminMemberService.checkIfBlack(userInfo.getUserEmail());
+		System.out.println("isBlack=============>"+isBlack);
+
+		session.setAttribute("isBlack", isBlack);
 		session.setAttribute("userEmail", userInfo.getUserEmail());
 		session.setAttribute("userLoginType", 4);
 		session.setAttribute("accessToken", userInfo.getAccessToken());//id_token

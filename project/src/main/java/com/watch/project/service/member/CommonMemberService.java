@@ -8,10 +8,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.watch.project.dto.MemberDTO;
+import com.watch.project.dto.WishListDTO;
 import com.watch.project.repository.MemberRepository;
 import com.watch.project.repository.MovieInfoRepository;
 import com.watch.project.repository.PeopleInfoRepository;
 import com.watch.project.repository.ReviewRepository;
+import com.watch.project.repository.WishListRepository;
 
 @Service
 public class CommonMemberService {
@@ -19,6 +21,7 @@ public class CommonMemberService {
 	@Autowired private ReviewRepository reviewRepo;
 	@Autowired private MovieInfoRepository movieInfoRepo;
 	@Autowired private PeopleInfoRepository peopleInfoRepo;
+	@Autowired private WishListRepository wishListRepo;
 	
 	public String getAlertLocation(String msg, String url) {
 		String message = "<script>alert('" + msg + "');";
@@ -94,6 +97,8 @@ public class CommonMemberService {
 		result.put("score", reviewRepo.getAmountOfScoredOnes(userEmail));
 		//코멘트 수
 		result.put("comment", reviewRepo.getAmountOfComments(userEmail));
+		//보고싶어요 수
+		result.put("wishList", wishListRepo.getAmountOfWishedMovies(userEmail));
 		//좋아한 영화 수
 		result.put("likedMovie", movieInfoRepo.getAmountOfLikedMovies(userEmail));
 		//좋아한 배우 수

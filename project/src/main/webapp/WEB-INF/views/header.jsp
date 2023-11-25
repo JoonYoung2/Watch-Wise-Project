@@ -115,6 +115,14 @@
 				</c:if>
 					<!-------------------------------------------------------------------------------------------------------------------------------------- -->
 				<c:if test="${not empty sessionScope.userEmail }">
+					<a class="notify-bell" href="/showNotifyList">
+						<c:if test="${sessionScope.newNoti eq 1 }"> <!-- 새로운 알림이 있는 경우 -->
+							<img style="width:30px; margin-right:20px;" src="/resources/img/bellWithNotification.png">
+						</c:if>
+						<c:if test="${sessionScope.newNoti eq 0 }"> <!-- 새로운 알림이 없는 경우 -->
+							<img style="width:30px; margin-right:20px;" src="/resources/img/bell.png">
+						</c:if>
+					</a>
 					<a class="profile-btn" href="/memberInfo">
 						<img class="profile-img" src="resources/img/bean_profile.png"/>
 					</a>
