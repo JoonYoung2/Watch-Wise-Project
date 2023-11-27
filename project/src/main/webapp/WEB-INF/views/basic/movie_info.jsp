@@ -252,7 +252,11 @@
 				            <div style="border-top:1px solid #ccc">
 				            
 <!----------------------------------------------------- 코멘트 START ----------------------------------------------------------->
-				            
+				            <c:if test="${empty sessionScope.userEmail }">
+				            	<div style="width:700px;">
+				            		
+				            	</div>
+				            </c:if>
 				            
 							   	<c:if test="${not empty sessionScope.userEmail }">
 								   	<c:choose>
