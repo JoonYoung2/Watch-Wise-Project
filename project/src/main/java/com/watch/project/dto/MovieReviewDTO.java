@@ -17,4 +17,5 @@ public class MovieReviewDTO {
 //--------허상----------
 	private int isLiked;
 	private int isReported;
+	private String userName;
 }

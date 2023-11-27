@@ -153,8 +153,13 @@ public class ReviewService {
 	}
 
 	public List<MovieReviewDTO> getEveryCommentForThisMovie(String movieId) {
+		System.out.println("리뷰 컨트롤러 지나옴. 제발 이거 떠라아아아");
 		List<MovieReviewDTO> comments = repo.selectComments(movieId);
 		for(MovieReviewDTO comment : comments) {
+			//코멘트별 작성자 이름 가져오기
+			String userNm = repo.getUserNmByEmail(comment.getUserEmail());
+			comment.setUserName(userNm);
+			//로그인한 사용자가 좋아한 코멘트인, 신고한 코멘트인지 구별
 			String CommentIdPlusUserEmail = comment.getId() + (String)session.getAttribute("userEmail");
 			
 			CommentLikedUsersDTO likedComment = repo.selectLikedComment(CommentIdPlusUserEmail);
@@ -166,8 +171,11 @@ public class ReviewService {
 			System.out.println("CommentIdPlusUserEmail=========>"+CommentIdPlusUserEmail);
 			BlackListDTO blackListDto = adminMemberRepo.checkIfReported(CommentIdPlusUserEmail);
 			if(blackListDto != null) {
+				System.out.println("신고한 코멘트로 인식 되고 있음. isreported가 1임");
 				comment.setIsReported(1); //신고한 코멘트
 			}else {
+				System.out.println("신고하지 않은 코멘트로 인식 되고 있음. isreported가 0임");
+
 				comment.setIsReported(0); //신고하지 않은 코멘트
 			}
 		}
@@ -179,12 +187,18 @@ public class ReviewService {
 		MovieReviewDTO reviewComment = repo.getComment(pkId);
 		return reviewComment;
 	}
+	public MovieReviewDTO getComment2(String movieId, String authorEmail) {
+		String pkId = movieId + authorEmail;
+		MovieReviewDTO reviewComment = repo.getComment(pkId);
+		return reviewComment;
+	}
 
 	public String deleteComment(String id) {
 		String msg = "해당 코멘트가 삭제되었습니다.";
 		int deleteResult = repo.deleteComment(id);
+		int deleteReport = repo.deleteReportedDatas(id);
 		repo.deleteCommentLike(id);
-		if(deleteResult != 1) {
+		if(deleteResult == 0 && deleteReport == 0) {
 			System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
 			msg = "오류가 발생했습니다. 다시 시도해주세요.";
 		}

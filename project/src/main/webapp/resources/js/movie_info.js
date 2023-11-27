@@ -89,7 +89,7 @@ let postersPageNum = 1;
 
 let postersCnt = 0;
 
-// LIKE Method START
+// LIKE Method START---------------------------------------------------------------------------------------
 
 const unregisterLickClick = () => {
 	alert("로그인 후 좋아요를 할 수 있습니다.");
@@ -142,7 +142,7 @@ const likeCancel = async (movieId) => {
         }
     });
 }
-// LIKE Method END
+// LIKE Method END-----------------------------------------------------------------------------------------------
 
 const postersLeftBtn = () => {
 	postersPageNum--;
@@ -277,15 +277,125 @@ function rating(score, movieId) {  //평점
 }
 
 
-function showModifyForm(){  //코멘트
-	console.log("gdgd");
-	let modifyFormId = document.getElementById("modify-form");
-	modifyFormId.style.display='block';		
+//function showModifyForm(){  //코멘트
+//	console.log("gdgd");
+//	let modifyFormId = document.getElementById("modify-form");
+//	modifyFormId.style.display='block';		
+//}
+
+
+
+//댓글 작성 시
+function openCommentWritingModal(movieNm, movieId){
+	console.log("여기 ----온다");
+	let body = document.getElementById('bodyForShadow');
+	let modal = document.getElementById('modalForWritingComment');
+	let madalTitle = document.getElementById('modalMovieTitleForWriting');
+	let hiddenMovieId = document.getElementById('modalMovieIdForWritingComment');
+	
+	modal.style.display = 'block';
+	body.style.display = 'block';
+	modal.style.zIndex = '2';
+	body.style.zIndex = '1';
+	madalTitle.textContent = movieNm;
+	hiddenMovieId.value=movieId;
+	//$ajax
 }
+
+function closeModalForWriting(){
+	let body = document.getElementById('bodyForShadow');
+	let modal = document.getElementById('modalForWritingComment');
+	modal.style.display = 'none';
+	body.style.display = 'none';
+	modal.style.zIndex = '-2';
+	body.style.zIndex = '-2';
+}
+
+function saveMovieComment(){
+	let newComment = document.getElementById('movieCommentForWriting').value;
+	let movieTitle = document.getElementById('modalMovieTitleForWriting').textContent;
+	let movieId = document.getElementById('modalMovieIdForWritingComment').value;
+	
+	$.ajax({
+		type: "POST",
+		url: "/saveMovieCommentFromMovieInfo",
+		data: {
+			movieId: movieId,
+			reviewComment: newComment
+		},
+		success: function (response){
+			let msg = response.msg;
+			alert(msg);
+			location.href="/movieInfo?movieId="+movieId;
+		},
+		error: function (error){
+			console.error("Error occured.");
+		}
+	});
+	closeModalForWriting();
+}
+
+//댓글 수정용
+function openModifyModal(movieNm, movieId, comment){
+	console.log("여기 온다");
+	let body = document.getElementById('bodyForShadow');
+	let modal = document.getElementById('modalForModifyComment');
+	let madalTitle = document.getElementById('modalMovieTitleForModify');
+	let textBox = document.getElementById('movieCommentForModify');
+	let hiddenMovieId = document.getElementById('modalMovieIdForModify');
+	
+	modal.style.display = 'block';
+	body.style.display = 'block';
+	modal.style.zIndex = '2';
+	body.style.zIndex = '1';
+	madalTitle.textContent = movieNm;
+	textBox.innerHTML = comment;
+	hiddenMovieId.value=movieId;
+	//$ajax
+}
+
+function closeModalForModify(){
+	let body = document.getElementById('bodyForShadow');
+	let modal = document.getElementById('modalForModifyComment');
+	modal.style.display = 'none';
+	body.style.display = 'none';
+	modal.style.zIndex = '-2';
+	body.style.zIndex = '-2';
+}
+
+function updateMovieComment(){
+	let newComment = document.getElementById('movieCommentForModify').value;
+	let movieTitle = document.getElementById('modalMovieTitleForModify').textContent;
+	let movieId = document.getElementById('modalMovieIdForModify').value;
+	
+	$.ajax({
+		type: "POST",
+		url: "/updateMovieCommentFromMyCommentList",
+		data: {
+			movieId: movieId,
+			reviewComment: newComment
+		},
+		success: function (response){
+			let msg = response.msg;
+			alert(msg);
+			location.href="/movieInfo?movieId="+movieId;
+		},
+		error: function (error){
+			console.error("Error occured.");
+		}
+	});
+	closeModal();
+}
+
+
+
+
+
+
 
 // 코멘트 좋아요 START
 
-function increaseLikeCount(userEmail, movieId, cnt) {
+function increaseLikeCount(userEmail, movieId, cnt) { // 작성자 이메일
 	let num = Number(cnt);
 	let comment = document.querySelectorAll(".comment");
 	let count = document.querySelectorAll(".comment_like_count");	
@@ -299,9 +409,9 @@ function increaseLikeCount(userEmail, movieId, cnt) {
         contentType: 'application/json', // 데이터 타입 설정
 		success: (response) => {//response : {result: 1}
 		console.log(response.result);
-		msg += "<img class='likeButton' src='resources/img/likeColor.png' style='width:30px; margin-left:15px;' onclick='decreaseLikeCount(\"" + userEmail + "\", \"" + movieId + "\", " + cnt + ");'>";
+		msg += "<img class='likeButton' src='/resources/img/likeColor.png' style='cursor:pointer; width:25px;' onclick='decreaseLikeCount(\"" + userEmail + "\", \"" + movieId + "\", " + cnt + ");'>";
 			comment[num].innerHTML=msg;
-		countMsg += response.result;
+			countMsg += response.result;
 			count[num].innerHTML=countMsg;
 		},
 		error: () => {
@@ -326,7 +436,7 @@ function decreaseLikeCount(userEmail, movieId, cnt) {
 		data: JSON.stringify(data), // 데이터를 JSON 문자열로 변환
         contentType: 'application/json', // 데이터 타입 설정
 		success: (response) => {
-			msg += "<img class='likeButton' src='resources/img/like.png' style='width:30px;margin-left:15px;' onclick='increaseLikeCount(\"" + userEmail + "\", \"" + movieId + "\", " + cnt + ");'>";
+			msg += "<img class='likeButton' src='resources/img/like.png' style='cursor:pointer; width:25px;' onclick='increaseLikeCount(\"" + userEmail + "\", \"" + movieId + "\", " + cnt + ");'>";
 			comment[num].innerHTML=msg;
 		countMsg += response.result;
 			count[num].innerHTML=countMsg;

@@ -40,43 +40,55 @@
 				${list.genreNm }
 			</span>
 			<span style="margin-left:auto;">
-				<img class="openModalButton" onclick="openModal('${list.movieNm }', '${list.movieId}', '${list.reviewComment}', '${cntForComment}');" src="resources/img/thinPencil.png" style="cursor:pointer; width:20px;"/>
-				<img src="resources/img/bin.png" onclick="location.href='/deleteCommentFromMyCommentList?id=${list.id }&movieId=${list.movieId }'" style="padding-left:8px; cursor:pointer; width:20px;"/>
+				<c:choose>
+	        		<c:when test="${sessionScope.isBlack eq 1 }">
+	        		</c:when>
+			        <c:otherwise>
+						<img class="openModalButton" onclick="openModal('${list.movieNm }', '${list.movieId}', '${list.reviewComment}', '${cntForComment}');" src="resources/img/thinPencil.png" style="cursor:pointer; width:20px;"/>
+						<img src="resources/img/bin.png" onclick="location.href='/deleteCommentFromMyCommentList?id=${list.id }&movieId=${list.movieId }'" style="padding-left:8px; cursor:pointer; width:20px;"/>
+					</c:otherwise>
+				</c:choose>
 			</span>
 		</div>
 			
-	    <div class="comment-card">
-	        <span class="comment-content">
-		        <span class="movie_score">
+	    <div class="comment-card" style="display:flex;">
+	        <div class="comment-content" style="padding-right:10px;word-wrap:break-word;width:85%;">
+		        <div class="movie_score">
 			        <c:if test="${list.reviewScore != 0}">
 			            <span><b> ★ ${list.reviewScore}</b> / 5.0 </span><br>
 			        </c:if>
 			        <c:if test="${list.reviewScore eq 0 }">
 			           <span>평점 기록 없음</span><br>
 			        </c:if>
-		        </span>
+		        </div>
 		           <span class="date">${list.userEmail } </span><br>
-		            <b>${list.reviewComment}</b> <br>
+		            <span><b>${list.reviewComment}</b></span> <br>
 		            <span class="date">${list.reviewCommentDate} </span>
-	        </span>
-	        <span style="margin-right:14px;">
-		        <span>
+	        </div>
+	        <div style="width:15%; text-align:right; padding-right:10px;">
+		        <div>
 			        <img style="width:20px; vertical-align:-5px;" src="resources/img/likeColor.png"> 
 			        <span> x </span>
 			        <span class="comment_like_count" style="vertical-align:-1px;">${list.reviewCommentLikes }</span>
-	        	</span>
+	        	</div>
 	        <br><br>
 		        <span class="comment">
-			        <c:choose>
-				        <c:when test="${list.liked eq 1 }">
-				        	<img class="likeButton" src="resources/img/likeColor.png" style="width:30px; margin-left:15px;" onclick="decreaseLikeCount('${list.userEmail}', '${list.movieId}', '${ cntForComment }');">
-				        </c:when>
-				        <c:otherwise>
-				           <img class="likeButton" src="resources/img/like.png" style="width:30px;margin-left:15px;" onclick="increaseLikeCount('${list.userEmail}', '${list.movieId}', '${ cntForComment }');">
-				        </c:otherwise>
-			        </c:choose>
+		        	<c:choose>
+		        		<c:when test="${sessionScope.isBlack eq 1 }">
+		        		</c:when>
+		        		<c:otherwise>
+					        <c:choose>
+						        <c:when test="${list.liked eq 1 }">
+						        	<img class="likeButton" src="resources/img/likeColor.png" style="cursor:pointer; width:30px; margin-left:15px;" onclick="decreaseLikeCount('${list.userEmail}', '${list.movieId}', '${ cntForComment }');">
+						        </c:when>
+						        <c:otherwise>
+						           <img class="likeButton" src="resources/img/like.png" style="cursor:pointer; width:30px;margin-left:15px;" onclick="increaseLikeCount('${list.userEmail}', '${list.movieId}', '${ cntForComment }');">
+						        </c:otherwise>
+					        </c:choose>
+						</c:otherwise>
+					</c:choose>
 		        </span>
-	        </span>
+	        </div>
 	    </div>   
 	</div>
         <c:set var="cntForComment" value="${ cntForComment+1 }"/>

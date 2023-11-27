@@ -9,6 +9,7 @@ import com.watch.project.dto.admin.BlackListDTO;
 import com.watch.project.dto.admin.BlackListWaitingDTO;
 import com.watch.project.dto.admin.MemberDTO;
 import com.watch.project.dto.admin.ReportedCommentsDTO;
+import com.watch.project.dto.admin.UserNotificationDTO;
 
 @Mapper
 public interface AdminMemberRepository {
@@ -56,7 +57,17 @@ public interface AdminMemberRepository {
 	public int updateToWait4BlackList(String email);
 
 	public int updateToWait4MovieReview(String email);
+
+
+	public int updateToBlack4MemberInfo(String email);
 	
+	public int checkIfBlack(String email);
+
+	public int updateToWait4MemberInfo(String email);
+
+	public int insertNotification(UserNotificationDTO noti);
+
+	public List<UserNotificationDTO> getUserNotificationDtoByEmail(String userEmail);
 	
 	
 }

@@ -63,7 +63,7 @@ function reportForBadWord(){
 			 let msg = response.msg;
 			 console.log(msg);
 			 alert(msg);	
-			 let htmlMsg = "<img src='resources/img/activatedAlert.png' onclick='cancelReportCheck(\"" + author + "\", \"" + comment + "\", \"" + commentId + "\", \"" + movieId + "\", " + cnt + ");' style='cursor:pointer; margin-left:10px; width:30px; vertical-align:-3px;'>";
+			 let htmlMsg = "<img src='resources/img/activatedAlert.png' onclick='cancelReportCheck(\"" + author + "\", \"" + comment + "\", \"" + commentId + "\", \"" + movieId + "\", " + cnt + ");' style='cursor:pointer; margin-left:10px;  width:25px;'>";
 			 alertImgArea[num].innerHTML=htmlMsg;	
 		},
 		error:() =>{
@@ -100,7 +100,7 @@ function reportForSpam(){
 			 let msg = response.msg;
 			 console.log(msg);
 			 alert(msg);		
-			 let htmlMsg = "<img src='resources/img/activatedAlert.png' onclick='cancelReportCheck(\"" + author + "\", \"" + comment + "\", \"" + commentId + "\", \"" + movieId + "\", " + cnt + ");' style='cursor:pointer; margin-left:10px; width:30px; vertical-align:-3px;'>";
+			 let htmlMsg = "<img src='resources/img/activatedAlert.png' onclick='cancelReportCheck(\"" + author + "\", \"" + comment + "\", \"" + commentId + "\", \"" + movieId + "\", " + cnt + ");' style='cursor:pointer; margin-left:10px;  width:25px;'>";
 			 alertImgArea[num].innerHTML=htmlMsg;
 		},
 		error:() =>{
@@ -138,7 +138,7 @@ function reportForFalseFact(){
 			 let msg = response.msg;
 			 console.log(msg);
 			 alert(msg);
-			 let htmlMsg = "<img src='resources/img/activatedAlert.png' onclick='cancelReportCheck(\"" + author + "\", \"" + comment + "\", \"" + commentId + "\", \"" + movieId + "\", " + cnt + ");' style='cursor:pointer; margin-left:10px; width:30px; vertical-align:-3px;'>";
+			 let htmlMsg = "<img src='resources/img/activatedAlert.png' onclick='cancelReportCheck(\"" + author + "\", \"" + comment + "\", \"" + commentId + "\", \"" + movieId + "\", " + cnt + ");' style='cursor:pointer; margin-left:10px;  width:25px;'>";
 			 alertImgArea[num].innerHTML=htmlMsg;
 		},
 		error:() =>{
@@ -176,7 +176,7 @@ function reportForRacism(){
 			 let msg = response.msg;
 			 console.log(msg);
 			 alert(msg);
-			 let htmlMsg = "<img src='resources/img/activatedAlert.png' onclick='cancelReportCheck(\"" + author + "\", \"" + comment + "\", \"" + commentId + "\", \"" + movieId + "\", " + cnt + ");' style='cursor:pointer; margin-left:10px; width:30px; vertical-align:-3px;'>";
+			 let htmlMsg = "<img src='resources/img/activatedAlert.png' onclick='cancelReportCheck(\"" + author + "\", \"" + comment + "\", \"" + commentId + "\", \"" + movieId + "\", " + cnt + ");' style='cursor:pointer; margin-left:10px;  width:25px;'>";
 			 alertImgArea[num].innerHTML=htmlMsg;
 		},
 		error:() =>{
@@ -213,7 +213,7 @@ function reportForSpoiler(){
 		success: (response) =>{
 			 let msg = response.msg;
 			 alert(msg);
-			 let htmlMsg = "<img src='resources/img/activatedAlert.png' onclick='cancelReportCheck(\"" + author + "\", \"" + comment + "\", \"" + commentId + "\", \"" + movieId + "\", " + cnt + ");' style='cursor:pointer; margin-left:10px; width:30px; vertical-align:-3px;'>";
+			 let htmlMsg = "<img src='resources/img/activatedAlert.png' onclick='cancelReportCheck(\"" + author + "\", \"" + comment + "\", \"" + commentId + "\", \"" + movieId + "\", " + cnt + ");' style='cursor:pointer; margin-left:10px;  width:25px;'>";
 			 alertImgArea[num].innerHTML=htmlMsg;
 		},
 		error:() =>{
@@ -251,7 +251,7 @@ function cancelReport(userEmail, reviewComment, commentId, movieId, cnt){
 			 let msg = response.msg;
 			 console.log(msg);
 			 alert(msg);
-			 let htmlMsg = "<img src='resources/img/alert.png' onclick='openModalForReport(\"" + userEmail + "\", \"" + reviewComment + "\", \"" + commentId + "\", " + movieId + " , \"" + cnt + "\");' style='cursor:pointer; margin-left:10px; width:30px; vertical-align:-3px;'>";
+			 let htmlMsg = "<img src='resources/img/alert.png' onclick='openModalForReport(\"" + userEmail + "\", \"" + reviewComment + "\", \"" + commentId + "\", " + movieId + " , \"" + cnt + "\");' style='cursor:pointer; margin-left:10px;  width:25px;'>";
 			 alertImgArea[num].innerHTML=htmlMsg;
 		 },
 		 error:() => {
@@ -294,5 +294,25 @@ function closeModalForReportersList(cnt){
 	modalClass[num].style.display = 'none';
 	body.style.display = 'none';
 	modalClass[num].style.zIndex = '-2';
+	body.style.zIndex = '-2';
+}
+
+function openBlackModal(){
+	let body = document.getElementById('bodyForShadow');
+	let modal = document.getElementById('modalForBlack');
+	
+	modal.style.display = 'block';
+	body.style.display = 'block';
+	modal.style.zIndex = '2';
+	body.style.zIndex = '1';
+}
+
+function closeModalForBlack(){
+	let body = document.getElementById('bodyForShadow');
+	let modal = document.getElementById('modalForBlack');
+	
+	modal.style.display = 'none';
+	body.style.display = 'none';
+	modal.style.zIndex = '-2';
 	body.style.zIndex = '-2';
 }

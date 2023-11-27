@@ -59,11 +59,11 @@
 	</insert>
 	
 	<select id="selectComments" resultMap="review">
-		SELECT * FROM movie_review WHERE movie_id=#{movieId} AND is_black=0
+		SELECT * FROM movie_review WHERE movie_id=#{movieId} AND is_black=0 AND review_comment != 'nan'
 	</select>
 	
 	<select id="getComment" resultMap="review">
-		SELECT * FROM movie_review WHERE id=#{pkId}
+		SELECT * FROM movie_review WHERE id=#{pkId} 
 	</select>
 	
 	<update id="deleteComment" parameterType="String">
@@ -180,4 +180,12 @@
 	<select id="getMoveReviewDtoWhereScoreIsZeroPointFive" resultMap="review">
 		SELECT * FROM movie_review WHERE user_email=#{userEmail} AND review_score = 0.5
 	</select>
+	
+	<select id="getUserNmByEmail" resultType="String">
+		SELECT user_name FROM member_info WHERE user_email=#{userEmail}
+	</select>
+	
+	<delete id="deleteReportedDatas" parameterType="String">
+		DELETE FROM black_list WHERE reported_comment_id=#{id}
+	</delete>
 </mapper>

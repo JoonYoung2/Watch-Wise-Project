@@ -44,6 +44,17 @@
 		<result property="authorEmail" column="author_email"/>
 		<result property="reportedCommentAmount" column="reported_comment_amount"/>
 	</resultMap>
+
+	<resultMap type="com.watch.project.dto.admin.UserNotificationDTO" id="notify">
+		<result property="recieverEmail" column="reciever_email"/>
+		<result property="recieverName" column="reciever_name"/>
+		<result property="senderEmail" column="sender_email"/>
+		<result property="senderName" column="sender_name"/>
+		<result property="notificationContent" column="notification_content"/>
+		<result property="insertedDate" column="inserted_date"/>
+		<result property="isSeen" column="is_seen"/>
+		<result property="isClicked" column="is_clicked"/>
+	</resultMap>
 	
 	<select id="getMemberInfoListByStartAndEnd" resultMap="member">
 		<![CDATA[SELECT * FROM 
@@ -163,5 +174,24 @@
 	<update id="updateToWait4MovieReview" parameterType="String">
 		UPDATE movie_review SET is_black = 0 WHERE user_email=#{email}
 	</update>
-
+	
+	<update id="updateToBlack4MemberInfo" parameterType="String">
+		UPDATE member_info SET is_black=1 WHERE user_email=#{email}
+	</update>
+	
+	<select id="checkIfBlack" resultType="Integer">
+		SELECT is_black FROM member_info WHERE user_email=#{email}
+	</select>
+	
+	<update id="updateToWait4MemberInfo" parameterType="String">
+		UPDATE member_info SET is_black=0 WHERE user_email=#{email}
+	</update>
+	
+	<insert id="insertNotification" parameterType="com.watch.project.dto.admin.UserNotificationDTO">
+		INSERT INTO user_notification VALUES(#{recieverEmail}, #{recieverName}, #{senderEmail}, #{senderName}, #{notificationContent}, #{insertedDate}, #{isSeen}, #{isClicked})
+	</insert>
+	
+	<select id="getUserNotificationDtoByEmail" resultMap="notify">
+		SELECT * FROM user_notification WHERE reciever_email=#{userEmail} AND is_seen=0
+	</select>
 </mapper>

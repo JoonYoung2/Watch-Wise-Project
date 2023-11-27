@@ -1,0 +1,33 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watch.project.repository.WishListRepository">
+
+<resultMap type="com.watch.project.dto.WishListDTO" id="wishList">
+    <id property="id" column="id" />
+	<result property="userEmail" column="user_email"/>
+	<result property="movieId" column="movie_id" />
+	<result property="movieNm" column="movie_nm"/>
+	<result property="moviePoster" column="movie_poster"/>
+	<result property="addedDate" column="added_date"/>
+</resultMap>
+
+<insert id="insertMovieInfoWishList" parameterType="com.watch.project.dto.WishListDTO">
+	INSERT INTO wish_list VALUES (#{id}, #{userEmail}, #{movieId}, #{movieNm}, #{moviePoster}, #{addedDate})
+</insert>
+
+<select id="getWishListDtoById" resultMap="wishList">
+	SELECT * FROM wish_list WHERE id =#{id}
+</select>
+
+<delete id="deleteMovieFromWishList" parameterType="String">
+	DELETE FROM wish_list WHERE id=#{id}
+</delete>
+
+<select id="getAmountOfWishedMovies" resultType="Integer">
+	SELECT COUNT(*) FROM wish_list WHERE user_email =#{userEmail}
+</select>
+
+<select id="getwishListDtoByEmail" resultMap="wishList">
+	SELECT * FROM wish_list WHERE user_email=#{userEmail}
+</select>
+</mapper>

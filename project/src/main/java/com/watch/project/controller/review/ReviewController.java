@@ -397,6 +397,13 @@ public class ReviewController {
 		return "member/member_info/liked_comment_list";
 	}
 	
+	@GetMapping("/viewAllCommentsForThisMovie")
+	public String viewAllComments4ThisMovie(@RequestParam("movieId") String movieId, Model model) {
+		List<MovieReviewDTO> comments = service.getEveryCommentForThisMovie(movieId);
+		model.addAttribute("comments", comments);
+		model.addAttribute("movieId", movieId);
+		return "member/review/all_comments";
+	}
 	
 
 }

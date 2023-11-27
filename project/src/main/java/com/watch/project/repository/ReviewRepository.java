@@ -84,6 +84,12 @@ public interface ReviewRepository {
 
 	List<MovieReviewDTO> getMoveReviewDtoWhereScoreIsZeroPointFive(String userEmail);
 
+	String getUserNmByEmail(String userEmail);
+
+	int deleteReportedDatas(String id);
+
+	MovieReviewDTO getCommentWithoutNanById(String pkId);
+
 //	int updateNewComment(MovieReviewDTO dto);
 
 //	int deleteFromMovieReview(String userEmail);////////////////////////////////////////////////////////////////

@@ -15,8 +15,19 @@
 	<result property="googleAgreement" column="google_agreement"/>
 	<result property="kakaoRefreshToken" column="kakao_refresh_token"/>
 	<result property="naverRefreshToken" column="naver_refresh_token"/>
+	<result property="isBlack" column="is_black"/>
 </resultMap>
 
+	<resultMap type="com.watch.project.dto.admin.UserNotificationDTO" id="notify">
+		<result property="recieverEmail" column="reciever_email"/>
+		<result property="recieverName" column="reciever_name"/>
+		<result property="senderEmail" column="sender_email"/>
+		<result property="senderName" column="sender_name"/>
+		<result property="notificationContent" column="notification_content"/>
+		<result property="insertedDate" column="inserted_date"/>
+		<result property="isSeen" column="is_seen"/>
+		<result property="isClicked" column="is_clicked"/>
+	</resultMap>
 	<select id="getUserInfoByEmail" resultMap="member">
 		SELECT * FROM member_info WHERE user_email=#{userEmail}
 	</select>
@@ -62,4 +73,15 @@
 		UPDATE member_info SET naver_refresh_token=#{naverRefreshToken} WHERE user_email=#{userEmail}
 	</update>
 
+	<select id="getUserNmByEmail" resultType="String">
+		SELECT user_name FROM member_info WHERE user_email=#{authorEmail}
+	</select>
+	
+	<select id="getNotificationListByEmail" resultMap="notify">
+		SELECT * FROM user_notification WHERE reciever_email=#{email} ORDER BY inserted_date DESC
+	</select>
+	
+	<update id="setIsSeenForList" parameterType="String">
+		UPDATE user_notification SET is_seen = 1 WHERE reciever_email=#{email}
+	</update>
 </mapper>

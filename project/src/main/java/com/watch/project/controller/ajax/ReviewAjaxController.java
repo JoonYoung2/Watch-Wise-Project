@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.watch.project.dto.CommentLikedUsersDTO;
 import com.watch.project.dto.MovieReviewDTO;
 import com.watch.project.service.ReviewService;
+import com.watch.project.service.admin.MemberService;
 
 import lombok.Data;
 
@@ -20,6 +21,8 @@ import lombok.Data;
 public class ReviewAjaxController {
 	@Autowired
 	private ReviewService service;
+	@Autowired
+	private MemberService adminMemberService;
 	
 	@PostMapping("getReivewScore")
 	public MsgResponse reviewWithScore(@RequestBody MovieReviewDTO dto) {
@@ -48,6 +51,11 @@ public class ReviewAjaxController {
 		commentDto.setCommentId(id);
 		commentDto.setLikedUserEmail((String)session.getAttribute("userEmail"));
 		
+		MovieReviewDTO dtoForComment = service.getComment2(dto.getMovieId(),dto.getUserEmail());
+		String comment = dtoForComment.getReviewComment();
+		adminMemberService.giveNotificationToUserForComment(dto.getUserEmail(), comment);
+
+		
 		System.out.println("CommentDto .s et id = "+ commentDto.getId());
 		int commentLikeCounts = service.increaseLikeCountForComment(dto, commentDto);
 		ResultResponse response = new ResultResponse(commentLikeCounts);
@@ -73,6 +81,16 @@ public class ReviewAjaxController {
 		public ResultResponse(int result){
 			this.result = result;
 		}
+	}
+	
+	@PostMapping("/saveMovieCommentFromMovieInfo")
+	public MsgOnlyResponse saveMovieCommentFormMovieInfo(@RequestParam("movieId") String movieId, @RequestParam("reviewComment") String comment) {
+		MovieReviewDTO dto = new MovieReviewDTO();
+		dto.setMovieId(movieId);
+		dto.setReviewComment(comment);
+		String msg = service.insertComment(dto);//코멘트 저장
+		MsgOnlyResponse response = new MsgOnlyResponse(msg);
+		return response;
 	}
 	
 	@PostMapping("/updateMovieCommentFromMyCommentList")

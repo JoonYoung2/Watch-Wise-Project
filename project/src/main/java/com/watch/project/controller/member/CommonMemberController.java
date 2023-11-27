@@ -16,11 +16,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.watch.project.dto.LiveSearchDTO;
 import com.watch.project.dto.MemberDTO;
+import com.watch.project.dto.WishListDTO;
+import com.watch.project.dto.admin.UserNotificationDTO;
 import com.watch.project.repository.SearchRepository;
 import com.watch.project.service.SearchService;
 import com.watch.project.service.member.CommonMemberService;
 import com.watch.project.service.member.GoogleMemberService;
 import com.watch.project.service.member.KakaoMemberService;
+import com.watch.project.service.member.MemberInfoService;
 import com.watch.project.service.member.NaverMemberService;
 
 @Controller
@@ -35,6 +38,8 @@ public class CommonMemberController {
 	private SearchService searchService;
 	@Autowired
 	private CommonMemberService common;
+	@Autowired
+	private MemberInfoService memberInfoService;
 	@Autowired
 	private SearchRepository searchRepository;
 	
@@ -65,6 +70,7 @@ public class CommonMemberController {
 	public String socialmemberInfo(HttpSession session, Model model) {
 		String userEmail = (String)session.getAttribute("userEmail");
 		MemberDTO memberInfo = common.getMemberInfoByEmail(userEmail);
+//		WishListDTO wishList = memberInfoService.getWishList(userEmail);
 		Map<String, Integer> numbers = common.getNumbersOfDatasForMemberInfo(userEmail);
 		
 		int searchHistory = 0;
@@ -76,6 +82,7 @@ public class CommonMemberController {
 		
 		searchService.searchModel(model);
 		model.addAttribute("dto", memberInfo);
+//		model.addAttribute("wishList", wishList);
 		model.addAttribute("map", numbers);
 		model.addAttribute("searchHistory", searchHistory);
 		
@@ -122,5 +129,13 @@ public class CommonMemberController {
 		redirectAttr.addFlashAttribute("msg", msg);
 		return "redirect:/";
 		
+	}
+	
+	@GetMapping("/showNotifyList")
+	public String showNotifyList(HttpSession session, Model model) {
+		session.removeAttribute("newNoti");
+		List<UserNotificationDTO> notificationList = common.getNotificationList();
+		model.addAttribute("notiList", notificationList);
+		return "member/notification_list";
 	}
 }
