@@ -14,8 +14,6 @@
 	
 	<%@ include file="./include/header.jsp" %>
 	
-	<% int liveCnt = 0; %>
-	
 	<div align="center" class="index-page">
 		<br><br>
 		<div class="page-menu">
@@ -91,6 +89,7 @@
 		</div>
 		<!-- 인기 배우 -->
 		
+		<% int liveCnt = 0; %>
 		<!-- 실시간 인기 검색어 -->
 		<div class="page-width">
 			<div align="left" class="live-search-page">

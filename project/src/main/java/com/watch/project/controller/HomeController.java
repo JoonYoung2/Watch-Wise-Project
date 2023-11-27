@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.watch.project.dto.LiveSearchDTO;
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.MovieTopInfoDTO;
+import com.watch.project.dto.admin.chart.ActorChartDTO;
+import com.watch.project.dto.admin.chart.MovieChartDTO;
 import com.watch.project.service.HomeService;
 import com.watch.project.service.SearchService;
 
@@ -22,9 +24,21 @@ import lombok.extern.slf4j.Slf4j;
 public class HomeController {
 	private final HomeService service;
 	private final SearchService searchService;
+	private final com.watch.project.service.admin.HomeService adminHomeService;
 
 	@GetMapping("/")
 	public String home(Model model) {
+		
+		/*
+		 * 인기 영화
+		 */
+		List<MovieChartDTO> movieChartList = adminHomeService.getPopularMovieList();
+		
+		/*
+		 * 인기 배우
+		 */
+		List<ActorChartDTO> actorChartList = adminHomeService.getPopularActorList();
+		
 		List<MovieTopInfoDTO> topInfoList = service.getMovieTopInfo();
 				
 		/*
@@ -47,13 +61,13 @@ public class HomeController {
 		 */
 		List<MovieInfoDTO> recentlyReleasedForeignMovies = service.recentlyReleasedForeignMovies();
 		
-		
-		
 		movieInfoMap.put("upcoming", upcomingMovies);
 		movieInfoMap.put("recentlyKorea", recentlyReleasedKoreanMovies);
 		movieInfoMap.put("recentlyForeign", recentlyReleasedForeignMovies);
 		
 		searchService.searchModel(model);
+		model.addAttribute("movieChart", movieChartList);
+		model.addAttribute("actorChart", actorChartList);
 		model.addAttribute("movieInfoMap", movieInfoMap);
 		
 		return "basic/home"; 

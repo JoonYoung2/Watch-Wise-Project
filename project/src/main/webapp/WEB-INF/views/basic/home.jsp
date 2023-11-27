@@ -49,9 +49,36 @@
 		SimpleDateFormat dtFormat = new SimpleDateFormat("yyyyMMdd");
 		int todayDate = Integer.parseInt(dtFormat.format(cal.getTime()));
 	%>
+	
 	<c:if test="${ daily.size() > 0 }">
 		<br><br>
 		<%@ include file="../include/home_include/daily.jsp" %>
+	</c:if>
+	
+	<c:if test="${ upcoming.size() > 0 }">
+		<br><br><br>
+		<% 
+			cnt = 0; 
+		%>
+		<%@ include file="../include/home_include/upcoming.jsp" %>
+	</c:if>
+	
+	<%@ include file="../include/home_include/main_board.jsp" %>
+	
+	<c:if test="${ recentlyKo.size() > 0 }">
+		<br><br><br>
+		<% 
+			cnt = 0; 
+		%>
+		<%@ include file="../include/home_include/recently_korean.jsp" %>
+	</c:if>
+	
+	<c:if test="${ recentlyFo.size() > 0 }">
+		<br><br><br>
+		<% 
+			cnt = 0; 
+		%>
+		<%@ include file="../include/home_include/recently_foreign.jsp" %>
 	</c:if>
 	
 	<c:if test="${ weekly0.size() > 0 }">
@@ -83,32 +110,6 @@
 		<%@ include file="../include/home_include/weekly2.jsp" %>
 	</c:if>
 	
-	<c:if test="${ recentlyKo.size() > 0 }">
-		<br><br><br>
-		<% 
-			cnt = 0; 
-		%>
-		<%@ include file="../include/home_include/recently_korean.jsp" %>
-	</c:if>
-	
-	<c:if test="${ recentlyFo.size() > 0 }">
-		<br><br><br>
-		<% 
-			cnt = 0; 
-		%>
-		<%@ include file="../include/home_include/recently_foreign.jsp" %>
-	</c:if>
-	
-	<c:if test="${ upcoming.size() > 0 }">
-		<br><br><br>
-		<% 
-			cnt = 0; 
-		%>
-		<%@ include file="../include/home_include/upcoming.jsp" %>
-	</c:if>
-	
-	<script src="/resources/js/common.js"></script>
 	<script src="/resources/js/home.js"></script>
-	<script src="/resources/js/search_common.js"></script>
 </body>
 </html>

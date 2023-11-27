@@ -38,10 +38,6 @@ public class HomeController {
 		List<LiveSearchDTO> liveSearchList = service.getLiveSearchDataList();
 		
 		/*
-		 * 회원 동향
-		 */
-		
-		/*
 		 * 인기 영화
 		 */
 		List<MovieChartDTO> movieChartList = service.getPopularMovieList();
@@ -50,10 +46,6 @@ public class HomeController {
 		 * 인기 배우
 		 */
 		List<ActorChartDTO> actorChartList = service.getPopularActorList();
-		
-		log.info("{}", liveSearchList.size());
-		log.info("{}", movieChartList.size());
-		log.info("{}", actorChartList.size());
 		
 		model.addAttribute("liveSearch", liveSearchList);
 		model.addAttribute("movieChart", movieChartList);
