@@ -597,7 +597,7 @@
                                 		</div>
                                 	</div>
                                 	
-                                	<div class="comment-content" style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 7; overflow: hidden;text-align:left; margin-left:10px; margin-right:10px; height:55%; border-top: 1px solid #E5E5E5; padding-top:10px;">
+                                	<div class="comment-content" onclick="openModalForCommentDetail('${dto.userName}', '${dto.reviewComment}', '${dto.reviewCommentDate}');" style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 7; overflow: hidden;text-align:left; margin-left:10px; margin-right:10px; height:55%; border-top: 1px solid #E5E5E5; padding-top:10px;">
                                 		${dto.reviewComment}
                                 	</div>
                                 	<div class="date" style="display:flex; height:13%;font-size: 0.8em; color:#888; margin-left:10px; margin-right:5px;">
@@ -719,7 +719,7 @@
 	    </div>
  	</div>
  </div>
- 
+<!-- 블랙리스트에게 댓글 기능 사용 불가 알림용 modal -->
  <div id="modalForBlack" style=" position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); width:400px; height:200px;background-color:white; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); border:1px solid #ccc;border-radius:4px; z-index:-2; display:none;">
     <div class="modal-content" style="background-color:white; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:350px; height:150px; border-radius:5px;">
     	<div class="top" style="display:flex; width: 100%; height:60px; top: 5%;"><!-- top  -->
@@ -727,9 +727,23 @@
 	    </div>
 	    <div>
 	   		${sessionScope.userEmail} 님은 <br>적절하지 않은 댓글 활동으로 인하여<br> 댓글 기능을 더 이상 이용할 수 없습니다.
-	   		</div>
+	   	</div>
   	</div>
 </div>
+
+<!-- 코멘트 디테일용 -->
+<div id = "modal-for-comment-detail" style=" position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); width:400px; height:400px;background-color:white; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); border:1px solid #ccc;border-radius:4px; z-index:-2; display:none;">
+    <div class="modal-content" style="background-color:white; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:350px; height:350px; border-radius:5px;">
+    	<div class="top" style="display:flex; width: 100%; height:60px; top: 5%;"><!-- top  -->
+			<span id="user-name-for-comment-detail" style="font-size:15px; font-weight:bold;"></span>
+			<span class="closeModalButton" onclick="closeModalForCommentDetail();" style="margin-left:auto; font-size:20px; cursor:pointer;">&times;</span>
+	    </div>
+	    <div id="comment-detail-area" style="width:100%; word-wrap:break-word;">
+	    	
+	    </div>
+	</div>
+</div>
+
 
  <div id="bodyForShadow" class="bodyForShadow" style="content: '';
     position:fixed;  z-index:-2;  display:none;

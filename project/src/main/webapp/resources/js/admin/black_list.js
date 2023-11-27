@@ -1,5 +1,11 @@
 function openModalForReport(author, comment, commentId, movieId, cnt){
+	
 	console.log("dkdkdkdkdk");
+	console.log("author: ", author);
+	console.log("comment: ", comment);
+	console.log("commentId: ", commentId);
+	console.log("movieId: ", movieId);
+	console.log("cnt: ", cnt);
 	let body = document.getElementById('bodyForShadow');
 	let modal = document.getElementById('modal');
 	

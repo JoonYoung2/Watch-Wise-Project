@@ -46,7 +46,7 @@ function openModal(movieNm, movieId, comment, cnt){
 	let madalTitle = document.getElementById('modalMovieTitle');
 	let textBox = document.getElementById('movieComment');
 	let hiddenMovieId = document.getElementById('modalMovieId');
-	
+
 	modal.style.display = 'block';
 	body.style.display = 'block';
 	modal.style.zIndex = '2';
@@ -54,7 +54,20 @@ function openModal(movieNm, movieId, comment, cnt){
 	madalTitle.textContent = movieNm;
 	textBox.innerHTML = comment;
 	hiddenMovieId.value=movieId;
-	//$ajax
+	
+	// Lock body scrolling when the modal is open
+    document.body.style.overflow = "hidden";
+
+//	// Adjust the modal position based on the current scroll position
+//	var scrollPosition = window.scrollY || window.pageYOffset;
+//	modal.style.top = scrollPosition + "px";
+	
+	       // Adjust the modal position based on the current scroll position
+	       var verticalHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+        var scrollPosition = window.scrollY || window.pageYOffset;
+        modal.style.top = scrollPosition + (verticalHeight/2) + "px";
+//        modal.style.left = "50%";
+//        modal.style.transform = "translate(-50%, -50%)";
 }
 
 function closeModal(){
@@ -64,6 +77,9 @@ function closeModal(){
 	body.style.display = 'none';
 	modal.style.zIndex = '-2';
 	body.style.zIndex = '-2';
+    
+    // Restore body scrolling when the modal is closed
+    document.body.style.overflow = "auto";
 }
 
 function updateMovieComment(){

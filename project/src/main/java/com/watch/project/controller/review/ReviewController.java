@@ -372,7 +372,7 @@ public class ReviewController {
 		return "member/member_info/my_scored_movie_lists_by_score";
 	}
 
-	@GetMapping("/userLikedCommentList")
+	@GetMapping("/userLikedCommentList")//////위치바꾸기
 	public String userLikedCommentList(Model model, HttpSession session) {
 		List<LikedCommentListDTO> likedCommentList = service.getLikedCommentList((String)session.getAttribute("userEmail"));
 		/*

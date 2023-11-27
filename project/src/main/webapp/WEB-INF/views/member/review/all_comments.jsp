@@ -62,10 +62,10 @@
 			        					<div class="forAlertImg" style="text-align:right; margin-top:5px;width:50%; padding-bottom:5px;">
 											<c:choose>
 										        <c:when test="${dto.isReported eq 0 }">
-									        		<img src="/resources/img/alert.png" onclick="openModalForReport('${dto.userEmail }', '${dto.reviewComment}', '${dto.id}', '${movieInfo.movieId }', '${cnt }');" style="cursor:pointer;  width:25px; ">
+									        		<img src="/resources/img/alert.png" onclick="openModalForReport('${dto.userEmail }', '${dto.reviewComment}', '${dto.id}', '${movieId}', '${cnt }');" style="cursor:pointer;  width:25px; ">
 										        </c:when>
 										        <c:otherwise>
-									        		<img src="/resources/img/activatedAlert.png" onclick="cancelReportCheck('${dto.userEmail }', '${dto.reviewComment}', '${dto.id}', '${movieInfo.movieId }', '${cnt}');" style="cursor:pointer;  width:25px;">
+									        		<img src="/resources/img/activatedAlert.png" onclick="cancelReportCheck('${dto.userEmail }', '${dto.reviewComment}', '${dto.id}', '${movieId}', '${cnt}');" style="cursor:pointer;  width:25px;">
 										        </c:otherwise>
 										    </c:choose>
 								        </div>
@@ -81,10 +81,10 @@
 				                        <div class="comment" style="text-align:right; margin-right:10px;width:50%;">
 					                    	<c:choose>
 										        <c:when test="${dto.isLiked eq 0 }">
-										        	<img class="likeButton" src="resources/img/like.png" style="cursor:pointer; width:25px;" onclick="increaseLikeCount('${dto.userEmail}', '${movieInfo.movieId}', '${ cnt }');">
+										        	<img class="likeButton" src="resources/img/like.png" style="cursor:pointer; width:25px;" onclick="increaseLikeCount('${dto.userEmail}', '${movieId}', '${ cnt }');">
 										        </c:when>
 										        <c:otherwise>
-										           <img class="likeButton" src="resources/img/likeColor.png" style="cursor:pointer; width:25px;" onclick="decreaseLikeCount('${dto.userEmail}', '${movieInfo.movieId}', '${ cnt }');">
+										           <img class="likeButton" src="resources/img/likeColor.png" style="cursor:pointer; width:25px;" onclick="decreaseLikeCount('${dto.userEmail}', '${movieId}', '${ cnt }');">
 										        </c:otherwise>
 											</c:choose>
 				        				</div>
@@ -99,5 +99,52 @@
 		</tr>
 	</table>
 </div>
+
+<!-- 댓글 신고용 modal -->
+ <div id="modal" style="position: fixed; top:50%; left:50%; transform:translate(-50%, -50%); width:400px; height:400px;background-color:white; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); border:1px solid #ccc;border-radius:4px; z-index:-2; display:none;">
+    <div class="modal-content" style="background-color:white; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:350px; height:350px; border-radius:5px;">
+ 		<div class="top" style="display:flex; width: 100%; height:60px; top: 5%;"><!-- top  -->
+			<span id="modalMovieTitle" style="font-size:25px; margin-left:8px; margin-top:5px; font-weight:bold;">신고사유</span>
+			<span class="closeModalButton" onclick="closeModalForReport();" style="margin-left:auto; font-size:20px; cursor:pointer;">&times;</span>
+	    </div>
+		<div>&nbsp 
+			<input type="hidden" id="storage-for-author" />
+			<input type="hidden" id="storage-for-comment" />
+			<input type="hidden" id="storage-for-comment-id" />
+			<input type="hidden" id="storage-for-movieId" />
+			<input type="hidden" id="storage-for-cnt"/>
+		</div>
+		<div>
+		    <div id="bad-words" onclick="reportForBadWord();" style="cursor:pointer; font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-top:1px solid rgb(0,0,0); border-bottom: 1px solid rgb(0,0,0);">
+		    	욕설 또는 비속어
+		    </div>
+		    <div id="spam" onclick="reportForSpam();" style="cursor:pointer; font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
+		    	도배 및 스팸
+		    </div>
+		    <div id="false-fact" onclick="reportForFalseFact();" style="cursor:pointer; font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
+		    	허위 정보
+		    </div>
+		    <div id="racism" onclick="reportForRacism();" style="cursor:pointer; font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
+		    	차별 / 혐오 발언
+		    </div>
+		    <div id="spoiler" onclick="reportForSpoiler();" style="cursor:pointer; font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
+		    	스포일러
+		    </div>
+	    </div>
+ 	</div>
+ </div>
+ 
+ <div id="bodyForShadow" class="bodyForShadow" style="content: '';
+    position:fixed;  z-index:-2;  display:none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;">
+</div>
+
+<script src="/resources/js/movie_info.js"></script>
+<script src="/resources/js/admin/black_list.js"></script>
 </body>
 </html>
