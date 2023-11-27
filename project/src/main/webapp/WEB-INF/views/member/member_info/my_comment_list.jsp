@@ -65,7 +65,7 @@
 		            <span><b>${list.reviewComment}</b></span> <br>
 		            <span class="date">${list.reviewCommentDate} </span>
 	        </div>
-	        <div style="width:15%; text-align:right; padding-right:10px;">
+	        <div style="width:15%; text-align:right;  display: flex; flex-direction: column; justify-content: center; align-items: center;">
 		        <div>
 			        <img style="width:20px; vertical-align:-5px;" src="resources/img/likeColor.png"> 
 			        <span> x </span>
@@ -153,9 +153,7 @@
 	width: 95%; /* 너비를 50%로 설정 */
 }
 
-.comment-content {
-    flex: 1;
-}
+
 
 .comment-content h3 {
     margin: 0;

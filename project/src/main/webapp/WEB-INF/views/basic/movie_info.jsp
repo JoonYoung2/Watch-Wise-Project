@@ -216,7 +216,7 @@
 			            	</div>
             			</div>
 			         </div>
-			         <div style="display:flex; height:700px; margin-left:200px; padding-top:0px;">
+			         <div style="display:flex; margin-left:200px; padding-top:0px;">
 			         	<div>
 				         	
 				            <div style="display:flex; margin-left:10px;">
