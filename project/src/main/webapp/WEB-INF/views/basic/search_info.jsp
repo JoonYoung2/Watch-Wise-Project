@@ -5,8 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/resources/css/home.css">
 <link rel="stylesheet" href="/resources/css/search_info.css">
+<link rel="stylesheet" href="/resources/css/movie_common_btn.css">
 <title>Insert title here</title>
 </head>
 <body>

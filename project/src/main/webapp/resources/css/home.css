@@ -1,62 +1,38 @@
-.leftBtn{
-	all: unset;
-	cursor: pointer;
-	font-size: 25px;
-	width: 50px;
-	height: 50px;
-	border: 1px solid rgba(0, 0, 0, 0.2);
-	border-radius: 50px;
-	position: absolute;
-	background-color:white;
-	z-index:1;
-	display: none;
-	top: 190px;
-	left: -35px;
-	color: rgba(0, 0, 0, 0.2);
+.start-page{
+	width:100%;
 }
 
-.leftBtn:hover{
-	color: rgba(0, 0, 0, 0.5);
+.page-width{
+	width:80%;
 }
 
-.rightBtn{
-	all: unset;
-	cursor: pointer;
-	font-size: 25px;
-	width: 50px;
-	height: 50px;
-	border: 1px solid rgba(0, 0, 0, 0.2);
-	border-radius: 50px;
-	position: absolute;
-	top: 190px;
-	right: -65px;
-	background-color:white;
-	color: rgba(0, 0, 0, 0.2);
-	display: ;
+.title-div{
+	width:100%; 
+	padding-bottom:10px;
 }
 
-.rightBtn:hover{
-	color: rgba(0, 0, 0, 0.5);
+.title-font{
+	font-size:30px; 
+	font-weight:bold;
 }
 
-.rightBtn2{
-	all: unset;
-	cursor: pointer;
-	font-size: 25px;
-	width: 50px;
-	height: 50px;
-	border: 1px solid rgba(0, 0, 0, 0.2);
-	border-radius: 50px;
-	position: absolute;
-	top: 190px;
-	right: -50px;
-	background-color:white;
-	color: rgba(0, 0, 0, 0.2);
-	display: ;
+.movie-div{
+	display:flex; 
+	position:relative;
 }
 
-.rightBtn2:hover{
-	color: rgba(0, 0, 0, 0.5);
+.movie-top-location{
+	padding-right:10px;
+	position:relative;
+}
+
+.movie-location{
+	padding-right:10px;
+}
+
+.movie-title-font{
+	font-size:18px; 
+	font-weight:bold;
 }
 
 .rankDiv{
