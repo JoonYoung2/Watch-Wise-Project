@@ -1,7 +1,12 @@
 package com.watch.project.service.member;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.dto.WishListDTO;
+import com.watch.project.dto.admin.UserNotificationDTO;
 import com.watch.project.repository.MemberRepository;
 import com.watch.project.repository.MovieInfoRepository;
 import com.watch.project.repository.PeopleInfoRepository;
@@ -22,6 +28,7 @@ public class CommonMemberService {
 	@Autowired private MovieInfoRepository movieInfoRepo;
 	@Autowired private PeopleInfoRepository peopleInfoRepo;
 	@Autowired private WishListRepository wishListRepo;
+	@Autowired private HttpSession session;
 	
 	public String getAlertLocation(String msg, String url) {
 		String message = "<script>alert('" + msg + "');";
@@ -106,6 +113,45 @@ public class CommonMemberService {
 		//좋아한 코멘트 수
 		result.put("likedComment", reviewRepo.getAmountOfLikedComments(userEmail));
 		return result;
+	}
+
+	public List<UserNotificationDTO> getNotificationList() {
+		String email = (String)session.getAttribute("userEmail");
+		List<UserNotificationDTO> allNotisList = repo.getNotificationListByEmail(email);
+		for(UserNotificationDTO list : allNotisList) {
+			String storedDate = list.getInsertedDate();
+			
+			//오늘 날짜데이터 생성
+			Date currentDate = new Date();
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        String formattedDate = sdf.format(currentDate);
+	        
+            try {
+                // 문자열로 된 날짜를 Date 객체로 파싱
+                Date storedDateObj = sdf.parse(storedDate);
+
+                // 날짜 차이 계산 (밀리초 단위)
+                long timeDifference = currentDate.getTime() - storedDateObj.getTime();
+
+                // 차이를 일로 변환
+                long daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+                // 여기서 daysDifference를 사용하여 필요한 작업 수행
+                if (daysDifference <= 7) {
+                	if(daysDifference == 0) {
+                		list.setInsertedDate("오늘");
+                	}else {
+                	list.setInsertedDate(daysDifference+"일전");
+                	}
+                    System.out.println("Notification within 7 days: " + list.getNotificationContent());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    
+		repo.setIsSeenForList(email);
+		return allNotisList;
 	}
 
 

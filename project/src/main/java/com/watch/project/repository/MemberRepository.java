@@ -1,8 +1,11 @@
 package com.watch.project.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.watch.project.dto.MemberDTO;
+import com.watch.project.dto.admin.UserNotificationDTO;
 
 @Mapper
 public interface MemberRepository {
@@ -32,6 +35,10 @@ public interface MemberRepository {
 	void updateNaverRefreshToken(MemberDTO dtoForRefreshToken);
 
 	String getUserNmByEmail(String authorEmail);
+
+	List<UserNotificationDTO> getNotificationListByEmail(String email);
+
+	void setIsSeenForList(String email);
 
 
 }

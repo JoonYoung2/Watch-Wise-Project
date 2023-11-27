@@ -64,8 +64,11 @@ public class KakaoMemberController {
 			repo.updateKakaoRefreshToken(userInfo);
 			int isBlack = adminMemberService.checkIfBlack(userInfo.getUserEmail());
 			System.out.println("isBlack=============>"+isBlack);
+			int isNewNoti = adminMemberService.checkIfNewNoti(userInfo.getUserEmail());
+			System.out.println("isNewNoti=============>"+isNewNoti);
 
 			session.setAttribute("isBlack", isBlack);	
+			session.setAttribute("newNoti", isNewNoti);
 			session.setAttribute("userEmail", userInfo.getUserEmail());
 			session.setAttribute("accessToken", accessToken);
 			session.setAttribute("userLoginType", 2);
@@ -108,7 +111,11 @@ public class KakaoMemberController {
 
 	@GetMapping("/kakaoSignOut")
 	public String logout(HttpSession session, RedirectAttributes redirectAttr) {
-		session.invalidate();
+		session.removeAttribute("userEmail");
+		session.removeAttribute("userLoginType");
+		session.removeAttribute("newNoti");
+		session.removeAttribute("isBlack");
+		session.removeAttribute("accessToken");
 		redirectAttr.addFlashAttribute("signOutAlert", true);
 		return "redirect:/";//redirect 하면 알림 안뜸.
 

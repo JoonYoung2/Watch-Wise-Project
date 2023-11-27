@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.watch.project.dto.LiveSearchDTO;
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.dto.WishListDTO;
+import com.watch.project.dto.admin.UserNotificationDTO;
 import com.watch.project.repository.SearchRepository;
 import com.watch.project.service.SearchService;
 import com.watch.project.service.member.CommonMemberService;
@@ -128,5 +129,13 @@ public class CommonMemberController {
 		redirectAttr.addFlashAttribute("msg", msg);
 		return "redirect:/";
 		
+	}
+	
+	@GetMapping("/showNotifyList")
+	public String showNotifyList(HttpSession session, Model model) {
+		session.removeAttribute("newNoti");
+		List<UserNotificationDTO> notificationList = common.getNotificationList();
+		model.addAttribute("notiList", notificationList);
+		return "member/notification_list";
 	}
 }

@@ -11,4 +11,5 @@ public class UserNotificationDTO {
 	private String notificationContent;
 	private String insertedDate;
 	private Integer isSeen;
+	private Integer isClicked;
 }

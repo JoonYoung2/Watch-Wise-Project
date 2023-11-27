@@ -53,6 +53,7 @@
 		<result property="notificationContent" column="notification_content"/>
 		<result property="insertedDate" column="inserted_date"/>
 		<result property="isSeen" column="is_seen"/>
+		<result property="isClicked" column="is_clicked"/>
 	</resultMap>
 	
 	<select id="getMemberInfoListByStartAndEnd" resultMap="member">
@@ -187,7 +188,7 @@
 	</update>
 	
 	<insert id="insertNotification" parameterType="com.watch.project.dto.admin.UserNotificationDTO">
-		INSERT INTO user_notification VALUES(#{recieverEmail}, #{recieverName}, #{senderEmail}, #{senderName}, #{notificationContent}, #{insertedDate}, #{isSeen})
+		INSERT INTO user_notification VALUES(#{recieverEmail}, #{recieverName}, #{senderEmail}, #{senderName}, #{notificationContent}, #{insertedDate}, #{isSeen}, #{isClicked})
 	</insert>
 	
 	<select id="getUserNotificationDtoByEmail" resultMap="notify">

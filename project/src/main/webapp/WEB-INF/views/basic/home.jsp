@@ -30,6 +30,12 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/header.jsp" %>
+<div align="center" style="width:100%">
+	<div style="width:90%">
+		<hr style="border:1px solid #ccc;">
+	</div>
+</div>
+
 
 <c:set var="daily" value="${ movieInfoMap['daily'] }"/>
 <c:set var="weekly0" value="${ movieInfoMap['weekly0'] }"/>

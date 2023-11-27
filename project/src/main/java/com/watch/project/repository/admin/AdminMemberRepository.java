@@ -67,7 +67,7 @@ public interface AdminMemberRepository {
 
 	public int insertNotification(UserNotificationDTO noti);
 
-	public UserNotificationDTO getUserNotificationDtoByEmail(String userEmail);
+	public List<UserNotificationDTO> getUserNotificationDtoByEmail(String userEmail);
 	
 	
 }

@@ -395,7 +395,7 @@ function updateMovieComment(){
 
 // 코멘트 좋아요 START
 
-function increaseLikeCount(userEmail, movieId, cnt) {
+function increaseLikeCount(userEmail, movieId, cnt) { // 작성자 이메일
 	let num = Number(cnt);
 	let comment = document.querySelectorAll(".comment");
 	let count = document.querySelectorAll(".comment_like_count");	

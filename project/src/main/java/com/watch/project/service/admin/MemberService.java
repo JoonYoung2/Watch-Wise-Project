@@ -270,6 +270,34 @@ public class MemberService {
         noti.setNotificationContent(content);
 		noti.setInsertedDate(formattedDate);
 		noti.setIsSeen(0);
+		noti.setIsClicked(0);
+		
+		int result = repo.insertNotification(noti);
+		System.out.println("result ===>"+result);
+	}
+	public void giveNotificationToUserForComment(String authorEmail, String comment) {
+		UserNotificationDTO noti = new UserNotificationDTO();
+		//유저이름 가져오기
+		String userNm = memberRepo.getUserNmByEmail(authorEmail); //알림 받을 사람
+		System.out.println("여기는 알림 받을 유저의 이메일 ==>"+ authorEmail);
+		//알림 내용 설정
+		String nmWhoClickedHeart = memberRepo.getUserNmByEmail((String)session.getAttribute("userEmail"));//좋아요 누른 사람
+		System.out.println("여기는 좋아요 누른 유저의 이름 ==>"+ nmWhoClickedHeart);
+
+		String content = "<b>"+nmWhoClickedHeart + "님이 회원님의 코멘트를 좋아합니다.</b> <br>"+comment;
+		//날짜데이터 생성
+		Date currentDate = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String formattedDate = sdf.format(currentDate);
+		
+		noti.setRecieverEmail(authorEmail);
+		noti.setRecieverName(userNm);
+		noti.setSenderEmail((String)session.getAttribute("userEmail"));
+		noti.setSenderName(nmWhoClickedHeart);
+		noti.setNotificationContent(content);
+		noti.setInsertedDate(formattedDate);
+		noti.setIsSeen(0);
+		noti.setIsClicked(0);
 		
 		int result = repo.insertNotification(noti);
 		System.out.println("result ===>"+result);
@@ -278,13 +306,13 @@ public class MemberService {
 	public int checkIfNewNoti(String userEmail) {
 		int result = 0;
 		try {
-			UserNotificationDTO dto = repo.getUserNotificationDtoByEmail(userEmail);
-			if(dto != null) { 
-				System.out.println("dto가 널이 아님");
-				result = 1;
-			}else {
+			List<UserNotificationDTO> dto = repo.getUserNotificationDtoByEmail(userEmail);
+			if(dto.size() == 0) { 
 				System.out.println("dto가 널임");
 				result = 0;
+			}else {
+				System.out.println("dto가 널이 아님");
+				result = 1;
 			}
 		}catch(NullPointerException e) {
 			System.out.println("exception에 걸림");
@@ -292,6 +320,8 @@ public class MemberService {
 		}
 		return result;
 	}
+
+
 
 
 }

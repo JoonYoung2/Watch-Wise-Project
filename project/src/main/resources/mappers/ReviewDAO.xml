@@ -63,7 +63,7 @@
 	</select>
 	
 	<select id="getComment" resultMap="review">
-		SELECT * FROM movie_review WHERE id=#{pkId}
+		SELECT * FROM movie_review WHERE id=#{pkId} 
 	</select>
 	
 	<update id="deleteComment" parameterType="String">
