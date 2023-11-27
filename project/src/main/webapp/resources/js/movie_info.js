@@ -393,9 +393,13 @@ function updateMovieComment(){
 
 
 
-// 코멘트 좋아요 START
+// 코멘트 좋아요 -- (movie comment detail) START
 
 function increaseLikeCount(userEmail, movieId, cnt) { // 작성자 이메일
+	console.log("함수로 넘어옴.")
+	console.log("userEmail ",userEmail);
+	console.log("movieId ",movieId);
+	console.log("cnt ",cnt);
 	let num = Number(cnt);
 	let comment = document.querySelectorAll(".comment");
 	let count = document.querySelectorAll(".comment_like_count");	
@@ -447,5 +451,43 @@ function decreaseLikeCount(userEmail, movieId, cnt) {
 	});
     console.log("바깥-------------------댓글의 좋아요 수를 1 감소시킵니다.");
 }
-
 // 코멘트 좋아요 END
+
+//코멘트 detail START-----------------------------------------------------------
+function openModalForCommentDetail(name, comment, date){
+	console.log("comment : ",comment);
+	console.log("name : ",name);
+	let body = document.getElementById('bodyForShadow');
+	let modal = document.getElementById('modal-for-comment-detail');
+	
+	let userNameArea = document.getElementById('user-name-for-comment-detail');
+	let commentArea = document.getElementById('comment-detail-area');
+	
+	modal.style.display = 'block';
+	body.style.display = 'block';
+	modal.style.zIndex = '2';
+	body.style.zIndex = '1';
+	
+	userNameArea.innerText = name;
+	commentArea.innerText = comment;
+}
+
+function closeModalForCommentDetail(){
+	let body = document.getElementById('bodyForShadow');
+	let modal = document.getElementById('modal-for-comment-detail');
+	modal.style.display = 'none';
+	body.style.display = 'none';
+	modal.style.zIndex = '-2';
+	body.style.zIndex = '-2';
+}
+
+
+
+
+
+
+
+
+
+
+
