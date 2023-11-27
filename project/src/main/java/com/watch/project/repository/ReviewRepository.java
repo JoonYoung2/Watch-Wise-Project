@@ -88,6 +88,8 @@ public interface ReviewRepository {
 
 	int deleteReportedDatas(String id);
 
+	MovieReviewDTO getCommentWithoutNanById(String pkId);
+
 //	int updateNewComment(MovieReviewDTO dto);
 
 //	int deleteFromMovieReview(String userEmail);////////////////////////////////////////////////////////////////

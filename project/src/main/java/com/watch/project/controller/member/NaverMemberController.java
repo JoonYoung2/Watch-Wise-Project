@@ -48,7 +48,11 @@ public class NaverMemberController {
 	@GetMapping("/naverSignOut")
     public String Logout(HttpSession session) {
         if(session != null) {
-            session.invalidate();
+    		session.removeAttribute("userEmail");
+    		session.removeAttribute("userLoginType");
+    		session.removeAttribute("newNoti");
+    		session.removeAttribute("isBlack");
+    		session.removeAttribute("accessToken");
         }
 
         return "redirect:/";

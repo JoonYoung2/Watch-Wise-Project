@@ -20,6 +20,7 @@ import com.watch.project.dto.admin.PagingConfigDTO;
 import com.watch.project.dto.admin.PagingDTO;
 import com.watch.project.dto.admin.ReportedCommentsDTO;
 import com.watch.project.dto.admin.TableInfoDTO;
+import com.watch.project.dto.admin.UserNotificationDTO;
 import com.watch.project.service.admin.AutoPagingService;
 import com.watch.project.service.admin.MemberService;
 
@@ -163,12 +164,10 @@ public class MemberController {
 	@GetMapping("/admin/deleteFromBlackList")
 	public String deleteFromBlackList(@RequestParam("author") String userEmail, @RequestParam("currentPage") int pageNum, RedirectAttributes redirectAttr) {
 		String msg = service.deleteFromBlackList(userEmail);
+		service.giveNotificationToUser(userEmail, "관리자 검토 결과, 회원님은 댓글 기능 사용을 다시 시작할 수 있습니다.");
 		redirectAttr.addFlashAttribute("msg", msg);
 		return "redirect:/admin/black_list?currentPage="+pageNum;
 	}
 	
-//	@GetMapping("/showNotifyList")
-//	public String showNotifyList() {
-//		return 
-//	}
+
 }

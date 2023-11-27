@@ -187,6 +187,11 @@ public class ReviewService {
 		MovieReviewDTO reviewComment = repo.getComment(pkId);
 		return reviewComment;
 	}
+	public MovieReviewDTO getComment2(String movieId, String authorEmail) {
+		String pkId = movieId + authorEmail;
+		MovieReviewDTO reviewComment = repo.getComment(pkId);
+		return reviewComment;
+	}
 
 	public String deleteComment(String id) {
 		String msg = "해당 코멘트가 삭제되었습니다.";

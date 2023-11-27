@@ -89,7 +89,11 @@ public class LocalMemberController {
 	
 	@GetMapping("/signOut")
 	public String signOut(HttpSession session, RedirectAttributes redirectAttr) throws IOException {
-		session.invalidate();
+		session.removeAttribute("userEmail");
+		session.removeAttribute("userLoginType");
+		session.removeAttribute("newNoti");
+		session.removeAttribute("isBlack");
+
 		redirectAttr.addFlashAttribute("signOutAlert", true);
 		return "redirect:/";//redirect 하면 알림 안뜸.
 	}

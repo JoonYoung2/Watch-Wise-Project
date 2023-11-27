@@ -41,8 +41,11 @@ public class GoogleMemberController {
 		}//정상적 처리일 경우
 		int isBlack = adminMemberService.checkIfBlack(userInfo.getUserEmail());
 		System.out.println("isBlack=============>"+isBlack);
+		int isNewNoti = adminMemberService.checkIfNewNoti(userInfo.getUserEmail());
+		System.out.println("isNewNoti=============>"+isNewNoti);
 
 		session.setAttribute("isBlack", isBlack);
+		session.setAttribute("newNoti", isNewNoti);
 		session.setAttribute("userEmail", userInfo.getUserEmail());
 		session.setAttribute("userLoginType", 4);
 		session.setAttribute("accessToken", userInfo.getAccessToken());//id_token
@@ -52,7 +55,11 @@ public class GoogleMemberController {
 	
 	@GetMapping("/googleSignOut")
 	public String signout(HttpSession session, RedirectAttributes redirectAttr) throws IOException {
-		session.invalidate();
+		session.removeAttribute("isBlack");
+		session.removeAttribute("newNoti");
+		session.removeAttribute("userEmail");
+		session.removeAttribute("userLoginType");
+		session.removeAttribute("accessToken");
 		redirectAttr.addFlashAttribute("signOutAlert", true);
 		return "redirect:/";//redirect 하면 알림 안뜸.
 	}
