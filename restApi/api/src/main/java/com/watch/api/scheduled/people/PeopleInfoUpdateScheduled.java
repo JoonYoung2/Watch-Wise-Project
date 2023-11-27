@@ -28,11 +28,11 @@ public class PeopleInfoUpdateScheduled {
 	private static int cnt = 0;
 	
 //	@Scheduled(fixedDelay = 1000)
-//	@Scheduled(cron = "10 28 20 * * *")
+	@Scheduled(cron = "0 47 14 * * *")
 	public void peopleDetailSearchAndSave() {
 		int peopleCd = 0;
 		List<PeopleInfoDTO> list = service.getPeopleInfoAll();
-		while(cnt < list.size()) {
+		while(cnt < 50) {
 			log.info("=================== START ===================");
 			log.info("PeopleInfoUpdateScheduled - peopleDetailSearchAndSave()");
 			peopleCd = list.get(cnt).getPeopleId();
@@ -127,10 +127,10 @@ public class PeopleInfoUpdateScheduled {
 	}
 	
 //	@Scheduled(fixedDelay = 1000)
-//	@Scheduled(cron = "0 5 20 * * *")
+//	@Scheduled(cron = "20 43 14 * * *")
 	public void peopleAllSearchAndSave() {
 		int cnt = 0;
-		while(cnt != 6000) {
+		while(cnt != 20) {
 			log.info("=================== START ===================");
 			log.info("PeopleInfoUpdateScheduled - peopleAllSearchAndSave()");
 			

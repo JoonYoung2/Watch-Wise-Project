@@ -27,7 +27,7 @@
    	</c:if>
    	<div align="center" style="width:100%;">
    		<div style="width:80%;">
-   			<hr>
+   			<hr style="border:1px solid rgba(0, 0, 0, 0.1)">
    		</div>
    	</div>
    	<div align="center" style="width:100%;">
@@ -155,7 +155,7 @@
    	</div>
    	<div align="center" style="width:100%;">
    		<div style="width:80%;">
-   			<hr>
+   			<hr style="border:1px solid rgba(0, 0, 0, 0.1)">
    		</div>
    	</div>
    <div align="center" style="width:100%;">
@@ -287,10 +287,8 @@
 									    
 									    
 									    <c:otherwise>
-										    <div  style="font-size:15px; margin:10px; margin-top:20px;">
-										      내가 작성한 코멘트
-											</div>
-											<div style="margin:auto; display:flex; width:700px; background-color: #F8F8F8; border: 2px solid #ccc; border-radius: 5px; padding: 10px;">
+										   
+											<div style="margin:auto; display:flex; width:700px; background-color: #F8F8F8; border-radius: 5px; padding: 10px;">
 											
 												<div style="margin:10px; width:85%; word-wrap:break-word;">
 <%-- 													<span style="font-size:0.8em; color:#888; display:block;">${ifWroteComment.userEmail }</span><br> --%>

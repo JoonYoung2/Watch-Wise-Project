@@ -294,6 +294,7 @@ public class ReviewService {
 	}
 
 	public List<LikedCommentListDTO> getLikedCommentList(String userEmail) {
+		log.info("getLikedCommentList Start");
 		List<String> commentIdList = repo.selectCommentIdByEmail(userEmail);//로그인한 유저가 좋아요한 코멘트들의 아이디
 		List<LikedCommentListDTO> FinalDtoList = new ArrayList<>();
 		List<String> movieIdList = new ArrayList<>();
@@ -306,6 +307,7 @@ public class ReviewService {
 					map.put(cnt++, id);					
 			}
 			String movieId = repo.getMovieIdById(id);
+			log.info("movieId => {}", movieId);
 			if(!(movieIdList.contains(movieId))) {
 				movieIdList.add(movieId);
 			}
@@ -313,10 +315,12 @@ public class ReviewService {
 		
 		log.info("{}", commentIdList.size());
 		log.info("{}", movieIdList.size());
-		log.info("{}",map.size());
+		log.info("{}", map.size());
 		
 		for(String movieId : movieIdList) {
+			log.info("movieId => {}", movieId);
 			MovieInfoDTO movieInfo = movieInfoRepo.getMovieInfoById(movieId);
+			log.info("movieId222 => {}", movieId);
 			String posterUrl = movieInfo.getPosterUrl().split("\\|")[0];
 			movieInfo.setPosterUrl(posterUrl);
 			List<MovieReviewDTO> likedCommentsInfo = new ArrayList<>();
