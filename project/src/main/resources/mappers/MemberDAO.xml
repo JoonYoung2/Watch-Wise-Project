@@ -16,6 +16,8 @@
 	<result property="kakaoRefreshToken" column="kakao_refresh_token"/>
 	<result property="naverRefreshToken" column="naver_refresh_token"/>
 	<result property="isBlack" column="is_black"/>
+	<result property="joinedDate" column="joined_date"/>
+	<result property="profileImg" column="profile_img"/>
 </resultMap>
 
 	<resultMap type="com.watch.project.dto.admin.UserNotificationDTO" id="notify">

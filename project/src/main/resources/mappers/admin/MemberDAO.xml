@@ -12,6 +12,8 @@
 		<result column="kakao_agreement" property="kakaoAgreement" />
 		<result column="naver_agreement" property="naverAgreement" />
 		<result column="google_agreement" property="googleAgreement" />
+		<result column="joined_date" property="joinedDate" />
+		<result column="profile_img" property="profileImg" />
 	</resultMap>
 	
 	<resultMap type="com.watch.project.dto.admin.BlackListDTO" id="blackList">
