@@ -144,7 +144,7 @@
 	    <div class="search-area" style="width: 100%; height:30px; top: 10%;">
 	    	검색설정
 	    </div>
-	    <a href="searchHistoryView" style="all:unset; cursor:pointer;">
+	    <a href="searchHistoryView" style="all:unset; cursor:pointer; text-decoration:none; color: inherit;">
 		    <div class="delete-record" style="font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
 		    	검색 기록 보기 / 삭제
 		    </div>
@@ -191,12 +191,12 @@
 	    				<!---------------------------------------------------- Kakao ---------------------------------------------------------------------------------- -->
 		<c:if test="${sessionScope.userLoginType eq 2 }">
 		    <div style="font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
-	   			<a style="cursor:pointer" href="https://kauth.kakao.com/oauth/logout?client_id=36b59ada5e8b70c6afae51b77c038484&logout_redirect_uri=http://localhost:8080/kakaoSignOut" >
+	   			<a style="cursor:pointer; text-decoration:none; color: inherit;" href="https://kauth.kakao.com/oauth/logout?client_id=36b59ada5e8b70c6afae51b77c038484&logout_redirect_uri=http://localhost:8080/kakaoSignOut" >
 					로그아웃
 				</a>
 		    </div>
 		    <div style="font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
-				<a style="cursor:pointer" onclick="socialConfirmUnregister()">
+				<a style="cursor:pointer; text-decoration:none; color: inherit;" onclick="socialConfirmUnregister()">
 					탈퇴하기
 				</a>
 		    </div>				
@@ -205,12 +205,12 @@
 				<!---------------------------------------------------- Naver ---------------------------------------------------------------------------------- -->
 		<c:if test="${sessionScope.userLoginType eq 3 }">
 			<div style="font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
-				<a style="cursor:pointer" onclick="naverConfirmSignOut()"><!-- 혹시 탈퇴하거나 할 때 정보 동의 다 철회하고 토큰도 없애고 싶다면 a href ="remove?token=${sessionScope.accessToken }" 으로 하면 된다.-->
+				<a style="cursor:pointer; text-decoration:none; color: inherit;" onclick="naverConfirmSignOut()"><!-- 혹시 탈퇴하거나 할 때 정보 동의 다 철회하고 토큰도 없애고 싶다면 a href ="remove?token=${sessionScope.accessToken }" 으로 하면 된다.-->
 					로그아웃
 				</a>
 		    </div>
 		    <div style="font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
-				<a style="cursor:pointer" onclick="socialConfirmUnregister()">
+				<a style="cursor:pointer; text-decoration:none; color: inherit;" onclick="socialConfirmUnregister()">
 					탈퇴하기
 				</a>
 		    </div>	
@@ -220,12 +220,12 @@
 				
 		<c:if test="${sessionScope.userLoginType eq 4 }">
 			<div style="font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
-				<a style="cursor:pointer" onclick="googleConfirmSignOut()">
+				<a style="cursor:pointer; text-decoration:none; color: inherit;" onclick="googleConfirmSignOut()">
 					로그아웃
 				</a>
 			</div>
 		    <div style="font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
-				<a style="cursor:pointer" onclick="socialConfirmUnregister()">
+				<a style="cursor:pointer; text-decoration:none; color: inherit;" onclick="socialConfirmUnregister()">
 					탈퇴하기
 				</a>
 			</div>
@@ -235,12 +235,12 @@
 				
 		<c:if test="${sessionScope.userLoginType eq 0 || sessionScope.userLoginType eq 1  }">
 			<div style="font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
-				<a style="cursor:pointer" onclick="localConfirmSignOut()">
+				<a style="cursor:pointer; text-decoration:none; color: inherit;" onclick="localConfirmSignOut()">
 					로그아웃
 				</a>
 			</div>
 		    <div style="font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
-				<a href="/unregister">탈퇴하기</a>
+				<a style=""href="/unregister">탈퇴하기</a>
 			</div>
 		</c:if>
 		<!-- -------------------------------------------------------------------------------------------------------------------------------------------------- -->
