@@ -24,7 +24,7 @@
 								<div class="recent-search-div" style="display:;">
 									<div class="recent-search-font" >최근 검색어</div>
 									<a class="recent-search-remove tag-usnet-pointer"  onmousedown="searchAllMove('${recentSearchesSize}');">
-										<div class="recent-search-remove-div" >모두 삭제</div>
+										<div class="recent-search-remove-div">모두 삭제</div>
 									</a>
 								</div>
 								<c:forEach var="list" items="${ recentSearches }">

@@ -54,9 +54,10 @@ public class MovieDailyUpdateScheduled {
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Content-type", "application/json");
+			int responseCode = conn.getResponseCode();
+			
 			log.info("------------------- REST API 호출 -------------------");
 			log.info("{}", urlBuilder.toString());
-			int responseCode = conn.getResponseCode();
 			log.info("responseCode = {}", responseCode);
 			
 			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));

@@ -41,6 +41,16 @@
 							Config
 							<div class="header-menu-div">
 								<div class="header-menu-href-div"><a class="header-menu-href" href="/admin/pagingConfig">Paging</a></div>
+								<div class="header-menu-href-div"><a class="header-menu-href" href="/admin/apiIpConfig">Api IP</a></div>
+							</div>
+						</div>
+					</div>
+					<div class="menu-div">
+						<div class="header-menu-title" onmouseout="menuTitleMouseOut(3);" onmouseover="menuTitleMouseOver(3);">
+							Update
+							<div class="header-menu-div">
+								<div class="header-menu-href-div"><a class="header-menu-href" onclick="allUpdate();">All</a></div>
+								<div class="header-menu-href-div"><a class="header-menu-href" onclick="liveSearchUpdate();">Live Search</a></div>
 							</div>
 						</div>
 					</div>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watch.project.repository.admin.ApiIpConfigRepository">
+	
+	<resultMap type="com.watch.project.dto.admin.ApiIpConfigDTO" id="ipConfig">
+		<result column="id" property="id" />
+		<result column="request_ip" property="requestIp" />
+	</resultMap>
+	
+	<insert id="insertIpConfig" parameterType="String">
+		INSERT INTO api_ip_config VALUES((SELECT NVL(MAX(id), 0)+1 FROM api_ip_config), #{requestIp})
+	</insert>
+	
+	<update id="updateIpConfigById" parameterType="com.watch.project.dto.admin.ApiIpConfigDTO">
+		UPDATE api_ip_config SET request_ip=#{requestIp} WHERE id=#{id}
+	</update>
+	
+	<select id="getApiIpConfig" resultMap="ipConfig">
+		SELECT * FROM api_ip_config
+	</select>
+	
+	<select id="getApiIpConfigById" resultMap="ipConfig">
+		SELECT * FROM api_ip_config WHERE id=#{id}
+	</select>
+	
+	<delete id="deleteIpConfigById">
+		DELETE FROM api_ip_config WHERE id=#{id}
+	</delete>
+	
+</mapper>

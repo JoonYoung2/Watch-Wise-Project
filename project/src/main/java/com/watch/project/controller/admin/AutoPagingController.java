@@ -41,7 +41,7 @@ public class AutoPagingController {
 		
 		model.addAttribute("pagingConfig", pagingConfigList);
 		
-		return "admin/config/paging_config";
+		return "admin/config/paging";
 	}
 	
 	@GetMapping("/admin/deletePagingConfig")

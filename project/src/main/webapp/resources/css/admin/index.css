@@ -220,3 +220,32 @@
 .bar-chart-member{
 	width:1200px;
 }
+
+.reported-title{
+	text-align:center;
+}
+
+.reported-size{
+	width:600px; 
+	height:500px; 
+	margin:0 auto;
+}
+
+.reported-table{
+	width:100%; 
+	text-align:center;
+}
+
+.reported-title-tr{
+	background-color:lightgrey;
+}
+
+.reported-count{
+	all:unset; 
+	cursor:pointer;
+}
+
+.reported-btn{
+	all:unset; 
+	cursor:pointer;
+}

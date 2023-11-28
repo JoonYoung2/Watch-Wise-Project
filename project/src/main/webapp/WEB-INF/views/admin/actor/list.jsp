@@ -134,8 +134,6 @@
 				<input type="text" class="update-input" name="profileUrl" id="profileUrl" placeholder="프로필URL을 입력해주세요"><br>
 				<button class="update-btn">수정</button><button class="update-btn" type="button" onclick="updateClose();">닫기</button>
 			</form>
-			
-			
 		</div>
 	</div>
 	<script src="/resources/js/admin/table_common.js"></script>
