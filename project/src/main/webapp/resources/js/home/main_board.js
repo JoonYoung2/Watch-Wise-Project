@@ -1,6 +1,9 @@
 let colors = ["#FF69B4", "#ADD8E6", "#90EE90", "#FFC0CB", "#FFA500", "#FF4500", "#FF6347", 
     "#1E90FF", "#FFD700", "#008000", "#FF1493", "#00BFFF", "#FF0000", "#4682B4", "#FFFACD", 
     "#00FF7F", "#F0E68C", "#FFA50080", "#FF450070", "#FF634780"];
+let redColor = "red";
+let blueColor = "blue";
+let pinkColor = "#FFB6C1";
 let chartName = "";
 let chartTitle = "";
 let pageWidthClass = document.querySelectorAll(".main-page-width");
@@ -32,66 +35,86 @@ window.onload = () => {
     // pageWidthClass[0].style.display="flex";
     // menusClass[0].style.backgroundColor="rgba(0, 0, 0, 0.1)";
     // menusClass[0].style.fontWeight="bold";
-
+    let maxValue = 0;
 
     // 인기영화 차트표
     if(movieLikeNumClass.length <= 10){
         for(var i = 0; i < movieLikeNumClass.length; i++){
-            let x = Math.floor(Math.random() * 20);
+            // let x = Math.floor(Math.random() * 20);
 
             moviePosterClass[i].style.display="block";
             movieContent[i] = movieNmClass[i].value;
             movieCnt[i] = Number(movieLikeNumClass[i].value);
-            movieColor[i] = colors[x];
+            movieColor[i] = pinkColor;
+            maxValue = Math.max(maxValue, movieCnt[i]);
         }
     }else{
         // movieRightBtnId.style.display="flex";
         for(var i = 0; i < 10; i++){
-            let x = Math.floor(Math.random() * 20);
+            // let x = Math.floor(Math.random() * 20);
 
             moviePosterClass[i].style.display="block";
             movieContent[i] = movieNmClass[i].value;
             movieCnt[i] = Number(movieLikeNumClass[i].value);
-            movieColor[i] = colors[x];
+            movieColor[i] = pinkColor;
+            maxValue = Math.max(maxValue, movieCnt[i]);
         }
     }
     
+    for(var i = 0; i < movieCnt.length; i++){
+        if(maxValue == movieCnt[i]){
+            movieColor[i] = redColor;
+        }
+    }
+
+    maxValue = 0;
     //바 차트 인기 영화
     chartName = "bar-chart-movie";
     chartTitle = "좋아요 수 ";
-    barChart(chartName, chartTitle, movieContent, movieColor, movieCnt);
+    typeName = "bar";
+    barChart(chartName, typeName, chartTitle, movieContent, movieColor, movieCnt);
 
     // 인기배우 차트표
     if(actorLikeNumClass.length <= 10){
         for(var i = 0; i < actorLikeNumClass.length; i++){
-            let x = Math.floor(Math.random() * 20);
+            // let x = Math.floor(Math.random() * 20);
 
             actorProfileClass[i].style.display="block";
             actorContent[i] = actorNmClass[i].value;
             actorCnt[i] = Number(actorLikeNumClass[i].value);
-            actorColor[i] = colors[x];
+            actorColor[i] = pinkColor;
+            maxValue = Math.max(maxValue, actorCnt[i]);
         }
     }else{
         // actorRightBtnId.style.display="flex";
         for(var i = 0; i < 10; i++){
-            let x = Math.floor(Math.random() * 20);
+            // let x = Math.floor(Math.random() * 20);
 
             actorProfileClass[i].style.display="block";
             actorContent[i] = actorNmClass[i].value;
             actorCnt[i] = Number(actorLikeNumClass[i].value);
-            actorColor[i] = colors[x];
+            actorColor[i] = pinkColor;
+            maxValue = Math.max(maxValue, actorCnt[i]);
         }
     }
 
+    for(var i = 0; i < actorCnt.length; i++){
+        if(maxValue == actorCnt[i]){
+            actorColor[i] = redColor;
+        }
+    }
+
+    maxValue = 0;
     //바 차트 인기 배우
     chartName = "bar-chart-actor";
     chartTitle = "좋아요 수 ";
-    barChart(chartName, chartTitle, actorContent, actorColor, actorCnt);
+    typeName = "bar";
+    barChart(chartName, typeName, chartTitle, actorContent, actorColor, actorCnt);
 }
 
-const barChart = (cartId, title, content, color, cnt) => {
+const barChart = (cartId, typeName, title, content, color, cnt) => {
     new Chart(document.getElementById(cartId), {
-        type: 'bar',
+        type: typeName,
         data: {
           labels: content,
           datasets: [

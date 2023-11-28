@@ -96,10 +96,10 @@ public class PeopleProfileUpdateScheduled {
 	/*
 	 * 여러 결과가 있을 경우 DAO에 WHERE profile_url='nan' 추가
 	 */
-	@Scheduled(cron = "0 55 14 * * *")
+//	@Scheduled(cron = "0 55 14 * * *")
 	public void peopleDetailSearchAndSave2() throws UnsupportedEncodingException {
 		List<PeopleInfoDetailDTO> peopleInfoDetailList = service.getAllPeopleInfoDetail();
-		while(cnt != peopleInfoDetailList.size()) {
+		while(cnt != 100) {
 			int check = cnt;
 			String peopleNm = peopleInfoDetailList.get(cnt).getPeopleNm();
 			StringBuilder urlBuilder = new StringBuilder();
@@ -205,5 +205,6 @@ public class PeopleProfileUpdateScheduled {
 				e.printStackTrace();
 			}
 		}
+		service.updateProfileUrlNanFromNull();
 	}
 }

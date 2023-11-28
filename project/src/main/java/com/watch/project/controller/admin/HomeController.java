@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.watch.project.dto.admin.BlackListWaitingDTO;
 import com.watch.project.dto.admin.chart.ActorChartDTO;
 import com.watch.project.dto.admin.chart.LiveSearchDTO;
+import com.watch.project.dto.admin.chart.MemberTrendChartDTO;
 import com.watch.project.dto.admin.chart.MovieChartDTO;
 import com.watch.project.service.admin.HomeService;
+import com.watch.project.service.admin.MemberService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,12 +28,17 @@ import lombok.extern.slf4j.Slf4j;
 public class HomeController {
 	private final HttpSession session;
 	private final HomeService service;
+	private final MemberService memberService;
 	
 	@GetMapping("/admin")
 	public String index(Model model) {
 		if(adminCertification()) {
 			return "admin/login";
 		}
+		/*
+		 * 신고 접수
+		 */
+		List<BlackListWaitingDTO> currentPageList = memberService.getCurrentPageList(1, 15, 0);
 		
 		/*
 		 * 실시간 인기 검색어
@@ -47,9 +55,18 @@ public class HomeController {
 		 */
 		List<ActorChartDTO> actorChartList = service.getPopularActorList();
 		
+		/*
+		 * 회원 동향
+		 */
+		List<MemberTrendChartDTO> memberTrendChartList = service.getMemberTrendList();
+		
+		log.info("memberTrendChartListSize => {}", memberTrendChartList.size());
+		
 		model.addAttribute("liveSearch", liveSearchList);
 		model.addAttribute("movieChart", movieChartList);
 		model.addAttribute("actorChart", actorChartList);
+		model.addAttribute("showDatas", currentPageList);
+		model.addAttribute("memberTrendChart", memberTrendChartList);
 		
 		return "admin/index";
 	}

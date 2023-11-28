@@ -19,29 +19,28 @@
 				<div class="header-menu-page">
 					<div class="menu-div">
 						<div class="header-menu-title" onmouseout="menuTitleMouseOut(0);" onmouseover="menuTitleMouseOver(0);">
-							Config
+							Black Info
 							<div class="header-menu-div">
-								<div class="header-menu-href-div"><a class="header-menu-href" href="/admin/pagingConfig">Paging</a></div>
+								<div class="header-menu-href-div"><a class="header-menu-href" href="/admin/black_list_waiting?currentPage=1">Reported</a></div>
+								<div class="header-menu-href-div"><a class="header-menu-href" href="/admin/black_list?currentPage=1">Black List</a></div>
 							</div>
 						</div>
 					</div>
 					<div class="menu-div">
 						<div class="header-menu-title" onmouseout="menuTitleMouseOut(1);" onmouseover="menuTitleMouseOver(1);">
-							List
+							CRUD List
 							<div class="header-menu-div">
 								<div class="header-menu-href-div"><a class="header-menu-href" href="/admin/movie_list/movie_info/movie_id/1?query=">Movies</a></div>
 								<div class="header-menu-href-div"><a class="header-menu-href" href="/admin/actor_list/people_info_detail/people_id/1?query=">Actors</a></div>
 								<div class="header-menu-href-div"><a class="header-menu-href" href="/admin/member_list/member_info/id/1?query=">Members</a></div>
 							</div>
 						</div>
-						
 					</div>
 					<div class="menu-div">
 						<div class="header-menu-title" onmouseout="menuTitleMouseOut(2);" onmouseover="menuTitleMouseOver(2);">
-							Black Info
+							Config
 							<div class="header-menu-div">
-								<div class="header-menu-href-div"><a class="header-menu-href" href="/admin/black_list_waiting?currentPage=1">Reported</a></div>
-								<div class="header-menu-href-div"><a class="header-menu-href" href="/admin/black_list?currentPage=1">Black List</a></div>
+								<div class="header-menu-href-div"><a class="header-menu-href" href="/admin/pagingConfig">Paging</a></div>
 							</div>
 						</div>
 					</div>

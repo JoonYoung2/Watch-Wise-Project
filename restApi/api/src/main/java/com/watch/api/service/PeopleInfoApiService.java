@@ -48,5 +48,9 @@ public class PeopleInfoApiService {
 	public int checkMovieExsist(String query) {
 		return repo.checkMovieExsist(query);
 	}
+
+	public void updateProfileUrlNanFromNull() {
+		repo.updateProfileUrlNanFromNull();
+	}
 	
 }

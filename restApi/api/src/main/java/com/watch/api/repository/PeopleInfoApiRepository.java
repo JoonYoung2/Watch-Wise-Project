@@ -23,4 +23,6 @@ public interface PeopleInfoApiRepository {
 	public List<PeopleInfoDetailDTO> getAllPeopleInfoDetail();
 
 	public int checkMovieExsist(String query);
+
+	public void updateProfileUrlNanFromNull();
 }

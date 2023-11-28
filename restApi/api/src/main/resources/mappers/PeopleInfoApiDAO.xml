@@ -48,5 +48,9 @@
 		SELECT COUNT(people_id) AS count FROM people_info_detail WHERE ${query} 
 	</select>
 	
+	<update id="updateProfileUrlNanFromNull">
+		UPDATE people_info_detail SET profile_url='nan' WHERE profile_url like '%null%'
+	</update>
+	
 </mapper>
 

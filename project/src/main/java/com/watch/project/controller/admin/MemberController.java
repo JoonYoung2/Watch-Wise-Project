@@ -144,6 +144,9 @@ public class MemberController {
 	public String addToBlackList (@RequestParam("author") String authorEmail, @RequestParam("currentPage") int currentPage, RedirectAttributes redirectAttr) {
 		String msg = service.updateToBlack(authorEmail);
 		service.giveNotificationToUser(authorEmail, "부적절한 댓글 기능 사용으로 신고가 접수되었으며, 관리자 판단 결과, 더 이상 댓글 기능을 이용할 수 없음을 알립니다.");
+		if(currentPage == 5000) {
+			return "redirect:/admin";
+		}
 		redirectAttr.addFlashAttribute("msg", msg);
 		return "redirect:/admin/black_list_waiting?currentPage="+currentPage;
 	}

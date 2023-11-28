@@ -12,6 +12,11 @@
 		<result column="like_num" property="likeNum" />
 	</resultMap>
 	
+	<resultMap type="com.watch.project.dto.admin.chart.MemberTrendChartDTO" id="memberTrend">
+		<result column="joined_date" property="date" />
+		<result column="member_count" property="count" />
+	</resultMap>
+	
 	<resultMap type="com.watch.project.dto.admin.chart.MovieChartDTO" id="movie">
 		<result column="num" property="num" />
 		<result column="movie_id" property="movieId" />
@@ -127,6 +132,18 @@
 			) pl ON p.people_id = pl.people_id)
 			WHERE
 			  ROWNUM <= 50
+		]]>
+	</select>
+	
+	<select id="getMemberTrendList" resultMap="memberTrend">
+		<![CDATA[
+			SELECT * FROM(
+			SELECT TRUNC(joined_date) AS joined_date, COUNT(*) AS member_count
+			FROM member_info
+			GROUP BY TRUNC(joined_date)
+			)
+			WHERE ROWNUM <= 30
+			ORDER BY joined_date ASC
 		]]>
 	</select>
 	

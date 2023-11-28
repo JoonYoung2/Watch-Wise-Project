@@ -18,18 +18,106 @@
 		<br><br>
 		<div class="page-menu">
 			<div class="menus" onclick="menuClick(0)">
-				인기 영화 순위
+				신고 접수 현황
 			</div>
 			<div class="menus" onclick="menuClick(1)">
-				인기 배우 순위
+				회원 동향
 			</div>
 			<div class="menus" onclick="menuClick(2)">
 				실시간 인기 검색어
 			</div>
 			<div class="menus" onclick="menuClick(3)">
-				회원 동향
+				인기 영화 순위
+			</div>
+			<div class="menus" onclick="menuClick(4)">
+				인기 배우 순위
 			</div>
 		</div>
+		
+		<!-- 신고 접수 -->
+		<div class="page-width">
+			<div class="member-reported">
+				<div>
+					<h4 style="text-align:center;">블랙리스트 대기 명단</h4>
+				</div>
+				<br>
+				<div style="width:600px; height:500px;margin: 0 auto;">
+					<table style="width:100%; text-align:center;">
+						<tr style="background-color:lightgrey;">
+							<th style="width:50px;">No.</th><th style="width:300px;">유저 이메일 주소</th><th>총 신고 건수</th><th>블랙리스트 적용</th>
+						</tr>
+						<c:forEach var="show" items="${showDatas}">
+							<tr onmouseover="this.style.backgroundColor='lightgrey'" onmouseout="this.style.backgroundColor='transparent'">
+								<td>${show.rowNum }</td>
+								<td>${show.authorEmail }</td>
+								<td><a style="all:unset; cursor:pointer;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'" href="/admin/showReportedComments?authorEmail=${show.authorEmail }&pageNum=1"><div>${show.reportedCommentAmount }</div></a></td>
+								<td style="text-align:center;"> <a style="all:unset; cursor:pointer;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'" href="/admin/addToBlackList?author=${show.authorEmail }&currentPage=5000"><div>적용</div></a></td>
+							</tr>
+						</c:forEach>
+					</table>
+				</div>
+			</div>
+		</div>
+		<!-- 신고 접수 -->
+		
+		<!-- 회원 동향 -->
+		<div class="page-width">
+			<div class="member-trend">
+				<div class="member-trend-div">
+					<c:forEach var="list" items="${ memberTrendChart }">
+						<input type="hidden" class="member-trend-date" value="${ list.date }">
+						<input type="hidden" class="member-trend-count" value="${ list.count }">
+					</c:forEach>
+				</div>
+				<div id="total-cnt" style="font-size:20px;"></div>
+				<div class="bar-chart-member">
+					<canvas id="bar-chart-member"></canvas>
+				</div>
+			</div>
+		</div>
+		<!-- 회원 동향 -->
+		
+		<% int liveCnt = 0; %>
+		<!-- 실시간 인기 검색어 -->
+		<div class="page-width">
+			<div align="left" class="live-search-page">
+				<div onclick="liveSearchLeftBtn();" id="live-search-left-btn" class="live-search-left-btn">◁</div>
+				<div class="live-search-div">
+					<table>
+						<tr>
+							<th>순위</th>
+							<th>검색 수</th>
+							<th>검색어</th>
+						</tr>
+						<c:if test="${ empty liveSearch }">
+							<tr>
+								<td colspan="3" class="table-width-450">
+								<br><br><br><br><br>
+								실시간 인기검색어가 없습니다.
+								</td>
+							</tr>
+						</c:if>
+						<c:forEach var="list" items="${ liveSearch }">
+							<input type="hidden" class="chart-live-search-content" value="${ list.content }">
+							<input type="hidden" class="chart-live-search-cnt" value="${ list.cnt }">
+							<tr class="live-search-content" style="display:none;">
+								<td class="table-width-75 live-search-contents">${ list.num }</td>
+								<td class="table-width-75 live-search-contents">${ list.cnt }</td>
+								<td class="table-width-300 live-search-contents">${ list.content }</td>
+							</tr>
+							<% liveCnt++; %>
+						</c:forEach>
+					</table>
+				</div>
+				<% if(liveCnt > 10){ %>
+					<div onclick="liveSearchRightBtn();" id="live-search-right-btn" class="live-search-right-btn">▷</div>
+				<% } %>
+			</div>
+			<div class="bar-chart-search">
+				<canvas id="bar-chart-live-search"></canvas>
+			</div>
+		</div>
+		<!-- 실시간 인기 검색어 -->
 		
 		<% int movieCnt = 1; %>
 		<!-- 인기 영화 -->
@@ -88,54 +176,6 @@
 			</div>
 		</div>
 		<!-- 인기 배우 -->
-		
-		<% int liveCnt = 0; %>
-		<!-- 실시간 인기 검색어 -->
-		<div class="page-width">
-			<div align="left" class="live-search-page">
-				<div onclick="liveSearchLeftBtn();" id="live-search-left-btn" class="live-search-left-btn">◁</div>
-				<div class="live-search-div">
-					<table>
-						<tr>
-							<th>순위</th>
-							<th>검색 수</th>
-							<th>검색어</th>
-						</tr>
-						<c:if test="${ empty liveSearch }">
-							<tr>
-								<td colspan="3" class="table-width-450">
-								<br><br><br><br><br>
-								실시간 인기검색어가 없습니다.
-								</td>
-							</tr>
-						</c:if>
-						<c:forEach var="list" items="${ liveSearch }">
-							<input type="hidden" class="chart-live-search-content" value="${ list.content }">
-							<input type="hidden" class="chart-live-search-cnt" value="${ list.cnt }">
-							<tr class="live-search-content" style="display:none;">
-								<td class="table-width-75 live-search-contents">${ list.num }</td>
-								<td class="table-width-75 live-search-contents">${ list.cnt }</td>
-								<td class="table-width-300 live-search-contents">${ list.content }</td>
-							</tr>
-							<% liveCnt++; %>
-						</c:forEach>
-					</table>
-				</div>
-				<% if(liveCnt > 10){ %>
-					<div onclick="liveSearchRightBtn();" id="live-search-right-btn" class="live-search-right-btn">▷</div>
-				<% } %>
-			</div>
-			<div class="bar-chart-search">
-				<canvas id="bar-chart-live-search"></canvas>
-			</div>
-		</div>
-		<!-- 실시간 인기 검색어 -->
-		
-		<!-- 회원 동향 -->
-		<div class="page-width">
-			
-		</div>
-		<!-- 회원 동향 -->
 		
 		
 	</div>

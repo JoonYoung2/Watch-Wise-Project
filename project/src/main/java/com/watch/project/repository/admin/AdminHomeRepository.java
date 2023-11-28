@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.watch.project.dto.admin.chart.ActorChartDTO;
 import com.watch.project.dto.admin.chart.LiveSearchDTO;
+import com.watch.project.dto.admin.chart.MemberTrendChartDTO;
 import com.watch.project.dto.admin.chart.MovieChartDTO;
 
 @Mapper
@@ -22,5 +23,7 @@ public interface AdminHomeRepository {
 	public List<ActorChartDTO> getPopularActorList(String date);
 	
 	public List<ActorChartDTO> getPopularActorPeriodList(String fromDate, String toDate);
+	
+	public List<MemberTrendChartDTO> getMemberTrendList();
 	
 }

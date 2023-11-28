@@ -1,8 +1,12 @@
 let colors = ["#FF69B4", "#ADD8E6", "#90EE90", "#FFC0CB", "#FFA500", "#FF4500", "#FF6347", 
     "#1E90FF", "#FFD700", "#008000", "#FF1493", "#00BFFF", "#FF0000", "#4682B4", "#FFFACD", 
     "#00FF7F", "#F0E68C", "#FFA50080", "#FF450070", "#FF634780"];
+let redColor = "red";
+let blueColor = "blue";
+let pinkColor = "#FFB6C1";
 let chartName = "";
 let chartTitle = "";
+let typeName = "";
 let pageWidthClass = document.querySelectorAll(".page-width");
 let menusClass = document.querySelectorAll(".menus");
 
@@ -42,8 +46,14 @@ let actorCnt = [];
 let actorColor = [];
 
 // 회원 동향 관련
+let memberTrendDateClass = document.querySelectorAll(".member-trend-date");
+let memberTrendCountClass = document.querySelectorAll(".member-trend-count");
+let memberTrendContent = [];
+let memberTrendCnt = [];
+let memberTrendColor = [];
 
 window.onload = () => {
+    let maxValue = 0;
     pageWidthClass[0].style.display="flex";
     menusClass[0].style.backgroundColor="rgba(0, 0, 0, 0.1)";
     menusClass[0].style.fontWeight="bold";
@@ -68,79 +78,135 @@ window.onload = () => {
     // 실시간 인기검색어 차트표
     if(liveSearchCntClass.length < 10){
         for(var i = 0; i < liveSearchCntClass.length; i++){
-            let x = Math.floor(Math.random() * 20);
+            // let x = Math.floor(Math.random() * 20);
 
             searchContent[i] = liveSearchContentClass[i].value;
             searchCnt[i] = Number(liveSearchCntClass[i].value);
-            searchColor[i] = colors[x];
+            searchColor[i] = blueColor;
+            maxValue = Math.max(maxValue, searchCnt[i]);
         }
     }else{
         for(var i = 0; i < 10; i++){
-            let x = Math.floor(Math.random() * 20);
+            // let x = Math.floor(Math.random() * 20);
 
             searchContent[i] = liveSearchContentClass[i].value;
             searchCnt[i] = Number(liveSearchCntClass[i].value);
-            searchColor[i] = colors[x];
+            searchColor[i] = pinkColor;
+            maxValue = Math.max(maxValue, searchCnt[i]);
         }
     }
+
+    for(var i = 0; i < searchCnt.length; i++){
+        if(maxValue == searchCnt[i]){
+            searchColor[i] = redColor;
+        }
+    }
+    maxValue = 0;
     chartName = "bar-chart-live-search";
     chartTitle = "검색 수 ";
+    typeName = "bar";
     //바 차트 실시간 검색어
-    barChart(chartName, chartTitle, searchContent, searchColor, searchCnt);
+    barChart(chartName, typeName, chartTitle, searchContent, searchColor, searchCnt);
 
     // 인기영화 차트표
     if(movieLikeNumClass.length <= 10){
         for(var i = 0; i < movieLikeNumClass.length; i++){
-            let x = Math.floor(Math.random() * 20);
+            // let x = Math.floor(Math.random() * 20);
 
             moviePosterClass[i].style.display="block";
             movieContent[i] = movieNmClass[i].value;
             movieCnt[i] = Number(movieLikeNumClass[i].value);
-            movieColor[i] = colors[x];
+            movieColor[i] = pinkColor;
+            maxValue = Math.max(maxValue, movieCnt[i]);
         }
     }else{
-        movieRightBtnId.style.display="flex";
+        // movieRightBtnId.style.display="flex";
         for(var i = 0; i < 10; i++){
-            let x = Math.floor(Math.random() * 20);
+            // let x = Math.floor(Math.random() * 20);
 
             moviePosterClass[i].style.display="block";
             movieContent[i] = movieNmClass[i].value;
             movieCnt[i] = Number(movieLikeNumClass[i].value);
-            movieColor[i] = colors[x];
+            movieColor[i] = pinkColor;
+            maxValue = Math.max(maxValue, movieCnt[i]);
         }
     }
     
+    for(var i = 0; i < movieCnt.length; i++){
+        if(maxValue == movieCnt[i]){
+            movieColor[i] = redColor;
+        }
+    }
+
+    maxValue = 0;
     //바 차트 인기 영화
     chartName = "bar-chart-movie";
     chartTitle = "좋아요 수 ";
-    barChart(chartName, chartTitle, movieContent, movieColor, movieCnt);
+    typeName = "bar";
+    barChart(chartName, typeName, chartTitle, movieContent, movieColor, movieCnt);
 
     // 인기배우 차트표
     if(actorLikeNumClass.length <= 10){
         for(var i = 0; i < actorLikeNumClass.length; i++){
-            let x = Math.floor(Math.random() * 20);
+            // let x = Math.floor(Math.random() * 20);
 
             actorProfileClass[i].style.display="block";
             actorContent[i] = actorNmClass[i].value;
             actorCnt[i] = Number(actorLikeNumClass[i].value);
-            actorColor[i] = colors[x];
+            actorColor[i] = pinkColor;
+            maxValue = Math.max(maxValue, actorCnt[i]);
         }
     }else{
-        actorRightBtnId.style.display="flex";
+        // actorRightBtnId.style.display="flex";
         for(var i = 0; i < 10; i++){
-            let x = Math.floor(Math.random() * 20);
+            // let x = Math.floor(Math.random() * 20);
 
             actorProfileClass[i].style.display="block";
             actorContent[i] = actorNmClass[i].value;
             actorCnt[i] = Number(actorLikeNumClass[i].value);
-            actorColor[i] = colors[x];
+            actorColor[i] = pinkColor;
+            maxValue = Math.max(maxValue, actorCnt[i]);
         }
     }
 
+    for(var i = 0; i < actorCnt.length; i++){
+        if(maxValue == actorCnt[i]){
+            actorColor[i] = redColor;
+        }
+    }
+
+    maxValue = 0;
     //바 차트 인기 배우
     chartName = "bar-chart-actor";
     chartTitle = "좋아요 수 ";
-    barChart(chartName, chartTitle, actorContent, actorColor, actorCnt);
+    typeName = "bar";
+    barChart(chartName, typeName, chartTitle, actorContent, actorColor, actorCnt);
+
+    //회원 동향 차트표
+    let totalCnt = 0;
+    for(var i = 0; i < memberTrendCountClass.length; i++){
+        // let x = Math.floor(Math.random() * 20);
+        let memberTrendDateValue = memberTrendDateClass[i].value.substring(5, 10).replaceAll("-", ".");
+        memberTrendContent[i] = memberTrendDateValue;
+        memberTrendCnt[i] = Number(memberTrendCountClass[i].value);
+        totalCnt += memberTrendCnt[i];
+        memberTrendColor[i] = pinkColor;
+        maxValue = Math.max(memberTrendCnt[i], maxValue);
+    }
+
+    for(var i = 0; i < memberTrendCnt.length; i++){
+        if(maxValue == memberTrendCnt[i]){
+            memberTrendColor[i] = redColor;
+        }
+    }
+
+    maxValue = 0;
+    document.getElementById("total-cnt").innerHTML = "총 가입자 수 : <span style='color:red;'>" + totalCnt + "</span>";
+    //바 차트 회원 동향
+    chartName = "bar-chart-member";
+    chartTitle = "가입 수  ";
+    typeName = "line";
+    barChart(chartName, typeName, chartTitle, memberTrendContent, memberTrendColor, memberTrendCnt);
 }
 
 const liveSearchRightBtn = () => {
@@ -179,9 +245,9 @@ const liveSearchLeftBtn = () => {
     }
 }
 
-const barChart = (cartId, title, content, color, cnt) => {
+const barChart = (cartId, typeName, title, content, color, cnt) => {
     new Chart(document.getElementById(cartId), {
-        type: 'bar',
+        type: typeName,
         data: {
           labels: content,
           datasets: [
