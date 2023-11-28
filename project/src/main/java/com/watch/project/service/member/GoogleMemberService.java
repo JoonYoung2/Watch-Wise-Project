@@ -85,6 +85,8 @@ public class GoogleMemberService {
 		String msg = "환영합니다.";		
 		int existanceCheck = common.existingEmailCh(email);
 		if(existanceCheck == 0) { //회원이 아닐 경우
+			userInfo.setJoinedDate(common.getJoinedDate());
+			userInfo.setProfileImg("nan");
 			int storageResult = common.saveMemberInfo(userInfo);//멤버 정보 저장, 회원 등록
 			int updateResult = repo.updateGoogleAgreement(email);
 			if(storageResult != 1 || updateResult != 1){

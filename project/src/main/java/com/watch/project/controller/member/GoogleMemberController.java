@@ -34,7 +34,7 @@ public class GoogleMemberController {
 		MemberDTO userInfo = service.loginWithGoogle(authCode);
 		String msg = service.storageIfNewOne(userInfo);//기존 회원인지, 새로운 유저면 회원 정보 저장
 		
-		if(msg != "환영합니다.") {//정상적으로 저장되지 않았을 경우
+		if(!msg.equals("환영합니다.")) {//정상적으로 저장되지 않았을 경우
 			model.addAttribute("msg", msg);
 			searchService.searchModel(model);
 			return "member/select_sign_up_type";

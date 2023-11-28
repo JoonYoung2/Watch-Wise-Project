@@ -33,7 +33,14 @@
 		
 		<div style="display:flex; justify-content:center">
 			<div style="position:relative; margin-right:500px; margin-top:80px;">
-				<img style="width:100px;" src="resources/img/bean_profile.png"/>
+				<c:choose>
+					<c:when test="${ dto.profileImg eq 'nan'}">
+						<img style="width:100px;" src="resources/img/bean_profile.png" onclick="updateProfileImg(${dto.userEmail});"/>
+					</c:when>
+					<c:otherwise>
+						<img style="width:100px;" src="/resources/profile_img/.png"/>
+					</c:otherwise>
+				</c:choose>
 			</div>
 			<div style="margin-top:20px; margin-right:0px;">
 					<img id="openModalButton" style="width:30px; cursor:pointer;" src="resources/img/setting.png"/>

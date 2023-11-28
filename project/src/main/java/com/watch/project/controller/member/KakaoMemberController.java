@@ -79,7 +79,9 @@ public class KakaoMemberController {
 		else {  //새로운 유저일 경우
 			kakaoInput.setUserPw("kakaoMember");
 			kakaoInput.setUserLoginType(2);
-				
+			
+			kakaoInput.setJoinedDate(common.getJoinedDate());
+			kakaoInput.setProfileImg("nan");
 			session.setAttribute("userEmail", kakaoInput.getUserEmail());
 			session.setAttribute("accessToken", accessToken);
 			session.setAttribute("userLoginType", 2);

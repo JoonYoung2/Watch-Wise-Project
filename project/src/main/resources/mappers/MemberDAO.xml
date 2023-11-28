@@ -40,7 +40,7 @@
 			FROM member_info
 		</selectKey>
 		INSERT INTO member_info
-		VALUES(#{id}, #{userEmail}, #{userPw}, #{userName}, #{userLoginType}, #{socialLoginId}, 0, 0, 0, '0', '0')
+		VALUES(#{id}, #{userEmail}, #{userPw}, #{userName}, #{userLoginType}, #{socialLoginId}, 0, 0, 0, '0', '0', 0, #{joinedDate}, #{profileImg})
 	</insert>	
 	
 	<delete id="deleteMemberInfo" parameterType="String">

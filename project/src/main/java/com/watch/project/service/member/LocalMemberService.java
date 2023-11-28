@@ -20,6 +20,8 @@ public class LocalMemberService {
 	private HttpSession session;
 	@Autowired
 	private ReviewService reviewService;
+	@Autowired
+	private CommonMemberService common;
 	
 	BCryptPasswordEncoder encoder;
 	public LocalMemberService() {
@@ -58,6 +60,9 @@ public class LocalMemberService {
 					if(msg==null || msg.equals("")) {//위에서 걸리지 않은 경우
 						//비밀번호 암호화
 						dto.setUserPw(encoder.encode(dto.getUserPw()));
+						
+						dto.setJoinedDate(common.getJoinedDate());
+						dto.setProfileImg("nan");
 						result = repo.saveMemberInfo(dto);			
 						System.out.println("여기는 result : "+result);
 						if(result == 1) {//저장이 잘 된 경우

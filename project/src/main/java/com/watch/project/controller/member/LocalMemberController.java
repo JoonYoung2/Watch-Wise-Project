@@ -68,7 +68,7 @@ public class LocalMemberController {
 	@PostMapping("/signInCheck")
 	public String signInCheck(MemberDTO dto, HttpServletResponse res, HttpSession session, RedirectAttributes attr, Model model) throws IOException {
 		String msg = service.signInCheck(dto);
-		if(msg !="환영합니다.") { //로그인시 입력한 정보가 올바르지 않을 경우
+		if(!msg.equals("환영합니다.")) { //로그인시 입력한 정보가 올바르지 않을 경우
 			searchService.searchModel(model);
 			model.addAttribute("msg", msg);
 			model.addAttribute("dto", dto);
@@ -108,7 +108,7 @@ public class LocalMemberController {
 	@PostMapping("/passwordCh")
 	public String passwordCh(MemberDTO dto, Model model, HttpSession session, RedirectAttributes redirectAttr) throws IOException {
 		String msg = service.pwCh(dto);
-		if(msg != "회원탈퇴가 완료되었습니다.") {//탈퇴과정에 문제가 있으면
+		if(!msg.equals ("회원탈퇴가 완료되었습니다.")) {//탈퇴과정에 문제가 있으면
 			searchService.searchModel(model);
 			model.addAttribute("msg", msg);
 			return "member/local_member/unregister_form";
@@ -128,7 +128,7 @@ public class LocalMemberController {
 	@PostMapping("/verifyPw")
 	public String verifyPw(MemberDTO dto, Model model, RedirectAttributes redirectAttr) {
 		String msg = service.getMsgAndCompare(dto);
-		if(msg != "인증되었습니다.") {
+		if(!msg.equals("인증되었습니다.")) {
 			searchService.searchModel(model);
 			model.addAttribute("msg", msg);
 			return "member/local_member/pw_check";
@@ -151,7 +151,7 @@ public class LocalMemberController {
 	public String localModifyInfoDo(MemberDTO dto, @RequestParam("pwCheck") String pwCh, Model model, RedirectAttributes redirectAttr) {
 		if(!(dto.getUserPw()==null||dto.getUserPw().equals(""))) {//비밀번호도 수정란에 입력한 경우
 			String msg = service.getMsgAndUpdate(dto, pwCh);
-			if(msg != "정보 수정이 완료되었습니다.") {
+			if(!msg.equals("정보 수정이 완료되었습니다.")) {
 				searchService.searchModel(model);
 				model.addAttribute("msg", msg);
 				model.addAttribute("dto", dto);
@@ -161,7 +161,7 @@ public class LocalMemberController {
 			}
 		}else {//비밀번호는 수정하지 않을 경우
 			String msg = common.updateMemberName(dto);
-			if(msg == "정보 수정이 완료되었습니다.") {
+			if(msg.equals("정보 수정이 완료되었습니다.")) {
 				redirectAttr.addFlashAttribute("msg", msg);
 				return "redirect:/memberInfo";			
 			} else {
