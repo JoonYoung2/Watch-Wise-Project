@@ -34,37 +34,38 @@
 	<div class="movie-card">
 		<div class="movie-info">
 			<span style="margin-left: 10px;cursor: pointer;">
-				<a href="/movieInfo?movieId=${list.movieId}"><b style="font-size:17px;">${list.movieNm }</b></a>
+				<a href="/movieInfo?movieId=${list.movieId}" style="text-decoration:none; color:inherit"><b style="font-size:17px;">${list.movieNm }</b></a>
 				
 				<br>
 			</span>
 			<span style="margin-left:auto;">
-				<a style="padding-left:8px; cursor:pointer; color:darkblue; text-decoration:underline" onclick="checkForDelete('${list.commentId }', '${email}', '${pageNum}');" >정상 댓글 (신고 데이터에서 제외)</a>
+				<a style="padding-left:8px; cursor:pointer; text-decoration:none; color:inherit" onclick="checkForDelete('${list.commentId }', '${email}', '${pageNum}');" onmouseover="this.style.fontWeight = 'bold'" onmouseout="this.style.fontWeight = 'normal'">정상 댓글 (신고 데이터에서 제외)</a>
 			</span>
 		</div>
 			
-	    <div class="comment-card">
-	        <span class="comment-content">
+		<div class="comment-card" style="display: flex;background-color: #f0f0f0;border: 1px solid #ccc;border-radius: 5px;margin: 10px auto;padding: 10px;width: 95%;">
+			<div class="comment-content" style="margin:10px; width:85%; word-wrap:break-word;">
 		        <span class="movie_score">
-			        <c:if test="${list.reviewScore != 0}">
-			            <span><b> ★ ${list.reviewScore}</b> / 5.0 </span><br>
+			        <c:if test="${list.reviewScore ne 0}">
+			            <span><b> ★ ${list.reviewScore}</b> / 5.0 </span><br><br>
 			        </c:if>
 			        <c:if test="${list.reviewScore eq 0 }">
-			           <span>평점 기록 없음</span><br>
+			           <span>평점 기록 없음</span><br><br>
 			        </c:if>
 		        </span>
-
+				<span style="word-wrap:break-word;">
 		            <b>${list.reportedComment}</b> <br>
 		            <span class="date">${list.commentWrittenDate} </span>
-	        </span>
-	        <span style="margin-right:14px;">
-		        <span>
+	        	</span>
+	        </div>
+       		<div align="center" style="width:15%;  display: flex; flex-direction: column; justify-content: center; align-items: center;">
+		        <div style="margin-top:35px;">
 			        <img style="width:20px; vertical-align:-5px; cursor:pointer;" src="/resources/img/activatedAlert.png" onclick="openModalForReportersList('${list.blackListDto}', '${cntForComment}');"> 
 			        <span> x </span>
 			        <span class="comment_like_count" style="vertical-align:-1px;">${list.reportedAmount }</span>
-	        	</span>
+	        	</div>
 	        <br><br>
-	        </span>
+	        </div>
 	    </div>   
 	</div>
 

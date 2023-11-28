@@ -81,8 +81,9 @@ public class CommonMemberController {
 		}
 		
 		searchService.searchModel(model);
-		model.addAttribute("dto", memberInfo);
+		model.addAttribute("dto", memberInfo); //select *
 //		model.addAttribute("wishList", wishList);
+		///////////model.addAttribute("profileImg", profileImg);////////
 		model.addAttribute("map", numbers);
 		model.addAttribute("searchHistory", searchHistory);
 		
@@ -101,7 +102,7 @@ public class CommonMemberController {
 	@PostMapping("/socialModifyInfoDo")
 	public String modifyMemberInfo(MemberDTO dto, RedirectAttributes redirectAttr, Model model) {
 		String msg = common.updateMemberName(dto);
-		if(msg == "정보 수정이 완료되었습니다.") {
+		if(msg.equals("정보 수정이 완료되었습니다.")) {
 			redirectAttr.addFlashAttribute("msg", msg);
 			return "redirect:/memberInfo";			
 		} else {
@@ -123,7 +124,7 @@ public class CommonMemberController {
 		}
 
 		String msg = common.unregister(email);
-		if(msg=="회원탈퇴가 완료되었습니다.") {
+		if(msg.equals("회원탈퇴가 완료되었습니다.")) {
 		session.invalidate();
 		}
 		redirectAttr.addFlashAttribute("msg", msg);

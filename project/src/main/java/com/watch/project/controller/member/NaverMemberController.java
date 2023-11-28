@@ -54,7 +54,6 @@ public class NaverMemberController {
     		session.removeAttribute("isBlack");
     		session.removeAttribute("accessToken");
         }
-
         return "redirect:/";
     }
 	

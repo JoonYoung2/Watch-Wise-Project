@@ -19,6 +19,8 @@ public class MemberDTO {
 	private String kakaoRefreshToken;
 	private String naverRefreshToken;
 	private int isBlack;
+	private String joinedDate;
+	private String profileImg;
+	//------------------------허구
 	private String AccessToken;//얘는 테이블에 없는애. 순서 바뀜.
-	
 }

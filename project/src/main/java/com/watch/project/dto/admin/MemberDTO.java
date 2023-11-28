@@ -12,4 +12,6 @@ public class MemberDTO {
 	private int kakaoAgreement;
 	private int naverAgreement;
 	private int googleAgreement;
+	private String joinedDate;//새로 추가해줌
+	private String profileImg;//새로 추가해줌
 }

@@ -115,7 +115,7 @@ public class MemberService {
 				.movieNm(movieNm)
 				.commentWrittenDate(commentDate)
 				.movieId(movieId)
-				.reviewScore(result)
+				.reviewScore(score)
 				.build();
 		 try {
 		        BlackListDTO db = repo.checkIfExist(dto);

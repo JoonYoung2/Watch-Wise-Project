@@ -16,6 +16,8 @@
 	<result property="kakaoRefreshToken" column="kakao_refresh_token"/>
 	<result property="naverRefreshToken" column="naver_refresh_token"/>
 	<result property="isBlack" column="is_black"/>
+	<result property="joinedDate" column="joined_date"/>
+	<result property="profileImg" column="profile_img"/>
 </resultMap>
 
 	<resultMap type="com.watch.project.dto.admin.UserNotificationDTO" id="notify">
@@ -38,7 +40,7 @@
 			FROM member_info
 		</selectKey>
 		INSERT INTO member_info
-		VALUES(#{id}, #{userEmail}, #{userPw}, #{userName}, #{userLoginType}, #{socialLoginId}, 0, 0, 0, '0', '0')
+		VALUES(#{id}, #{userEmail}, #{userPw}, #{userName}, #{userLoginType}, #{socialLoginId}, 0, 0, 0, '0', '0', 0, #{joinedDate}, #{profileImg})
 	</insert>	
 	
 	<delete id="deleteMemberInfo" parameterType="String">

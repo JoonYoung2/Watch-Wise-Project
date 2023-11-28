@@ -154,5 +154,13 @@ public class CommonMemberService {
 		return allNotisList;
 	}
 
+	public String getJoinedDate() {
+		Date currentDate = new Date(); //Fri Oct 27 21:35:40 KST 2023
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// Date를 ISO 8601 형식의 문자열로 변환
+		String dateStr = dateFormat.format(currentDate);//2023-10-27T21:35:40Z
+		return dateStr;
+		
+	}
+
 
 }

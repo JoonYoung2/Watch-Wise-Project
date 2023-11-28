@@ -158,6 +158,10 @@ public class NaverMemberService {
     	user.setSocialLoginId(res_obj.get("id").toString().replaceAll("\"", ""));        	
 
     	user.setAccessToken(str_result);
+    	String joinedDate = commonMethods.getJoinedDate();
+    	user.setJoinedDate(joinedDate);
+    	user.setProfileImg("nan");
+    	
     	int storageResult = saveMemberInfo(user); //회원 정보 저장
 //    	int updateResult = repo.updateNaverAgreement(email);
     	

@@ -1,5 +1,10 @@
 //--------------------------------------member info 페이지-----------------------------------------
+//profile img update--------------------------------------------------------------
+//function updateProfileImg(userEmail){
+//	
+//}
 
+//other functions in member info page----------------------------------------------------------
 function moveToLikedMovieList(){
 	let path = "/userLikedMovieList";
 	window.location.href = path;
