@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/resources/css/admin/header.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
@@ -41,7 +42,7 @@
 							Config
 							<div class="header-menu-div">
 								<div class="header-menu-href-div"><a class="header-menu-href" href="/admin/pagingConfig">Paging</a></div>
-								<div class="header-menu-href-div"><a class="header-menu-href" href="/admin/apiIpConfig">Api IP</a></div>
+								<div class="header-menu-href-div"><a class="header-menu-href" href="/admin/corsConfig">Cors</a></div>
 							</div>
 						</div>
 					</div>

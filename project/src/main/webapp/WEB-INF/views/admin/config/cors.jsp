@@ -18,7 +18,7 @@
 			<table>
 				<tr>
 					<th style="width:50px;">ID</th>
-					<th style="width:300px;">Request IP</th>
+					<th style="width:300px;">Allowed Origins</th>
 					<th style="width:50px;">수정</th>
 					<th style="width:50px;">삭제</th>
 				</tr>
@@ -31,9 +31,9 @@
 					<c:forEach var="list" items="${ config }">
 						<tr class="table-tr">
 							<td>${ list.id }</td>
-							<td>${ list.requestIp }</td>
-							<td><button class="table-update-btn" type="button" onclick="updateClick('${ list.id }','${ list.requestIp }');">수정</button></td>
-							<td><a class="table-delete-btn" href="/admin/deleteApiIpConfig?id=${ list.id }">삭제</a></td>
+							<td>${ list.allowedOrigins }</td>
+							<td><button class="table-update-btn" type="button" onclick="updateClick('${ list.id }','${ list.allowedOrigins }');">수정</button></td>
+							<td><a class="table-delete-btn" href="/admin/deleteCorsConfig?id=${ list.id }">삭제</a></td>
 						</tr>
 					</c:forEach>
 				</c:if>
@@ -42,13 +42,13 @@
 				</tr>
 			</table>
 			
-			<form id="registerForm" class="register-form" style="display:none;" action="/admin/insertApiIpConfig" method="post">
-				<input type="text" name="requestIp" class="register-input" placeholder="IP"><br>
+			<form id="registerForm" class="register-form" style="display:none;" action="/admin/insertCorsConfig" method="post">
+				<input type="text" name="allowedOrigins" class="register-input" placeholder="origin"><br>
 				<button class="register-btn">등록</button><button class="register-close-btn" type="button" onclick="registerClose();">닫기</button>
 			</form>
-			<form id="updateForm" class="update-form" style="display:none;" action="/admin/updateApiIpConfig" method="post">
+			<form id="updateForm" class="update-form" style="display:none;" action="/admin/updateCorsConfig" method="post">
 				<input id="id" name="id" type="hidden">
-				<input id="requestIp" type="text" name="requestIp" class="update-input" placeholder="IP"><br>
+				<input id="allowed-origins" type="text" name="allowedOrigins" class="update-input" placeholder="origin"><br>
 				<button class="update-btn">수정</button><button class="update-close-btn" type="button" onclick="updateClose();">닫기</button>
 			</form>
 		</div>

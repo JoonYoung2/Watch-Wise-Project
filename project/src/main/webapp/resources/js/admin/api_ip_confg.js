@@ -1,11 +1,11 @@
-const updateClick = (id, requestIp) => {
+const updateClick = (id, allowedOrigins) => {
     let idId = document.getElementById("id");
     let updateFormId = document.getElementById("updateForm");
-    let requestIpId = document.getElementById("requestIp");
+    let allowedOriginsId = document.getElementById("allowed-origins");
 
     updateFormId.style.display = "";
     idId.value = id;
-    requestIpId.value = requestIp;
+    allowedOriginsId.value = allowedOrigins;
 }
 
 const registerClick = () => {

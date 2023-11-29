@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watch.project.repository.admin.CorsConfigRepository">
+	
+	<resultMap type="com.watch.project.dto.admin.CorsConfigDTO" id="ipConfig">
+		<result column="id" property="id" />
+		<result column="allowed_origins" property="allowedOrigins" />
+	</resultMap>
+	
+	<insert id="insertCorsConfig" parameterType="String">
+		INSERT INTO cors_config VALUES((SELECT NVL(MAX(id), 0)+1 FROM cors_config), #{allowedOrigins})
+	</insert>
+	
+	<update id="updateCorsConfigById" parameterType="com.watch.project.dto.admin.CorsConfigDTO">
+		UPDATE cors_config SET allowed_origins=#{allowedOrigins} WHERE id=#{id}
+	</update>
+	
+	<select id="getCorsConfig" resultMap="ipConfig">
+		SELECT * FROM cors_config ORDER BY id ASC
+	</select>
+	
+	<select id="getCorsConfigById" resultMap="ipConfig">
+		SELECT * FROM cors_config WHERE id=#{id}
+	</select>
+	
+	<delete id="deleteCorsConfigById">
+		DELETE FROM cors_config WHERE id=#{id}
+	</delete>
+	
+</mapper>

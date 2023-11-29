@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="/resources/css/admin/auto-table.css">
 <link rel="stylesheet" href="/resources/css/admin/index.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <title>Insert title here</title>
 </head>
 <body>

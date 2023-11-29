@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class ApiIpConfigDTO {
+public class CorsConfigDTO {
 	private int id;
-	private String requestIp;
+	private String allowedOrigins;
 }
