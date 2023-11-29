@@ -76,6 +76,8 @@ public class LocalMemberController {
 		}else { //로그인 입력 정보가 올바른 경우
 			int isBlack = adminMemberService.checkIfBlack(dto.getUserEmail());
 			int isNewNoti = adminMemberService.checkIfNewNoti(dto.getUserEmail());
+			String profileImg = common.getProfileImg(dto.getUserEmail());
+			session.setAttribute("profileImg", profileImg);
 			session.setAttribute("isBlack", isBlack);			
 			session.setAttribute("userEmail", dto.getUserEmail());
 			session.setAttribute("userLoginType", dto.getUserLoginType());//// 이 부분 다시 고려해보기.
@@ -93,9 +95,9 @@ public class LocalMemberController {
 		session.removeAttribute("userLoginType");
 		session.removeAttribute("newNoti");
 		session.removeAttribute("isBlack");
-
+		session.removeAttribute("profileImg");
 		redirectAttr.addFlashAttribute("signOutAlert", true);
-		return "redirect:/";//redirect 하면 알림 안뜸.
+		return "redirect:/";
 	}
 	
 	

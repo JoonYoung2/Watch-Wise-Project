@@ -43,6 +43,7 @@ public class NaverMemberController {
 	private final MemberRepository repo;
 	private final SearchService searchService;
 	private final MemberService adminMemberService;
+	private final CommonMemberService common;
 
 	
 	@GetMapping("/naverSignOut")
@@ -53,6 +54,7 @@ public class NaverMemberController {
     		session.removeAttribute("newNoti");
     		session.removeAttribute("isBlack");
     		session.removeAttribute("accessToken");
+    		session.removeAttribute("profileImg");
         }
         return "redirect:/";
     }
@@ -103,8 +105,9 @@ public class NaverMemberController {
 		System.out.println("isBlack=============>"+isBlack);
 		int isNewNoti = adminMemberService.checkIfNewNoti(mail);
 		System.out.println("isNewNoti=============>"+isNewNoti);
-
-
+		String profileImg = common.getProfileImg(mail);
+		
+		session.setAttribute("profileImg", profileImg);
 		session.setAttribute("isBlack", isBlack);	
 		session.setAttribute("newNoti", isNewNoti);
         session.setAttribute("userEmail", mail);

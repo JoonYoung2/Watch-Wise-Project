@@ -169,7 +169,7 @@ public class CommonMemberService {
 		
 	}
 
-	public void updateProfileImg(String userEmail, MultipartFile file) {
+	public String updateProfileImg(String userEmail, MultipartFile file) {
 		checkIfFileExist(userEmail);
 		String profileImg = productImgSaveFile(file, userEmail);
 		System.out.println("profileImg DB에 저장되는 값 : "+profileImg);
@@ -177,6 +177,7 @@ public class CommonMemberService {
 		map.put("userEmail", userEmail);
 		map.put("profileImg", profileImg);
 		repo.updateProfile(map);
+		return profileImg;
 	}
 
 	private String productImgSaveFile(MultipartFile file, String userEmail) {
@@ -216,6 +217,11 @@ public class CommonMemberService {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+	}
+
+	public String getProfileImg(String userEmail) {
+		String profileImg = repo.getProfileImgByEamil(userEmail);
+		return profileImg;
 	}
 
 

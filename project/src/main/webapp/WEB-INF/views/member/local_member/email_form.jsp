@@ -18,18 +18,18 @@
 		alert('${msg}');
 	</script>
 </c:if>
-<!-- 
-<div class="sign-up-frame" style="width:400px; height:400px; border:1px solid #ccc; border-radius: 5px; margin-top: 30px;">
-	<div align="center" style="margin-top: 28px; margin-bottom:28px">
-		<h2>Sign Up</h2>
+
+<div class="sign-up-frame" style="position: absolute;top: 50%; left: 50%; transform: translate(-50%, -50%);width:400px; height:200px; border:1px solid #ccc; border-radius: 5px; margin-top: 30px;">
+	<div align="center" style="margin-top: 28px; margin-bottom:30px">
+		<h2>이메일</h2>
 	</div>	
 
 	<div align="center">
- -->
-	<h3>이메일</h3>
-	<form action="sendEmailforAuth" method="post">
-		<input type="email" name="userEmail" placeholder="example@example.com">
-		<input type="submit" value="인증코드 발송">
-	</form>
+		<form action="sendEmailforAuth" method="post">
+			<input type="email" name="userEmail" placeholder="example@example.com">
+			<input type="submit" value="인증코드 발송">
+		</form>
+	</div>
+</div>
 </body>
 </html>

@@ -35,8 +35,26 @@
                         	<div style="text-align:center; margin:10px;background-color:#F2F2F2; width:350px; height: 300px; border-radius:5px; overflow: hidden;">
                             	<div style="margin:10px; width:305px; height:280px;">
                             	
-                            		<div class="이름&평점" style="display:flex; height:10%; padding-top:10px;">
-	                            		<div style="width:60%; text-align:left; margin-left:10px;">
+                            		<div class="이름&평점" style="margin-left:10px;display:flex; height:10%; align-items: center;">
+	                            		
+                                		<div style="position:relative;">
+                                		<c:choose>
+                                			<c:when test="${dto.profileImg eq 'nan' }">
+                                				<div style="position:relative;width:30px; height:30px;overflow: hidden; border-radius: 50%;">                                			
+                                					<img id="preview" style="width:30px;"src="resources/img/basicProfileImg.png"/>
+                                				</div>
+                                			</c:when>
+                                			<c:otherwise>
+		                                		<div style="position:relative;width:30px; height:30px;overflow: hidden; border-radius: 50%;">
+		                                			<img id="preview" style="width: 30px; height: 30px;object-fit: cover; object-position: center center;transition: transform 0.3s ease-in-out;" src="/resources/profile_img/${dto.userEmail }/${dto.profileImg }"/>
+		                                		</div>                                				
+                                			</c:otherwise>
+                                		</c:choose>
+                                		</div>
+	                            		
+	                            		
+	                            		
+	                            		<div style="width:50%; text-align:left; margin-left:10px;">
 	                            			${dto.userName}
 	                            		</div>
                             		

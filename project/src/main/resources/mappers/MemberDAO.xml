@@ -90,4 +90,8 @@
 	<update id="updateProfile" parameterType="Map">
 		UPDATE member_info SET profile_img=#{profileImg} WHERE user_email=#{userEmail}
 	</update>
+	
+	<select id="getProfileImgByEamil" resultType="String">
+		SELECT profile_img FROM member_info WHERE user_email=#{userEmail}
+	</select>
 </mapper>

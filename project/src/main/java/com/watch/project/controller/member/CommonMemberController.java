@@ -144,7 +144,8 @@ public class CommonMemberController {
 	@PostMapping("/uploadProfileImg")
 	public String uploadProfileImg(@RequestParam("file") MultipartFile file, HttpSession session) {
 		String userEmail = (String)session.getAttribute("userEmail");
-		common.updateProfileImg(userEmail, file);
+		String profileImgName = common.updateProfileImg(userEmail, file);
+		session.setAttribute("profileImg", profileImgName);
 		return "redirect:/memberInfo";
 	}
 }
