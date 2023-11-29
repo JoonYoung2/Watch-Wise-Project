@@ -86,4 +86,8 @@
 	<update id="setIsSeenForList" parameterType="String">
 		UPDATE user_notification SET is_seen = 1 WHERE reciever_email=#{email}
 	</update>
+	
+	<update id="updateProfile" parameterType="Map">
+		UPDATE member_info SET profile_img=#{profileImg} WHERE user_email=#{userEmail}
+	</update>
 </mapper>

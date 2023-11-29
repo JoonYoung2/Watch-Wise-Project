@@ -1,5 +1,7 @@
 package com.watch.project.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,4 +25,6 @@ public class MemberDTO {
 	private String profileImg;
 	//------------------------허구
 	private String AccessToken;//얘는 테이블에 없는애. 순서 바뀜.
+    private MultipartFile file;
+
 }

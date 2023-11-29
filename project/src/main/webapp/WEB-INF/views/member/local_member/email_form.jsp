@@ -11,12 +11,21 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/header.jsp" %>
+<hr style="border:1px solid #ccc;">
 
 <c:if test="${not empty msg }">
 	<script type="text/javascript">
 		alert('${msg}');
 	</script>
 </c:if>
+<!-- 
+<div class="sign-up-frame" style="width:400px; height:400px; border:1px solid #ccc; border-radius: 5px; margin-top: 30px;">
+	<div align="center" style="margin-top: 28px; margin-bottom:28px">
+		<h2>Sign Up</h2>
+	</div>	
+
+	<div align="center">
+ -->
 	<h3>이메일</h3>
 	<form action="sendEmailforAuth" method="post">
 		<input type="email" name="userEmail" placeholder="example@example.com">

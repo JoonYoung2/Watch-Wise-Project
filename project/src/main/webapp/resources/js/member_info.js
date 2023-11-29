@@ -1,8 +1,42 @@
 //--------------------------------------member info 페이지-----------------------------------------
 //profile img update--------------------------------------------------------------
-//function updateProfileImg(userEmail){
-//	
-//}
+const fileSelect = () => {
+	document.getElementById('file').click();
+}
+
+function previewImage(event){
+	var input = event.target;
+	var reader = new FileReader();
+
+	reader.onload = function() {
+		var imgElement = document.getElementById('preview');
+		imgElement.src = reader.result;
+	};
+
+	reader.readAsDataURL(input.files[0]);
+
+	document.getElementById('preview').style.display = 'block';
+	
+    // FormData 객체 생성
+    var formData = new FormData();
+    formData.append('file', input.files[0]);
+
+    // 파일 업로드 Ajax 요청
+    $.ajax({
+        url: '/uploadProfileImg',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(data) {
+            console.log('업로드 성공', data);
+//            location.reload();
+        },
+        error: function(error) {
+            console.error('업로드 실패', error);
+        }
+    });
+}
 
 //other functions in member info page----------------------------------------------------------
 function moveToLikedMovieList(){

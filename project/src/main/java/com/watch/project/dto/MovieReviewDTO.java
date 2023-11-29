@@ -18,4 +18,5 @@ public class MovieReviewDTO {
 	private int isLiked;
 	private int isReported;
 	private String userName;
+	private String profileImg;
 }

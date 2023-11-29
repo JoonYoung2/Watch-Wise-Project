@@ -188,4 +188,8 @@
 	<delete id="deleteReportedDatas" parameterType="String">
 		DELETE FROM black_list WHERE reported_comment_id=#{id}
 	</delete>
+	
+	<select id="getProfileImg" resultType="String">
+		SELECT profile_img FROM member_info WHERE user_email=#{userEmail}
+	</select>
 </mapper>

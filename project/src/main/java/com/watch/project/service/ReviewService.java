@@ -159,6 +159,9 @@ public class ReviewService {
 			//코멘트별 작성자 이름 가져오기
 			String userNm = repo.getUserNmByEmail(comment.getUserEmail());
 			comment.setUserName(userNm);
+			//코멘트별 작성자 사진 가져오기.
+			String profileImg = repo.getProfileImg(comment.getUserEmail());
+			comment.setProfileImg(profileImg);
 			//로그인한 사용자가 좋아한 코멘트인, 신고한 코멘트인지 구별
 			String CommentIdPlusUserEmail = comment.getId() + (String)session.getAttribute("userEmail");
 			

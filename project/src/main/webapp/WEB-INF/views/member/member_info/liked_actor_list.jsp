@@ -35,13 +35,13 @@
 							<div>
 								<c:if test="${ list.profileUrl ne 'nan' }">
 									<div align="center">
-										<div style="width: 80px; height: 80px; overflow: hidden; border-radius:100px;">
-									        <img style="max-width: 100%;" src="${ list.profileUrl }" alt="영화 포스터">
+										<div style="width: 90px; height: 90px; overflow: hidden; border-radius:100px;">
+									        <img onclick="moveToActorInfo('${list.peopleId}');" style="cursor:pointer; max-width: 100%;" src="${ list.profileUrl }">
 									    </div>
 								    </div>
 								</c:if>
 								<c:if test="${ list.profileUrl eq 'nan' }">
-									<img style="width:80px; height:80px;" src="/resources/img/bean_profile.png">
+									<img onclick="moveToActorInfo('${list.peopleId}');" style="cursor:pointer; width:90px; height:90px;" src="/resources/img/bean_profile.png">
 								</c:if>
 								<div class="liked-actor-list-heart">
 									<img src="/resources/img/likeColor.png" onclick="actorLikeCancel('${ list.peopleId }','${cnt }');" style="cursor:pointer; width:20px; position:absolute; bottom:20px; right:60px;">
@@ -63,5 +63,6 @@
 </div>
 <script src="/resources/js/common.js"></script>
 <script src="/resources/js/search_common.js"></script>
+<script src="/resources/js/member_info.js"></script>
 </body>
 </html>

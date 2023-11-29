@@ -90,6 +90,8 @@ public interface ReviewRepository {
 
 	MovieReviewDTO getCommentWithoutNanById(String pkId);
 
+	String getProfileImg(String userEmail);
+
 //	int updateNewComment(MovieReviewDTO dto);
 
 //	int deleteFromMovieReview(String userEmail);////////////////////////////////////////////////////////////////

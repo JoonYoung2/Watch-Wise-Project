@@ -259,11 +259,11 @@
 				            </c:if>
 				            
 							   	<c:if test="${not empty sessionScope.userEmail }">
-								   	<c:choose>
-									    <c:when test="${ifWroteComment.reviewComment eq 'nan' || ifWroteComment.reviewComment eq null}">
 										    <div  style="font-size:15px; margin:10px; margin-top:20px;">
 										      내가 작성한 코멘트
 											</div>
+								   	<c:choose>
+									    <c:when test="${ifWroteComment.reviewComment eq 'nan' || ifWroteComment.reviewComment eq null}">
 											<div style="margin:auto; display:flex; width:700px; background-color: #F8F8F8; border: 2px solid #ccc; border-radius: 5px; padding: 10px;">
 											
 												<div style="margin:10px; width:75%; word-wrap:break-word;">
@@ -582,8 +582,22 @@
                             <div style="text-align:center; margin:10px;background-color:#F2F2F2; width:350px; height: 300px; border-radius:5px; overflow: hidden;">
                                 <div style="margin:10px; width:304px; height:280px;">
                                 	
-                                	<div class="이름&평점" style="display:flex; height:10%; padding-top:10px;">
-                                		<div style="width:60%; text-align:left; margin-left:10px;">
+                                	<div class="이름&평점" style="margin-left:10px;display:flex; height:10%; padding-top:10px; align-items: center;">
+                                		<div style="position:relative;">
+                                		<c:choose>
+                                			<c:when test="${dto.profileImg eq 'nan' }">
+                                				<div style="position:relative;width:30px; height:30px;overflow: hidden; border-radius: 50%;">                                			
+                                					<img id="preview" style="width:30px;"src="resources/img/basicProfileImg.png"/>
+                                				</div>
+                                			</c:when>
+                                			<c:otherwise>
+		                                		<div style="position:relative;width:30px; height:30px;overflow: hidden; border-radius: 50%;">
+		                                			<img id="preview" style="width: 30px; height: 30px;object-fit: cover; object-position: center center;transition: transform 0.3s ease-in-out;" src="/resources/profile_img/${dto.userEmail }/${dto.profileImg }"/>
+		                                		</div>                                				
+                                			</c:otherwise>
+                                		</c:choose>
+                                		</div>
+                                		<div style="width:50%; text-align:left; margin-left:10px;">
                                 			${dto.userName}
                                 		</div>
                                 		

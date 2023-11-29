@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.watch.project.dto.LiveSearchDTO;
@@ -83,7 +85,6 @@ public class CommonMemberController {
 		searchService.searchModel(model);
 		model.addAttribute("dto", memberInfo); //select *
 //		model.addAttribute("wishList", wishList);
-		///////////model.addAttribute("profileImg", profileImg);////////
 		model.addAttribute("map", numbers);
 		model.addAttribute("searchHistory", searchHistory);
 		
@@ -138,5 +139,12 @@ public class CommonMemberController {
 		List<UserNotificationDTO> notificationList = common.getNotificationList();
 		model.addAttribute("notiList", notificationList);
 		return "member/notification_list";
+	}
+	
+	@PostMapping("/uploadProfileImg")
+	public String uploadProfileImg(@RequestParam("file") MultipartFile file, HttpSession session) {
+		String userEmail = (String)session.getAttribute("userEmail");
+		common.updateProfileImg(userEmail, file);
+		return "redirect:/memberInfo";
 	}
 }

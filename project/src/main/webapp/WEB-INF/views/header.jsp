@@ -107,28 +107,30 @@
 			</div>
 			
 			<div align="right" id="header" class="header-right-div">
-				<c:if test="${empty sessionScope.userLoginType }">
-					<a href="/signIn" class="login-btn">로그인</a>&nbsp	&nbsp	
-					<button class="sign-up-btn">
-						<a href="selectSignUpType" class="sign-up-font">회원가입</a>
-					</button>
-				</c:if>
+				<c:choose>
+					<c:when test="${empty sessionScope.userLoginType }"> <!-- 로그인하기 전 -->
+						<a href="/signIn" class="login-btn">로그인</a>&nbsp	&nbsp	
+						<button class="sign-up-btn">
+							<a href="selectSignUpType" class="sign-up-font">회원가입</a>
+						</button>
+					</c:when>
+					<c:otherwise> <!-- 로그인한 후 -->
+						<a class="notify-bell" href="/showNotifyList">
+							<c:choose>
+								<c:when test="${sessionScope.newNoti eq 1 }"> <!-- 새로운 알림이 있는 경우 -->
+									<img style="width:30px; margin-right:20px;" src="/resources/img/bellWithNotification.png">
+								</c:when>
+								<c:otherwise> <!-- 새로운 알림이 없는 경우 -->
+									<img style="width:30px; margin-right:20px;" src="/resources/img/bell.png">
+								</c:otherwise>
+							</c:choose>						
+						</a>
+						<a class="profile-btn" href="/memberInfo">
+							<img class="profile-img" src="resources/img/bean_profile.png"/>
+						</a>
+					</c:otherwise>
+				</c:choose>
 					<!-------------------------------------------------------------------------------------------------------------------------------------- -->
-				<c:if test="${not empty sessionScope.userEmail }">
-					<a class="notify-bell" href="/showNotifyList">
-						<c:choose>
-							<c:when test="${sessionScope.newNoti eq 1 }"> <!-- 새로운 알림이 있는 경우 -->
-								<img style="width:30px; margin-right:20px;" src="/resources/img/bellWithNotification.png">
-							</c:when>
-							<c:otherwise> <!-- 새로운 알림이 없는 경우 -->
-								<img style="width:30px; margin-right:20px;" src="/resources/img/bell.png">
-							</c:otherwise>
-						</c:choose>						
-					</a>
-					<a class="profile-btn" href="/memberInfo">
-						<img class="profile-img" src="resources/img/bean_profile.png"/>
-					</a>
-				</c:if>
 			</div>
 			<hr>
 		</div>

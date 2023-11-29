@@ -1,6 +1,9 @@
 package com.watch.project.service.member;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.dto.WishListDTO;
@@ -29,6 +33,9 @@ public class CommonMemberService {
 	@Autowired private PeopleInfoRepository peopleInfoRepo;
 	@Autowired private WishListRepository wishListRepo;
 	@Autowired private HttpSession session;
+	
+	private static String DIRECTORY = "D:\\WatchWiseProject\\project\\src\\main\\webapp\\resources\\profile_img\\";
+
 	
 	public String getAlertLocation(String msg, String url) {
 		String message = "<script>alert('" + msg + "');";
@@ -160,6 +167,55 @@ public class CommonMemberService {
 		String dateStr = dateFormat.format(currentDate);//2023-10-27T21:35:40Z
 		return dateStr;
 		
+	}
+
+	public void updateProfileImg(String userEmail, MultipartFile file) {
+		checkIfFileExist(userEmail);
+		String profileImg = productImgSaveFile(file, userEmail);
+		System.out.println("profileImg DB에 저장되는 값 : "+profileImg);
+		Map<String, String> map = new HashMap<>();
+		map.put("userEmail", userEmail);
+		map.put("profileImg", profileImg);
+		repo.updateProfile(map);
+	}
+
+	private String productImgSaveFile(MultipartFile file, String userEmail) {
+		String originalName = file.getOriginalFilename();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss-");
+		Calendar cal = Calendar.getInstance();
+		String fileName = sdf.format(cal.getTime()) + originalName;
+		String path = DIRECTORY + userEmail + "\\" + fileName;
+		System.out.println(path);
+		File targetFile = new File(path); // 경로 설정
+		if (targetFile.exists() == false) {
+			targetFile.mkdirs(); // 경로에 폴더가 없으면 폴더 생성
+		}
+		try {
+			file.transferTo(targetFile); // 파일 생성
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return fileName;
+	}
+
+	private void checkIfFileExist(String userEmail) {
+		String path = DIRECTORY + userEmail;
+		File folder = new File(path);
+		try {
+			while (folder.exists()) {
+				File[] folder_list = folder.listFiles(); // 파일리스트 얻어오기
+				for (int j = 0; j < folder_list.length; j++) {
+					folder_list[j].delete(); // 파일 삭제
+				}
+				if (folder_list.length == 0 && folder.isDirectory()) {
+					folder.delete(); // 폴더 삭제
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 
 

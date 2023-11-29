@@ -32,15 +32,22 @@
     <div class="user-info-main-card-frame" style="position: relative; top: 50px; background-color: white; width: 700px; height: 350px; margin: 0 auto; padding: 20px;">
 		
 		<div style="display:flex; justify-content:center">
-			<div style="position:relative; margin-right:500px; margin-top:80px;">
+			<div style="position:relative; margin-right:490px; margin-top:60px;">
 				<c:choose>
 					<c:when test="${ dto.profileImg eq 'nan'}">
-						<img style="width:100px;" src="resources/img/bean_profile.png" onclick="updateProfileImg(${dto.userEmail});"/>
+						<div style="width:120px; height:120px;overflow: hidden; border-radius: 50%;">
+							<a onclick="fileSelect();"><img id="preview" style="cursor:pointer;width: 120px; height: 120px;object-fit: cover; object-position: center center;transition: transform 0.3s ease-in-out;" src="resources/img/basicProfileImg.png"/></a>
+						</div>
 					</c:when>
 					<c:otherwise>
-						<img style="width:100px;" src="/resources/profile_img/.png"/>
+						<div style="width:120px; height:120px;overflow: hidden; border-radius: 50%;">
+							<a onclick="fileSelect();"><img id="preview" style="cursor:pointer;width: 120px; height: 120px;object-fit: cover; object-position: center center;transition: transform 0.3s ease-in-out;" src="/resources/profile_img/${dto.userEmail }/${dto.profileImg }"/></a>
+						</div>
 					</c:otherwise>
-				</c:choose>
+				</c:choose> 	
+				<div class="product_file">
+					<input type="file" name="file" id="file" style="display:none;" onchange="previewImage(event);">
+				</div>
 			</div>
 			<div style="margin-top:20px; margin-right:0px;">
 					<img id="openModalButton" style="width:30px; cursor:pointer;" src="resources/img/setting.png"/>
@@ -203,7 +210,7 @@
 				</a>
 		    </div>
 		    <div style="font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
-				<a style="cursor:pointer; text-decoration:none; color: inherit;" onclick="socialConfirmUnregister()">
+				<a style="all:unset; cursor:pointer;" onclick="socialConfirmUnregister()">
 					탈퇴하기
 				</a>
 		    </div>				
@@ -217,7 +224,7 @@
 				</a>
 		    </div>
 		    <div style="font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
-				<a style="cursor:pointer; text-decoration:none; color: inherit;" onclick="socialConfirmUnregister()">
+				<a style="all:unset;cursor:pointer;" onclick="socialConfirmUnregister()">
 					탈퇴하기
 				</a>
 		    </div>	
@@ -247,7 +254,7 @@
 				</a>
 			</div>
 		    <div style="font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
-				<a style=""href="/unregister">탈퇴하기</a>
+				<a style="cursor:pointer; text-decoration:none; color: inherit;"href="/unregister">탈퇴하기</a>
 			</div>
 		</c:if>
 		<!-- -------------------------------------------------------------------------------------------------------------------------------------------------- -->
