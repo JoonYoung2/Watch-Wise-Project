@@ -17,6 +17,7 @@ import com.watch.project.dto.LiveSearchDTO;
 import com.watch.project.dto.MemberDTO;
 import com.watch.project.service.SearchService;
 import com.watch.project.service.admin.MemberService;
+import com.watch.project.service.member.CommonMemberService;
 import com.watch.project.service.member.GoogleMemberService;
 
 @Controller
@@ -28,6 +29,8 @@ public class GoogleMemberController {
 	private SearchService searchService;
 	@Autowired
 	private MemberService adminMemberService;
+	@Autowired
+	private CommonMemberService commonService;
 	
 	@GetMapping("/google/login")
 	public String redirected(@RequestParam("code") String authCode, HttpServletResponse res, HttpSession session, Model model, RedirectAttributes redirectAttr) throws IOException {
@@ -44,6 +47,8 @@ public class GoogleMemberController {
 		int isNewNoti = adminMemberService.checkIfNewNoti(userInfo.getUserEmail());
 		System.out.println("isNewNoti=============>"+isNewNoti);
 
+		String profileImg = commonService.getProfileImg(userInfo.getUserEmail());
+		session.setAttribute("profileImg", profileImg);
 		session.setAttribute("isBlack", isBlack);
 		session.setAttribute("newNoti", isNewNoti);
 		session.setAttribute("userEmail", userInfo.getUserEmail());
@@ -55,6 +60,7 @@ public class GoogleMemberController {
 	
 	@GetMapping("/googleSignOut")
 	public String signout(HttpSession session, RedirectAttributes redirectAttr) throws IOException {
+		session.removeAttribute("profileImg");
 		session.removeAttribute("isBlack");
 		session.removeAttribute("newNoti");
 		session.removeAttribute("userEmail");

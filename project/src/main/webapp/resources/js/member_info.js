@@ -30,7 +30,7 @@ function previewImage(event){
         processData: false,
         success: function(data) {
             console.log('업로드 성공', data);
-//            location.reload();
+            location.reload();
         },
         error: function(error) {
             console.error('업로드 실패', error);

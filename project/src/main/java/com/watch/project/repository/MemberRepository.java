@@ -43,5 +43,7 @@ public interface MemberRepository {
 
 	void updateProfile(Map<String, String> map);
 
+	String getProfileImgByEamil(String userEmail);
+
 
 }

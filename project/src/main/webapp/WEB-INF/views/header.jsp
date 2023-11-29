@@ -125,8 +125,22 @@
 								</c:otherwise>
 							</c:choose>						
 						</a>
+						
 						<a class="profile-btn" href="/memberInfo">
-							<img class="profile-img" src="resources/img/bean_profile.png"/>
+							<div style="position:relative; margin-top: -4px;">
+								<c:choose>
+									<c:when test="${sessionScope.profileImg eq 'nan' }">
+	                       				<div style="position:relative;width:40px; height:40px;overflow: hidden; border-radius: 50%;">                                			
+	                       					<img style="width:40px;"src="resources/img/basicProfileImg.png"/>
+	                       				</div>								
+	                       			</c:when>
+									<c:otherwise>
+	                               		<div style="position:relative;width:40px; height:40px;overflow: hidden; border-radius: 50%;">
+	                               			<img style="width: 40px; height: 40px;object-fit: cover; object-position: center center;transition: transform 0.3s ease-in-out;" src="/resources/profile_img/${sessionScope.userEmail }/${sessionScope.profileImg}"/>
+	                               		</div>   									
+									</c:otherwise>
+								</c:choose>
+							</div>
 						</a>
 					</c:otherwise>
 				</c:choose>

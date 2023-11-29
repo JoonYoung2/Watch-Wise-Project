@@ -66,7 +66,8 @@ public class KakaoMemberController {
 			System.out.println("isBlack=============>"+isBlack);
 			int isNewNoti = adminMemberService.checkIfNewNoti(userInfo.getUserEmail());
 			System.out.println("isNewNoti=============>"+isNewNoti);
-
+			String profileImg = common.getProfileImg(userInfo.getUserEmail());
+			session.setAttribute("profileImg", profileImg);
 			session.setAttribute("isBlack", isBlack);	
 			session.setAttribute("newNoti", isNewNoti);
 			session.setAttribute("userEmail", userInfo.getUserEmail());
@@ -82,10 +83,12 @@ public class KakaoMemberController {
 			
 			kakaoInput.setJoinedDate(common.getJoinedDate());
 			kakaoInput.setProfileImg("nan");
+			
 			session.setAttribute("userEmail", kakaoInput.getUserEmail());
 			session.setAttribute("accessToken", accessToken);
 			session.setAttribute("userLoginType", 2);
-
+			session.setAttribute("profileImg", "nan");
+			
 			repo.saveMemberInfo(kakaoInput);
 			repo.updateKakaoAgreement(kakaoInput.getUserEmail());
 			kakaoInput.setKakaoRefreshToken((String)session.getAttribute("refreshToken"));
@@ -113,6 +116,7 @@ public class KakaoMemberController {
 
 	@GetMapping("/kakaoSignOut")
 	public String logout(HttpSession session, RedirectAttributes redirectAttr) {
+		session.removeAttribute("profileImg");
 		session.removeAttribute("userEmail");
 		session.removeAttribute("userLoginType");
 		session.removeAttribute("newNoti");
