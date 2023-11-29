@@ -50,11 +50,13 @@
 		int todayDate = Integer.parseInt(dtFormat.format(cal.getTime()));
 	%>
 	
+	<!-- 일간 -->
 	<c:if test="${ daily.size() > 0 }">
 		<br><br>
 		<%@ include file="../include/home_include/daily.jsp" %>
 	</c:if>
 	
+	<!-- 개봉 전 -->
 	<c:if test="${ upcoming.size() > 0 }">
 		<br><br><br>
 		<% 
@@ -63,8 +65,10 @@
 		<%@ include file="../include/home_include/upcoming.jsp" %>
 	</c:if>
 	
+	<!-- 광고 & 인기 그래프 -->
 	<%@ include file="../include/home_include/main_board.jsp" %>
 	
+	<!-- 최근 개봉한 한국 영화 -->
 	<c:if test="${ recentlyKo.size() > 0 }">
 		<br><br><br>
 		<% 
@@ -73,6 +77,7 @@
 		<%@ include file="../include/home_include/recently_korean.jsp" %>
 	</c:if>
 	
+	<!-- 최근 개봉한 외국 영화 -->
 	<c:if test="${ recentlyFo.size() > 0 }">
 		<br><br><br>
 		<% 
@@ -81,6 +86,7 @@
 		<%@ include file="../include/home_include/recently_foreign.jsp" %>
 	</c:if>
 	
+	<!-- 주간 -->
 	<c:if test="${ weekly0.size() > 0 }">
 		<br><br><br>
 		<% 
@@ -91,6 +97,7 @@
 		<%@ include file="../include/home_include/weekly0.jsp" %>
 	</c:if>
 	
+	<!-- 주말 -->
 	<c:if test="${ weekly1.size() > 0 }">
 		<br><br><br>
 		<% 
@@ -101,6 +108,7 @@
 		<%@ include file="../include/home_include/weekly1.jsp" %>
 	</c:if>
 	
+	<!-- 주중 -->
 	<c:if test="${ weekly2.size() > 0 }">
 		<br><br><br>
 		<% 

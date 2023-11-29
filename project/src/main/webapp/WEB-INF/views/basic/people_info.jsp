@@ -16,20 +16,24 @@
 <c:set var="imgWidth" value="300"/>
 <c:set var="imgHeight" value="428.16"/>
 
+<!-- 배우 정보 -->
 <%@ include file="../include/actor_include/actor_info.jsp" %>
 
+<!-- 회원일 때 배우 좋아요 -->
 <c:if test="${ not empty sessionScope.userEmail }">
 	<%@ include file="../include/actor_include/member_actor_like.jsp" %>
 </c:if>
 
+<!-- 비회원일 때 배우 좋아요 -->
 <c:if test="${ empty sessionScope.userEmail }">
 	<%@ include file="../include/actor_include/unregister_actor_like.jsp" %>
 </c:if>
 <br>
+
+<!-- 배우 관련 영화 -->
 <% 
 	int cnt = 0; 
 %>
-
 <c:if test="${ not empty movieInfo }">
 	<%@ include file="../include/actor_include/movie_appearance.jsp" %>
 </c:if>

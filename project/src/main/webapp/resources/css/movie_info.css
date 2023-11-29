@@ -27,3 +27,55 @@
 	text-align:center;
 	top: -20px;
 }
+
+.ad-div{
+	width:100%;
+}
+
+.ad-div a img{
+	width:720px;
+}
+
+.width-100-per{
+	width:100%;
+}
+
+.width-80-per{
+	width:80%;
+}
+
+.display-flex{
+	display:flex;
+}
+
+.rating-page{
+	width:30%; 
+	font-size:13px; 
+	padding-right:20px;
+}
+
+.rating-selected-box{
+	all:unset; 
+	font-size:20px; 
+	text-align:center; 
+	align-items:center; 
+	width:150px; 
+	height: 25px; 
+	color:orange; 
+	width:100%; 
+	padding-bottom:10px; 
+	font-weight:bold;
+}
+
+.rating-select-box{
+	all:unset; 
+	font-size:20px; 
+	text-align:center;
+	align-items:center; 
+	width:150px; 
+	height: 25px; 
+	color:red; 
+	width:100%; 
+	padding-bottom:10px; 
+	font-weight:bold;
+}
