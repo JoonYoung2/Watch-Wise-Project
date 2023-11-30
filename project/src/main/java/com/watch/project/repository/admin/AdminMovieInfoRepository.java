@@ -22,5 +22,9 @@ public interface AdminMovieInfoRepository {
 	public void updateMovieInfo(MovieInfoDTO movieInfoDto);
 
 	public void deleteMovieInfoByMovieId(String movieId);
+
+	public void deleteMovieLikeByMovieId(String movieId);
+
+	public void deleteCommentLikedUsersByMovieId(String movieId);
 	
 }

@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<hr style="border:1px solid #ccc;">
 	<c:if test="${empty sessionScope.userEmail }">
        	<div style="width:700px;">
        		
@@ -68,5 +69,6 @@
 			</c:otherwise>
 		</c:choose>
 	</c:if>
+	<br><br>
 </body>
 </html>

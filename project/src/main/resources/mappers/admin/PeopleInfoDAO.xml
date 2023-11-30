@@ -48,5 +48,9 @@
 		DELETE FROM people_info_detail WHERE people_id=#{peopleId}
 	</delete>
 	
+	<delete id="deletePeopleLikeByPeopleId" parameterType="Integer">
+		DELETE FROM people_like WHERE people_id=#{peopleId}
+	</delete>
+	
 </mapper>
 

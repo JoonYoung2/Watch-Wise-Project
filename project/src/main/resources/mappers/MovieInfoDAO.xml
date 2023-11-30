@@ -46,7 +46,7 @@
 	</select>
 	
 	<select id="getPeopleIdByPeopleNmAndMovieNm" resultType="Integer">
-		<![CDATA[SELECT people_id FROM people_info WHERE people_nm=#{peopleNm} AND filmo_names LIKE '%${movieNm}%' AND ROWNUM <= 1]]>
+		<![CDATA[SELECT people_id FROM people_info_detail WHERE people_nm=#{peopleNm} AND movie_nm LIKE '%${movieNm}%' AND ROWNUM <= 1]]>
 	</select>
 	
 	<update id="movieLikeAdd" parameterType="String">

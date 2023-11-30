@@ -90,7 +90,7 @@ public class MovieInfoService {
 	 */
 	public void movieLikeCancel(String movieId, String userEmail) {
 		String id = movieId + userEmail;
-		repo.movieLikeCancel(movieId);
+//		repo.movieLikeCancel(movieId);
 		repo.movieLikeDelete(id);
 	}
 	
