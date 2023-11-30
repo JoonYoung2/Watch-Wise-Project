@@ -76,7 +76,7 @@ public class MovieInfoService {
 	public void movieLikeAdd(String movieId, String userEmail) {
 		String id = movieId + userEmail;
 		MovieLikeDTO movieLikeDto = new MovieLikeDTO(id, movieId, userEmail, getDate());
-		repo.movieLikeAdd(movieId);
+//		repo.movieLikeAdd(movieId);
 		repo.movieLikeInsert(movieLikeDto);
 	}
 	/*

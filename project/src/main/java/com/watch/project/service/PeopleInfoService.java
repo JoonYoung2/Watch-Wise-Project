@@ -57,7 +57,7 @@ public class PeopleInfoService {
 				.likeDate(getDate())
 				.build();
 		
-		repo.peopleLikeAdd(peopleId);
+//		repo.peopleLikeAdd(peopleId);
 		repo.peopleLikeInsert(peopleLikeDto);
 	}
 	
