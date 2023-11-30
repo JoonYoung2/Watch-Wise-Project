@@ -8,6 +8,18 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<br><br><br><br>
+   	<c:if test="${not empty msg }">
+      <script>
+         alert('${msg}');
+      </script>
+   	</c:if>
+   	<div align="center" class="width-100-per">
+   		<div class="width-80-per">
+   			<hr style="border:1px solid rgba(0, 0, 0, 0.1)">
+   		</div>
+   	</div>
+
 	<div align="center" class="width-100-per">
       	<div align="center" class="width-80-per display-flex">
       	
@@ -24,7 +36,6 @@
 		    		
 					<!-- 평점 기능 -->
 		    		<%@ include file="./header_rating.jsp" %>
-		    		<!-------------------------------------------------------- 평점 END ----------------------------------------------------------->
 		   		</div>
 		   	</div>
 		   	
@@ -34,6 +45,12 @@
       			<!-- 영화 제목 -->
       			<%@ include file="./header_title.jsp" %>
       		</div>
+   		</div>
+   	</div>
+   	
+   	<div align="center" style="width:100%;">
+   		<div style="width:80%;">
+   			<hr style="border:1px solid rgba(0, 0, 0, 0.1)">
    		</div>
    	</div>
 </body>

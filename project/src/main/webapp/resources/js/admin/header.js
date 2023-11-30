@@ -23,7 +23,8 @@ const allUpdate = () => {
             return;
         },
         error: function (xhr, status, error) {
-            console.error("오류 발생: " + error);
+            alert("Cors 설정 후 다시 실행해주세요.");
+            return;
         }
     });
 }
@@ -41,7 +42,8 @@ const liveSearchUpdate = () => {
             return;
         },
         error: function (xhr, status, error) {
-            console.error("오류 발생: " + error);
+            alert("Cors 설정 후 다시 실행해주세요.");
+            return;
         }
     });
 }

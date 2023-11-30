@@ -41,7 +41,7 @@
 									<a href="https://www.xexymix.com/"><img src="/resources/img/ad.png"></a>
 								</div>
 					            
-	<!----------------------------------------------------- 코멘트 START ----------------------------------------------------------->
+								<!-- 코멘트 작성 & 수정 -->
 								<%@ include file="./detail_comment.jsp" %>
 							</div>	
 			        	</div>

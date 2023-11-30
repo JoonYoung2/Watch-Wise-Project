@@ -2,6 +2,8 @@ package com.watch.project.controller.admin;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +21,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CorsConfigController {
 	private final CorsConfigService service;
+	private final HttpSession session;
 	
 	@GetMapping("/admin/corsConfig")
 	public String getCorsConfig(Model model) {
+		
+		if(adminCertification()) {
+			return "admin/login";
+		}
+		
 		List<CorsConfigDTO> corsConfigList = service.getCorsConfig();
 		model.addAttribute("config", corsConfigList);
 		return "admin/config/cors";
@@ -43,5 +51,13 @@ public class CorsConfigController {
 	public String deleteCorsConfigById(@RequestParam("id") int id) {
 		service.deleteCorsConfigById(id);
 		return "redirect:/admin/corsConfig";
+	}
+	
+	private boolean adminCertification() {
+		boolean check = false;
+		if(session.getAttribute("admin") == null) {
+			check = true;
+		}
+		return check;
 	}
 }
