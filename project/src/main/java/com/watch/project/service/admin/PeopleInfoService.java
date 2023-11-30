@@ -94,6 +94,7 @@ public class PeopleInfoService {
 	
 	public void deletePeopleInfo(int peopleId) {
 		repo.deletePeopleInfoByPeopleId(peopleId);
+		repo.deletePeopleLikeByPeopleId(peopleId);
 	}
 
 	private String verification(PeopleInfoDTO peopleInfoDto) {

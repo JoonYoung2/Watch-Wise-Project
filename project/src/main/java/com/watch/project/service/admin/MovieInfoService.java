@@ -93,6 +93,8 @@ public class MovieInfoService {
 	
 	public void deleteMovieInfo(String movieId) {
 		repo.deleteMovieInfoByMovieId(movieId);
+		repo.deleteMovieLikeByMovieId(movieId);
+		repo.deleteCommentLikedUsersByMovieId(movieId);
 	}
 
 	private String verification(MovieInfoDTO movieInfoDto) {

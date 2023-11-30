@@ -20,5 +20,7 @@ public interface AdminPeopleInfoRepository {
 	public void updatePeopleInfo(PeopleInfoDTO peopleInfoDto);
 
 	public void deletePeopleInfoByPeopleId(int peopleId);
+
+	public void deletePeopleLikeByPeopleId(int peopleId);
 	
 }

@@ -35,14 +35,14 @@
 				         	<div>
 				         		<!-- 영화 상세 정보 Text -->
 				         		<%@ include file="./detail_info_text.jsp" %>
+													            
+								<!-- 코멘트 작성 & 수정 -->
+								<%@ include file="./detail_comment.jsp" %>
 								
 								<!-- 광고 -->
 								<div class="ad-div">
-									<a href="https://www.xexymix.com/"><img src="/resources/img/ad.png"></a>
+									<a href="https://www.xexymix.com/"><img src="/resources/img/ad2.png"></a>
 								</div>
-					            
-								<!-- 코멘트 작성 & 수정 -->
-								<%@ include file="./detail_comment.jsp" %>
 							</div>	
 			        	</div>
 			    	</div>

@@ -66,7 +66,7 @@ public class PeopleInfoService {
 	 */
 	public void peopleLikeCancel(int peopleId, String userEmail) {
 		String id = peopleId + userEmail;
-		repo.peopleLikeCancel(peopleId);
+//		repo.peopleLikeCancel(peopleId);
 		repo.peopleLikeDelete(id);
 	}
 	

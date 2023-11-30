@@ -57,5 +57,13 @@
 		DELETE FROM movie_info WHERE movie_id=#{movieId}
 	</delete>
 	
+	<delete id="deleteMovieLikeByMovieId" parameterType="String">
+		DELETE FROM movie_like WHERE movie_id=#{movieId}
+	</delete>
+	
+	<delete id="deleteCommentLikedUsersByMovieId" parameterType="String">
+		DELETE FROM comment_liked_users WHERE id LIKE '${movieId}%'
+	</delete>
+	
 </mapper>
 
