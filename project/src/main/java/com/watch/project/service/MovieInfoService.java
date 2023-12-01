@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.watch.project.dto.MovieInfoDTO;
 import com.watch.project.dto.MovieLikeDTO;
-import com.watch.project.dto.PeopleLikeDTO;
 import com.watch.project.dto.movieInfoView.ChartMovieScoreDTO;
 import com.watch.project.dto.movieInfoView.GradeInfoDTO;
 import com.watch.project.dto.movieInfoView.MovieInfoViewDTO;
@@ -41,42 +40,13 @@ public class MovieInfoService {
 		return chartMovieScoreMap;
 	}
 
-	private Map<String, String> getChartMovieScoreMap(Map<String, String> chartMovieScoreMap,
-			List<ChartMovieScoreDTO> chartMovieScoreList) {
-		chartMovieScoreMap.put("0.5", "nan");
-		chartMovieScoreMap.put("1", "nan");
-		chartMovieScoreMap.put("1.5", "nan");
-		chartMovieScoreMap.put("2", "nan");
-		chartMovieScoreMap.put("2.5", "nan");
-		chartMovieScoreMap.put("3", "nan");
-		chartMovieScoreMap.put("3.5", "nan");
-		chartMovieScoreMap.put("4", "nan");
-		chartMovieScoreMap.put("4.5", "nan");
-		chartMovieScoreMap.put("5", "nan");
-		
-		int total = 0;
-		for(ChartMovieScoreDTO dto : chartMovieScoreList) {
-			total += Integer.parseInt(dto.getCnt());
-		}
-		
-		for(ChartMovieScoreDTO dto : chartMovieScoreList) {
-			if(dto.getReviewScore().equals("0")) {
-				continue;
-			}
-			String score = String.valueOf(((Integer.parseInt(dto.getCnt()) * 100) / total));
-			chartMovieScoreMap.put(dto.getReviewScore(), score);
-		}
-			
-		return chartMovieScoreMap;
-	}
-
 	/*
 	 *영화 좋아요
 	 */
 	public void movieLikeAdd(String movieId, String userEmail) {
 		String id = movieId + userEmail;
 		MovieLikeDTO movieLikeDto = new MovieLikeDTO(id, movieId, userEmail, getDate());
-//		repo.movieLikeAdd(movieId);
+		repo.movieLikeAdd(movieId);
 		repo.movieLikeInsert(movieLikeDto);
 	}
 	/*
@@ -90,7 +60,7 @@ public class MovieInfoService {
 	 */
 	public void movieLikeCancel(String movieId, String userEmail) {
 		String id = movieId + userEmail;
-//		repo.movieLikeCancel(movieId);
+		repo.movieLikeCancel(movieId);
 		repo.movieLikeDelete(id);
 	}
 	
@@ -128,6 +98,35 @@ public class MovieInfoService {
 
 	public PeopleInfoDTO getPeopleInfoDto(MovieInfoViewDTO movieInfoViewDto) {
 		return setPeopleInfoDto(movieInfoViewDto);
+	}
+	
+	private Map<String, String> getChartMovieScoreMap(Map<String, String> chartMovieScoreMap,
+			List<ChartMovieScoreDTO> chartMovieScoreList) {
+		chartMovieScoreMap.put("0.5", "nan");
+		chartMovieScoreMap.put("1", "nan");
+		chartMovieScoreMap.put("1.5", "nan");
+		chartMovieScoreMap.put("2", "nan");
+		chartMovieScoreMap.put("2.5", "nan");
+		chartMovieScoreMap.put("3", "nan");
+		chartMovieScoreMap.put("3.5", "nan");
+		chartMovieScoreMap.put("4", "nan");
+		chartMovieScoreMap.put("4.5", "nan");
+		chartMovieScoreMap.put("5", "nan");
+		
+		int total = 0;
+		for(ChartMovieScoreDTO dto : chartMovieScoreList) {
+			total += Integer.parseInt(dto.getCnt());
+		}
+		
+		for(ChartMovieScoreDTO dto : chartMovieScoreList) {
+			if(dto.getReviewScore().equals("0")) {
+				continue;
+			}
+			String score = String.valueOf(((Integer.parseInt(dto.getCnt()) * 100) / total));
+			chartMovieScoreMap.put(dto.getReviewScore(), score);
+		}
+			
+		return chartMovieScoreMap;
 	}
 	
 	private PeopleInfoDTO setPeopleInfoDto(MovieInfoViewDTO movieInfoViewDto) {
@@ -207,6 +206,7 @@ public class MovieInfoService {
 				.profileUrl(profileUrl)
 				.build();
 	}
+	
 	private GradeInfoDTO setGradeInfoDto(String movieId) {
 		GradeInfoDTO gradeInfoDto = GradeInfoDTO.builder().build();
 		try {
