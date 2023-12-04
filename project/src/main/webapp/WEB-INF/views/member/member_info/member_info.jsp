@@ -254,7 +254,7 @@
 				</a>
 			</div>
 		    <div style="font-size:20px; padding:5px; width: 97%; height:30px; top: 10%; border-bottom: 1px solid rgb(0,0,0);">
-				<a style="cursor:pointer; text-decoration:none; color: inherit;"href="/unregister">탈퇴하기</a>
+				<a style="cursor:pointer; text-decoration:none; color: inherit;" href="/unregister">탈퇴하기</a>
 			</div>
 		</c:if>
 		<!-- -------------------------------------------------------------------------------------------------------------------------------------------------- -->

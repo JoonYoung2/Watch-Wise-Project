@@ -59,7 +59,7 @@
 	</insert>
 	
 	<select id="selectComments" resultMap="review">
-		SELECT * FROM movie_review WHERE movie_id=#{movieId} AND is_black=0 AND review_comment != 'nan'
+		SELECT * FROM movie_review WHERE movie_id=#{movieId} AND is_black=0 AND review_comment != 'nan' ORDER BY review_comment_likes DESC
 	</select>
 	
 	<select id="getComment" resultMap="review">

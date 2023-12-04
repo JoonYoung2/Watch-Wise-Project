@@ -224,5 +224,9 @@ public class CommonMemberService {
 		return profileImg;
 	}
 
+	public void deleteAllNotis(String email) {
+		repo.deleteAllNotisByEmail(email);
+	}
+
 
 }

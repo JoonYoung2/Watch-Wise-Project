@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,9 +58,9 @@
 		                   <td height="330px" width="380px" style="text-align:center; word-wrap:break-word;">
 		                       <div style="position:relative">
 		                           <div style="text-align:center; margin:10px;background-color:#F2F2F2; width:350px; height: 300px; border-radius:5px; overflow: hidden;">
-		                               <div style="margin:10px; width:304px; height:280px;">
+		                               <div style="margin:10px; width:305px; height:280px;">
 		                               	
-			                               	<div class="이름&평점" style="margin-left:10px;display:flex; height:10%; padding-top:10px; align-items: center;">
+			                               	<div class="이름&평점" style="margin-left:10px;display:flex; height:15%;align-items: center;">
 			                               		<div style="position:relative;">
 				                               		<c:choose>
 				                               			<c:when test="${dto.profileImg eq 'nan' }">
@@ -74,6 +75,7 @@
 				                               			</c:otherwise>
 				                               		</c:choose>
 			                               		</div>
+			                               		
 			                               		<div style="width:50%; text-align:left; margin-left:10px;">
 			                               			${dto.userName}
 			                               		</div>
@@ -88,10 +90,10 @@
 			                               		</div>
 			                               	</div>
 		                               	
-		                               	<div class="comment-content" onclick="openModalForCommentDetail('${dto.userName}', '${dto.reviewComment}', '${dto.reviewCommentDate}');" style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 7; overflow: hidden;text-align:left; margin-left:10px; margin-right:10px; height:55%; border-top: 1px solid #E5E5E5; padding-top:10px;">
+		                               	<div class="comment-content" onclick="openModalForCommentDetail('${dto.userName}', '${dto.reviewComment}', '${dto.reviewCommentDate}');" style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 7; overflow: hidden;text-align:left; margin-left:10px; margin-right:10px; height:53%; border-top: 1px solid #E5E5E5; padding-top:10px;cursor:pointer;">
 		                               		${dto.reviewComment}
 		                               	</div>
-		                               	<div class="date" style="display:flex; height:13%;font-size: 0.8em; color:#888; margin-left:10px; margin-right:5px;">
+		                               	<div class="date" style="display:flex; height:13%;font-size: 0.8em; color:#888; margin-left:10px; margin-right:10px;">
 		                               	
 		                               		<div style="text-align:left; width:50%;margin-top:8px;">
 		                               			${dto.reviewCommentDate} 
@@ -109,14 +111,14 @@
 								        	</div>
 		                               	</div>
 		                               	
-		                               	<div class="하트" style=" display:flex; margin-left:10px; height:10%; padding-top:8px;border-top: 1px solid #E5E5E5;">
+		                               	<div class="하트" style=" display:flex; margin-left:10px; height:15%; padding-top:8px;border-top: 1px solid #E5E5E5;">
 		                               		
 		                               		<div style="text-align:left; width:50%">
 									        	<span>♥ x </span>
 									        	<span class="comment_like_count" style="vertical-align:-1px;">${dto.reviewCommentLikes }</span>
 		                               		</div>
 		                               		
-		                               		<div class="comment" style="text-align:right; margin-right:5px;width:50%;">
+		                               		<div class="comment" style="text-align:right; margin-right:10px;width:50%;">
 		                                		<c:choose>
 											        <c:when test="${dto.isLiked eq 0 }">
 											        	<img class="likeButton" src="resources/img/like.png" style="cursor:pointer; width:25px;" onclick="increaseLikeCount('${dto.userEmail}', '${movieInfo.movieId}', '${ cnt }');">

@@ -94,4 +94,8 @@
 	<select id="getProfileImgByEamil" resultType="String">
 		SELECT profile_img FROM member_info WHERE user_email=#{userEmail}
 	</select>
+	
+	<delete id="deleteAllNotisByEmail" parameterType="String">
+		DELETE FROM user_notification WHERE reciever_email=#{email}
+	</delete>
 </mapper>
