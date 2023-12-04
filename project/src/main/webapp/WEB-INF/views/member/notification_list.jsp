@@ -14,7 +14,15 @@
 		<hr style="border:0.5px solid #ccc; margin:0px;">
 		<br>
 		<br>
-		<h3 style="text-align:center;">알림</h3><br><br>
+		<h3 style="text-align:center;">알림</h3>
+		<div align="center" style="width:100%">
+			<div align="center" style="width:35%">
+				<div style="text-align:right;">
+					<a href="/deleteAllNotifications">알림 전체 삭제</a>
+				</div>
+			</div>
+		</div>
+		<br><br>
 		<div align="center" style="width:100%;">
 			<div align="center" style="width:50%;">
 				<table>

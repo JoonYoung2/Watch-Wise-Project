@@ -284,7 +284,7 @@ public class MemberService {
 		String nmWhoClickedHeart = memberRepo.getUserNmByEmail((String)session.getAttribute("userEmail"));//좋아요 누른 사람
 		System.out.println("여기는 좋아요 누른 유저의 이름 ==>"+ nmWhoClickedHeart);
 
-		String content = "<b>"+nmWhoClickedHeart + "님이 회원님의 코멘트를 좋아합니다.</b> <br>"+comment;
+		String content = "[ " + nmWhoClickedHeart + "님이 회원님의 코멘트를 좋아합니다. ]<br><br>"+comment;
 		//날짜데이터 생성
 		Date currentDate = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

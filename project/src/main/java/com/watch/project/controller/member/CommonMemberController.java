@@ -148,4 +148,10 @@ public class CommonMemberController {
 		session.setAttribute("profileImg", profileImgName);
 		return "redirect:/memberInfo";
 	}
+	
+	@GetMapping("/deleteAllNotifications")
+	public String deleteAllNotifications(HttpSession session) {
+		common.deleteAllNotis((String)session.getAttribute("userEmail"));
+		return "redirect:/showNotifyList";
+	}
 }

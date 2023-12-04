@@ -35,7 +35,7 @@
                         	<div style="text-align:center; margin:10px;background-color:#F2F2F2; width:350px; height: 300px; border-radius:5px; overflow: hidden;">
                             	<div style="margin:10px; width:305px; height:280px;">
                             	
-                            		<div class="이름&평점" style="margin-left:10px;display:flex; height:10%; align-items: center;">
+                            		<div class="이름&평점" style="margin-left:10px;display:flex; height:15%; align-items: center;">
 	                            		
                                 		<div style="position:relative;">
                                 		<c:choose>
@@ -68,12 +68,12 @@
                             			</div>
                             		</div>
                             	
-                            		<div class="comment-content" style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 7; overflow: hidden;text-align:left; margin-left:10px; margin-right:10px; height:55%; border-top: 1px solid #E5E5E5; padding-top:10px;">
+                            		<div class="comment-content" onclick="openModalForCommentDetail('${dto.userName}', '${dto.reviewComment}', '${dto.reviewCommentDate}');" style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 7; overflow: hidden;text-align:left; margin-left:10px; margin-right:10px; height:53%; border-top: 1px solid #E5E5E5; padding-top:10px; cursor:pointer;">
                             			${dto.reviewComment}
                             		</div>
                             		<div class="date" style="display:flex; height:13%;font-size: 0.8em; color:#888; margin-left:10px; margin-right:10px;">
                             	
-	                            		<div style="text-align:left; width:50%;margin-top:8px;">
+	                            		<div  style="text-align:left; width:50%;margin-top:8px;">
 	                            			${dto.reviewCommentDate} 
 	                            		</div>
                             		
@@ -89,7 +89,7 @@
 								        </div>
 					                 </div>
 					                            	
-					                 <div class="하트" style=" display:flex; margin-left:10px; height:10%; padding-top:8px;border-top: 1px solid #E5E5E5;">
+					                 <div class="하트" style=" display:flex; margin-left:10px; height:15%; padding-top:8px;border-top: 1px solid #E5E5E5;">
 					                            		
 					                 	<div style="text-align:left; width:50%">
 									    	<span>♥ x </span>
@@ -151,6 +151,19 @@
 	    </div>
  	</div>
  </div>
+ 
+ <!-- 코멘트 디테일용 -->
+<div id = "modal-for-comment-detail" style=" position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); width:400px; height:400px;background-color:white; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); border:1px solid #ccc;border-radius:4px; z-index:-2; display:none;">
+    <div class="modal-content" style="background-color:white; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:350px; height:350px; border-radius:5px;">
+    	<div class="top" style="display:flex; width: 100%; height:60px; top: 5%;"><!-- top  -->
+			<span id="user-name-for-comment-detail" style="font-size:15px; font-weight:bold;"></span>
+			<span class="closeModalButton" onclick="closeModalForCommentDetail();" style="margin-left:auto; font-size:20px; cursor:pointer;">&times;</span>
+	    </div>
+	    <div id="comment-detail-area" style="width:100%; word-wrap:break-word;">
+	    	
+	    </div>
+	</div>
+</div>
  
  <div id="bodyForShadow" class="bodyForShadow" style="content: '';
     position:fixed;  z-index:-2;  display:none;

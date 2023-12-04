@@ -45,5 +45,7 @@ public interface MemberRepository {
 
 	String getProfileImgByEamil(String userEmail);
 
+	void deleteAllNotisByEmail(String email);
+
 
 }
