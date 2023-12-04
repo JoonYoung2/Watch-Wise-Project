@@ -169,3 +169,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# profile_img
+profile_img/
