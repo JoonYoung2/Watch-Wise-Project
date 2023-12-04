@@ -174,12 +174,14 @@ public class SearchService {
 		if(userEmail != null) {
 			String[] movie = recommendedRepository.getMovieIdByUserEmail(userEmail);
 			if(movie.length > 0) {
+				log.info("{}", movie.length);
 				for(int i = 0; i < movie.length; ++i) {
 					if(i != movie.length-1) 
 						movieIds += "'" + movie[i] + "',";
 					else
 						movieIds += "'" + movie[i] + "'";
 				}
+				log.info("{}", movieIds);
 				try {
 					genreNm = recommendedRepository.getGenreNmByMovieIds(movieIds);					
 				}catch(NullPointerException e) {
@@ -215,7 +217,7 @@ public class SearchService {
 	}
 	
 	public String[] popularSearches() {
-		return repo.popularSearches(getSixMonthAgoDate());
+		return repo.popularSearches(getSevenDayAgoDate());
 	}
 	
 	public void queryInsert(String query) {
@@ -329,7 +331,7 @@ public class SearchService {
 		String[] recentSearches = recentSearchesByUserEmail();
 		
 		/*
-		 * 최근 6개월 간 인기 검색어
+		 * 최근 일주일 간 인기 검색어
 		 */
 		String[] popularSearches = popularSearches();
 		
@@ -371,10 +373,11 @@ public class SearchService {
 		return relatedSearchResponseList;
 	}
 
-	private String getSixMonthAgoDate() {
+	private String getSevenDayAgoDate() {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
-		cal.add(Calendar.MONTH, -6);
+//		cal.add(Calendar.MONTH, -6);
+		cal.add(Calendar.DATE, -7);
 		SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy/MM/dd");
 		return dtFormat.format(cal.getTime());
 	}

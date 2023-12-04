@@ -36,10 +36,14 @@ public class DynamicCorsFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String[] allowedOrigins = repo.getAllowedOrigins();
 
-        // 동적으로 CORS 설정을 변경
+		/*
+		 * 동적으로 CORS 설정을 변경
+		 */
         addCorsMappings(request, response, allowedOrigins);
 
-        // 필터 체인 실행
+        /*
+         * 필터 체인 실행
+         */
         filterChain.doFilter(request, response);
     }
 
@@ -53,7 +57,9 @@ public class DynamicCorsFilter extends OncePerRequestFilter {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
 
-        // CorsProcessor를 사용하여 설정 적용
+        /*
+         *  CorsProcessor를 사용하여 설정 적용
+         */
         if (CorsUtils.isCorsRequest(request)) {
             try {
 				corsProcessor.processRequest(corsConfiguration, request, response);

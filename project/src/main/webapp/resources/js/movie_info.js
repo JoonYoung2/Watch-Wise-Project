@@ -50,10 +50,8 @@ window.onload = () => {
 			maxScore = Number(chartCnt[i]);
 		}
 		if(chartCnt[i] != "nan"){
-			//평가가 존재할 시 그래프 나오게하기
 			let graphTableDivId = document.getElementById("graph-table-div");
 			graphTableDivId.style.display="";
-			//평가가 존재할 시 그래프 나오게하기
 			reviewCnt++;
 		}
 	}
@@ -63,6 +61,7 @@ window.onload = () => {
 	graphBarContentClass[0].style.display="";
 	graphBarContentClass[9].style.display="";
 	for(var i = 0; i < graphBarCntClass.length; i++){
+		console.log(graphBarCntClass.length);
 		if(reviewCnt != 0){
 			if(chartCnt[i] == "nan"){
 				chartCnt[i] = 3;
@@ -70,12 +69,40 @@ window.onload = () => {
 		}else{
 			chartCnt[i] = 0;
 		}
-		graphBarCntClass[i].style.height=""+chartCnt[i]+"px";
-		if(maxScore == chartCnt[i]){
+	}
+	let heightNum = 100;
+	let chartHeight = ["", "", "", "", "", "", "", "", "", ""];
+	for(var i = 0; i < 10; i++){
+		let maxNum = 0;
+		let cnt = 0;
+		for(var j = 0; j < 10; j++){
+			if(maxNum < chartCnt[j]){
+				maxNum = Number(chartCnt[j]);
+			}
+		}
+		
+		for(var j = 0; j < 10; j++){
+			if(maxNum == Number(chartCnt[j])){
+				chartHeight[j] = heightNum; 
+				chartCnt[j] = -1;
+				cnt++;
+				if(cnt > 1){
+					i++;
+				}
+			}
+		}
+		heightNum = heightNum - (10*cnt);
+		console.log(heightNum);
+	}
+	for(var i = 0; i < 10; i++){
+		console.log(chartHeight[i]);
+		graphBarCntClass[i].style.height=chartHeight[i]+"px";
+		if(100 == chartHeight[i]){
 			graphBarContentClass[i].style.display="";
 			graphBarCntClass[i].style.backgroundColor="rgba(255, 10, 10, 0.8)";
 		}
 	}
+	
 	// chart movie
 }
 

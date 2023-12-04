@@ -20,13 +20,17 @@
 	<br><br><br>
 	<div align="center" class="list-page">
 		<div align="center" class="list-page-div">
-			<a href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/id/1?query=">ID 순</a> | <a href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/user_email/1?query=">EMAIL 순</a> | <a href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/user_name/1?query=">이름 순</a>
+			<div class="auto-table-menu-header">
+				<a class="auto-table-menu" href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/id/1?query="><div class="auto-table-menu-div">ID</div></a>
+				<a class="auto-table-menu" href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/user_email/1?query="><div class="auto-table-menu-div">EMAIL</div></a>
+				<a class="auto-table-menu" href="/admin/${ autoPaging.listNm }/${ autoPaging.tableNm }/user_name/1?query="><div class="auto-table-menu-div">이름</div></a>
+			</div>
 			<br><br><br>
 			<table>
 				<tr>
 					<td colspan="${ autoPaging.titleList.size() + 1 }">
 						<div class="auto-table-header">
-							<div><input id="query" class="header-search" value="${ query }"  type="text" placeholder="********* 입력해주세요" onkeydown="search(event,'${ autoPaging.listNm }', '${ autoPaging.tableNm }', '${ autoPaging.orderByColumn }')"></div>
+							<div><input id="query" class="header-search" value="${ query }"  type="text" placeholder="ID 또는 EMAIL을 입력해주세요" onkeydown="search(event,'${ autoPaging.listNm }', '${ autoPaging.tableNm }', '${ autoPaging.orderByColumn }')"></div>
 							<div class="header-rownum-div">Row Num : <input class="header-rownum-config" id="rowNum" type="number" value="${ autoPaging.rowNum }" onchange="rowNumUpdate('${ autoPaging.tableNm }', '${ autoPaging.orderByColumn }')"></div>
 						</div>
 					</td>

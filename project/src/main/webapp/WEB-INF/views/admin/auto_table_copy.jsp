@@ -90,6 +90,7 @@
 				</tr>
 			</table>
 			
+			<!-- 등록 or 업데이트 수정 -->
 			<c:if test="${ not empty query }">
 				<form id="insertForm" action="/insert/${ autoPaging.listNm }/${ autoPaging.tableNm }/${ autoPaging.orderByColumn }/${ autoPaging.pageNum }/${query}" method="post" style="display:none;">
 			</c:if>

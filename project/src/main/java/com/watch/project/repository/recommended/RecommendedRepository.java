@@ -15,9 +15,8 @@ public interface RecommendedRepository {
 	 * 좋아요가 많은 영화 순으로 추천해준다.
 	 */
 	public String[] getMovieIdByUserEmail(String userEmail);
+	
 	public String getGenreNmByMovieIds(String movieIds);
+	
 	public List<MovieInfoDTO> getMovieInfoByGenreNm(String genreNm);
-	
-	
-	
 }
