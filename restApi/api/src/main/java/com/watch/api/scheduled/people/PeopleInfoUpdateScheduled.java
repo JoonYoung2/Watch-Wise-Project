@@ -28,7 +28,7 @@ public class PeopleInfoUpdateScheduled {
 	private static int cnt = 0;
 	
 //	@Scheduled(fixedDelay = 1000)
-	@Scheduled(cron = "0 47 14 * * *")
+//	@Scheduled(cron = "0 47 14 * * *")
 	public void peopleDetailSearchAndSave() {
 		int peopleCd = 0;
 		List<PeopleInfoDTO> list = service.getPeopleInfoAll();
@@ -70,6 +70,13 @@ public class PeopleInfoUpdateScheduled {
 				JsonArray filmos = peopleInfo.getAsJsonObject().get("filmos").getAsJsonArray();
 				
 				int peopleId = peopleInfo.getAsJsonObject().get("peopleCd").getAsInt();
+				PeopleInfoDetailDTO check = service.getPeopleInfoDetailById(peopleId);
+				if(check != null) {
+					log.info("PeopleInfoUpdateScheduled - peopleDetailSearchAndSave()");
+					log.info("=================== END ===================");
+					log.info("{}번째 페이지 정보가 이미 존재합니다!", ++cnt);
+					continue;
+				}
 				String peopleNm = peopleInfo.getAsJsonObject().get("peopleNm").toString().replaceAll("\"", "");
 				String peopleNmEn = peopleInfo.getAsJsonObject().get("peopleNmEn").toString().replaceAll("\"", "");
 				String sex = peopleInfo.getAsJsonObject().get("sex").toString().replaceAll("\"", "");
@@ -100,13 +107,6 @@ public class PeopleInfoUpdateScheduled {
 				if(movieNm == null || movieNm.equals("")) {
 					movieNm = "nan";
 				}
-				
-				log.info("peopleId => {}", peopleId);
-				log.info("peopleNm => {}", peopleNm);
-				log.info("peopleNmEn => {}", peopleNmEn);
-				log.info("sex => {}", sex);
-				log.info("movieId => {}", movieId);
-				log.info("movieNm => {}", movieNm);
 				
 				PeopleInfoDetailDTO dto = new PeopleInfoDetailDTO();
 				dto.setMovieId(movieId);

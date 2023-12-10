@@ -24,6 +24,10 @@
 		SELECT * FROM people_info WHERE people_id = #{peopleId}
 	</select>
 	
+	<select id="getPeopleInfoDetailById" resultMap="peopleInfoDetail">
+		SELECT * FROM people_info_detail WHERE people_id=#{peopleId}
+	</select>
+	
 	<insert id="savePeopleInfo" parameterType="com.watch.api.dto.PeopleInfoDTO">
 		INSERT INTO people_info VALUES(#{peopleId}, #{peopleNm}, #{peopleNmEn}, #{filmoNames})
 	</insert>

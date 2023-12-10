@@ -23,7 +23,7 @@
 							<c:if test="${ not empty recentSearches }">
 								<div class="recent-search-div" style="display:;">
 									<div class="recent-search-font" >최근 검색어</div>
-									<a class="recent-search-remove tag-usnet-pointer"  onmousedown="searchAllMove('${recentSearchesSize}');">
+									<a class="recent-search-remove tag-usnet-pointer"  onmousedown="searchAllRemove('${recentSearchesSize}');">
 										<div class="recent-search-remove-div">모두 삭제</div>
 									</a>
 								</div>

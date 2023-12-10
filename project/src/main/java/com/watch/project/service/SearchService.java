@@ -156,13 +156,6 @@ public class SearchService {
 			peopleInfoSearchViewList.add(peopleInfoSearchViewDto);
 		}
 		
-		
-//		if(peopleInfoSearchViewList.size() > 50) {
-//			for(int i = 50; i < peopleInfoSearchViewList.size(); ++i) {
-//				peopleInfoSearchViewList.remove(i);
-//			}
-//		}
-		
 		return peopleInfoSearchViewList;
 	}
 
@@ -174,14 +167,9 @@ public class SearchService {
 		if(userEmail != null) {
 			String[] movie = recommendedRepository.getMovieIdByUserEmail(userEmail);
 			if(movie.length > 0) {
-				log.info("{}", movie.length);
-				for(int i = 0; i < movie.length; ++i) {
-					if(i != movie.length-1) 
-						movieIds += "'" + movie[i] + "',";
-					else
-						movieIds += "'" + movie[i] + "'";
-				}
-				log.info("{}", movieIds);
+				
+				movieIds = getMovieIds(movie);
+
 				try {
 					genreNm = recommendedRepository.getGenreNmByMovieIds(movieIds);					
 				}catch(NullPointerException e) {
@@ -207,7 +195,7 @@ public class SearchService {
 		}
 		return movieInfoList;
 	}
-	
+
 	public String[] recentSearchesByUserEmail() {
 		String userEmail = (String)session.getAttribute("userEmail");
 		if(userEmail == null) {
@@ -355,6 +343,33 @@ public class SearchService {
 		model.addAttribute("popularSearches", popularSearches);
 		model.addAttribute("liveSearch", liveSearchList);
 		model.addAttribute("recentSearchesSize", recentSearchesSize);
+	}
+	
+	public List<LiveSearchDTO> getLiveSearchList() {
+		return repo.getLiveSearchList();
+	}
+	
+	/*
+	 * SQL movie in () 절에 쓰임
+	 */
+	private String getMovieIds(String[] movie) {
+		String movieIds = "";
+		if(movie.length < 1000) {
+			for(int i = 0; i < movie.length; ++i) {
+				if(i != movie.length-1) 
+					movieIds += "'" + movie[i] + "',";
+				else
+					movieIds += "'" + movie[i] + "'";
+			}
+		}else {
+			for(int i = 0; i < 1000; ++i) {
+				if(i != 999) 
+					movieIds += "'" + movie[i] + "',";
+				else
+					movieIds += "'" + movie[i] + "'";
+			}
+		}
+		return movieIds;
 	}
 	
 	/*
@@ -1390,10 +1405,5 @@ public class SearchService {
 //		}
 		
 		return conversion;
-	}
-
-	public List<LiveSearchDTO> getLiveSearchList() {
-		
-		return repo.getLiveSearchList();
 	}
 }

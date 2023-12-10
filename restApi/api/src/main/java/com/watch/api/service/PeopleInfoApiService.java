@@ -52,5 +52,9 @@ public class PeopleInfoApiService {
 	public void updateProfileUrlNanFromNull() {
 		repo.updateProfileUrlNanFromNull();
 	}
+
+	public PeopleInfoDetailDTO getPeopleInfoDetailById(int peopleId) {
+		return repo.getPeopleInfoDetailById(peopleId);
+	}
 	
 }

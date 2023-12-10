@@ -12,6 +12,8 @@ public interface PeopleInfoApiRepository {
 	
 	public PeopleInfoDTO getPeopleInfoById(int peopleId);
 	
+	public PeopleInfoDetailDTO getPeopleInfoDetailById(int peopleId);
+	
 	public void savePeopleInfo(PeopleInfoDTO dto);
 	
 	public List<PeopleInfoDTO> getPeopleInfoAll();

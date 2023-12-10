@@ -243,11 +243,11 @@ const searchesKeyup = (event) => {
     }
 }
 
-const searchAllMove = (num) => {
+const searchAllRemove = (num) => {
     let count = Number(num);
     
     $.ajax({
-        url: "http://localhost:8080/searchAllMove",
+        url: "http://localhost:8080/searchAllRemove",
         method: "GET",
         data:{},
         success: function (response) {

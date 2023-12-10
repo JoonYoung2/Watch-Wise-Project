@@ -19,8 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 public class SearchAjaxController {
 	private final SearchService service;
 	
-	@GetMapping("searchAllMove")
-	public void searchAllMove() {
+	@GetMapping("searchAllRemove")
+	public void searchAllRemove() {
 		service.recentSearchesAllRemoveUpdateByUserEmail();
 	}
 	
