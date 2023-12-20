@@ -7,6 +7,7 @@
 ### 사용 기술
 - Java, Javascript
 - Spring Boot, Spring Security, Auth 2.0, MyBatis
+- RestAPI
 - Oracle
 
 
